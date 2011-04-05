@@ -1,0 +1,1 @@
+java -jar renren.it_spilder_y.jar 89000 81500>run.log

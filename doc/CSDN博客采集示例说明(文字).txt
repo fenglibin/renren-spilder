@@ -1,0 +1,19 @@
+采集CSDN的博客只需要更改三个地方，即图中三个红色框中，
+第一处：是当前博客分类的地址，如这里采集的是当前博客的AJAX分类，直接将地址拷贝进来
+
+第二处：看当前分类有多少页，将最后一个页码填在这里，如果只有一页的，这里填1，有多少页填多少页
+
+第三处：这个需要到renren.it的后台，在“核心->网站栏目管理”，我这里的AJAX，点击“编程语言-JS”这里，看其ID，这里就为27，因而这里就是27，也就是说这里采集的数据，将会分到这个类里面。
+
+另外需要注意的一个就是远程图片保存到地址的地方设置，在ImageSaveLocation这里，现在的值为LINUX路径，你可以设为相对路径，都改为"downpic/"吧，到时如果博客中的图片，图片会全部保存到这里，到时全部拷贝到远程LINUX即可。
+
+
+运行方式：
+如采集一个配置文件中，运行方式:
+java -jar renren-spilder.rar -f[文件名的路径]，示例：
+java -jar renren-spilder.rar -fconfig/csdn_blog/rule_csdn_blog_jame_peng_ajax.xml
+
+
+采集一个目录下面的全部配置，运行方式：
+java -jar renren-spilder.rar -d[文件夹的路径]，示例：
+java -jar renren-spilder.rar -fconfig/csdn_blog
