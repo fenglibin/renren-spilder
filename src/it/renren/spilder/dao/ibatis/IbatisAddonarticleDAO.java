@@ -9,7 +9,7 @@ public class IbatisAddonarticleDAO extends SqlMapClientDaoSupport implements Add
 
     private static final String Insert_Addonarticle = "Insert_Addonarticle";
 
-    @Override
+    //@Override
     public void insertAddonarticle(AddonarticleDO addonarticleDO) {
         getSqlMapClientTemplate().insert(Insert_Addonarticle, addonarticleDO);
 

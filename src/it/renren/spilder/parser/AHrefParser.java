@@ -84,8 +84,14 @@ public class AHrefParser {
 
 		nodeList = myParser.parse(lastFilter);
 		Node[] nodes = nodeList.toNodeArray();
-		Pattern must=Pattern.compile(urlMustInclude);
-		Pattern mustnot=Pattern.compile(urlMustNotInclude);
+		Pattern must=null;
+		if(urlMustInclude!=null){
+			must=Pattern.compile(urlMustInclude);
+		}
+		Pattern mustnot=null;
+		if(urlMustNotInclude!=null){
+			mustnot=Pattern.compile(urlMustNotInclude);
+		}
 		for (int i = 0; i < nodes.length; i++) {
 			Node anode = (Node) nodes[i];
 			if(anode instanceof LinkTag){//获取所有的链接
@@ -140,14 +146,14 @@ public class AHrefParser {
 	}
 	private static AHrefElement newAHrefElement(LinkTag linkTag){
 		AHrefElement fe = new AHrefElement();
-		fe.setHref(linkTag.getAttribute("HREF"));
+		fe.setHref(linkTag.getAttribute("HREF").trim());
 		fe.setHrefText(linkTag.getLinkText().trim());
 		return fe;
 	}
 	public static void main(String[] args) throws IOException, ParserException{
-		String url = "http://www.baidu.com/";
+		String url = "http://www.searchdatabase.com.cn/articlelist-1-652-31.htm";
 		String content = UrlUtil.getContentByURL(url);
-		List<AHrefElement> list = ahrefParser(content,"baidu","tieba");
+		List<AHrefElement> list = ahrefParser(content,null,"gbk");
 		for(AHrefElement ahref:list){
 			log4j.logDebug(ahref.getHref());
 		}

@@ -239,8 +239,7 @@ public class Main {
 			args = new String[1];
 			dirOrFile = Constants.EXECUTE_FILE;
 			dirOrFileName = "Z:/proc/test/renren-spilder/config/blog.www.eryi.org/rule_blog_eryi.org-zblog.xml";
-			dirOrFileName = "E:/work/mywork/renren-spilder/config/xiaohua/rule_iq888_youmo.xml";
-			dirOrFileName = "E:/work/mywork/renren-spilder/config/xiaohua/tudou/rule_tudou_gaoxiao.xml";
+			dirOrFileName = "E:/work/mywork/renren-spilder/config/javaeye.com/rule_javaeye_blog_c_C.xml";
 		}		
 		if (args.length < 1) {
 			System.err.println(Constants.USE_AGE);

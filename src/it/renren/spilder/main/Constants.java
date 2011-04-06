@@ -40,5 +40,5 @@ public class Constants{
 	public static final String EXECUTE_DIR="DIR";
 	
 	public static final long One_Url_Default_Sleep_Time = 10000;
-	public static final long One_File_Default_Sleep_Time = 2000 * 60;
+	public static final long One_File_Default_Sleep_Time = 1000 * 60;
 }

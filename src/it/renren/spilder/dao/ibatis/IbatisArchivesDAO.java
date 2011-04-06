@@ -9,7 +9,7 @@ public class IbatisArchivesDAO extends SqlMapClientDaoSupport implements Archive
 
     private static final String Insert_Archives = "Insert_Archives";
 
-    @Override
+    //@Override
     public void insertArchives(ArchivesDO archivesDO) {
         // TODO Auto-generated method stub
         getSqlMapClientTemplate().insert(Insert_Archives, archivesDO);

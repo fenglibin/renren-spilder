@@ -50,8 +50,7 @@ public class TaskExecuter extends Thread{
 				doSaveFromConfigDir(configName,oneFileSleepTime);
 			}			
 		} catch (Exception e) {
-			log4j.logDebug("当前执行异常:"+configName);
-			log4j.logError(e);
+			log4j.logError("当前执行异常:"+configName,e);
 		}
 	}
 	/**
@@ -70,8 +69,7 @@ public class TaskExecuter extends Thread{
 					saveFromConfigFile(file.getAbsolutePath());
 					Thread.sleep(oneFileSleepTime);
 				}catch(Exception e){
-					log4j.logDebug("异常发生1，Current File :" + file.getAbsolutePath() + " Deal Error!!!");
-					log4j.logError(e);
+					log4j.logError("异常发生1，Current File :" + file.getAbsolutePath() + " Deal Error!!!",e);
 				}
 			}
 		}
@@ -180,14 +178,14 @@ public class TaskExecuter extends Thread{
 						}
 						detail.setContent(childContent);
 						handleContent(childPageConfig, detail);
-						for(int i=0;i<tasks.length;i++){
-							tasks[i].doTask(parentPageConfig, childPageConfig, detail.clone());
-						}
+//						for(int i=0;i<tasks.length;i++){
+//							tasks[i].doTask(parentPageConfig, childPageConfig, detail.clone());
+//						}
 					} catch (MySQLIntegrityConstraintViolationException m){
 					} catch (RuntimeException r){
-						log4j.logError("处理该URL时发生异常0:"+childUrl);
+						log4j.logError("处理该URL时发生异常0:"+childUrl,r);
 					} catch (Exception e) {
-						log4j.logError("处理该URL时发生异常1:"+childUrl);
+						log4j.logError("处理该URL时发生异常1:"+childUrl,e);
 					}
 					detail.setContent(null);
 					detail.setDescription(null);
@@ -200,8 +198,7 @@ public class TaskExecuter extends Thread{
 				}
 			}
 		}catch(Exception e){
-			log4j.logDebug("异常发生3：");
-			log4j.logError(e);
+			log4j.logError("异常发生3：",e);
 		} finally {
 			if(tasks!=null){
 				for(int i=0;i<tasks.length;i++){
@@ -382,7 +379,7 @@ public class TaskExecuter extends Thread{
 			str = url.split("\\.");
 			url = str[0];
 		}catch(Exception e){
-			log4j.logError(e);
+			log4j.logError("根据URL获取名称发生异常。",e);
 			url = "";
 		}
 		return url;
