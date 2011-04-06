@@ -251,6 +251,14 @@ public class TaskExecuter extends Thread{
 		}		
 		return childContent;
 	}
+	/**
+	 * 对文章内容通过实现类，进行特殊的处理
+	 * @param childPageConfig
+	 * @param detail
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	private static void handleContent(ChildPage childPageConfig,ChildPageDetail detail) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
 		/*文章内容通过HANDLER特殊处理*/
 		if(!StringUtil.isNull(childPageConfig.getContent().getHandler())){

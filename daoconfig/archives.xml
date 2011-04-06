@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Archives">
+	<typeAlias alias="TA-ARCHIVES" type="it.renren.spilder.dataobject.ArchivesDO"/>
+	<resultMap id="RM-ARCHIVES" class="TA-ARCHIVES">
+		<result property="id"           javaType="java.lang.Long"  		jdbcType="NUMERIC"    	column="id" />
+		<result property="typeid"       javaType="java.lang.Long"  		jdbcType="NUMERIC"    	column="typeid" />
+		<result property="ismake"       javaType="java.lang.Long"  		jdbcType="NUMERIC"    	column="ismake" />
+		<result property="channel"      javaType="java.lang.Long"  		jdbcType="NUMERIC"    	column="channel" />
+		<result property="click"        javaType="java.lang.Long"  		jdbcType="NUMERIC"    	column="click" />		
+		<result property="title"        javaType="java.lang.String"  	jdbcType="VARCHAR"    	column="title" />
+		<result property="writer"       javaType="java.lang.String"  	jdbcType="VARCHAR"    	column="writer" />
+		<result property="source"       javaType="java.lang.String"  	jdbcType="VARCHAR"    	column="source" />
+		<result property="pubdate"      javaType="java.lang.Long"  		jdbcType="NUMERIC"    	column="pubdate" />
+		<result property="senddate"     javaType="java.lang.Long"  		jdbcType="NUMERIC"    	column="senddate" />
+		<result property="sortrank"     javaType="java.lang.Long"  		jdbcType="NUMERIC"    	column="sortrank" />
+		<result property="mid"          javaType="java.lang.Long"  		jdbcType="NUMERIC"    	column="mid" />
+		<result property="keywords"     javaType="java.lang.String"  	jdbcType="VARCHAR"    	column="keywords" />
+		<result property="description"  javaType="java.lang.String"  	jdbcType="VARCHAR"    	column="description" />
+		<result property="weight"       javaType="java.lang.Long"  		jdbcType="NUMERIC"    	column="weight" />
+		<result property="dutyadmin"    javaType="java.lang.Long"  		jdbcType="NUMERIC"    	column="dutyadmin" />
+		<result property="flag"         javaType="java.lang.String"  	jdbcType="VARCHAR"    	column="flag" />
+		<result property="litpic"       javaType="java.lang.String"  	jdbcType="VARCHAR"    	column="litpic" />
+		<result property="filename"     javaType="java.lang.String"  	jdbcType="VARCHAR"    	column="filename" />
+	</resultMap>
+	<insert id="Insert_Archives" resultMap="RM-ARCHIVES">
+		<![CDATA[
+		INSERT INTO renrenarchives(id,typeid,ismake,channel,click,title,writer,source,pubdate,senddate,sortrank,mid,keywords,description,weight,dutyadmin,flag,litpic,filename)
+		values(
+			#id#,
+			#typeid#,
+			#ismake#,
+			#channel#,
+			#click,
+			#title#,
+			#writer#,
+			#source#,
+			#pubdate#,
+			#senddate#,
+			#sortrank#,
+			#mid#,
+			#keywords#,
+			#description#,
+			#weight#,
+			#dutyadmin#,
+			#flag#,
+			#litpic#,
+			#filename#
+		)
+			 ]]>
+	</insert>
+</sqlMap>
