@@ -14,12 +14,12 @@
 	
 	<select id="Select_Current_ArticleId" parameterClass="TA-ARCTINY" resultMap="RM-ARCTINY">
 		<![CDATA[
-			select id from renrenarctiny where typeid=#typeid#
+			select id from #tablePrefix#arctiny where typeid=#typeid#
 		]]>
 	</select>
-	<insert id="Insert_Arctiny" resultMap="RM-ARCTINY">
+	<insert id="Insert_Arctiny" parameterClass="TA-ARCTINY">
 		<![CDATA[
-		insert into renrenarctiny(typeid,channel,senddate,sortrank,mid) 
+		insert into #tablePrefix#arctiny(typeid,channel,senddate,sortrank,mid) 
 		values(
 			#typeid#,
 			1,
@@ -29,9 +29,9 @@
 		)
 			 ]]>
 	</insert>
-	<update id="Update_Current_ArticleId" parameterClass="TA-ARCTINY" resultMap="RM-ARCTINY">
+	<update id="Update_Current_ArticleId" parameterClass="TA-ARCTINY">
 		<![CDATA[
-			update renrenarctiny set typeid=#typeid# where id=#id#
+			update #tablePrefix#arctiny set typeid=#typeid# where id=#id#
 		]]>
 	</update>
 </sqlMap>

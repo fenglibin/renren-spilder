@@ -24,15 +24,15 @@
 		<result property="litpic"       javaType="java.lang.String"  	jdbcType="VARCHAR"    	column="litpic" />
 		<result property="filename"     javaType="java.lang.String"  	jdbcType="VARCHAR"    	column="filename" />
 	</resultMap>
-	<insert id="Insert_Archives" resultMap="RM-ARCHIVES">
+	<insert id="Insert_Archives" parameterClass="TA-ARCHIVES">
 		<![CDATA[
-		INSERT INTO renrenarchives(id,typeid,ismake,channel,click,title,writer,source,pubdate,senddate,sortrank,mid,keywords,description,weight,dutyadmin,flag,litpic,filename)
+		INSERT INTO #tablePrefix#archives(id,typeid,ismake,channel,click,title,writer,source,pubdate,senddate,sortrank,mid,keywords,description,weight,dutyadmin,flag,litpic,filename)
 		values(
 			#id#,
 			#typeid#,
 			#ismake#,
 			#channel#,
-			#click,
+			#click#,
 			#title#,
 			#writer#,
 			#source#,
@@ -48,6 +48,6 @@
 			#litpic#,
 			#filename#
 		)
-			 ]]>
+		]]>
 	</insert>
 </sqlMap>

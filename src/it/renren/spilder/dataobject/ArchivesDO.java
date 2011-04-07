@@ -3,177 +3,188 @@ package it.renren.spilder.dataobject;
 import java.io.Serializable;
 
 public class ArchivesDO implements Serializable {
-	private static final long serialVersionUID = 4034609900066350370L;
-	int id;
-	int typeid;
-	int ismake;
-	int channel;
-	int click;
-	String title;
-	String writer;
-	String source;
-	int pubdate;
-	int senddate;
-	int sortrank;
-	int mid;
-	String keywords;
-	String description;
-	int weight;
-	int dutyadmin;
-	String flag;
-	String litpic;
-	String filename;
 
-	public int getId() {
-		return id;
-	}
+    private static final long serialVersionUID = 4034609900066350370L;
+    int                       id;
+    int                       typeid;
+    int                       ismake;
+    int                       channel;
+    int                       click;
+    String                    title;
+    String                    writer;
+    String                    source;
+    int                       pubdate;
+    int                       senddate;
+    int                       sortrank;
+    int                       mid;
+    String                    keywords;
+    String                    description;
+    int                       weight;
+    int                       dutyadmin;
+    String                    flag;
+    String                    litpic;
+    String                    filename;
+    // 表前缀，如人人IT网的表前缀为renren，人人IT繁体网的表前缀是renrenfanti_，但是表结构是一样的
+    // 只是表前缀不一样，为了一个对象适合多种表，因而表前缀在查询的时候，需要传入
+    String                    tablePrefix;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public int getTypeid() {
-		return typeid;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setTypeid(int typeid) {
-		this.typeid = typeid;
-	}
+    public int getTypeid() {
+        return typeid;
+    }
 
-	public int getIsmake() {
-		return ismake;
-	}
+    public void setTypeid(int typeid) {
+        this.typeid = typeid;
+    }
 
-	public void setIsmake(int ismake) {
-		this.ismake = ismake;
-	}
+    public int getIsmake() {
+        return ismake;
+    }
 
-	public int getChannel() {
-		return channel;
-	}
+    public void setIsmake(int ismake) {
+        this.ismake = ismake;
+    }
 
-	public void setChannel(int channel) {
-		this.channel = channel;
-	}
+    public int getChannel() {
+        return channel;
+    }
 
-	public int getClick() {
-		return click;
-	}
+    public void setChannel(int channel) {
+        this.channel = channel;
+    }
 
-	public void setClick(int click) {
-		this.click = click;
-	}
+    public int getClick() {
+        return click;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public void setClick(int click) {
+        this.click = click;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public String getWriter() {
-		return writer;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public void setWriter(String writer) {
-		this.writer = writer;
-	}
+    public String getWriter() {
+        return writer;
+    }
 
-	public String getSource() {
-		return source;
-	}
+    public void setWriter(String writer) {
+        this.writer = writer;
+    }
 
-	public void setSource(String source) {
-		this.source = source;
-	}
+    public String getSource() {
+        return source;
+    }
 
-	public int getPubdate() {
-		return pubdate;
-	}
+    public void setSource(String source) {
+        this.source = source;
+    }
 
-	public void setPubdate(int pubdate) {
-		this.pubdate = pubdate;
-	}
+    public int getPubdate() {
+        return pubdate;
+    }
 
-	public int getSenddate() {
-		return senddate;
-	}
+    public void setPubdate(int pubdate) {
+        this.pubdate = pubdate;
+    }
 
-	public void setSenddate(int senddate) {
-		this.senddate = senddate;
-	}
+    public int getSenddate() {
+        return senddate;
+    }
 
-	public int getSortrank() {
-		return sortrank;
-	}
+    public void setSenddate(int senddate) {
+        this.senddate = senddate;
+    }
 
-	public void setSortrank(int sortrank) {
-		this.sortrank = sortrank;
-	}
+    public int getSortrank() {
+        return sortrank;
+    }
 
-	public int getMid() {
-		return mid;
-	}
+    public void setSortrank(int sortrank) {
+        this.sortrank = sortrank;
+    }
 
-	public void setMid(int mid) {
-		this.mid = mid;
-	}
+    public int getMid() {
+        return mid;
+    }
 
-	public String getKeywords() {
-		return keywords;
-	}
+    public void setMid(int mid) {
+        this.mid = mid;
+    }
 
-	public void setKeywords(String keywords) {
-		this.keywords = keywords;
-	}
+    public String getKeywords() {
+        return keywords;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public int getWeight() {
-		return weight;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setWeight(int weight) {
-		this.weight = weight;
-	}
+    public int getWeight() {
+        return weight;
+    }
 
-	public int getDutyadmin() {
-		return dutyadmin;
-	}
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
 
-	public void setDutyadmin(int dutyadmin) {
-		this.dutyadmin = dutyadmin;
-	}
+    public int getDutyadmin() {
+        return dutyadmin;
+    }
 
-	public String getFlag() {
-		return flag;
-	}
+    public void setDutyadmin(int dutyadmin) {
+        this.dutyadmin = dutyadmin;
+    }
 
-	public void setFlag(String flag) {
-		this.flag = flag;
-	}
+    public String getFlag() {
+        return flag;
+    }
 
-	public String getLitpic() {
-		return litpic;
-	}
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
 
-	public void setLitpic(String litpic) {
-		this.litpic = litpic;
-	}
+    public String getLitpic() {
+        return litpic;
+    }
 
-	public String getFilename() {
-		return filename;
-	}
+    public void setLitpic(String litpic) {
+        this.litpic = litpic;
+    }
 
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
+    public String getFilename() {
+        return filename;
+    }
 
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getTablePrefix() {
+        return tablePrefix;
+    }
+
+    public void setTablePrefix(String tablePrefix) {
+        this.tablePrefix = tablePrefix;
+    }
 }

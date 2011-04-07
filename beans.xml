@@ -1,18 +1,93 @@
 <?xml version="1.0" encoding="GB2312"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans default-autowire="byName">
-  <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-    <property name="driverClassName" value="${jdbc.driverClassName}"/>
-    <property name="url" value="${jdbc.url}"/>
-    <property name="username" value="${jdbc.username}"/>
-    <property name="password" value="${jdbc.password}"/>
-  </bean>
-
-  <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
-    <property name="configLocation" value="daoconfig/sqlmap.xml"/>
-    <property name="dataSource" ref="dataSource"/>
-  </bean>
-  <bean id="arctinyDAO" class="it.renren.spilder.dao.ibatis.IbatisArctinyDAO"/>
-  <bean id="archivesDAO" class="it.renren.spilder.dao.ibatis.IbatisArchivesDAO"/>
-  <bean id="addonarticleDAO" class="it.renren.spilder.dao.ibatis.IbatisAddonarticleDAO"/>
-</bean>
+<beans default-autowire="byName">	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+	<bean id="dataSourceFanti" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+	<bean id="sqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
+		<property name="sqlMapClient">
+			<bean class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+				<property name="configLocation">
+					<value>daoconfig/sqlmap.xml</value>
+				</property>
+				<property name="sqlMapClientProperties">
+					<map>
+						<entry key="baseurl">
+							<bean class="it.renren.spilder.spring.support.GetResourceAsURL">
+								<property name="location" value="daoconfig/sqlmap.xml" />
+								<property name="parent" value="true" />
+							</bean>
+						</entry>
+					</map>
+				</property>
+			</bean>
+		</property>
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+	<!-- 简体对象定义（开始） -->
+	<bean id="arctinyDAO" class="it.renren.spilder.dao.ibatis.IbatisArctinyDAO">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+	<bean id="archivesDAO" class="it.renren.spilder.dao.ibatis.IbatisArchivesDAO" >
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+	<bean id="addonarticleDAO" class="it.renren.spilder.dao.ibatis.IbatisAddonarticleDAO" >
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+	<!-- 简体对象定义（开始） -->
+	
+	<!-- 繁体对象定义（结束） -->
+	<bean id="arctinyDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisArctinyDAO">
+		<property name="dataSource">
+			<ref local="dataSourceFanti" />
+		</property>
+	</bean>
+	<bean id="archivesDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisArchivesDAO" >
+		<property name="dataSource">
+			<ref local="dataSourceFanti" />
+		</property>
+	</bean>
+	<bean id="addonarticleDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisAddonarticleDAO" >
+		<property name="dataSource">
+			<ref local="dataSourceFanti" />
+		</property>
+	</bean>
+	<!-- 繁体对象定义（结束） -->
+	
+	<bean id="taskExecuter" class="it.renren.spilder.main.TaskExecuter">
+		<property name="taskList">
+			<list>
+				<bean class="it.renren.spilder.task.WriteData2DB"></bean>
+				<ref bean="writeData2FanDB" />
+			</list>
+		</property>
+	</bean>
+	<bean id="writeData2FanDB" class="it.renren.spilder.task.WriteData2FanDB">
+		<property name="translater">
+			<description>翻译配置.en指英语,cn指简体中文,big5指繁体中文</description>
+			<map>
+				<entry key="from" value="cn"></entry>
+				<entry key="to" value="big5"></entry>
+			</map>
+		</property>
+	</bean>
+</beans>

@@ -8,9 +8,9 @@
 		<result property="typeid"       javaType="java.lang.Long"  		jdbcType="NUMERIC"    	column="typeid" />
 		<result property="body"      	javaType="java.lang.String"  	jdbcType="VARCHAR"    	column="body" />
 	</resultMap>
-	<insert id="Insert_Addonarticle" resultMap="RM-ADDONARTICLE">
+	<insert id="Insert_Addonarticle" parameterClass="TA-ADDONARTICLE">
 		<![CDATA[
-		insert into renrenaddonarticle(aid,typeid,body) 
+		insert into #tablePrefix#addonarticle(aid,typeid,body) 
 		values(
 			#aid#,
 			#typeid#,
