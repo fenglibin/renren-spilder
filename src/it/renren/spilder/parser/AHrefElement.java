@@ -1,22 +1,23 @@
 package it.renren.spilder.parser;
 
 public class AHrefElement {
-	private String href;
-	private String hrefText;
 
-	public String getHref() {
-		return href;
-	}
+    private String href;
+    private String hrefText;
 
-	public void setHref(String href) {
-		this.href = href;
-	}
+    public String getHref() {
+        return href;
+    }
 
-	public String getHrefText() {
-		return hrefText;
-	}
+    public void setHref(String href) {
+        this.href = href;
+    }
 
-	public void setHrefText(String hrefText) {
-		this.hrefText = hrefText;
-	}
+    public String getHrefText() {
+        return hrefText;
+    }
+
+    public void setHrefText(String hrefText) {
+        this.hrefText = hrefText;
+    }
 }

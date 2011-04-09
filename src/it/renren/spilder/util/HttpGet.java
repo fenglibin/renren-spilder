@@ -31,89 +31,84 @@ import org.apache.http.util.EntityUtils;
  * HttpClient读取页面的使用例子
  * 
  * @author 老紫竹(java2000.net)
- * 
  */
 public class HttpGet {
-	private static Log4j log4j = new Log4j(HttpGet.class.getName());
-	public static void main(String[] args) throws Exception {
 
-		HttpParams params = new BasicHttpParams();
-		// HTTP 协议的版本,1.1/1.0/0.9
-		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-		// 字符集
-		HttpProtocolParams.setContentCharset(params, "UTF-8");
-		// 伪装的浏览器类型
-		// IE7 是
-		// Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 6.0)
-		//
-		// Firefox3.03
-		// Mozilla/5.0 (Windows; U; Windows NT 5.2; zh-CN; rv:1.9.0.3)
-		// Gecko/2008092417 Firefox/3.0.3
-		//
-		HttpProtocolParams.setUserAgent(params,
-				"Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 6.0)");
-		HttpProtocolParams.setUseExpectContinue(params, true);
-		BasicHttpProcessor httpproc = new BasicHttpProcessor();
-		httpproc.addInterceptor(new RequestContent());
-		httpproc.addInterceptor(new RequestTargetHost());
+    private static Log4j log4j = new Log4j(HttpGet.class.getName());
 
-		httpproc.addInterceptor(new RequestConnControl());
-		httpproc.addInterceptor(new RequestUserAgent());
-		httpproc.addInterceptor(new RequestExpectContinue());
+    public static void main(String[] args) throws Exception {
 
-		HttpRequestExecutor httpexecutor = new HttpRequestExecutor();
+        HttpParams params = new BasicHttpParams();
+        // HTTP 协议的版本,1.1/1.0/0.9
+        HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
+        // 字符集
+        HttpProtocolParams.setContentCharset(params, "UTF-8");
+        // 伪装的浏览器类型
+        // IE7 是
+        // Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 6.0)
+        //
+        // Firefox3.03
+        // Mozilla/5.0 (Windows; U; Windows NT 5.2; zh-CN; rv:1.9.0.3)
+        // Gecko/2008092417 Firefox/3.0.3
+        //
+        HttpProtocolParams.setUserAgent(params, "Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 6.0)");
+        HttpProtocolParams.setUseExpectContinue(params, true);
+        BasicHttpProcessor httpproc = new BasicHttpProcessor();
+        httpproc.addInterceptor(new RequestContent());
+        httpproc.addInterceptor(new RequestTargetHost());
 
-		HttpContext context = new BasicHttpContext(null);
-		HttpHost host = new HttpHost("blog.csdn.net", 80);
+        httpproc.addInterceptor(new RequestConnControl());
+        httpproc.addInterceptor(new RequestUserAgent());
+        httpproc.addInterceptor(new RequestExpectContinue());
 
-		DefaultHttpClientConnection conn = new DefaultHttpClientConnection();
-		ConnectionReuseStrategy connStrategy = new DefaultConnectionReuseStrategy();
+        HttpRequestExecutor httpexecutor = new HttpRequestExecutor();
 
-		context.setAttribute(ExecutionContext.HTTP_CONNECTION, conn);
-		context.setAttribute(ExecutionContext.HTTP_TARGET_HOST, host);
+        HttpContext context = new BasicHttpContext(null);
+        HttpHost host = new HttpHost("blog.csdn.net", 80);
 
-		try {
+        DefaultHttpClientConnection conn = new DefaultHttpClientConnection();
+        ConnectionReuseStrategy connStrategy = new DefaultConnectionReuseStrategy();
 
-			String[] targets = { "/",
-					"/cping1982/archive/2010/08/14/5811779.aspx" };
+        context.setAttribute(ExecutionContext.HTTP_CONNECTION, conn);
+        context.setAttribute(ExecutionContext.HTTP_TARGET_HOST, host);
 
-			for (int i = 0; i < targets.length; i++) {
-				if (!conn.isOpen()) {
-					Socket socket = new Socket(host.getHostName(),
-							host.getPort());
-					conn.bind(socket, params);
-				}
-				BasicHttpRequest request = new BasicHttpRequest("GET",
-						targets[i]);
-				log4j.logDebug(">> Request URI: "
-						+ request.getRequestLine().getUri());
+        try {
 
-				context.setAttribute(ExecutionContext.HTTP_REQUEST, request);
-				request.setParams(params);
-				httpexecutor.preProcess(request, httpproc, context);
-				HttpResponse response = httpexecutor.execute(request, conn,
-						context);
-				response.setParams(params);
-				httpexecutor.postProcess(response, httpproc, context);
+            String[] targets = { "/", "/cping1982/archive/2010/08/14/5811779.aspx" };
 
-				// 返回码
-				log4j.logDebug("<< Response: " + response.getStatusLine());
-				// 返回的文件头信息
-				Header[] hs = response.getAllHeaders();
-				for (Header h : hs) {
-					log4j.logDebug(h.getName() + ":" + h.getValue());
-				}
-				// 输出主体信息
-				log4j.logDebug(EntityUtils.toString(response.getEntity()));
-				log4j.logDebug("==============");
-				if (!connStrategy.keepAlive(response, context)) {
-					conn.close();
-				} else {
-					log4j.logDebug("Connection kept alive...");
-				}
-			}
-		} finally {
-			conn.close();
-		}
-	}
+            for (int i = 0; i < targets.length; i++) {
+                if (!conn.isOpen()) {
+                    Socket socket = new Socket(host.getHostName(), host.getPort());
+                    conn.bind(socket, params);
+                }
+                BasicHttpRequest request = new BasicHttpRequest("GET", targets[i]);
+                log4j.logDebug(">> Request URI: " + request.getRequestLine().getUri());
+
+                context.setAttribute(ExecutionContext.HTTP_REQUEST, request);
+                request.setParams(params);
+                httpexecutor.preProcess(request, httpproc, context);
+                HttpResponse response = httpexecutor.execute(request, conn, context);
+                response.setParams(params);
+                httpexecutor.postProcess(response, httpproc, context);
+
+                // 返回码
+                log4j.logDebug("<< Response: " + response.getStatusLine());
+                // 返回的文件头信息
+                Header[] hs = response.getAllHeaders();
+                for (Header h : hs) {
+                    log4j.logDebug(h.getName() + ":" + h.getValue());
+                }
+                // 输出主体信息
+                log4j.logDebug(EntityUtils.toString(response.getEntity()));
+                log4j.logDebug("==============");
+                if (!connStrategy.keepAlive(response, context)) {
+                    conn.close();
+                } else {
+                    log4j.logDebug("Connection kept alive...");
+                }
+            }
+        } finally {
+            conn.close();
+        }
+    }
 }

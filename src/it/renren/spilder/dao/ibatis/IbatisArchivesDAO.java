@@ -9,17 +9,19 @@ import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 public class IbatisArchivesDAO extends SqlMapClientDaoSupport implements ArchivesDAO {
 
     private static final String Insert_Archives = "Insert_Archives";
-    //条件后缀，用于支持多个不同的表的查询
-    private String conditionSuffix;
+    // 条件后缀，用于支持多个不同的表的查询
+    private String              conditionSuffix;
+
     @Override
     public void insertArchives(ArchivesDO archivesDO) {
-    	String statementName = Insert_Archives;
-		if(!StringUtil.isNull(conditionSuffix)){
-			statementName = statementName + conditionSuffix;
-		}
+        String statementName = Insert_Archives;
+        if (!StringUtil.isNull(conditionSuffix)) {
+            statementName = statementName + conditionSuffix;
+        }
         getSqlMapClientTemplate().insert(statementName, archivesDO);
     }
+
     public void setConditionSuffix(String conditionSuffix) {
-		this.conditionSuffix = conditionSuffix;
-	}
+        this.conditionSuffix = conditionSuffix;
+    }
 }

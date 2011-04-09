@@ -14,18 +14,17 @@ package it.renren.spilder.main;
  * desc="保存图片的路径，将图片写出到硬盘上"> <Value> <![CDATA[/home/fenglibin/www/www.renren.it/uploads/allimg/]]> </Value>
  * </ImageSaveLocation> <Recommend desc="随机推荐数，即多少篇文章推荐一篇.'0'表示不随机推荐"> <Value><![CDATA[3]]></Value> </Recommend>
  * <UrlFilter url="url筛选"> <MustInclude desc="url中必须包括的字符串"> <Value> <![CDATA[articles]]> </Value> </MustInclude>
- * <MustNotInclude desc="url中不能够包括的字符串"> <Value> <![CDATA[]]> </Value> </MustNotInclude> </UrlFilter>
- * <Translater desc="翻译配置.en指英语,cn指简体中文,big5指繁体中文"> <From desc="原语言"> <Value> <![CDATA[en]]> </Value>
- * </From> <To desc="目标语言"> <Value> <![CDATA[cn]]> </Value> </To> </Translater> <OneUrlSleepTime> <Value>60000</Value>
- * </OneUrlSleepTime> </MainUrl> <Child> <Charset desc="编码"> <Value> <![CDATA[utf-8]]> </Value> </Charset> <Title
- * desc="标题"> <Start> <Value><![CDATA[<h1>]]></Value> </Start> <End> <Value><![CDATA[</h1>]]></Value> </End> <Replace
- * desc="替换标题"> <IsRegularExpression desc="是否正则表达式，值只能够是true或false"> <Value> <![CDATA[false]]> </Value>
- * </IsRegularExpression> <From desc="待替换标题部分"> <Value> <![CDATA[]]> </Value> </From> <To desc="目标部份"> <Value>
- * <![CDATA[]]> </Value> </To> </Replace> </Title> <Content desc="内容"> <Start> <Value><![CDATA[<span
- * class='print-link'></span>]]></Value> </Start> <End> <Value><![CDATA[<div
- * class="fivestar-static-form-item">]]></Value> </End> <Replace desc="替换内容"> <IsRegularExpression desc="是否正则表达式">
- * <Value> <![CDATA[false]]> </Value> </IsRegularExpression> <From desc="原内容"> <Value> <![CDATA[]]> </Value> </From> <To
- * desc="目标内容"> <Value> <![CDATA[]]> </Value> </To> </Replace> </Content> <AddUrl
+ * <MustNotInclude desc="url中不能够包括的字符串"> <Value> <![CDATA[]]> </Value> </MustNotInclude> </UrlFilter> <Translater
+ * desc="翻译配置.en指英语,cn指简体中文,big5指繁体中文"> <From desc="原语言"> <Value> <![CDATA[en]]> </Value> </From> <To desc="目标语言">
+ * <Value> <![CDATA[cn]]> </Value> </To> </Translater> <OneUrlSleepTime> <Value>60000</Value> </OneUrlSleepTime>
+ * </MainUrl> <Child> <Charset desc="编码"> <Value> <![CDATA[utf-8]]> </Value> </Charset> <Title desc="标题"> <Start>
+ * <Value><![CDATA[<h1>]]></Value> </Start> <End> <Value><![CDATA[</h1>]]></Value> </End> <Replace desc="替换标题">
+ * <IsRegularExpression desc="是否正则表达式，值只能够是true或false"> <Value> <![CDATA[false]]> </Value> </IsRegularExpression> <From
+ * desc="待替换标题部分"> <Value> <![CDATA[]]> </Value> </From> <To desc="目标部份"> <Value> <![CDATA[]]> </Value> </To> </Replace>
+ * </Title> <Content desc="内容"> <Start> <Value><![CDATA[<span class='print-link'></span>]]></Value> </Start> <End>
+ * <Value><![CDATA[<div class="fivestar-static-form-item">]]></Value> </End> <Replace desc="替换内容"> <IsRegularExpression
+ * desc="是否正则表达式"> <Value> <![CDATA[false]]> </Value> </IsRegularExpression> <From desc="原内容"> <Value> <![CDATA[]]>
+ * </Value> </From> <To desc="目标内容"> <Value> <![CDATA[]]> </Value> </To> </Replace> </Content> <AddUrl
  * desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false"> <Value> <![CDATA[true]]> </Value> </AddUrl> <KeepFileName
  * desc="是否保留原获取网页的文件名"> <Value> <![CDATA[true]]> </Value> </KeepFileName> </Child> </Rules>
  */
@@ -40,14 +39,15 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class Main {
 
-    private static Document taskDoc;                                           // 任务配置的XML文档
-    private static String   dirOrFile        = Constants.EXECUTE_FILE;         // 文件还是目录
-    private static String   dirOrFileName    = "";                             // 当前执行的配置是文件或是目录的名称
-    private static String   oneFileSleepTime = "";                             // 执行一个文件夹中多个配置文件时，单个配置文件执行完后休息的时间
-    private static String   loopSleepTime    = "";                             // 循环执行某文件，暂停的时候，以毫秒为单位
-    public static boolean   onePage          = false;                          // 是否只获取当前配置文件的第一页
-    private static Log4j    log4j            = new Log4j(Main.class.getName());
-    private static final ConfigurableApplicationContext ctx = new FileSystemXmlApplicationContext(new String[] { Constants.SPRING_CONFIG_FILE });  
+    private static Document                             taskDoc;                                                                                              // 任务配置的XML文档
+    private static String                               dirOrFile        = Constants.EXECUTE_FILE;                                                            // 文件还是目录
+    private static String                               dirOrFileName    = "";                                                                                // 当前执行的配置是文件或是目录的名称
+    private static String                               oneFileSleepTime = "";                                                                                // 执行一个文件夹中多个配置文件时，单个配置文件执行完后休息的时间
+    private static String                               loopSleepTime    = "";                                                                                // 循环执行某文件，暂停的时候，以毫秒为单位
+    public static boolean                               onePage          = false;                                                                             // 是否只获取当前配置文件的第一页
+    private static Log4j                                log4j            = new Log4j(Main.class.getName());
+    private static final ConfigurableApplicationContext ctx              = new FileSystemXmlApplicationContext(
+                                                                                                               new String[] { Constants.SPRING_CONFIG_FILE });
 
     /**
      * 对输入的参数进行处理
@@ -87,13 +87,13 @@ public class Main {
             dirOrFileName = "Z:/proc/test/renren-spilder/config/blog.www.eryi.org/rule_blog_eryi.org-zblog.xml";
             dirOrFileName = "E:/work/mywork/renren-spilder/config/javaeye.com/rule_javaeye_blog_c_C.xml";
             dirOrFileName = "E:/work/mywork/renren-spilder/config/csdn/rule_csdn_blog_caihaijiang_default.xml";
-            //dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/javaeye.com/rule_javaeye_blog_c_C.xml";
+            // dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/javaeye.com/rule_javaeye_blog_c_C.xml";
         }
         if (args.length < 1) {
             System.err.println(Constants.USE_AGE);
             log4j.logDebug(Constants.USE_AGE);
             System.exit(0);
-        }              
+        }
         try {
             if (args.length >= 1) {
                 String value = args[0];
@@ -106,7 +106,7 @@ public class Main {
                         System.err.println("Config File:" + dirOrFileName + " not exists!");
                         System.exit(0);
                     }
-                    TaskExecuter taskExecuter = (TaskExecuter)ctx.getBean("taskExecuter");
+                    TaskExecuter taskExecuter = (TaskExecuter) ctx.getBean("taskExecuter");
                     taskExecuter.setConfigName(dirOrFileName);
                     taskExecuter.setFile(true);
                     Thread thread = new Thread(taskExecuter);
@@ -192,7 +192,7 @@ public class Main {
             System.err.println("Config Directory:" + configDirectory + " not exists!");
             return;
         }
-        TaskExecuter taskExecuter = (TaskExecuter)ctx.getBean("taskExecuter");
+        TaskExecuter taskExecuter = (TaskExecuter) ctx.getBean("taskExecuter");
         taskExecuter.setConfigName(configDirectory);
         taskExecuter.setOneFileSleepTime(oneFileSleepTime);
         // 对当前目录进行处理

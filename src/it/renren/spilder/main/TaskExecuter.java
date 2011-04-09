@@ -30,16 +30,16 @@ public class TaskExecuter extends Thread {
 
     private static Log4j log4j  = new Log4j(TaskExecuter.class.getName());
     boolean              isFile = false;
-    
 
-	String               configName;
+    String               configName;
     long                 oneFileSleepTime;
     // 需要执行的任务列表，目前有简体中文操作及将简体转换为繁体，实现类需要继承接口it.renren.spilder.task.Task
     private List<Task>   taskList;
 
     public TaskExecuter(){
-    	
+
     }
+
     public TaskExecuter(String configName, boolean isFile){
         this.configName = configName;
         this.isFile = isFile;
@@ -309,6 +309,7 @@ public class TaskExecuter extends Thread {
             handler.execute(detail);
         }
     }
+
     /**
      * 将图片保存到本地
      * 
@@ -470,15 +471,16 @@ public class TaskExecuter extends Thread {
     public void setTaskList(List<Task> taskList) {
         this.taskList = taskList;
     }
+
     public void setFile(boolean isFile) {
-		this.isFile = isFile;
-	}
+        this.isFile = isFile;
+    }
 
-	public void setConfigName(String configName) {
-		this.configName = configName;
-	}
+    public void setConfigName(String configName) {
+        this.configName = configName;
+    }
 
-	public void setOneFileSleepTime(long oneFileSleepTime) {
-		this.oneFileSleepTime = oneFileSleepTime;
-	}
+    public void setOneFileSleepTime(long oneFileSleepTime) {
+        this.oneFileSleepTime = oneFileSleepTime;
+    }
 }
