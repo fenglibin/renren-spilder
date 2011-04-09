@@ -79,14 +79,21 @@ public class Main {
         initParameters(args);
         if (args.length == 0) {
             args = new String[1];
-            dirOrFile = Constants.EXECUTE_FILE;
-            dirOrFileName = "Z:/proc/test/renren-spilder/config/blog.www.eryi.org/rule_blog_eryi.org-zblog.xml";
-            dirOrFileName = "E:/work/mywork/renren-spilder/config/javaeye.com/rule_javaeye_blog_c_C.xml";
-            dirOrFileName = "E:/work/mywork/renren-spilder/config/csdn/rule_csdn_blog_caihaijiang_default.xml";
-            dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/javaeye.com/rule_javaeye_blog_c_C.xml";
-            dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/ibm/rule_ibm_dep_aix.xml";
-            dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/blog.51cto.com/rule_148297.blog.51cto.com.xml";
-            dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/blog.51cto.com/rule_helpdesk.blog.51cto.com.xml";            
+            // 文件测试
+            // dirOrFile = Constants.EXECUTE_FILE;
+            // dirOrFileName = "Z:/proc/test/renren-spilder/config/blog.www.eryi.org/rule_blog_eryi.org-zblog.xml";
+            // dirOrFileName = "E:/work/mywork/renren-spilder/config/javaeye.com/rule_javaeye_blog_c_C.xml";
+            // dirOrFileName = "E:/work/mywork/renren-spilder/config/csdn/rule_csdn_blog_caihaijiang_default.xml";
+            // dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/javaeye.com/rule_javaeye_blog_c_C.xml";
+            // dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/ibm/rule_ibm_dep_aix.xml";
+            // dirOrFileName =
+            // "/home/fenglibin/proc/renren-spilder/config/blog.51cto.com/rule_148297.blog.51cto.com.xml";
+            // dirOrFileName =
+            // "/home/fenglibin/proc/renren-spilder/config/blog.51cto.com/rule_helpdesk.blog.51cto.com.xml";
+            // 文件夹测试
+            dirOrFile = Constants.EXECUTE_DIR;
+            dirOrFileName = "config";
+            Environment.dealOnePage = true;
         }
         if (args.length < 1) {
             System.err.println(Constants.USE_AGE);
