@@ -33,18 +33,15 @@ import it.renren.spilder.util.log.Log4j;
 
 import java.io.File;
 
-import org.jdom.Document;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class Main {
 
-    private static Document                             taskDoc;                                                                                              // 任务配置的XML文档
     private static String                               dirOrFile        = Constants.EXECUTE_FILE;                                                            // 文件还是目录
     private static String                               dirOrFileName    = "";                                                                                // 当前执行的配置是文件或是目录的名称
     private static String                               oneFileSleepTime = "";                                                                                // 执行一个文件夹中多个配置文件时，单个配置文件执行完后休息的时间
     private static String                               loopSleepTime    = "";                                                                                // 循环执行某文件，暂停的时候，以毫秒为单位
-    public static boolean                               onePage          = false;                                                                             // 是否只获取当前配置文件的第一页
     private static Log4j                                log4j            = new Log4j(Main.class.getName());
     private static final ConfigurableApplicationContext ctx              = new FileSystemXmlApplicationContext(
                                                                                                                new String[] { Constants.SPRING_CONFIG_FILE });
@@ -69,13 +66,12 @@ public class Main {
             } else if (value.startsWith("-l")) {// 循环执行某文件，暂停的时候，以毫秒为单位
                 loopSleepTime = value.replace("-l", "");
             } else if (value.startsWith("-p")) {// 单个文件中，是否只获取配置文件中指定的第一页内容
-                onePage = true;
+                Environment.dealOnePage = true;
+            } else if (value.startsWith("-check")) {// 用于表示测试该分类下面的配置文件是否能够正常工作，关位进行数据库的操作，并且一个配置文件只检测一条记录
+                Environment.checkConfigFile = Boolean.TRUE;
             }
-        }
-    }
 
-    public static Document getTaskDoc() {
-        return taskDoc;
+        }
     }
 
     public static void main(String[] args) {
@@ -87,7 +83,10 @@ public class Main {
             dirOrFileName = "Z:/proc/test/renren-spilder/config/blog.www.eryi.org/rule_blog_eryi.org-zblog.xml";
             dirOrFileName = "E:/work/mywork/renren-spilder/config/javaeye.com/rule_javaeye_blog_c_C.xml";
             dirOrFileName = "E:/work/mywork/renren-spilder/config/csdn/rule_csdn_blog_caihaijiang_default.xml";
-            // dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/javaeye.com/rule_javaeye_blog_c_C.xml";
+            dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/javaeye.com/rule_javaeye_blog_c_C.xml";
+            dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/ibm/rule_ibm_dep_aix.xml";
+            dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/blog.51cto.com/rule_148297.blog.51cto.com.xml";
+            dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/blog.51cto.com/rule_helpdesk.blog.51cto.com.xml";            
         }
         if (args.length < 1) {
             System.err.println(Constants.USE_AGE);
@@ -206,13 +205,5 @@ public class Main {
                 doSaveFromConfigDir(file.getAbsolutePath(), oneFileSleepTime);
             }
         }
-    }
-
-    public static boolean isOnePage() {
-        return onePage;
-    }
-
-    public static void setTaskDoc(Document taskDoc) {
-        Main.taskDoc = taskDoc;
     }
 }

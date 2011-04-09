@@ -24,8 +24,6 @@ import org.jdom.xpath.XPath;
 
 import bsh.EvalError;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
-
 public class TaskExecuter extends Thread {
 
     private static Log4j log4j  = new Log4j(TaskExecuter.class.getName());
@@ -89,8 +87,7 @@ public class TaskExecuter extends Thread {
     private static ParentPage initParentPage(Document ruleXml) throws JDOMException, EvalError {
         ParentPage parentPageConfig = new ParentPage();
         parentPageConfig.setCharset(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/Charset/Value"));
-        parentPageConfig.getUrlListPages().setValues((Element) (XPath.selectSingleNode(ruleXml, "/Rules/MainUrl/Values")),
-                                                     Main.onePage);
+        parentPageConfig.getUrlListPages().setValues((Element) (XPath.selectSingleNode(ruleXml, "/Rules/MainUrl/Values")));
         parentPageConfig.setImageDescUrl(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/ImageDescUrl/Value"));
         parentPageConfig.setImageSaveLocation(JDomUtil.getValueByXpath(ruleXml,
                                                                        "/Rules/MainUrl/ImageSaveLocation/Value"));
@@ -162,17 +159,39 @@ public class TaskExecuter extends Thread {
         ParentPage parentPageConfig = initParentPage(ruleXml);
         ChildPage childPageConfig = initChildPage(ruleXml);
         try {
+            boolean isBreak = false;
             for (String listPageUrl : parentPageConfig.getUrlListPages().getListPages()) {
-                String mainContent = HttpClientUtil.getGetResponseWithHttpClient(listPageUrl,
-                                                                                 parentPageConfig.getCharset());
-                mainContent = getMainContent(mainContent, parentPageConfig);
+                if (isBreak) {
+                    break;
+                }
+                String mainContent = "";
+                try {
+                    mainContent = HttpClientUtil.getGetResponseWithHttpClient(listPageUrl,
+                                                                              parentPageConfig.getCharset());
+                } catch (Exception e) {
+                    log4j.logError("从 url:" + listPageUrl + "获取得内容发生异常！配置文件为：" + configFile);
+                    throw new RuntimeException(e);
+                }
+                // System.out.println(mainContent);
+                try {
+                    mainContent = getMainContent(mainContent, parentPageConfig);
+                } catch (Exception e) {
+                    log4j.logError("从 url:" + listPageUrl + "中截取得需要的内容发生异常！配置文件为：" + configFile);
+                    throw new RuntimeException(e);
+                }
                 List<AHrefElement> childLinks = AHrefParser.ahrefParser(mainContent,
                                                                         parentPageConfig.getUrlFilter().getMustInclude(),
                                                                         parentPageConfig.getUrlFilter().getMustNotInclude(),
                                                                         parentPageConfig.getCharset(),
                                                                         parentPageConfig.getUrlFilter().isCompByRegex());
-
+                int failedLinks = 0;
                 for (AHrefElement link : childLinks) {
+                    if (isBreak) {
+                        break;
+                    }
+                    if (Environment.checkConfigFile) {
+                        isBreak = Boolean.TRUE;
+                    }
                     ChildPageDetail detail = new ChildPageDetail();
                     String childUrl = link.getHref();
                     try {
@@ -224,14 +243,17 @@ public class TaskExecuter extends Thread {
                         }
                         detail.setContent(childContent);
                         handleContent(childPageConfig, detail);
-                        for (Task task : taskList) {
-                            task.doTask(parentPageConfig, childPageConfig, detail.clone());
+                        if (!Environment.checkConfigFile) {
+                            for (Task task : taskList) {
+                                task.doTask(parentPageConfig, childPageConfig, detail.clone());
+                            }
                         }
-                    } catch (MySQLIntegrityConstraintViolationException m) {
-                    } catch (RuntimeException r) {
-                        log4j.logError("处理该URL时发生异常0:" + childUrl, r);
                     } catch (Exception e) {
-                        log4j.logError("处理该URL时发生异常1:" + childUrl, e);
+                        failedLinks++;
+                        if (failedLinks >= Constants.ONE_CONFIG_FILE_MAX_FAILED_TIMES) {
+                            isBreak = Boolean.TRUE;
+                        }
+                        log4j.logError("处理该URL时发生异常:" + childUrl, e);
                     }
                     detail.setContent(null);
                     detail.setDescription(null);
@@ -244,7 +266,7 @@ public class TaskExecuter extends Thread {
                 }
             }
         } catch (Exception e) {
-            log4j.logError("异常发生3：", e);
+            log4j.logError("根据配置文件:" + configFile + " 进行处理内容异常发生：", e);
         } finally {
             childPageConfig = null;
             parentPageConfig = null;

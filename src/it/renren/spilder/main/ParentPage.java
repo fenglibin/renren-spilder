@@ -52,11 +52,11 @@ public class ParentPage {
             return listPages;
         }
 
-        public void setValues(Element values, boolean onePage) throws EvalError {
-            analysisLisPages(values, onePage);
+        public void setValues(Element values) throws EvalError {
+            analysisLisPages(values);
         }
 
-        private void analysisLisPages(Element values, boolean onePage) throws EvalError {
+        private void analysisLisPages(Element values) throws EvalError {
             Element value = values.getChild("Value");
             if (value != null && value.getTextTrim() != "") {
                 String[] urls = value.getTextTrim().split(",");
@@ -74,7 +74,7 @@ public class ParentPage {
                     int end = Integer.parseInt(batValues.getChild("WildcastType").getChild("End").getChild("Value").getTextTrim());
                     for (int i = start; i <= end; i++) {
                         listPages.add(getAddUrl(batBaseUrl, String.valueOf(i)));
-                        if (onePage) {
+                        if (Environment.dealOnePage) {
                             i = end;
                         }
                     }
@@ -86,7 +86,7 @@ public class ParentPage {
                     for (int i = intStart; i <= intEnd; i++) {
                         char c = (char) i;
                         listPages.add(getAddUrl(batBaseUrl, String.valueOf(c)));
-                        if (onePage) {
+                        if (Environment.dealOnePage) {
                             i = intEnd;
                         }
                     }
