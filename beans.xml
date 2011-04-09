@@ -15,40 +15,78 @@
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 	</bean>
-	<bean id="sqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
-		<property name="sqlMapClient">
-			<bean class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
-				<property name="configLocation">
-					<value>daoconfig/sqlmap.xml</value>
-				</property>
-				<property name="sqlMapClientProperties">
-					<map>
-						<entry key="baseurl">
-							<bean class="it.renren.spilder.spring.support.GetResourceAsURL">
-								<property name="location" value="daoconfig/sqlmap.xml" />
-								<property name="parent" value="true" />
-							</bean>
-						</entry>
-					</map>
-				</property>
-			</bean>
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>daoconfig/sqlmap.xml</value>
+		</property>
+		<property name="sqlMapClientProperties">
+			<map>
+				<entry key="baseurl">
+					<bean class="it.renren.spilder.spring.support.GetResourceAsURL">
+						<property name="location" value="daoconfig/sqlmap.xml" />
+						<property name="parent" value="true" />
+					</bean>
+				</entry>
+			</map>
 		</property>
 		<property name="dataSource">
 			<ref local="dataSource" />
 		</property>
 	</bean>
+	<bean id="sqlMapClientFanti" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>daoconfig/sqlmap.xml</value>
+		</property>
+		<property name="sqlMapClientProperties">
+			<map>
+				<entry key="baseurl">
+					<bean class="it.renren.spilder.spring.support.GetResourceAsURL">
+						<property name="location" value="daoconfig/sqlmap.xml" />
+						<property name="parent" value="true" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+		<property name="dataSource">
+			<ref local="dataSourceFanti" />
+		</property>
+	</bean>	
+	<bean id="taskExecuter" class="it.renren.spilder.main.TaskExecuter" singleton="false">
+		<property name="taskList">
+			<list>
+				<bean class="it.renren.spilder.task.WriteData2DB">
+				</bean>
+				<bean class="it.renren.spilder.task.WriteData2FanDB">
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="typesMap" class="it.renren.spilder.type.DedecmsTypesMap">
+	</bean>
+	<bean id="autoDetectTypes" class="it.renren.spilder.type.AutoDetectTypes"></bean>
+		
 	<!-- 简体对象定义（开始） -->
 	<bean id="arctinyDAO" class="it.renren.spilder.dao.ibatis.IbatisArctinyDAO">
 		<property name="dataSource">
 			<ref local="dataSource" />
 		</property>
 	</bean>
-	<bean id="archivesDAO" class="it.renren.spilder.dao.ibatis.IbatisArchivesDAO" >
+	<bean id="archivesDAO" class="it.renren.spilder.dao.ibatis.IbatisArchivesDAO">
 		<property name="dataSource">
 			<ref local="dataSource" />
 		</property>
 	</bean>
-	<bean id="addonarticleDAO" class="it.renren.spilder.dao.ibatis.IbatisAddonarticleDAO" >
+	<bean id="addonarticleDAO" class="it.renren.spilder.dao.ibatis.IbatisAddonarticleDAO">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+	<bean id="downurlDAO" class="it.renren.spilder.dao.ibatis.IbatisDownurlDAO">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+	<bean id="arctypeDAO" class="it.renren.spilder.dao.ibatis.IbatisArctypeDAO">
 		<property name="dataSource">
 			<ref local="dataSource" />
 		</property>
@@ -60,34 +98,48 @@
 		<property name="dataSource">
 			<ref local="dataSourceFanti" />
 		</property>
+		<property name="conditionSuffix">
+			<value>_Fanti</value>
+		</property>
+		<property name="sqlMapClient" ref="sqlMapClientFanti">
+		</property>
 	</bean>
-	<bean id="archivesDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisArchivesDAO" >
+	<bean id="archivesDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisArchivesDAO">
 		<property name="dataSource">
 			<ref local="dataSourceFanti" />
 		</property>
+		<property name="conditionSuffix">
+			<value>_Fanti</value>
+		</property>
+		<property name="sqlMapClient" ref="sqlMapClientFanti">
+		</property>
 	</bean>
-	<bean id="addonarticleDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisAddonarticleDAO" >
+	<bean id="addonarticleDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisAddonarticleDAO">
 		<property name="dataSource">
 			<ref local="dataSourceFanti" />
 		</property>
-	</bean>
-	<!-- 繁体对象定义（结束） -->
-	
-	<bean id="taskExecuter" class="it.renren.spilder.main.TaskExecuter">
-		<property name="taskList">
-			<list>
-				<bean class="it.renren.spilder.task.WriteData2DB"></bean>
-				<ref bean="writeData2FanDB" />
-			</list>
+		<property name="conditionSuffix">
+			<value>_Fanti</value>
+		</property>
+		<property name="sqlMapClient" ref="sqlMapClientFanti">
 		</property>
 	</bean>
-	<bean id="writeData2FanDB" class="it.renren.spilder.task.WriteData2FanDB">
-		<property name="translater">
-			<description>翻译配置.en指英语,cn指简体中文,big5指繁体中文</description>
-			<map>
-				<entry key="from" value="cn"></entry>
-				<entry key="to" value="big5"></entry>
-			</map>
+	<bean id="downurlDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisDownurlDAO">
+		<property name="dataSource">
+			<ref local="dataSourceFanti" />
+		</property>
+		<property name="sqlMapClient" ref="sqlMapClientFanti">
 		</property>
 	</bean>
+	<bean id="arctypeDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisArctypeDAO">
+		<property name="dataSource">
+			<ref local="dataSourceFanti" />
+		</property>
+		<property name="conditionSuffix">
+			<value>_Fanti</value>
+		</property>
+		<property name="sqlMapClient" ref="sqlMapClientFanti">
+		</property>
+	</bean>
+	<!-- 繁体对象定义（结束） -->	
 </beans>

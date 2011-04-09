@@ -37,7 +37,6 @@ public class ParentPage {
 	private UrlListPages urlListPages;
 	private Content content;
 	private UrlFilter urlFilter;
-	private Database database;
 	class UrlListPages{
 		private List<String> listPages = new ArrayList<String>();
 		public List<String> getListPages() {
@@ -159,12 +158,6 @@ public class ParentPage {
 			content = new Content();
 		}
 		return content;
-	}
-	public Database getDatabase() {
-		if(database==null){
-			database = new Database();
-		}
-		return database;
 	}
 	public UrlFilter getUrlFilter() {
 		if(urlFilter==null){

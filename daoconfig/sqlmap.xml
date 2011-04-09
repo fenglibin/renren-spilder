@@ -6,6 +6,8 @@
 	<sqlMap url="${baseurl}/arctiny.xml" />
 	<sqlMap url="${baseurl}/archives.xml" />
 	<sqlMap url="${baseurl}/addonarticle.xml" />
+	<sqlMap url="${baseurl}/downurl.xml" />
+	<sqlMap url="${baseurl}/arctype.xml" />
 	<!--  resource指定从类路径中读取
 	<sqlMap resource="headquarters/ibatis/memberSQL.xml"/>
 	-->

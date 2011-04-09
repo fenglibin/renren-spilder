@@ -11,9 +11,6 @@ public class AddonarticleDO implements Serializable {
     int                       aid;
     int                       typeid;
     String                    body;
-    // 表前缀，如人人IT网的表前缀为renren，人人IT繁体网的表前缀是renrenfanti_，但是表结构是一样的
-    // 只是表前缀不一样，为了一个对象适合多种表，因而表前缀在查询的时候，需要传入
-    String                    tablePrefix;
 
     public int getAid() {
         return aid;
@@ -38,13 +35,4 @@ public class AddonarticleDO implements Serializable {
     public void setBody(String body) {
         this.body = body;
     }
-
-    public String getTablePrefix() {
-        return tablePrefix;
-    }
-
-    public void setTablePrefix(String tablePrefix) {
-        this.tablePrefix = tablePrefix;
-    }
-
 }

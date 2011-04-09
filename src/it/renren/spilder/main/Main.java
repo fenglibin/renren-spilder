@@ -14,11 +14,8 @@ package it.renren.spilder.main;
  * desc="保存图片的路径，将图片写出到硬盘上"> <Value> <![CDATA[/home/fenglibin/www/www.renren.it/uploads/allimg/]]> </Value>
  * </ImageSaveLocation> <Recommend desc="随机推荐数，即多少篇文章推荐一篇.'0'表示不随机推荐"> <Value><![CDATA[3]]></Value> </Recommend>
  * <UrlFilter url="url筛选"> <MustInclude desc="url中必须包括的字符串"> <Value> <![CDATA[articles]]> </Value> </MustInclude>
- * <MustNotInclude desc="url中不能够包括的字符串"> <Value> <![CDATA[]]> </Value> </MustNotInclude> </UrlFilter> <Database
- * desc="数据库配置"> <JdbcDriverClass> <Value> <![CDATA[com.mysql.jdbc.Driver]]> </Value> </JdbcDriverClass> <LinkString>
- * <Value> <![CDATA[jdbc:mysql://184.82.12.132:3306/renren?characterEncoding=gbk]]> </Value> </LinkString> <Username>
- * <Value> <![CDATA[fenglibin]]> </Value> </Username> <Password> <Value> <![CDATA[fenglibin]]> </Value> </Password>
- * </Database> <Translater desc="翻译配置.en指英语,cn指简体中文,big5指繁体中文"> <From desc="原语言"> <Value> <![CDATA[en]]> </Value>
+ * <MustNotInclude desc="url中不能够包括的字符串"> <Value> <![CDATA[]]> </Value> </MustNotInclude> </UrlFilter>
+ * <Translater desc="翻译配置.en指英语,cn指简体中文,big5指繁体中文"> <From desc="原语言"> <Value> <![CDATA[en]]> </Value>
  * </From> <To desc="目标语言"> <Value> <![CDATA[cn]]> </Value> </To> </Translater> <OneUrlSleepTime> <Value>60000</Value>
  * </OneUrlSleepTime> </MainUrl> <Child> <Charset desc="编码"> <Value> <![CDATA[utf-8]]> </Value> </Charset> <Title
  * desc="标题"> <Start> <Value><![CDATA[<h1>]]></Value> </Start> <End> <Value><![CDATA[</h1>]]></Value> </End> <Replace
@@ -44,13 +41,13 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 public class Main {
 
     private static Document taskDoc;                                           // 任务配置的XML文档
-    private static String   taskFileName     = "task.xml";                     // 执行任务的配置
     private static String   dirOrFile        = Constants.EXECUTE_FILE;         // 文件还是目录
     private static String   dirOrFileName    = "";                             // 当前执行的配置是文件或是目录的名称
     private static String   oneFileSleepTime = "";                             // 执行一个文件夹中多个配置文件时，单个配置文件执行完后休息的时间
     private static String   loopSleepTime    = "";                             // 循环执行某文件，暂停的时候，以毫秒为单位
     public static boolean   onePage          = false;                          // 是否只获取当前配置文件的第一页
     private static Log4j    log4j            = new Log4j(Main.class.getName());
+    private static final ConfigurableApplicationContext ctx = new FileSystemXmlApplicationContext(new String[] { Constants.SPRING_CONFIG_FILE });  
 
     /**
      * 对输入的参数进行处理
@@ -71,8 +68,6 @@ public class Main {
                 oneFileSleepTime = value.replace("-o", "");
             } else if (value.startsWith("-l")) {// 循环执行某文件，暂停的时候，以毫秒为单位
                 loopSleepTime = value.replace("-l", "");
-            } else if (value.startsWith("-t")) {// 指定任务文件
-                taskFileName = value.replace("-t", "");
             } else if (value.startsWith("-p")) {// 单个文件中，是否只获取配置文件中指定的第一页内容
                 onePage = true;
             }
@@ -91,15 +86,14 @@ public class Main {
             dirOrFile = Constants.EXECUTE_FILE;
             dirOrFileName = "Z:/proc/test/renren-spilder/config/blog.www.eryi.org/rule_blog_eryi.org-zblog.xml";
             dirOrFileName = "E:/work/mywork/renren-spilder/config/javaeye.com/rule_javaeye_blog_c_C.xml";
-            dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/javaeye.com/rule_javaeye_blog_c_C.xml";
+            dirOrFileName = "E:/work/mywork/renren-spilder/config/csdn/rule_csdn_blog_caihaijiang_default.xml";
+            //dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/javaeye.com/rule_javaeye_blog_c_C.xml";
         }
         if (args.length < 1) {
             System.err.println(Constants.USE_AGE);
             log4j.logDebug(Constants.USE_AGE);
             System.exit(0);
-        }
-        final ConfigurableApplicationContext ctx = new FileSystemXmlApplicationContext(
-                                                                                       new String[] { Constants.SPRING_CONFIG_FILE });
+        }              
         try {
             if (args.length >= 1) {
                 String value = args[0];
@@ -112,7 +106,10 @@ public class Main {
                         System.err.println("Config File:" + dirOrFileName + " not exists!");
                         System.exit(0);
                     }
-                    Thread thread = new Thread(new TaskExecuter(dirOrFileName, true));
+                    TaskExecuter taskExecuter = (TaskExecuter)ctx.getBean("taskExecuter");
+                    taskExecuter.setConfigName(dirOrFileName);
+                    taskExecuter.setFile(true);
+                    Thread thread = new Thread(taskExecuter);
                     thread.start();
                 } else if (dirOrFile.equals(Constants.EXECUTE_DIR)) {
                     if (oneFileSleepTime.equals("") && loopSleepTime.equals("")) {
@@ -195,8 +192,11 @@ public class Main {
             System.err.println("Config Directory:" + configDirectory + " not exists!");
             return;
         }
+        TaskExecuter taskExecuter = (TaskExecuter)ctx.getBean("taskExecuter");
+        taskExecuter.setConfigName(configDirectory);
+        taskExecuter.setOneFileSleepTime(oneFileSleepTime);
         // 对当前目录进行处理
-        Thread thread = new Thread(new TaskExecuter(configDirectory, oneFileSleepTime));
+        Thread thread = new Thread(taskExecuter);
         thread.start();
 
         // 对子目录进行处理
@@ -206,10 +206,6 @@ public class Main {
                 doSaveFromConfigDir(file.getAbsolutePath(), oneFileSleepTime);
             }
         }
-    }
-
-    public static String getTaskFileName() {
-        return taskFileName;
     }
 
     public static boolean isOnePage() {

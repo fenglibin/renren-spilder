@@ -7,7 +7,6 @@ import it.renren.spilder.parser.ImageParser;
 import it.renren.spilder.parser.MetaParser;
 import it.renren.spilder.task.Task;
 import it.renren.spilder.task.handler.Handler;
-import it.renren.spilder.type.AutoDetectTypes;
 import it.renren.spilder.util.DateUtil;
 import it.renren.spilder.util.FileUtil;
 import it.renren.spilder.util.HttpClientUtil;
@@ -16,7 +15,6 @@ import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.log.Log4j;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import org.jdom.Document;
@@ -32,11 +30,16 @@ public class TaskExecuter extends Thread {
 
     private static Log4j log4j  = new Log4j(TaskExecuter.class.getName());
     boolean              isFile = false;
-    String               configName;
+    
+
+	String               configName;
     long                 oneFileSleepTime;
     // 需要执行的任务列表，目前有简体中文操作及将简体转换为繁体，实现类需要继承接口it.renren.spilder.task.Task
     private List<Task>   taskList;
 
+    public TaskExecuter(){
+    	
+    }
     public TaskExecuter(String configName, boolean isFile){
         this.configName = configName;
         this.isFile = isFile;
@@ -114,14 +117,6 @@ public class TaskExecuter extends Thread {
         parentPageConfig.setAutoDetectTypeMapClass(JDomUtil.getValueByXpath(ruleXml,
                                                                             "/Rules/MainUrl/AutoDetect/TypeMapMakeClass") == null ? "" : JDomUtil.getValueByXpath(ruleXml,
                                                                                                                                                                   "/Rules/MainUrl/AutoDetect/TypeMapMakeClass"));
-        parentPageConfig.getDatabase().setJdbcDriverClass(JDomUtil.getValueByXpath(ruleXml,
-                                                                                   "/Rules/MainUrl/Database/JdbcDriverClass/Value"));
-        parentPageConfig.getDatabase().setLinkString(JDomUtil.getValueByXpath(ruleXml,
-                                                                              "/Rules/MainUrl/Database/LinkString/Value"));
-        parentPageConfig.getDatabase().setPassword(JDomUtil.getValueByXpath(ruleXml,
-                                                                            "/Rules/MainUrl/Database/Username/Value"));
-        parentPageConfig.getDatabase().setUsername(JDomUtil.getValueByXpath(ruleXml,
-                                                                            "/Rules/MainUrl/Database/Password/Value"));
         parentPageConfig.setOneUrlSleepTime(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/OneUrlSleepTime/Value") == null ? 0 : Long.parseLong(JDomUtil.getValueByXpath(ruleXml,
                                                                                                                                                                             "/Rules/MainUrl/OneUrlSleepTime/Value")));
         parentPageConfig.getTranslater().setFrom(JDomUtil.getValueByXpath(ruleXml,
@@ -166,9 +161,6 @@ public class TaskExecuter extends Thread {
         Document ruleXml = JDomUtil.getDocument(new File(configFile));
         ParentPage parentPageConfig = initParentPage(ruleXml);
         ChildPage childPageConfig = initChildPage(ruleXml);
-        if (!StringUtil.isNull(parentPageConfig.getAutoDetectTypeMapClass())) {
-            AutoDetectTypes.init(parentPageConfig);
-        }
         try {
             for (String listPageUrl : parentPageConfig.getUrlListPages().getListPages()) {
                 String mainContent = HttpClientUtil.getGetResponseWithHttpClient(listPageUrl,
@@ -317,19 +309,6 @@ public class TaskExecuter extends Thread {
             handler.execute(detail);
         }
     }
-
-    private static Task[] getTasks() throws JDOMException, IOException, InstantiationException, IllegalAccessException,
-                                    ClassNotFoundException {
-        Task[] allTask;
-        Main.setTaskDoc(JDomUtil.getDocument(new File(Main.getTaskFileName())));
-        List tasks = Main.getTaskDoc().getRootElement().getChildren("Task");
-        allTask = new Task[tasks.size()];
-        for (int i = 0; i < tasks.size(); i++) {
-            allTask[i] = (Task) Class.forName(((Element) tasks.get(i)).getAttributeValue("java")).newInstance();
-        }
-        return allTask;
-    }
-
     /**
      * 将图片保存到本地
      * 
@@ -491,4 +470,15 @@ public class TaskExecuter extends Thread {
     public void setTaskList(List<Task> taskList) {
         this.taskList = taskList;
     }
+    public void setFile(boolean isFile) {
+		this.isFile = isFile;
+	}
+
+	public void setConfigName(String configName) {
+		this.configName = configName;
+	}
+
+	public void setOneFileSleepTime(long oneFileSleepTime) {
+		this.oneFileSleepTime = oneFileSleepTime;
+	}
 }
