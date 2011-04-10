@@ -20,8 +20,7 @@ public class AutoDetectTypes {
     private void init(ParentPage parentPageConfig) {
         try {
             if (typesMapData == null) {
-                typesMapData = typesMap.getTypesMap(parentPageConfig);
-                typesMapDataKeys = typesMapData.keySet().iterator();
+                typesMapData = typesMap.getTypesMap(parentPageConfig);                
             }
         } catch (Exception e) {
             typesMapData = null;
@@ -44,7 +43,9 @@ public class AutoDetectTypes {
         init(parentPageConfig);
 
         String title = detail.getTitle().toLowerCase();
+        title = StringUtil.removeHtmlTags(title);
         int currentType = -1;
+        typesMapDataKeys = typesMapData.keySet().iterator();
         while (typesMapDataKeys.hasNext()) {/* 先检测标题中是否包括有分类关键字 */
             currentType = typesMapDataKeys.next();
             if (title.indexOf(typesMapData.get(currentType).toLowerCase()) > 0) {
@@ -54,6 +55,7 @@ public class AutoDetectTypes {
         }
         if (type == -1) {/* 再检测内容中是否包括有分类关键字 */
             String content = detail.getContent().toLowerCase();
+            content = StringUtil.removeHtmlTags(content);
             typesMapDataKeys = typesMapData.keySet().iterator();
             while (typesMapDataKeys.hasNext()) {
                 currentType = typesMapDataKeys.next();

@@ -27,26 +27,16 @@ import bsh.EvalError;
 public class TaskExecuter extends Thread {
 
     private static Log4j log4j  = new Log4j(TaskExecuter.class.getName());
+    // 文件还是目录
     boolean              isFile = false;
-
+    // 要执行的配置文件或目录的名称
     String               configName;
     long                 oneFileSleepTime;
     // 需要执行的任务列表，目前有简体中文操作及将简体转换为繁体，实现类需要继承接口it.renren.spilder.task.Task
     private List<Task>   taskList;
 
     public TaskExecuter(){
-
-    }
-
-    public TaskExecuter(String configName, boolean isFile){
-        this.configName = configName;
-        this.isFile = isFile;
         this.oneFileSleepTime = Constants.One_File_Default_Sleep_Time;
-    }
-
-    public TaskExecuter(String configName, long oneFileSleepTime){
-        this.configName = configName;
-        this.oneFileSleepTime = oneFileSleepTime;
     }
 
     public void run() {
@@ -78,7 +68,7 @@ public class TaskExecuter extends Thread {
                     saveFromConfigFile(file.getAbsolutePath());
                     Thread.sleep(oneFileSleepTime);
                 } catch (Exception e) {
-                    log4j.logError("异常发生1，Current File :" + file.getAbsolutePath() + " Deal Error!!!", e);
+                    log4j.logError("Current File :" + file.getAbsolutePath() + " Deal Error!!!", e);
                 }
             }
         }

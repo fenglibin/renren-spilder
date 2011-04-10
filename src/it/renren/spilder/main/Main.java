@@ -36,98 +36,147 @@ import java.io.File;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+/**
+ * 系统主类，系统启动通过该类启动 类Main.java的实现描述：TODO 类实现描述
+ * 
+ * @author fenglibin 2011-4-10 下午04:04:42
+ */
 public class Main {
 
-    private static String                               dirOrFile        = Constants.EXECUTE_FILE;                                                            // 文件还是目录
-    private static String                               dirOrFileName    = "";                                                                                // 当前执行的配置是文件或是目录的名称
-    private static String                               oneFileSleepTime = "";                                                                                // 执行一个文件夹中多个配置文件时，单个配置文件执行完后休息的时间
-    private static String                               loopSleepTime    = "";                                                                                // 循环执行某文件，暂停的时候，以毫秒为单位
-    private static Log4j                                log4j            = new Log4j(Main.class.getName());
-    private static final ConfigurableApplicationContext ctx              = new FileSystemXmlApplicationContext(
-                                                                                                               new String[] { Constants.SPRING_CONFIG_FILE });
+    private static Log4j                                log4j = new Log4j(Main.class.getName());
+    private static final ConfigurableApplicationContext ctx   = new FileSystemXmlApplicationContext(
+                                                                                                    new String[] { Constants.SPRING_CONFIG_FILE });
+
+    /**
+     * 系统运行参数 类Main.java的实现描述：TODO 类实现描述
+     * 
+     * @author fenglibin 2011-4-10 下午04:02:38
+     */
+    public class Param {
+
+        // 是否文件
+        private boolean isFile           = false;
+        // 是否目录
+        private boolean isDirectory      = false;
+        // 是文件的情况下，指定文件名
+        private String  fileName         = "";
+        // 是目录的情况下，指定目录名
+        private String  directoryName    = "";
+        // 单个配置文件执行完后，系统暂停的时间表,以毫秒为单位
+        private String  oneFileSleepTime = "";
+        // 所有配置执行完成后，下次再次执行的等待时间,以毫秒为单位
+        private String  loopSleepTime    = "";
+
+        public boolean isFile() {
+            return isFile;
+        }
+
+        public void setFile(boolean isFile) {
+            this.isFile = isFile;
+        }
+
+        public boolean isDirectory() {
+            return isDirectory;
+        }
+
+        public void setDirectory(boolean isDirectory) {
+            this.isDirectory = isDirectory;
+        }
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        public void setFileName(String fileName) {
+            this.fileName = fileName;
+        }
+
+        public String getDirectoryName() {
+            return directoryName;
+        }
+
+        public void setDirectoryName(String directoryName) {
+            this.directoryName = directoryName;
+        }
+
+        public String getOneFileSleepTime() {
+            return oneFileSleepTime;
+        }
+
+        public void setOneFileSleepTime(String oneFileSleepTime) {
+            this.oneFileSleepTime = oneFileSleepTime;
+        }
+
+        public String getLoopSleepTime() {
+            return loopSleepTime;
+        }
+
+        public void setLoopSleepTime(String loopSleepTime) {
+            this.loopSleepTime = loopSleepTime;
+        }
+
+        // 单个文件中，是否只获取配置文件中指定的第一页内容
+        public void setDealOnePage(boolean dealOnePage) {
+            Environment.dealOnePage = dealOnePage;
+        }
+
+        // 用于表示测试该分类下面的配置文件是否能够正常工作，关位进行数据库的操作，并且一个配置文件只检测一条记录
+        public void setCheckConfigFile(boolean checkConfigFile) {
+            Environment.checkConfigFile = checkConfigFile;
+        }
+    }
 
     /**
      * 对输入的参数进行处理
      * 
      * @param args 传入的原参数数组
      */
-    private static void initParameters(String[] args) {
+    private Param initParameters(String[] args) {
         String value = "";
+        Main.Param param = (new Main()).new Param();
         for (int i = 0; i < args.length; i++) {
             value = args[i];
+            if (value != null && value.indexOf("help") >= 0) {
+                System.err.println(Constants.USE_AGE);
+                System.exit(0);
+            }
             if (value.startsWith("-f")) {// 文件
-                dirOrFile = Constants.EXECUTE_FILE;
-                dirOrFileName = value.replace("-f", "");
+                param.setFile(Boolean.TRUE);
+                param.setFileName(value.replace("-f", ""));
             } else if (value.startsWith("-d")) {// 目录
-                dirOrFile = Constants.EXECUTE_DIR;
-                dirOrFileName = value.replace("-d", "");
+                param.setDirectory(Boolean.TRUE);
+                param.setDirectoryName(value.replace("-d", ""));
             } else if (value.startsWith("-o")) {// 单个文件执行完后，暂停的时间，以毫秒为单位
-                oneFileSleepTime = value.replace("-o", "");
+                param.setOneFileSleepTime(value.replace("-o", ""));
             } else if (value.startsWith("-l")) {// 循环执行某文件，暂停的时候，以毫秒为单位
-                loopSleepTime = value.replace("-l", "");
+                param.setLoopSleepTime(value.replace("-l", ""));
             } else if (value.startsWith("-p")) {// 单个文件中，是否只获取配置文件中指定的第一页内容
-                Environment.dealOnePage = true;
+                param.setDealOnePage(Boolean.TRUE);
             } else if (value.startsWith("-check")) {// 用于表示测试该分类下面的配置文件是否能够正常工作，关位进行数据库的操作，并且一个配置文件只检测一条记录
-                Environment.checkConfigFile = Boolean.TRUE;
+                param.setCheckConfigFile(Boolean.TRUE);
             }
 
         }
+        return param;
     }
 
     public static void main(String[] args) {
         log4j.logDebug("log4jdebuug");
-        initParameters(args);
+        Main main = new Main();
+        Main.Param param = (new Main()).new Param();
+        param = main.initParameters(args);
         if (args.length == 0) {
             args = new String[1];
             // 文件测试
-            // dirOrFile = Constants.EXECUTE_FILE;
-            // dirOrFileName = "Z:/proc/test/renren-spilder/config/blog.www.eryi.org/rule_blog_eryi.org-zblog.xml";
-            // dirOrFileName = "E:/work/mywork/renren-spilder/config/javaeye.com/rule_javaeye_blog_c_C.xml";
-            // dirOrFileName = "E:/work/mywork/renren-spilder/config/csdn/rule_csdn_blog_caihaijiang_default.xml";
-            // dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/javaeye.com/rule_javaeye_blog_c_C.xml";
-            // dirOrFileName = "/home/fenglibin/proc/renren-spilder/config/ibm/rule_ibm_dep_aix.xml";
-            // dirOrFileName =
-            // "/home/fenglibin/proc/renren-spilder/config/blog.51cto.com/rule_148297.blog.51cto.com.xml";
-            // dirOrFileName =
-            // "/home/fenglibin/proc/renren-spilder/config/blog.51cto.com/rule_helpdesk.blog.51cto.com.xml";
+            param.setFile(true);
+            param.setFileName("/home/fenglibin/proc/renren-spilder/config/blog.51cto.com/rule_helpdesk.blog.51cto.com.xml");
             // 文件夹测试
-            dirOrFile = Constants.EXECUTE_DIR;
-            dirOrFileName = "config";
-            Environment.dealOnePage = true;
-        }
-        if (args.length < 1) {
-            System.err.println(Constants.USE_AGE);
-            log4j.logDebug(Constants.USE_AGE);
-            System.exit(0);
+            // param.setDirectory(true);
+            // param.setDirectoryName("config");
+            // param.setDealOnePage(true);
         }
         try {
-            if (args.length >= 1) {
-                String value = args[0];
-                if (value != null && value.indexOf("help") >= 0) {
-                    System.err.println(Constants.USE_AGE);
-                    System.exit(0);
-                }
-                if (dirOrFile.equals(Constants.EXECUTE_FILE)) {
-                    if (!(new File(dirOrFileName).exists())) {
-                        System.err.println("Config File:" + dirOrFileName + " not exists!");
-                        System.exit(0);
-                    }
-                    TaskExecuter taskExecuter = (TaskExecuter) ctx.getBean("taskExecuter");
-                    taskExecuter.setConfigName(dirOrFileName);
-                    taskExecuter.setFile(true);
-                    Thread thread = new Thread(taskExecuter);
-                    thread.start();
-                } else if (dirOrFile.equals(Constants.EXECUTE_DIR)) {
-                    if (oneFileSleepTime.equals("") && loopSleepTime.equals("")) {
-                        saveFromConfigDir(dirOrFileName);
-                    } else if (!oneFileSleepTime.equals("") && loopSleepTime.equals("")) {
-                        saveFromConfigDir(dirOrFileName, Long.parseLong(oneFileSleepTime));
-                    } else if (!oneFileSleepTime.equals("") && !loopSleepTime.equals("")) {
-                        saveFromConfigDir(dirOrFileName, Long.parseLong(oneFileSleepTime),
-                                          Long.parseLong(loopSleepTime));
-                    }
-                }
-            }
+            main.startWork(param);
         } catch (Exception e) {
             log4j.logError(e);
             System.exit(0);
@@ -142,13 +191,36 @@ public class Main {
         });
     }
 
+    private void startWork(Param param) throws Exception {
+        if (param.isFile()) {
+            if (!(new File(param.getFileName()).exists())) {
+                System.err.println("Config File:" + param.getFileName() + " not exists!");
+                System.exit(0);
+            }
+            TaskExecuter taskExecuter = (TaskExecuter) ctx.getBean("taskExecuter");
+            taskExecuter.setConfigName(param.getFileName());
+            taskExecuter.setFile(true);
+            Thread thread = new Thread(taskExecuter);
+            thread.start();
+        } else if (param.isDirectory()) {
+            if (param.getOneFileSleepTime().equals("") && param.getLoopSleepTime().equals("")) {
+                saveFromConfigDir(param.getDirectoryName());
+            } else if (!param.getOneFileSleepTime().equals("") && param.getLoopSleepTime().equals("")) {
+                saveFromConfigDir(param.getDirectoryName(), Long.parseLong(param.getOneFileSleepTime()));
+            } else if (!param.getOneFileSleepTime().equals("") && !param.getLoopSleepTime().equals("")) {
+                saveFromConfigDir(param.getDirectoryName(), Long.parseLong(param.getOneFileSleepTime()),
+                                  Long.parseLong(param.getLoopSleepTime()));
+            }
+        }
+    }
+
     /**
      * (非循环)从指定的目录获取，并给定单个文件执行完后默认的休息时间
      * 
      * @param configDirectory 当前配置文件的目录
      * @throws Exception
      */
-    private static void saveFromConfigDir(String configDirectory) throws Exception {
+    private void saveFromConfigDir(String configDirectory) throws Exception {
         saveFromConfigDir(configDirectory, Constants.One_File_Default_Sleep_Time);
     }
 
@@ -159,7 +231,7 @@ public class Main {
      * @param oneFileSleepTime 并指定单个文件执行完后休息的时间
      * @throws Exception
      */
-    private static void saveFromConfigDir(String configDirectory, long oneFileSleepTime) throws Exception {
+    private void saveFromConfigDir(String configDirectory, long oneFileSleepTime) throws Exception {
         saveFromConfigDir(configDirectory, oneFileSleepTime, -1);
     }
 
@@ -171,8 +243,7 @@ public class Main {
      * @param loopSleepTime 循环执行该目录的休息时间
      * @throws Exception
      */
-    private static void saveFromConfigDir(String configDirectory, long oneFileSleepTime, long loopSleepTime)
-                                                                                                            throws Exception {
+    private void saveFromConfigDir(String configDirectory, long oneFileSleepTime, long loopSleepTime) throws Exception {
         boolean loop = true;
         while (loop) {
             doSaveFromConfigDir(configDirectory, oneFileSleepTime);
@@ -191,7 +262,7 @@ public class Main {
      * @param oneFileSleepTime 每个配置文件执行完后暂停的时间
      * @throws Exception
      */
-    private static void doSaveFromConfigDir(String configDirectory, long oneFileSleepTime) throws Exception {
+    private void doSaveFromConfigDir(String configDirectory, long oneFileSleepTime) throws Exception {
         log4j.logDebug("Current Directory:" + configDirectory);
         File configFilePath = new File(configDirectory);
         if (!configFilePath.exists()) {
