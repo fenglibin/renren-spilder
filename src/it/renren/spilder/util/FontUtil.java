@@ -34,6 +34,10 @@ public class FontUtil {
         return string.toString();
     }
 
+    public static String jian2fan(String string) {
+        return jian2fan(new StringBuffer(string));
+    }
+
     /**
      * 将传入的简体字符串转换为繁体
      * 

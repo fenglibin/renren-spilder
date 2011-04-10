@@ -14,7 +14,7 @@ public class DedecmsTypesMap implements TypesMap {
     private static Log4j log4j = new Log4j(DedecmsTypesMap.class.getName());
     ArctypeDAO           arctypeDAO;
 
-    public Map<Integer, String> getTypesMap(ParentPage parentPageConfig) {
+    public Map<Integer, String> getTypesMap() {
         Map<Integer, String> types = new HashMap<Integer, String>();
         try {
             List<ArctypeDO> arctypeDOList = arctypeDAO.getArctypeList();

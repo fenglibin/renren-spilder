@@ -20,7 +20,7 @@ public class AutoDetectTypes {
     private void init(ParentPage parentPageConfig) {
         try {
             if (typesMapData == null) {
-                typesMapData = typesMap.getTypesMap(parentPageConfig);                
+                typesMapData = typesMap.getTypesMap();                
             }
         } catch (Exception e) {
             typesMapData = null;
