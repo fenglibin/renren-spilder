@@ -163,7 +163,7 @@ public class Main {
     public static void main(String[] args) {
         log4j.logDebug("log4jdebuug");
         Main main = new Main();
-        Main.Param param = (new Main()).new Param();
+        Main.Param param = main.new Param();
         param = main.initParameters(args);
         if (args.length == 0) {
             args = new String[1];

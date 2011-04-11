@@ -41,7 +41,7 @@ public class RedoContentType {
         Connection conn = dataSource.getConnection();
         // 65514
         Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery("select a.id,a.title,b.body from renrenarchives a,renrenaddonarticle b where a.id>65514 and a.id=b.aid");
+        ResultSet rs = st.executeQuery("select a.id,a.title,b.body from renrenarchives a,renrenaddonarticle b where a.id>=65900 and a.id=b.aid");
         while (rs.next()) {
             int id = rs.getInt("id");
             int type = detectType(typesMapData, rs.getString("title"), rs.getString("body"));
@@ -59,7 +59,7 @@ public class RedoContentType {
         DataSource dataSource_fanti = (DataSource) ctx.getBean("dataSourceFanti");
         Connection conn_fanti = dataSource_fanti.getConnection();
         Statement st_fanti = conn_fanti.createStatement();
-        ResultSet rs_fanti = st_fanti.executeQuery("select a.id,a.title,b.body from renrenfanti_archives a,renrenfanti_addonarticle b where a.id>80894 and a.id=b.aid");
+        ResultSet rs_fanti = st_fanti.executeQuery("select a.id,a.title,b.body from renrenfanti_archives a,renrenfanti_addonarticle b where a.id>=81280 and a.id=b.aid");
         while (rs_fanti.next()) {
             int id = rs_fanti.getInt("id");
             int type = detectTypeFanti(typesMapData, rs_fanti.getString("title"), rs_fanti.getString("body"));
