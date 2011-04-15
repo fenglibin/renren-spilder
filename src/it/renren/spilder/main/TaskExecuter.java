@@ -143,7 +143,11 @@ public class TaskExecuter extends Thread {
                                                                                                                                                                              "/Rules/Child/KeepFileName/Value")));
         return childPageConfig;
     }
-
+    /**
+     * 根据配置文件获取内容
+     * @param configFile
+     * @throws Exception
+     */
     private void saveFromConfigFile(String configFile) throws Exception {
         Document ruleXml = JDomUtil.getDocument(new File(configFile));
         ParentPage parentPageConfig = initParentPage(ruleXml);
