@@ -18,15 +18,13 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
+import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 public class FileUtil {
 
@@ -36,51 +34,11 @@ public class FileUtil {
         downloadFileByUrl(srcUrl, filePath, null);
     }
 
-    /**
-     * 保存指定URL的源文件到指定路径下
-     * 
-     * @param srcUrl 要下载文件的绝对路径url
-     * @param fileSavePath 文件要保存的路径
-     */
     public static synchronized void downloadFileByUrl(String srcUrl, String fileSavePath, String newName) {
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpGet httpget = new HttpGet(srcUrl);
-        HttpResponse response;
-        FileOutputStream out = null;
-        String fileName = null;
-        try {
-            fileName = newName == null ? getFileName(srcUrl) : newName;
-            File wdFile = new File(fileSavePath + fileName);
-            out = new FileOutputStream(wdFile);
-            response = httpclient.execute(httpget);
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                InputStream instream = entity.getContent();
-                int l;
-                byte[] tmp = new byte[2048];
-                while ((l = instream.read(tmp)) != -1) {
-                    out.write(tmp, 0, l);
-                }
-            }
-        } catch (ClientProtocolException e) {
-            log4j.logError(e);
-        } catch (IOException e) {
-            log4j.logError(e);
-        } finally {
-            if (out != null) {
-                try {
-                    out.flush();
-                    out.close();
-                } catch (IOException e) {
-                    log4j.logError(e);
-                }
-            }
-        }
-        // log4j.logDebug("保存文件:"+srcUrl+" 到 "+fileSavePath+",文件名为:"+fileName);
-    }
-
-    public static synchronized void downloadFileByUrl2(String srcUrl, String fileSavePath, String newName) {
         org.apache.commons.httpclient.HttpClient httpclient = HttpClientUtil.getHttpClient();
+        List<Header> headers = new ArrayList<Header>();
+        headers.add(new Header("User-Agent", "Mozilla/3.0 (compatible; MSIE 6.0; Windows NT 6.1)"));
+        httpclient.getHostConfiguration().getParams().setParameter("http.default-headers", headers);
         GetMethod get = new GetMethod(srcUrl);
         FileOutputStream out = null;
         String fileName = null;
@@ -88,14 +46,16 @@ public class FileUtil {
             fileName = newName == null ? getFileName(srcUrl) : newName;
             File wdFile = new File(fileSavePath + fileName);
             out = new FileOutputStream(wdFile);
+
             httpclient.executeMethod(get);
+
             InputStream instream = get.getResponseBodyAsStream();
             int l;
             byte[] tmp = new byte[2048];
             while ((l = instream.read(tmp)) != -1) {
                 out.write(tmp, 0, l);
             }
-        } catch (ClientProtocolException e) {
+        } catch (HttpException e) {
             log4j.logError(e);
         } catch (IOException e) {
             log4j.logError(e);
@@ -276,10 +236,10 @@ public class FileUtil {
     }
 
     public static void main(String[] args) {
-        String url = "www.163.com/a/b.jpg?noscript";
-        String filename = getFileName(url);
-        log4j.logDebug(filename);
+        // String url = "www.163.com/a/b.jpg?noscript";
+        // String filename = getFileName(url);
+        // log4j.logDebug(filename);
 
-        downloadFileByUrl2("http://img1.51cto.com/attachment/201010/200231826.jpg", "c:/", null);
+        downloadFileByUrl("http://img1.51cto.com/attachment/201010/200231826.jpg", "/home/fenglibin/tmp/img/", null);
     }
 }
