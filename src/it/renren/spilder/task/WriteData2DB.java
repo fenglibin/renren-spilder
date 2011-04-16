@@ -15,6 +15,7 @@ import it.renren.spilder.main.ChildPageDetail;
 import it.renren.spilder.main.ParentPage;
 import it.renren.spilder.type.AutoDetectTypes;
 import it.renren.spilder.util.StringUtil;
+import it.renren.spilder.util.UrlUtil;
 import it.renren.spilder.util.google.TranslatorUtil;
 import it.renren.spilder.util.log.Log4j;
 import it.renren.spilder.util.wash.WashUtil;
@@ -31,11 +32,20 @@ public class WriteData2DB extends Task {
 
     public void doTask(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail) throws Exception {
         try {
-            translate(parentPageConfig, detail);
-            saveDownUrl(parentPageConfig, detail);
+            ChildPageDetail detailClone = detail.clone();
+            saveDownUrl(parentPageConfig, detailClone);
+            
+            //保存图片
+            String content = UrlUtil.saveImages(parentPageConfig, childPageConfig, detailClone);
+            /**
+             * 将图片地址替换后的内容，设置到DETAIL对象中，这样在繁体中可以使用。因为繁体保存中不能够再次保存图片，只能够将修改图片地址的内容给传回去
+             */
+            detail.setContent(content);
+            
+            translate(parentPageConfig, detailClone);
             dealedArticleNum++;
-            log4j.logDebug("开始保存:" + detail.getUrl());
-            int typeid = autoDetectTypes.detectType(parentPageConfig, detail);
+            log4j.logDebug("开始保存:" + detailClone.getUrl());
+            int typeid = autoDetectTypes.detectType(parentPageConfig, detailClone);
             ArctinyDO arctinyDO = new ArctinyDO();
 
             int tempTypeId = (int) (Math.random() * 1000) + 9999;/* 临时ID，主要用于获取当前插入的自增ID */
@@ -46,27 +56,27 @@ public class WriteData2DB extends Task {
             arctinyDO.setTypeid(typeid);
             arctinyDAO.updateArctinyTypeidById(arctinyDO);
 
-            String flag = getFlag(parentPageConfig, detail);
+            String flag = getFlag(parentPageConfig, detailClone);
 
-            String litpic = detail.getLitpicAddress();// 缩略图地址
+            String litpic = detailClone.getLitpicAddress();// 缩略图地址
 
             ArchivesDO archivesDO = new ArchivesDO();
             archivesDO.setId(arctinyDO.getId());
             archivesDO.setTypeid(typeid);
-            archivesDO.setTitle(detail.getTitle().length() > 100 ? detail.getTitle().substring(0, 99) : detail.getTitle());
-            archivesDO.setKeywords(detail.getKeywords().length() > 30 ? detail.getKeywords().substring(0, 29) : detail.getKeywords());
-            archivesDO.setDescription(detail.getDescription().length() > 255 ? detail.getDescription().substring(0, 254) : detail.getDescription());
+            archivesDO.setTitle(detailClone.getTitle().length() > 100 ? detailClone.getTitle().substring(0, 99) : detailClone.getTitle());
+            archivesDO.setKeywords(detailClone.getKeywords().length() > 30 ? detailClone.getKeywords().substring(0, 29) : detailClone.getKeywords());
+            archivesDO.setDescription(detailClone.getDescription().length() > 255 ? detailClone.getDescription().substring(0,
+                                                                                                                           254) : detailClone.getDescription());
             archivesDO.setClick((int) (1000 * Math.random()));
-            archivesDO.setWriter(detail.getAuthor());
-            archivesDO.setSource(detail.getSource());
+            archivesDO.setWriter(detailClone.getAuthor());
+            archivesDO.setSource(detailClone.getSource());
             archivesDO.setWeight(arctinyDO.getId());
             archivesDO.setDutyadmin(1);
             archivesDO.setFlag(flag);
             archivesDO.setLitpic(litpic);
-            archivesDO.setFilename(detail.getFileName());
+            archivesDO.setFilename(detailClone.getFileName());
             archivesDAO.insertArchives(archivesDO);
 
-            String content = detail.getContent();
             if (!childPageConfig.getContent().getWashContent().equals("")) {
                 content = WashUtil.washData(content, childPageConfig.getContent().getWashContent());
             }

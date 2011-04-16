@@ -30,10 +30,11 @@ public class WriteData2FanDB extends Task {
 
     public void doTask(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail) throws Exception {
         try {
-            saveDownUrl(parentPageConfig, detail);
+            ChildPageDetail detailClone = detail.clone();
+            saveDownUrl(parentPageConfig, detailClone);
             dealedArticleNum++;
-            log4j.logDebug("开始保存:" + detail.getUrl());
-            int typeid = autoDetectTypes.detectType(parentPageConfig, detail);
+            log4j.logDebug("开始保存:" + detailClone.getUrl());
+            int typeid = autoDetectTypes.detectType(parentPageConfig, detailClone);
             ArctinyDO arctinyDO = new ArctinyDO();
 
             int tempTypeId = (int) (Math.random() * 1000) + 9999;/* 临时ID，主要用于获取当前插入的自增ID */
@@ -44,9 +45,9 @@ public class WriteData2FanDB extends Task {
             arctinyDO.setTypeid(typeid);
             arctinyDAOFanti.updateArctinyTypeidById(arctinyDO);
 
-            String flag = getFlag(parentPageConfig, detail);
+            String flag = getFlag(parentPageConfig, detailClone);
 
-            String litpic = detail.getLitpicAddress();// 缩略图地址
+            String litpic = detailClone.getLitpicAddress();// 缩略图地址
             if (!litpic.equals("")) {
                 litpic = Constants.RenRen_URL + litpic;
             }
@@ -54,23 +55,24 @@ public class WriteData2FanDB extends Task {
             ArchivesDO archivesDO = new ArchivesDO();
             archivesDO.setId(arctinyDO.getId());
             archivesDO.setTypeid(typeid);
-            archivesDO.setTitle(jian2fan(detail.getTitle().length() > 100 ? detail.getTitle().substring(0, 99) : detail.getTitle()));
-            archivesDO.setKeywords(jian2fan(detail.getKeywords().length() > 30 ? detail.getKeywords().substring(0, 29) : detail.getKeywords()));
-            archivesDO.setDescription(jian2fan(detail.getDescription().length() > 255 ? detail.getDescription().substring(0,
-                                                                                                                          254) : detail.getDescription()));
+            archivesDO.setTitle(jian2fan(detailClone.getTitle().length() > 100 ? detailClone.getTitle().substring(0, 99) : detailClone.getTitle()));
+            archivesDO.setKeywords(jian2fan(detailClone.getKeywords().length() > 30 ? detailClone.getKeywords().substring(0,
+                                                                                                                          29) : detailClone.getKeywords()));
+            archivesDO.setDescription(jian2fan(detailClone.getDescription().length() > 255 ? detailClone.getDescription().substring(0,
+                                                                                                                                    254) : detailClone.getDescription()));
             archivesDO.setClick((int) (1000 * Math.random()));
-            archivesDO.setWriter(jian2fan(detail.getAuthor()));
-            archivesDO.setSource(jian2fan(detail.getSource()));
+            archivesDO.setWriter(jian2fan(detailClone.getAuthor()));
+            archivesDO.setSource(jian2fan(detailClone.getSource()));
             archivesDO.setWeight(arctinyDO.getId());
             archivesDO.setDutyadmin(1);
             archivesDO.setFlag(flag);
             archivesDO.setLitpic(litpic);
-            archivesDO.setFilename(detail.getFileName());
+            archivesDO.setFilename(detailClone.getFileName());
             archivesDAOFanti.insertArchives(archivesDO);
 
-            String content = detail.getContent();
+            String content = detailClone.getContent();
             content = content.replace("www.renren.it", "fan.renren.it");
-            if (detail.isPicArticle()) {
+            if (detailClone.isPicArticle()) {
                 content = content.replace(parentPageConfig.getImageDescUrl(),
                                           Constants.RenRen_URL + parentPageConfig.getImageDescUrl());
             }
