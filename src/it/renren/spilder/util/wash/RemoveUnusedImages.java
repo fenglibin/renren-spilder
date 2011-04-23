@@ -17,22 +17,6 @@ public class RemoveUnusedImages {
 	private static final ConfigurableApplicationContext ctx = new FileSystemXmlApplicationContext(
 			new String[] { Constants.SPRING_CONFIG_FILE });
 
-	static Statement st = null;
-
-	static Statement stFan = null;
-	static {
-		try {
-			st = ((DataSource) ctx.getBean("dataSource")).getConnection()
-					.createStatement();
-			stFan = ((DataSource) ctx.getBean("dataSourceFanti"))
-					.getConnection().createStatement();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
 	/**
 	 * @param args
 	 * @throws SQLException
@@ -49,29 +33,40 @@ public class RemoveUnusedImages {
 		for (File thisFile : files) {
 			if (thisFile.isDirectory()) {
 				checkImages(thisFile.getAbsolutePath());
-			}
-			String name = thisFile.getName();
-			String namesmall = name.toLowerCase();
-			// ÷ªºÏ≤‚Õº∆¨
-			if (!(namesmall.endsWith("jpg") || namesmall.endsWith("png")
-					|| namesmall.endsWith("bmp") || namesmall.endsWith("gif"))) {
-				return;
-			}
-			ResultSet rs = st
-					.executeQuery("select aid from renrenaddonarticle where body like '%"
-							+ name + "%'");
-			boolean delete = false;
-			if (!rs.next()) {
-				ResultSet rsFan = stFan
-						.executeQuery("select aid from renrenfanti_addonarticle where body like '%"
-								+ name + "%'");
-				if (!rsFan.next()) {
-					delete = true;
+			} else {
+				String name = thisFile.getName();
+				String namesmall = name.toLowerCase();
+				// ÷ªºÏ≤‚Õº∆¨
+				if (!(namesmall.endsWith("jpg") || namesmall.endsWith("png")
+						|| namesmall.endsWith("bmp") || namesmall
+						.endsWith("gif"))) {
+					return;
 				}
-			}
-			if (delete) {
-				System.out.println("delete " + thisFile.getAbsolutePath());
-				thisFile.delete();
+				Statement st = ((DataSource) ctx.getBean("dataSource"))
+						.getConnection().createStatement();
+
+				ResultSet rs = st
+						.executeQuery("select aid from renrenaddonarticle where body like '%"
+								+ name + "%'");
+				boolean delete = false;
+				if (!rs.next()) {
+					Statement stFan = ((DataSource) ctx
+							.getBean("dataSourceFanti")).getConnection()
+							.createStatement();
+					ResultSet rsFan = stFan
+							.executeQuery("select aid from renrenfanti_addonarticle where body like '%"
+									+ name + "%'");
+					if (!rsFan.next()) {
+						delete = true;
+					}
+					stFan.close();
+				}
+				if (delete) {
+					System.out.println("delete " + thisFile.getAbsolutePath());
+					thisFile.delete();
+				}
+				st.close();
+
 			}
 		}
 	}
