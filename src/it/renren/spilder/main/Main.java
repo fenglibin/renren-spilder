@@ -29,6 +29,7 @@ package it.renren.spilder.main;
  * desc="是否保留原获取网页的文件名"> <Value> <![CDATA[true]]> </Value> </KeepFileName> </Child> </Rules>
  */
 
+import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.log.Log4j;
 
 import java.io.File;
@@ -43,9 +44,8 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  */
 public class Main {
 
-    private static Log4j                                log4j = new Log4j(Main.class.getName());
-    private static final ConfigurableApplicationContext ctx   = new FileSystemXmlApplicationContext(
-                                                                                                    new String[] { Constants.SPRING_CONFIG_FILE });
+    private static Log4j                          log4j = new Log4j(Main.class.getName());
+    private static ConfigurableApplicationContext ctx   = null;
 
     /**
      * 系统运行参数 类Main.java的实现描述：TODO 类实现描述
@@ -66,6 +66,8 @@ public class Main {
         private String  oneFileSleepTime = "";
         // 所有配置执行完成后，下次再次执行的等待时间,以毫秒为单位
         private String  loopSleepTime    = "";
+        // Spring的配置文件路径
+        private String  springConfigFile;
 
         public boolean isFile() {
             return isFile;
@@ -124,6 +126,15 @@ public class Main {
         public void setCheckConfigFile(boolean checkConfigFile) {
             Environment.checkConfigFile = checkConfigFile;
         }
+
+        public String getSpringConfigFile() {
+            return springConfigFile;
+        }
+
+        public void setSpringConfigFile(String springConfigFile) {
+            this.springConfigFile = springConfigFile;
+        }
+
     }
 
     /**
@@ -154,6 +165,8 @@ public class Main {
                 param.setDealOnePage(Boolean.TRUE);
             } else if (value.startsWith("-check")) {// 用于表示测试该分类下面的配置文件是否能够正常工作，关位进行数据库的操作，并且一个配置文件只检测一条记录
                 param.setCheckConfigFile(Boolean.TRUE);
+            } else if (value.startsWith("-spring")) {// 指定SPRING的配置文件
+                param.setSpringConfigFile(value.replace("-spring", ""));
             }
 
         }
@@ -165,11 +178,17 @@ public class Main {
         Main main = new Main();
         Main.Param param = main.new Param();
         param = main.initParameters(args);
+        String springConfigFile = param.getSpringConfigFile();
+        if (StringUtil.isNull(springConfigFile)) {
+            springConfigFile = Constants.SPRING_CONFIG_FILE;
+        }
+        ctx = new FileSystemXmlApplicationContext(new String[] { springConfigFile });
         if (args.length == 0) {
             args = new String[1];
             // 文件测试
             param.setFile(true);
-            param.setFileName("/home/fenglibin/proc/renren-spilder/config/blog.51cto.com/rule_helpdesk.blog.51cto.com.xml");
+            // param.setFileName("/home/fenglibin/proc/renren-spilder/config/blog.51cto.com/rule_helpdesk.blog.51cto.com.xml");
+            param.setFileName("c:/rule_dzone_com_java.xml");
             // 文件夹测试
             // param.setDirectory(true);
             // param.setDirectoryName("config");

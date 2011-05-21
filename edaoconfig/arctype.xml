@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Arctype">
+	<typeAlias alias="TA-ARCTYPE" type="it.renren.spilder.dataobject.ArctypeDO"/>
+	<resultMap id="RM-ARCTYPE" class="TA-ARCTYPE">
+		<result property="id"           javaType="java.lang.Integer"  		jdbcType="NUMERIC"    	column="id" />
+		<result property="typename"     javaType="java.lang.String"  		jdbcType="VARCHAR"    	column="typename" />
+	</resultMap>
+	
+	<select id="Select_All_Arctype" parameterClass="TA-ARCTYPE" resultMap="RM-ARCTYPE">
+		<![CDATA[
+			select id,typename from e_arctype
+		]]>
+	</select>
+</sqlMap>

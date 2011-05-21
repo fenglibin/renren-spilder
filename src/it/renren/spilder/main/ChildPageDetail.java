@@ -9,9 +9,9 @@ public class ChildPageDetail {
     /* 描述 */
     private String  description;
     /* 作者 */
-    private String  author        = "互联网";
+    private String  author        = "Internet";
     /* 文章来源 */
-    private String  source        = "互联网";
+    private String  source        = "Internet";
     /* 文章内容 */
     private String  content;
     /* 当前文章获取的URL地址 */
@@ -115,5 +115,20 @@ public class ChildPageDetail {
         detail.title = title;
         detail.url = url;
         return detail;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder("");
+        sb.append("title = ").append(title).append(",");
+        sb.append("keywords = ").append(keywords).append(",");
+        sb.append("description = ").append(description).append(",");
+        sb.append("author = ").append(author).append(",");
+        sb.append("source = ").append(source).append(",");
+        sb.append("content = ").append(content).append(",");
+        sb.append("url = ").append(url).append(",");
+        sb.append("isPicArticle = ").append(isPicArticle).append(",");
+        sb.append("litpicAddress = ").append(litpicAddress).append(",");
+        sb.append("fileName = ").append(fileName);
+        return sb.toString();
     }
 }

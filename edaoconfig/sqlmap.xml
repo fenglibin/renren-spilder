@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<settings cacheModelsEnabled="true" enhancementEnabled="false" lazyLoadingEnabled="false" maxRequests="3000" maxSessions="3000" maxTransactions="3000" useStatementNamespaces="false"/>
+	<!-- url参数为读取指定的文件 -->
+	<sqlMap url="${baseurl}/arctiny.xml" />
+	<sqlMap url="${baseurl}/archives.xml" />
+	<sqlMap url="${baseurl}/addonarticle.xml" />
+	<sqlMap url="${baseurl}/downurl.xml" />
+	<sqlMap url="${baseurl}/arctype.xml" />
+	<!--  resource指定从类路径中读取
+	<sqlMap resource="headquarters/ibatis/memberSQL.xml"/>
+	-->
+</sqlMapConfig>
