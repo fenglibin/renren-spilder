@@ -177,23 +177,24 @@ public class Main {
         log4j.logDebug("log4jdebuug");
         Main main = new Main();
         Main.Param param = main.new Param();
-        param = main.initParameters(args);
-        String springConfigFile = param.getSpringConfigFile();
-        if (StringUtil.isNull(springConfigFile)) {
-            springConfigFile = Constants.SPRING_CONFIG_FILE;
-        }
-        ctx = new FileSystemXmlApplicationContext(new String[] { springConfigFile });
+        param = main.initParameters(args);        
         if (args.length == 0) {
             args = new String[1];
             // 文件测试
             param.setFile(true);
             // param.setFileName("/home/fenglibin/proc/renren-spilder/config/blog.51cto.com/rule_helpdesk.blog.51cto.com.xml");
             param.setFileName("c:/rule_dzone_com_java.xml");
+            param.setSpringConfigFile("ebeans.xml");
             // 文件夹测试
             // param.setDirectory(true);
             // param.setDirectoryName("config");
             // param.setDealOnePage(true);
         }
+        String springConfigFile = param.getSpringConfigFile();
+        if (StringUtil.isNull(springConfigFile)) {
+            springConfigFile = Constants.SPRING_CONFIG_FILE;
+        }
+        ctx = new FileSystemXmlApplicationContext(new String[] { springConfigFile });
         try {
             main.startWork(param);
         } catch (Exception e) {
