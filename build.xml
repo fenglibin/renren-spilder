@@ -66,6 +66,7 @@
 
 		<jar jarfile="${lib.renren.dir}/renren.it_${name}.jar">
 			<fileset dir="${build.classes}" includes="it/renren/${name}/**" />
+			<fileset dir="${build.classes}" includes="log4j.properties" />
 			<manifest>
 				<attribute name="Built-By" value="${user.name}(${os.name} ${os.arch} ${os.version})" />
 				<attribute name="Main-Class" value="it.renren.spilder.main.Main" />
