@@ -229,7 +229,7 @@ public class TaskExecuter extends Thread {
                         }
                         childContent = replaceContent(childPageConfig, childContent);
                         if (childPageConfig.isAddUrl()) {
-                            childContent = childContent + "<br>via£º" + detail.getUrl();
+                            childContent = childContent + "<br>From£º<a href=\"" + detail.getUrl() + "\" target=\"_blank\">" + detail.getUrl() +"</a>";
                         }
                         detail.setContent(childContent);
                         handleContent(childPageConfig, detail);
