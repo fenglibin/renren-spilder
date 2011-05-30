@@ -246,7 +246,7 @@ public class TaskExecuter extends Thread {
                         }
                     } catch (Exception e) {
                         failedLinks++;
-                        if (failedLinks >= Constants.ONE_CONFIG_FILE_MAX_FAILED_TIMES) {
+                        if (failedLinks >= Constants.ONE_CONFIG_FILE_MAX_FAILED_TIMES && Environment.dealOnePage) {
                             isBreak = Boolean.TRUE;
                         }
                         log4j.logError("处理该URL时发生异常:" + childUrl, e);

@@ -185,6 +185,7 @@ public class Main {
             // param.setFileName("/home/fenglibin/proc/renren-spilder/config/blog.51cto.com/rule_helpdesk.blog.51cto.com.xml");
             param.setFileName("c:/rule_dzone_com_java.xml");
             param.setSpringConfigFile("ebeans.xml");
+            param.setCheckConfigFile(Boolean.TRUE);
             // ÎÄ¼þ¼Ð²âÊÔ
             // param.setDirectory(true);
             // param.setDirectoryName("config");
