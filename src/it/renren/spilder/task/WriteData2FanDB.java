@@ -6,10 +6,12 @@ import it.renren.spilder.dao.AddonarticleDAO;
 import it.renren.spilder.dao.ArchivesDAO;
 import it.renren.spilder.dao.ArctinyDAO;
 import it.renren.spilder.dao.DownurlDAO;
+import it.renren.spilder.dao.FeedbackDAO;
 import it.renren.spilder.dataobject.AddonarticleDO;
 import it.renren.spilder.dataobject.ArchivesDO;
 import it.renren.spilder.dataobject.ArctinyDO;
 import it.renren.spilder.dataobject.DownurlDO;
+import it.renren.spilder.dataobject.FeedbackDO;
 import it.renren.spilder.main.Constants;
 import it.renren.spilder.main.config.ChildPage;
 import it.renren.spilder.main.config.ParentPage;
@@ -27,6 +29,7 @@ public class WriteData2FanDB extends Task {
     AddonarticleDAO      addonarticleDAOFanti;
     DownurlDAO           downurlDAOFanti;
     AutoDetectTypes      autoDetectTypes;
+    FeedbackDAO          feedbackDAOFanti;
 
     public void doTask(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail) throws Exception {
         try {
@@ -81,6 +84,18 @@ public class WriteData2FanDB extends Task {
             addonarticleDO.setTypeid(typeid);
             addonarticleDO.setBody(jian2fan(content));
             addonarticleDAOFanti.insertAddonarticle(addonarticleDO);
+
+            /** 对回复的处理 */
+            if (detailClone.getReplys().size() > 0) {
+                for (String reply : detailClone.getReplys()) {
+                    FeedbackDO feedbackDO = new FeedbackDO();
+                    feedbackDO.setAid(arctinyDO.getId());
+                    feedbackDO.setArctitle(archivesDO.getTitle());
+                    feedbackDO.setTypeid(typeid);
+                    feedbackDO.setMsg(reply);
+                    feedbackDAOFanti.insertFeedback(feedbackDO);
+                }
+            }
             log4j.logDebug("Save oK FANTI");
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e);
