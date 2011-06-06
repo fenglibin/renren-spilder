@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="GB2312"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans default-autowire="byName">	
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-          destroy-method="close">
-          <property name="driverClassName" value="driverClassName" />
-          <property name="url" value="url" />
-          <property name="username" value="username" />
-          <property name="password" value="password" />
-	</bean>
+
 	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
 		<property name="configLocation">
 			<value>edaoconfig/sqlmap.xml</value>
@@ -26,7 +20,7 @@
 			<ref local="dataSource" />
 		</property>
 	</bean>
-	<bean id="taskExecuter" class="it.renren.spilder.main.TaskExecuter" singleton="false">
+	<bean id="taskExecuter" class="it.renren.spilder.main.config.TaskExecuter" singleton="false">
 		<property name="taskList">
 			<list>
 				<bean class="it.renren.spilder.task.WriteData2DB">
@@ -60,6 +54,11 @@
 		</property>
 	</bean>
 	<bean id="arctypeDAO" class="it.renren.spilder.dao.ibatis.IbatisArctypeDAO">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+	<bean id="feedbackDAO" class="it.renren.spilder.dao.ibatis.IbatisFeedbackDAO">
 		<property name="dataSource">
 			<ref local="dataSource" />
 		</property>

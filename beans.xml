@@ -38,7 +38,7 @@
 			<ref local="dataSourceFanti" />
 		</property>
 	</bean>	
-	<bean id="taskExecuter" class="it.renren.spilder.main.TaskExecuter" singleton="false">
+	<bean id="taskExecuter" class="it.renren.spilder.main.config.TaskExecuter" singleton="false">
 		<property name="taskList">
 			<list>
 				<bean class="it.renren.spilder.task.WriteData2DB">
@@ -74,6 +74,11 @@
 		</property>
 	</bean>
 	<bean id="arctypeDAO" class="it.renren.spilder.dao.ibatis.IbatisArctypeDAO">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+	<bean id="feedbackDAO" class="it.renren.spilder.dao.ibatis.IbatisFeedbackDAO">
 		<property name="dataSource">
 			<ref local="dataSource" />
 		</property>
@@ -119,6 +124,16 @@
 		</property>
 	</bean>
 	<bean id="arctypeDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisArctypeDAO">
+		<property name="dataSource">
+			<ref local="dataSourceFanti" />
+		</property>
+		<property name="conditionSuffix">
+			<value>_Fanti</value>
+		</property>
+		<property name="sqlMapClient" ref="sqlMapClientFanti">
+		</property>
+	</bean>
+	<bean id="feedbackDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisFeedbackDAO">
 		<property name="dataSource">
 			<ref local="dataSourceFanti" />
 		</property>
