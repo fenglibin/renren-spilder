@@ -156,28 +156,32 @@ public class StringUtil {
      * 则返回的list结果包括两条记录：tttt 和 ddadfasfsfd.<br>
      * 在获取时，end字符串所处的位置一定要大于start所处的位置，否则不以处理，默认来配对不成功，跳出处理的循环。
      * 
-     * @param content
-     * @param start
-     * @param end
+     * @param content 待获取回复的内容
+     * @param start 一个回复的开始分隔字符串
+     * @param end 一个回复的结束分隔字符串
+     * @param isFirstMainContent 第一项是否主内容，如论坛的内容和回复的分隔符都是一样的，此时在这个址为true的情况下，第一项不做为后回复，后面的才做为回复
      * @return
      */
-    public static List<String> getListFromStart2End(String content, String start, String end) {
+    public static List<String> getListFromStart2End(String content, String start, String end, boolean isFirstMainContent) {
         List<String> replysList = new ArrayList<String>();
         if (content.indexOf(start) < 0) {
             return replysList;
         }
         int index_start = -1;
+        int num = 1;
         while ((index_start = content.indexOf(start)) > 0) {
             content = content.substring(index_start);
             int index_end = content.indexOf(end);
             if (index_end > 0) {
                 String reply = StringUtil.subString(content, start, end);
-                replysList.add(reply);
+                if (!isFirstMainContent || (isFirstMainContent && num > 1)) {
+                    replysList.add(reply);
+                }
                 content = content.substring(content.indexOf(end) + end.length());
             } else {
                 break;
             }
-
+            num++;
         }
         return replysList;
     }

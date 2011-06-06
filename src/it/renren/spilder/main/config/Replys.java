@@ -7,9 +7,10 @@ package it.renren.spilder.main.config;
  */
 public class Replys extends ContentRangeWithReplace {
 
-    private String start;
-    private String end;
-    private Reply  reply = new Reply();
+    private String  start;
+    private String  end;
+    private boolean isFirstMainContent;
+    private Reply   reply = new Reply();
 
     public String getStart() {
         return start;
@@ -25,6 +26,14 @@ public class Replys extends ContentRangeWithReplace {
 
     public void setEnd(String end) {
         this.end = end;
+    }
+
+    public boolean isFirstMainContent() {
+        return isFirstMainContent;
+    }
+
+    public void setFirstMainContent(boolean isFirstMainContent) {
+        this.isFirstMainContent = isFirstMainContent;
     }
 
     public Reply getReply() {

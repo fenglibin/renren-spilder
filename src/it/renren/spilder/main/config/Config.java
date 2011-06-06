@@ -86,6 +86,8 @@ public class Config {
                                                                                                        "/Rules/Child/Content/Replys/Start/Value")));
             childPageConfig.getReplys().setEnd(StringUtil.returnBlankIfNull(JDomUtil.getValueByXpath(ruleXml,
                                                                                                      "/Rules/Child/Content/Replys/End/Value")));
+            childPageConfig.getReplys().setFirstMainContent(StringUtil.returnFalseIfNull(JDomUtil.getValueByXpath(ruleXml,
+                                                                                                                  "/Rules/Child/Content/Replys/IsFirstMainContent/Value")));
             childPageConfig.getReplys().setIssRegularExpression(StringUtil.returnFalseIfNull(JDomUtil.getValueByXpath(ruleXml,
                                                                                                                       "/Rules/Child/Content/Replys/Replace/IsRegularExpression/Value")));
             childPageConfig.getReplys().setFrom(StringUtil.returnBlankIfNull(JDomUtil.getValueByXpath(ruleXml,

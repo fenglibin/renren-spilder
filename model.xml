@@ -165,6 +165,9 @@
 				<End>
 					<Value><![CDATA[<div class="fivestar-static-form-item">]]></Value>
 				</End>
+				<IsFirstMainContent desc="第一项是否主内容，如论坛的内容和回复的分隔符都是一样的，此时在这个址为true的情况下，第一项不做为后回复，后面的才做为回复.默认为false，只可以是true或false">
+					<Value>false</Value>
+				</IsFirstMainContent>
 				<Replace desc="替换内容 可选节点">
 					<IsRegularExpression desc="是否正则表达式 可选节点">
 						<Value>
@@ -182,6 +185,26 @@
 						</Value>
 					</To>
 				</Replace>
+				<Pages desc="回复的页数，可选节点，支持通配置符'(*)'，与下面的Value二选一(注：此功能暂未实现)">
+					<Value>
+						<![CDATA[http://topic.csdn.net/u/20110429/10/97d0f4aa-d388-4ddc-b269-5f94bb69e8b1.html]]>
+					</Value>
+					<WildcastType desc="通配符的类型:1表示数字，2表示a-z的字母">
+						<Value>
+							<![CDATA[1]]>
+						</Value>
+						<Start>
+							<Value>
+								<![CDATA[1]]>
+							</Value>
+						</Start>
+						<End>
+							<Value>
+								<![CDATA[248]]>
+							</Value>
+						</End>
+					</Pages>
+				</BatValues>
 				<Reply desc="针对当前文章的一个回复的处理，这个节点是可选的，如果不配置，则根据主配置Replys节点进行截取，如果有配置，那主配置只是用于获取所有配置的内容，具体的每一个回复根据这个节点的配置来获取">
 					<Start>
 						<Value><![CDATA[<span class='print-link'></span>]]></Value>

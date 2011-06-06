@@ -348,7 +348,7 @@ public class TaskExecuter extends Thread {
                 if (!StringUtil.isNull(childBody)) {
                     replysList = StringUtil.getListFromStart2End(childBody,
                                                                  childPageConfig.getReplys().getReply().getStart(),
-                                                                 childPageConfig.getReplys().getReply().getEnd());
+                                                                 childPageConfig.getReplys().getReply().getEnd(),childPageConfig.getReplys().isFirstMainContent());
                 }
             } else {/* 只配置了主配置，那就根据主配置获取回复内容 */
                 if (!StringUtil.isNull(childBody)) {
@@ -356,7 +356,7 @@ public class TaskExecuter extends Thread {
                                                           childPageConfig.getReplys().getTo(),
                                                           childPageConfig.getReplys().isIssRegularExpression());
                     replysList = StringUtil.getListFromStart2End(childBody, childPageConfig.getReplys().getStart(),
-                                                                 childPageConfig.getReplys().getEnd());
+                                                                 childPageConfig.getReplys().getEnd(),childPageConfig.getReplys().isFirstMainContent());
                 }
             }
 
