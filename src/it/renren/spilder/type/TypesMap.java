@@ -1,6 +1,6 @@
 package it.renren.spilder.type;
 
-import it.renren.spilder.main.ParentPage;
+import it.renren.spilder.main.config.ParentPage;
 
 import java.util.Map;
 

@@ -1,6 +1,6 @@
 package it.renren.spilder.task.handler;
 
-import it.renren.spilder.main.ChildPageDetail;
+import it.renren.spilder.main.detail.ChildPageDetail;
 
 public class TudouContentHandler implements Handler{
 

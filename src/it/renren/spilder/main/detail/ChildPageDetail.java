@@ -1,27 +1,31 @@
-package it.renren.spilder.main;
+package it.renren.spilder.main.detail;
+
+import java.util.List;
 
 public class ChildPageDetail {
 
     /* 标题 */
-    private String  title;
+    private String       title;
     /* 关键字 */
-    private String  keywords;
+    private String       keywords;
     /* 描述 */
-    private String  description;
+    private String       description;
     /* 作者 */
-    private String  author        = "Internet";
+    private String       author        = "Internet";
     /* 文章来源 */
-    private String  source        = "Internet";
+    private String       source        = "Internet";
     /* 文章内容 */
-    private String  content;
+    private String       content;
     /* 当前文章获取的URL地址 */
-    private String  url;
+    private String       url;
     /* 是否包括有图片 */
-    private boolean isPicArticle;
+    private boolean      isPicArticle;
     /* 缩略图的地址 */
-    private String  litpicAddress = "";
+    private String       litpicAddress = "";
     /* 获取内容网页的网页文件名 */
-    private String  fileName      = "";
+    private String       fileName      = "";
+
+    private List<String> replys;
 
     public String getFileName() {
         return fileName;
@@ -115,7 +119,16 @@ public class ChildPageDetail {
         detail.title = title;
         detail.url = url;
         detail.fileName = fileName;
+        detail.replys = replys;
         return detail;
+    }
+
+    public List<String> getReplys() {
+        return replys;
+    }
+
+    public void setReplys(List<String> replys) {
+        this.replys = replys;
     }
 
     public String toString() {

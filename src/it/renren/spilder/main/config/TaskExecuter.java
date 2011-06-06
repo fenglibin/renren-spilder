@@ -1,5 +1,8 @@
-package it.renren.spilder.main;
+package it.renren.spilder.main.config;
 
+import it.renren.spilder.main.Constants;
+import it.renren.spilder.main.Environment;
+import it.renren.spilder.main.detail.ChildPageDetail;
 import it.renren.spilder.parser.AHrefElement;
 import it.renren.spilder.parser.AHrefParser;
 import it.renren.spilder.parser.MetaParser;
@@ -12,15 +15,12 @@ import it.renren.spilder.util.UrlUtil;
 import it.renren.spilder.util.log.Log4j;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.htmlparser.util.ParserException;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.xpath.XPath;
-
-import bsh.EvalError;
 
 public class TaskExecuter extends Thread {
 
@@ -72,76 +72,6 @@ public class TaskExecuter extends Thread {
         }
     }
 
-    private static ParentPage initParentPage(Document ruleXml) throws JDOMException, EvalError {
-        ParentPage parentPageConfig = new ParentPage();
-        parentPageConfig.setCharset(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/Charset/Value"));
-        parentPageConfig.getUrlListPages().setValues((Element) (XPath.selectSingleNode(ruleXml, "/Rules/MainUrl/Values")));
-        parentPageConfig.setImageDescUrl(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/ImageDescUrl/Value"));
-        parentPageConfig.setImageSaveLocation(JDomUtil.getValueByXpath(ruleXml,
-                                                                       "/Rules/MainUrl/ImageSaveLocation/Value"));
-        parentPageConfig.setRandRecommandFrequency(Integer.parseInt(JDomUtil.getValueByXpath(ruleXml,
-                                                                                             "/Rules/MainUrl/Recommend/Value").equals("") ? "0" : JDomUtil.getValueByXpath(ruleXml,
-                                                                                                                                                                           "/Rules/MainUrl/Recommend/Value")));
-        parentPageConfig.setSRcommand(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/SRecommend/Value") == null ? false : Boolean.parseBoolean(JDomUtil.getValueByXpath(ruleXml,
-                                                                                                                                                                           "/Rules/MainUrl/SRecommend/Value")));
-        parentPageConfig.setFilterDownloadUrl(JDomUtil.getValueByXpath(ruleXml,
-                                                                       "/Rules/MainUrl/FilterDownloadUrl/Value") == null ? true : Boolean.parseBoolean(JDomUtil.getValueByXpath(ruleXml,
-                                                                                                                                                                                "/Rules/MainUrl/FilterDownloadUrl/Value")));
-
-        parentPageConfig.getContent().setStartList(XPath.selectNodes(ruleXml, "/Rules/MainUrl/MainRange/Start/Value"));
-        parentPageConfig.getContent().setEndList(XPath.selectNodes(ruleXml, "/Rules/MainUrl/MainRange/End/Value"));
-
-        parentPageConfig.getUrlFilter().setMustInclude(JDomUtil.getValueByXpath(ruleXml,
-                                                                                "/Rules/MainUrl/UrlFilter/MustInclude/Value"));
-        parentPageConfig.getUrlFilter().setMustNotInclude(JDomUtil.getValueByXpath(ruleXml,
-                                                                                   "/Rules/MainUrl/UrlFilter/MustNotInclude/Value"));
-        parentPageConfig.getUrlFilter().setCompByRegex(JDomUtil.getValueByXpath(ruleXml,
-                                                                                "/Rules/MainUrl/UrlFilter/IsCompByRegex/Value") == null ? false : Boolean.parseBoolean(JDomUtil.getValueByXpath(ruleXml,
-                                                                                                                                                                                                "/Rules/MainUrl/UrlFilter/IsCompByRegex/Value")));
-        parentPageConfig.setDesArticleId(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/DesArticleId/Value"));
-        parentPageConfig.setAutoDetectTypeMapClass(JDomUtil.getValueByXpath(ruleXml,
-                                                                            "/Rules/MainUrl/AutoDetect/TypeMapMakeClass") == null ? "" : JDomUtil.getValueByXpath(ruleXml,
-                                                                                                                                                                  "/Rules/MainUrl/AutoDetect/TypeMapMakeClass"));
-        parentPageConfig.setOneUrlSleepTime(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/OneUrlSleepTime/Value") == null ? 0 : Long.parseLong(JDomUtil.getValueByXpath(ruleXml,
-                                                                                                                                                                            "/Rules/MainUrl/OneUrlSleepTime/Value")));
-        parentPageConfig.getTranslater().setFrom(JDomUtil.getValueByXpath(ruleXml,
-                                                                          "/Rules/MainUrl/Translater/From/Value") == null ? "" : JDomUtil.getValueByXpath(ruleXml,
-                                                                                                                                                          "/Rules/MainUrl/Translater/From/Value"));
-        parentPageConfig.getTranslater().setTo(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/Translater/To/Value") == null ? "" : JDomUtil.getValueByXpath(ruleXml,
-                                                                                                                                                               "/Rules/MainUrl/Translater/To/Value"));
-        return parentPageConfig;
-    }
-
-    private static ChildPage initChildPage(Document ruleXml) throws JDOMException {
-        ChildPage childPageConfig = new ChildPage();
-        childPageConfig.setCharset(JDomUtil.getValueByXpath(ruleXml, "/Rules/Child/Charset/Value"));
-        childPageConfig.getTitle().setStart(JDomUtil.getValueByXpathNotTrim(ruleXml, "/Rules/Child/Title/Start/Value"));
-        childPageConfig.getTitle().setEnd(JDomUtil.getValueByXpathNotTrim(ruleXml, "/Rules/Child/Title/End/Value"));
-        childPageConfig.getTitle().setIssRegularExpression(Boolean.parseBoolean(JDomUtil.getValueByXpath(ruleXml,
-                                                                                                         "/Rules/Child/Title/Replace/IsRegularExpression/Value")));
-        childPageConfig.getTitle().setFrom(JDomUtil.getValueByXpath(ruleXml, "/Rules/Child/Title/Replace/From/Value"));
-        childPageConfig.getTitle().setFrom(JDomUtil.getValueByXpath(ruleXml, "/Rules/Child/Title/Replace/To/Value"));
-
-        childPageConfig.getContent().setStartList(XPath.selectNodes(ruleXml, "/Rules/Child/Content/Start/Value"));
-        childPageConfig.getContent().setEndList(XPath.selectNodes(ruleXml, "/Rules/Child/Content/End/Value"));
-
-        childPageConfig.getContent().setIssRegularExpression(Boolean.parseBoolean(JDomUtil.getValueByXpath(ruleXml,
-                                                                                                           "/Rules/Child/Content/Replace/IsRegularExpression/Value")));
-        childPageConfig.getContent().setFrom(JDomUtil.getValueByXpath(ruleXml,
-                                                                      "/Rules/Child/Content/Replace/From/Value"));
-        childPageConfig.getContent().setTo(JDomUtil.getValueByXpath(ruleXml, "/Rules/Child/Content/Replace/To/Value"));
-        childPageConfig.getContent().setWashContent(JDomUtil.getValueByXpath(ruleXml,
-                                                                             "/Rules/Child/Content/WashContent/Value") == null ? "" : JDomUtil.getValueByXpath(ruleXml,
-                                                                                                                                                               "/Rules/Child/Content/WashContent/Value"));
-        childPageConfig.getContent().setHandler(JDomUtil.getValueByXpath(ruleXml, "/Rules/Child/Content/Handler/Value") == null ? "" : JDomUtil.getValueByXpath(ruleXml,
-                                                                                                                                                                "/Rules/Child/Content/Handler/Value"));
-        childPageConfig.setAddUrl(JDomUtil.getValueByXpath(ruleXml, "/Rules/Child/AddUrl/Value") == null ? false : Boolean.parseBoolean(JDomUtil.getValueByXpath(ruleXml,
-                                                                                                                                                                 "/Rules/Child/AddUrl/Value")));
-        childPageConfig.setKeepFileName(JDomUtil.getValueByXpath(ruleXml, "/Rules/Child/KeepFileName/Value") == null ? false : Boolean.parseBoolean(JDomUtil.getValueByXpath(ruleXml,
-                                                                                                                                                                             "/Rules/Child/KeepFileName/Value")));
-        return childPageConfig;
-    }
-
     /**
      * 根据配置文件获取内容
      * 
@@ -150,8 +80,8 @@ public class TaskExecuter extends Thread {
      */
     private void saveFromConfigFile(String configFile) throws Exception {
         Document ruleXml = JDomUtil.getDocument(new File(configFile));
-        ParentPage parentPageConfig = initParentPage(ruleXml);
-        ChildPage childPageConfig = initChildPage(ruleXml);
+        ParentPage parentPageConfig = Config.initParentPage(ruleXml);
+        ChildPage childPageConfig = Config.initChildPage(ruleXml);
         try {
             boolean isBreak = false;
             for (String listPageUrl : parentPageConfig.getUrlListPages().getListPages()) {
@@ -166,7 +96,6 @@ public class TaskExecuter extends Thread {
                     log4j.logError("从 url:" + listPageUrl + "获取得内容发生异常！配置文件为：" + configFile);
                     throw new RuntimeException(e);
                 }
-                // System.out.println(mainContent);
                 try {
                     mainContent = getMainContent(mainContent, parentPageConfig);
                 } catch (Exception e) {
@@ -215,6 +144,7 @@ public class TaskExecuter extends Thread {
                         detail.setContent(childContent);
                         String description = MetaParser.getMetaContent(childBody, childPageConfig.getCharset(),
                                                                        Constants.META_DESCRIPTIONS);
+                        detail.setReplys(getReplyList(childBody, childPageConfig));
                         childBody = null;
                         if (description.equals("") && description.length() >= Constants.CONTENT_LEAST_LENGTH) {/*
                                                                                                                 * 如果没有取得文章描述
@@ -228,7 +158,9 @@ public class TaskExecuter extends Thread {
                         if (detail.getTitle().equals("") || detail.getContent().equals("")) {
                             throw new RuntimeException("处理该URL:" + childUrl + " 时，获取标题或内容为空!");
                         }
-                        childContent = replaceContent(childPageConfig, childContent);
+                        childContent = StringUtil.replaceContent(childContent, childPageConfig.getContent().getFrom(),
+                                                                 childPageConfig.getContent().getTo(),
+                                                                 childPageConfig.getContent().isIssRegularExpression());
                         if (childPageConfig.isAddUrl()) {
                             childContent = childContent + "<br>From：<a href=\"" + detail.getUrl()
                                            + "\" target=\"_blank\">" + detail.getUrl() + "</a>";
@@ -283,30 +215,6 @@ public class TaskExecuter extends Thread {
             }
         }
         return childTitle;
-    }
-
-    /**
-     * 对文章内容进行特殊处理，如文章内容替换，或者通过实现的HANDLER处理
-     * 
-     * @param childPageConfig
-     * @param childContent
-     * @return
-     * @throws InstantiationException
-     * @throws IllegalAccessException
-     * @throws ClassNotFoundException
-     */
-    private static String replaceContent(ChildPage childPageConfig, String childContent) {
-        /* 文章内容替换 */
-        if (!childPageConfig.getContent().getFrom().equals("") && !childPageConfig.getContent().getTo().equals("")) {
-            if (childPageConfig.getContent().isIssRegularExpression()) {
-                childContent = childContent.replaceAll(childPageConfig.getContent().getFrom(),
-                                                       childPageConfig.getContent().getTo());
-            } else {
-                childContent = childContent.replace(childPageConfig.getContent().getFrom(),
-                                                    childPageConfig.getContent().getTo());
-            }
-        }
-        return childContent;
     }
 
     /**
@@ -411,6 +319,50 @@ public class TaskExecuter extends Thread {
             }
         }
         return childContent;
+    }
+
+    /**
+     * 获取回复
+     * 
+     * @param childBody
+     * @param childPageConfig
+     * @return
+     * @throws RuntimeException
+     */
+    private static List<String> getReplyList(String childBody, ChildPage childPageConfig) throws RuntimeException {
+        List<String> replysList = new ArrayList<String>();
+
+        if (!StringUtil.isNull(childPageConfig.getReplys().getStart())
+            && !StringUtil.isNull(childPageConfig.getReplys().getEnd())) {// 判断是否有获取回复的配置
+            if (!StringUtil.isNull(childPageConfig.getReplys().getReply().getStart())
+                && !StringUtil.isNull(childPageConfig.getReplys().getReply().getEnd())) {/*
+                                                                                          * 配置了子回复节点，就根据子回复节点的配置来处理，
+                                                                                          * 主配置用于截取帶有所有回復內容的部份
+                                                                                          * ，而取出每一個回復則在子配置中
+                                                                                          */
+                childBody = StringUtil.subString(childBody, childPageConfig.getReplys().getStart(),
+                                                 childPageConfig.getReplys().getEnd());
+                childBody = StringUtil.replaceContent(childBody, childPageConfig.getReplys().getFrom(),
+                                                      childPageConfig.getReplys().getTo(),
+                                                      childPageConfig.getReplys().isIssRegularExpression());
+                if (!StringUtil.isNull(childBody)) {
+                    replysList = StringUtil.getListFromStart2End(childBody,
+                                                                 childPageConfig.getReplys().getReply().getStart(),
+                                                                 childPageConfig.getReplys().getReply().getEnd());
+                }
+            } else {/* 只配置了主配置，那就根据主配置获取回复内容 */
+                if (!StringUtil.isNull(childBody)) {
+                    childBody = StringUtil.replaceContent(childBody, childPageConfig.getReplys().getFrom(),
+                                                          childPageConfig.getReplys().getTo(),
+                                                          childPageConfig.getReplys().isIssRegularExpression());
+                    replysList = StringUtil.getListFromStart2End(childBody, childPageConfig.getReplys().getStart(),
+                                                                 childPageConfig.getReplys().getEnd());
+                }
+            }
+
+        }
+
+        return replysList;
     }
 
     public List<Task> getTaskList() {

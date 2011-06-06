@@ -1,5 +1,6 @@
 package it.renren.spilder.parser;
 
+import it.renren.spilder.main.Constants;
 import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.UrlUtil;
 import it.renren.spilder.util.log.Log4j;
@@ -133,16 +134,22 @@ public class AHrefParser {
                             }
                         }
                     } else {/* 通过是否含字符串进行比较 */
-                        if (!StringUtil.isNull(urlMustInclude) && href.indexOf(urlMustInclude) >= 0) {
-                            if (!StringUtil.isNull(urlMustNotInclude) && href.indexOf(urlMustNotInclude) < 0) {
-                                ret.add(newAHrefElement(ahrefNode));
-                            } else if (StringUtil.isNull(urlMustNotInclude)) {
-                                ret.add(newAHrefElement(ahrefNode));
+                        if (!StringUtil.isNull(urlMustInclude)) {
+                            if (href.indexOf(urlMustInclude) >= 0) {
+                                if (!StringUtil.isNull(urlMustNotInclude)) {
+                                    if (notIncludeMustNotIncludeCheck(href, urlMustNotInclude)) {
+                                        ret.add(newAHrefElement(ahrefNode));
+                                    }
+                                } else {
+                                    ret.add(newAHrefElement(ahrefNode));
+                                }
                             }
-                        } else if (StringUtil.isNull(urlMustInclude)) {
-                            if (!StringUtil.isNull(urlMustNotInclude) && href.indexOf(urlMustNotInclude) < 0) {
-                                ret.add(newAHrefElement(ahrefNode));
-                            } else if (StringUtil.isNull(urlMustNotInclude)) {
+                        } else {
+                            if (!StringUtil.isNull(urlMustNotInclude)) {
+                                if (notIncludeMustNotIncludeCheck(href, urlMustNotInclude)) {
+                                    ret.add(newAHrefElement(ahrefNode));
+                                }
+                            } else {
                                 ret.add(newAHrefElement(ahrefNode));
                             }
                         }
@@ -154,11 +161,37 @@ public class AHrefParser {
         return ret;
     }
 
+    /**
+     * 根据LinkTag返回一个链接标签
+     * 
+     * @param linkTag
+     * @return
+     */
     private static AHrefElement newAHrefElement(LinkTag linkTag) {
         AHrefElement fe = new AHrefElement();
         fe.setHref(linkTag.getAttribute("HREF").trim());
         fe.setHrefText(linkTag.getLinkText().trim());
         return fe;
+    }
+
+    /**
+     * 检测当前的URL是否没有包括不允许包括的字符串
+     * 
+     * @param href 被检测的URL
+     * @param urlMustNotInclude 不允许包含的字符串，可以是多个，以逗号","为分隔符
+     * @return 没有包括返回true，有包括返回false
+     */
+    private static boolean notIncludeMustNotIncludeCheck(String href, String urlMustNotInclude) {
+        boolean checkResult = true;
+        // 多对外不能够包括的字符进行处理
+        String[] urlMustNotIncludeArray = urlMustNotInclude.split(Constants.COMMA);
+        for (String oneMustNotInclude : urlMustNotIncludeArray) {
+            if (href.indexOf(oneMustNotInclude) > 0) {
+                checkResult = Boolean.FALSE;
+                break;
+            }
+        }
+        return checkResult;
     }
 
     public static void main(String[] args) throws IOException, ParserException {

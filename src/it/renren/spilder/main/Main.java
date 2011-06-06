@@ -29,6 +29,7 @@ package it.renren.spilder.main;
  * desc="是否保留原获取网页的文件名"> <Value> <![CDATA[true]]> </Value> </KeepFileName> </Child> </Rules>
  */
 
+import it.renren.spilder.main.config.TaskExecuter;
 import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.log.Log4j;
 
@@ -183,7 +184,7 @@ public class Main {
             // 文件测试
             param.setFile(true);
             // param.setFileName("/home/fenglibin/proc/renren-spilder/config/blog.51cto.com/rule_helpdesk.blog.51cto.com.xml");
-            param.setFileName("c:/rule_dzone_com_java.xml");
+            param.setFileName("c:/rule_blog_yufeng_info.xml");
             param.setSpringConfigFile("ebeans.xml");
             param.setCheckConfigFile(Boolean.TRUE);
             // 文件夹测试

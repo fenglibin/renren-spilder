@@ -156,8 +156,58 @@
 				</Value>
 			</WashContent>
 			<Handler desc="处理文章内容的Handler实现类，用于有些文章需要特殊处理，该类需要继承接口it.renren.spilder.task.handler.Handler【可选】">
-				<value></value>
+				<Value></Value>
 			</Handler>
+			<Replys desc="针对当前文章所有回复的处理">
+				<Start>
+					<Value><![CDATA[<span class='print-link'></span>]]></Value>
+				</Start>
+				<End>
+					<Value><![CDATA[<div class="fivestar-static-form-item">]]></Value>
+				</End>
+				<Replace desc="替换内容 可选节点">
+					<IsRegularExpression desc="是否正则表达式 可选节点">
+						<Value>
+							<![CDATA[false]]>
+						</Value>
+					</IsRegularExpression>
+					<From desc="原内容">
+						<Value>
+							<![CDATA[]]>
+						</Value>
+					</From>
+					<To desc="目标内容">
+						<Value>
+							<![CDATA[]]>
+						</Value>
+					</To>
+				</Replace>
+				<Reply desc="针对当前文章的一个回复的处理，这个节点是可选的，如果不配置，则根据主配置Replys节点进行截取，如果有配置，那主配置只是用于获取所有配置的内容，具体的每一个回复根据这个节点的配置来获取">
+					<Start>
+						<Value><![CDATA[<span class='print-link'></span>]]></Value>
+					</Start>
+					<End>
+						<Value><![CDATA[<div class="fivestar-static-form-item">]]></Value>
+					</End>
+					<Replace desc="替换内容 可选节点">
+						<IsRegularExpression desc="是否正则表达式 可选节点">
+							<Value>
+								<![CDATA[false]]>
+							</Value>
+						</IsRegularExpression>
+						<From desc="原内容">
+							<Value>
+								<![CDATA[]]>
+							</Value>
+						</From>
+						<To desc="目标内容">
+							<Value>
+								<![CDATA[]]>
+							</Value>
+						</To>
+					</Replace>
+				</Reply>
+			</Replys>
 		</Content>
 		<AddUrl desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false【可选】">
 			<Value>

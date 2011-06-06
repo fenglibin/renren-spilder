@@ -2,10 +2,10 @@ package it.renren.spilder.task;
 
 import java.sql.SQLException;
 
-import it.renren.spilder.main.ChildPage;
-import it.renren.spilder.main.ChildPageDetail;
 import it.renren.spilder.main.Constants;
-import it.renren.spilder.main.ParentPage;
+import it.renren.spilder.main.config.ChildPage;
+import it.renren.spilder.main.config.ParentPage;
+import it.renren.spilder.main.detail.ChildPageDetail;
 
 public abstract class Task {
 

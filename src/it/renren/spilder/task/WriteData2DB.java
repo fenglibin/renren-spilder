@@ -6,13 +6,15 @@ import it.renren.spilder.dao.AddonarticleDAO;
 import it.renren.spilder.dao.ArchivesDAO;
 import it.renren.spilder.dao.ArctinyDAO;
 import it.renren.spilder.dao.DownurlDAO;
+import it.renren.spilder.dao.FeedbackDAO;
 import it.renren.spilder.dataobject.AddonarticleDO;
 import it.renren.spilder.dataobject.ArchivesDO;
 import it.renren.spilder.dataobject.ArctinyDO;
 import it.renren.spilder.dataobject.DownurlDO;
-import it.renren.spilder.main.ChildPage;
-import it.renren.spilder.main.ChildPageDetail;
-import it.renren.spilder.main.ParentPage;
+import it.renren.spilder.dataobject.FeedbackDO;
+import it.renren.spilder.main.config.ChildPage;
+import it.renren.spilder.main.config.ParentPage;
+import it.renren.spilder.main.detail.ChildPageDetail;
 import it.renren.spilder.type.AutoDetectTypes;
 import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.UrlUtil;
@@ -29,19 +31,20 @@ public class WriteData2DB extends Task {
     AddonarticleDAO      addonarticleDAO;
     DownurlDAO           downurlDAO;
     AutoDetectTypes      autoDetectTypes;
+    FeedbackDAO          feedbackDAO;
 
     public void doTask(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail) throws Exception {
         try {
             ChildPageDetail detailClone = detail.clone();
             saveDownUrl(parentPageConfig, detailClone);
-            
-            //保存图片
+
+            // 保存图片
             String content = UrlUtil.saveImages(parentPageConfig, childPageConfig, detailClone);
             /**
              * 将图片地址替换后的内容，设置到DETAIL对象中，这样在繁体中可以使用。因为繁体保存中不能够再次保存图片，只能够将修改图片地址的内容给传回去
              */
             detail.setContent(content);
-            
+
             translate(parentPageConfig, detailClone);
             dealedArticleNum++;
             log4j.logDebug("开始保存:" + detailClone.getUrl());
@@ -85,6 +88,17 @@ public class WriteData2DB extends Task {
             addonarticleDO.setTypeid(typeid);
             addonarticleDO.setBody(content);
             addonarticleDAO.insertAddonarticle(addonarticleDO);
+            /** 对回复的处理 */
+            if (detailClone.getReplys().size() > 0) {
+                for (String reply : detailClone.getReplys()) {
+                    FeedbackDO feedbackDO = new FeedbackDO();
+                    feedbackDO.setAid(arctinyDO.getId());
+                    feedbackDO.setArctitle(archivesDO.getTitle());
+                    feedbackDO.setTypeid(typeid);
+                    feedbackDO.setMsg(reply);
+                    feedbackDAO.insertFeedback(feedbackDO);
+                }
+            }
             log4j.logDebug("Save OK.");
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e);
@@ -146,4 +160,9 @@ public class WriteData2DB extends Task {
     public void setAutoDetectTypes(AutoDetectTypes autoDetectTypes) {
         this.autoDetectTypes = autoDetectTypes;
     }
+
+    public void setFeedbackDAO(FeedbackDAO feedbackDAO) {
+        this.feedbackDAO = feedbackDAO;
+    }
+
 }

@@ -2,7 +2,7 @@ package it.renren.spilder.type;
 
 import it.renren.spilder.dao.ArctypeDAO;
 import it.renren.spilder.dataobject.ArctypeDO;
-import it.renren.spilder.main.ParentPage;
+import it.renren.spilder.main.config.ParentPage;
 import it.renren.spilder.util.log.Log4j;
 
 import java.util.HashMap;

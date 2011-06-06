@@ -1,4 +1,4 @@
-package it.renren.spilder.main;
+package it.renren.spilder.main.config;
 
 public class ChildPage {
 
@@ -10,6 +10,7 @@ public class ChildPage {
     private Content      content;
     private boolean      isAddUrl;
     private boolean      isKeepFileName;
+    private Replys       replys = new Replys();
 
     public boolean isKeepFileName() {
         return isKeepFileName;
@@ -70,4 +71,9 @@ public class ChildPage {
     public void setAddUrl(boolean isAddUrl) {
         this.isAddUrl = isAddUrl;
     }
+
+    public Replys getReplys() {
+        return replys;
+    }
+
 }

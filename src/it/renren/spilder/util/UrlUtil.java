@@ -1,9 +1,9 @@
 package it.renren.spilder.util;
 
-import it.renren.spilder.main.ChildPage;
-import it.renren.spilder.main.ChildPageDetail;
 import it.renren.spilder.main.Constants;
-import it.renren.spilder.main.ParentPage;
+import it.renren.spilder.main.config.ChildPage;
+import it.renren.spilder.main.config.ParentPage;
+import it.renren.spilder.main.detail.ChildPageDetail;
 import it.renren.spilder.parser.ImageElement;
 import it.renren.spilder.parser.ImageParser;
 import it.renren.spilder.util.log.Log4j;

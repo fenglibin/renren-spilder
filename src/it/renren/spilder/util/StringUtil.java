@@ -1,5 +1,8 @@
 package it.renren.spilder.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.renren.spilder.util.log.Log4j;
 
 public class StringUtil {
@@ -123,5 +126,79 @@ public class StringUtil {
         }
 
         return str.substring(0, pos);
+    }
+
+    /**
+     * 如果传入的值为null，则返回""，否则返回原值
+     * 
+     * @param str
+     * @return
+     */
+    public static String returnBlankIfNull(String str) {
+        return str == null ? "" : str;
+    }
+
+    /**
+     * 如果传入的值为null，则返回false，否则返回相应的boolean值
+     * 
+     * @param str
+     * @return
+     */
+    public static Boolean returnFalseIfNull(String str) {
+        return str == null ? Boolean.FALSE : Boolean.parseBoolean(str);
+    }
+
+    /**
+     * 从给定的内容content中获取给定的start字符串到end字符串的所有内容，其中start和end的配对可以是多处，最终以List结果返回。<br>
+     * 如给定的内容content为：adfadfsdfasBBttttCCxaafdsfdsBBddadfasfsfdCCxxxx，<br>
+     * start为:BB<br>
+     * end为：CC<br>
+     * 则返回的list结果包括两条记录：tttt 和 ddadfasfsfd.<br>
+     * 在获取时，end字符串所处的位置一定要大于start所处的位置，否则不以处理，默认来配对不成功，跳出处理的循环。
+     * 
+     * @param content
+     * @param start
+     * @param end
+     * @return
+     */
+    public static List<String> getListFromStart2End(String content, String start, String end) {
+        List<String> replysList = new ArrayList<String>();
+        if (content.indexOf(start) < 0) {
+            return replysList;
+        }
+        int index_start = -1;
+        while ((index_start = content.indexOf(start)) > 0) {
+            content = content.substring(index_start);
+            int index_end = content.indexOf(end);
+            if (index_end > 0) {
+                String reply = StringUtil.subString(content, start, end);
+                replysList.add(reply);
+                content = content.substring(content.indexOf(end) + end.length());
+            } else {
+                break;
+            }
+
+        }
+        return replysList;
+    }
+
+    /**
+     * 对文章内容进行特殊处理，如文章内容替换，或者也通过实现的HANDLER处理，Handler需要实现接口{@link it.renren.spilder.task.handler.Handler Handler}
+     * 
+     * @param content
+     * @param from
+     * @param to
+     * @param isIssRegularExpression
+     * @return
+     */
+    public static String replaceContent(String content, String from, String to, boolean isIssRegularExpression) {
+        if (!from.equals("") && !to.equals("")) {
+            if (isIssRegularExpression) {
+                content = content.replaceAll(from, to);
+            } else {
+                content = content.replace(from, to);
+            }
+        }
+        return content;
     }
 }

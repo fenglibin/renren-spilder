@@ -1,7 +1,7 @@
 package it.renren.spilder.type;
 
-import it.renren.spilder.main.ChildPageDetail;
-import it.renren.spilder.main.ParentPage;
+import it.renren.spilder.main.config.ParentPage;
+import it.renren.spilder.main.detail.ChildPageDetail;
 import it.renren.spilder.util.StringUtil;
 
 import java.util.Iterator;

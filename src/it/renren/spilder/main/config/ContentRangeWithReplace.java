@@ -1,4 +1,5 @@
-package it.renren.spilder.main;
+package it.renren.spilder.main.config;
+
 
 public class ContentRangeWithReplace extends ContentRange {
 

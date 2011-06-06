@@ -1,5 +1,8 @@
-package it.renren.spilder.main;
+package it.renren.spilder.main.config;
 
+import it.renren.spilder.main.Constants;
+import it.renren.spilder.main.Environment;
+import it.renren.spilder.main.Translater;
 import it.renren.spilder.util.BshUtil;
 import it.renren.spilder.util.StringUtil;
 

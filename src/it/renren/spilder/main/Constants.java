@@ -49,4 +49,5 @@ public class Constants {
     public static final String SPRING_CONFIG_FILE                   = "beans.xml";
     // 根据一个配置文件处理时，如果其中处理失败的链接大于等于了当前设置值，就退出该配置文件的处理，因为后面的处理多半也是失败的，如已经处理过了
     public static final int    ONE_CONFIG_FILE_MAX_FAILED_TIMES     = 3;
+    public static final String COMMA                                = ",";
 }
