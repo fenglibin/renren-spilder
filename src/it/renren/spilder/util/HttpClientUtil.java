@@ -57,9 +57,39 @@ public class HttpClientUtil {
         return client;
     }
 
+    /**
+     * 通过get方法获取网页内容，通过代理的方式
+     * 
+     * @param url 获取内容的URL
+     * @param encode 待获取内容的编码
+     * @return 根据当前的URL，获取到的网页的内容
+     */
     // 通过get方法获取网页内容
     public static String getGetResponseWithHttpClient(String url, String encode) {
+        return getGetResponseWithHttpClient(url, encode, true);
+    }
+
+    /**
+     * 通过get方法获取网页内容
+     * 
+     * @param url 获取内容的URL
+     * @param encode 待获取内容的编码
+     * @param byProxy 是否通过代理的方式
+     * @return 根据当前的URL，获取到的网页的内容
+     */
+    public static String getGetResponseWithHttpClient(String url, String encode, boolean byProxy) {
         HttpClient client = new HttpClient(manager);
+        if (byProxy) {
+            // 设置代理开始
+            String proxy = ProxyServerUtil.getRandomProxy();
+            if (!StringUtil.isNull(proxy)) {
+                String[] hostArray = proxy.split(":");
+                client.getHostConfiguration().setProxy(hostArray[0], Integer.parseInt(hostArray[1]));
+                client.getParams().setAuthenticationPreemptive(true);
+            }
+            // 设置代理结束
+        }
+
         List<Header> headers = new ArrayList<Header>();
         headers.add(new Header("User-Agent", "Mozilla/3.0 (compatible; MSIE 6.0; Windows NT 6.1)"));
         client.getHostConfiguration().getParams().setParameter("http.default-headers", headers);

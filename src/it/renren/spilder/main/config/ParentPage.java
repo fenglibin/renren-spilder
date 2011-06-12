@@ -115,7 +115,11 @@ public class ParentPage {
                 s2 = BshUtil.eval(s2).toString();
                 url = batBaseUrl.replace(s1, s2);
             } else {
-                url = batBaseUrl.replace("(*)", index);
+                if (Integer.parseInt(index) == 1 && batBaseUrl.indexOf("www.iteye.com") > 0) {// 对ITEYE的第一页做特殊处理，因为ITEYE的第一页不能够使用页码了，否则会被循环跳转转，这只是一个临时的解决方案，后面通过修改配置处理
+                    url = batBaseUrl.replace("?page=(*)", "");
+                } else {
+                    url = batBaseUrl.replace("(*)", index);
+                }
             }
             if (url.indexOf("urlencode(") > 0) {
                 String cnwords = StringUtil.subString(url, "urlencode(", ")");

@@ -99,7 +99,7 @@ public class TaskExecuter extends Thread {
                 try {
                     mainContent = getMainContent(mainContent, parentPageConfig);
                 } catch (Exception e) {
-                    log4j.logError("从 url:" + listPageUrl + "中截取得需要的内容发生异常！配置文件为：" + configFile);
+                    log4j.logError("从 url:" + listPageUrl + "中截取得需要的内容发生异常！配置文件为：" + configFile+"。\n获取到的内容为："+mainContent);
                     throw new RuntimeException(e);
                 }
                 List<AHrefElement> childLinks = AHrefParser.ahrefParser(mainContent,
