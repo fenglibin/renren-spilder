@@ -146,7 +146,7 @@ public class TaskExecuter extends Thread {
                                                                        Constants.META_DESCRIPTIONS);
                         detail.setReplys(getReplyList(childBody, childPageConfig));
                         childBody = null;
-                        if (description.equals("") && description.length() >= Constants.CONTENT_LEAST_LENGTH) {/*
+                        if (description.equals("") || description.length() >= Constants.CONTENT_LEAST_LENGTH) {/*
                                                                                                                 * 如果没有取得文章描述
                                                                                                                 * ，
                                                                                                                 * 就取文章内容的前100个字符为描述

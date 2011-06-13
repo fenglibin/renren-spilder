@@ -185,7 +185,7 @@ public class Main {
             param.setFile(true);
             // param.setFileName("/home/fenglibin/proc/renren-spilder/config/blog.51cto.com/rule_helpdesk.blog.51cto.com.xml");
             param.setFileName("c:/rule_blog_yufeng_info.xml");
-            param.setFileName("E:/work/mywork/renren-spilder/config/javaeye.com/1/rule_javaeye_blog_database_Database.xml");
+            param.setFileName("E:/work/mywork/renren-spilder/config/blog.51cto.com/1/rule_51flash.blog.51cto.com.xml");
             param.setSpringConfigFile("beans.xml");
             param.setCheckConfigFile(Boolean.TRUE);
             // ÎÄ¼þ¼Ð²âÊÔ

@@ -1,6 +1,9 @@
 package it.renren.spilder.util.other;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.apache.commons.httpclient.HttpException;
 
 import it.renren.spilder.parser.AHrefElement;
 import it.renren.spilder.parser.AHrefParser;
@@ -20,8 +23,10 @@ public class Make51CTORecommandBlog {
 
     /**
      * @param args
+     * @throws IOException 
+     * @throws HttpException 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws HttpException, IOException {
         // TODO Auto-generated method stub
         String blogs_html = "http://blog.51cto.com/blogcommend/3/";
         String filename = "E:/work/mywork/renren-spilder/config/blog.51cto.com/rule_#.xml";

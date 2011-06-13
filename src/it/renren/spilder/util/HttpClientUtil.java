@@ -4,12 +4,14 @@ import it.renren.spilder.util.log.Log4j;
 
 import java.io.BufferedReader;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -63,9 +65,11 @@ public class HttpClientUtil {
      * @param url 获取内容的URL
      * @param encode 待获取内容的编码
      * @return 根据当前的URL，获取到的网页的内容
+     * @throws IOException 
+     * @throws HttpException 
      */
     // 通过get方法获取网页内容
-    public static String getGetResponseWithHttpClient(String url, String encode) {
+    public static String getGetResponseWithHttpClient(String url, String encode) throws HttpException, IOException {
         return getGetResponseWithHttpClient(url, encode, true);
     }
 
@@ -76,8 +80,10 @@ public class HttpClientUtil {
      * @param encode 待获取内容的编码
      * @param byProxy 是否通过代理的方式
      * @return 根据当前的URL，获取到的网页的内容
+     * @throws IOException 
+     * @throws HttpException 
      */
-    public static String getGetResponseWithHttpClient(String url, String encode, boolean byProxy) {
+    public static String getGetResponseWithHttpClient(String url, String encode, boolean byProxy) throws HttpException, IOException {
         HttpClient client = new HttpClient(manager);
         if (byProxy) {
             // 设置代理开始
@@ -124,10 +130,7 @@ public class HttpClientUtil {
 
             // iso-8859-1 is the default reading encode
             result = HttpClientUtil.ConverterStringCode(resultBuffer.toString(), get.getResponseCharSet(), encode);
-        } catch (Exception e) {
-            log4j.logError(e);
 
-            result = "";
         } finally {
             get.releaseConnection();
 
@@ -216,22 +219,14 @@ public class HttpClientUtil {
         return result;
     }
 
-    private static String ConverterStringCode(String source, String srcEncode, String destEncode) {
-        if (source != null) {
-            try {
-                return new String(source.getBytes(srcEncode), destEncode);
-            } catch (UnsupportedEncodingException e) {
-                // TODO Auto-generated catch block
-                log4j.logError(e);
-                return "";
-            }
-        } else {
-            return "";
+    private static String ConverterStringCode(String source, String srcEncode, String destEncode)
+                                                                                                 throws UnsupportedEncodingException {
 
-        }
+        return new String(source.getBytes(srcEncode), destEncode);
+
     }
 
-    public static void main(String[] arg) {
+    public static void main(String[] arg) throws HttpException, IOException {
         String content = getGetResponseWithHttpClient("http://www.ibm.com", "gbk");
         log4j.logDebug(content);
     }

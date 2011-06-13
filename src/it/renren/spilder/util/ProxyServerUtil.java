@@ -1,6 +1,9 @@
 package it.renren.spilder.util;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.apache.commons.httpclient.HttpException;
 
 /**
  * 类ProxyServerUtil.java的实现描述：获取当前可能代理的工具类
@@ -10,11 +13,8 @@ import java.util.List;
 public class ProxyServerUtil {
 
     private static List<String> proxyServerList;
-    static {
-        initProxyServerList();
-    }
 
-    private static void initProxyServerList() {
+    private static void initProxyServerList() throws HttpException, IOException {
         if (proxyServerList != null) {
             return;
         }
@@ -31,7 +31,7 @@ public class ProxyServerUtil {
 
     }
 
-    public static List<String> getProxyServerList() {
+    public static List<String> getProxyServerList() throws HttpException, IOException {
         if (proxyServerList == null) {
             initProxyServerList();
 
@@ -56,7 +56,11 @@ public class ProxyServerUtil {
         return proxyServerList.get(index);
     }
 
-    public static void main(String[] args) {
+    private void checkProxy() {
+
+    }
+
+    public static void main(String[] args) throws HttpException, IOException {
         getProxyServerList();
         System.out.println("-=");
         System.out.println(getRandomProxy());

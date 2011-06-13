@@ -1,6 +1,9 @@
 package it.renren.spilder.util.other;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.apache.commons.httpclient.HttpException;
 
 import it.renren.spilder.parser.AHrefElement;
 import it.renren.spilder.parser.AHrefParser;
@@ -20,8 +23,10 @@ public class MakeCSDNExport {
 
     /**
      * @param args
+     * @throws IOException 
+     * @throws HttpException 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws HttpException, IOException {
         // TODO Auto-generated method stub
         String csdn_export_html = "http://blog.csdn.net/MoreExpert.html";
         // String filename = "E:/work/mywork/renren-spilder/config/doing/rule_csdn_blog_#_default.xml";
