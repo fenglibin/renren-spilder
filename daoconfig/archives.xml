@@ -50,6 +50,12 @@
 		)
 		]]>
 	</insert>
+	<select id="SELECT_NULL_DESCRIPTION_RECORDS" resultMap="it.renren.spilder.dataobject.ArchivesDO">
+		select id,description from renrenarchives where description=''
+	</select>
+	<update id="UPDATE_DESCRIPTION" parameterClass="TA-ARCHIVES">
+		update renrenarchives set description=#description# where id=#id#
+	</update>
 	<insert id="Insert_Archives_Fanti" parameterClass="TA-ARCHIVES">
 		<![CDATA[
 		INSERT INTO renrenfanti_archives(id,typeid,ismake,channel,click,title,writer,source,pubdate,senddate,sortrank,mid,keywords,description,weight,dutyadmin,flag,litpic,filename)
@@ -76,4 +82,10 @@
 		)
 		]]>
 	</insert>
+	<select id="SELECT_NULL_DESCRIPTION_RECORDS_Fanti" resultMap="it.renren.spilder.dataobject.ArchivesDO">
+		select id,description from renrenfanti_archives where description=''
+	</select>
+	<update id="UPDATE_DESCRIPTION_Fanti" parameterClass="TA-ARCHIVES">
+		update renrenfanti_archives set description=#description# where id=#id#
+	</update>
 </sqlMap>

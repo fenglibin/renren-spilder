@@ -51,29 +51,25 @@ public class WriteData2DB extends Task {
             int typeid = autoDetectTypes.detectType(parentPageConfig, detailClone);
             ArctinyDO arctinyDO = new ArctinyDO();
 
-            int tempTypeId = (int) (Math.random() * 1000) + 9999;/* 临时ID，主要用于获取当前插入的自增ID */
-            arctinyDO.setTypeid(tempTypeId);
-            arctinyDAO.insertArctiny(arctinyDO);
-            // 将插入的自增ID给查询出来
-            arctinyDO = arctinyDAO.selectArctinyByTypeId(arctinyDO);
             arctinyDO.setTypeid(typeid);
-            arctinyDAO.updateArctinyTypeidById(arctinyDO);
+            int arctinyId = Integer.parseInt(arctinyDAO.insertArctiny(arctinyDO).toString());
 
             String flag = getFlag(parentPageConfig, detailClone);
 
             String litpic = detailClone.getLitpicAddress();// 缩略图地址
 
             ArchivesDO archivesDO = new ArchivesDO();
-            archivesDO.setId(arctinyDO.getId());
+            archivesDO.setId(arctinyId);
             archivesDO.setTypeid(typeid);
             archivesDO.setTitle(detailClone.getTitle().length() > 100 ? detailClone.getTitle().substring(0, 99) : detailClone.getTitle());
             archivesDO.setKeywords(detailClone.getKeywords().length() > 30 ? detailClone.getKeywords().substring(0, 29) : detailClone.getKeywords());
-            archivesDO.setDescription(detailClone.getDescription().length() > 255 ? detailClone.getDescription().substring(0,
+            archivesDO.setDescription(detailClone.getDescription().length() > 255 ? detailClone.getDescription().substring(
+                                                                                                                           0,
                                                                                                                            254) : detailClone.getDescription());
             archivesDO.setClick((int) (1000 * Math.random()));
             archivesDO.setWriter(detailClone.getAuthor());
             archivesDO.setSource(detailClone.getSource());
-            archivesDO.setWeight(arctinyDO.getId());
+            archivesDO.setWeight(arctinyId);
             archivesDO.setDutyadmin(1);
             archivesDO.setFlag(flag);
             archivesDO.setLitpic(litpic);
@@ -84,7 +80,7 @@ public class WriteData2DB extends Task {
                 content = WashUtil.washData(content, childPageConfig.getContent().getWashContent());
             }
             AddonarticleDO addonarticleDO = new AddonarticleDO();
-            addonarticleDO.setAid(arctinyDO.getId());
+            addonarticleDO.setAid(arctinyId);
             addonarticleDO.setTypeid(typeid);
             addonarticleDO.setBody(content);
             addonarticleDAO.insertAddonarticle(addonarticleDO);
@@ -92,7 +88,7 @@ public class WriteData2DB extends Task {
             if (detailClone.getReplys().size() > 0) {
                 for (String reply : detailClone.getReplys()) {
                     FeedbackDO feedbackDO = new FeedbackDO();
-                    feedbackDO.setAid(arctinyDO.getId());
+                    feedbackDO.setAid(arctinyId);
                     feedbackDO.setArctitle(archivesDO.getTitle());
                     feedbackDO.setTypeid(typeid);
                     feedbackDO.setMsg(reply);

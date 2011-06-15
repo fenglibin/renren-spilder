@@ -14,12 +14,12 @@ public class IbatisArctinyDAO extends SqlMapClientDaoSupport implements ArctinyD
     private String              conditionSuffix;
 
     @Override
-    public void insertArctiny(ArctinyDO arctinyDO) {
+    public Object insertArctiny(ArctinyDO arctinyDO) {
         String statementName = Insert_Arctiny;
         if (!StringUtil.isNull(conditionSuffix)) {
             statementName = statementName + conditionSuffix;
         }
-        getSqlMapClientTemplate().insert(statementName, arctinyDO);
+        return getSqlMapClientTemplate().insert(statementName, arctinyDO);
     }
 
     @Override
