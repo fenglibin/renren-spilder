@@ -62,30 +62,31 @@ public class StringUtil {
     }
 
     /**
-     * 根据传入的内容，去掉所有html标签
+     * 根据传入的内容，去掉所有html标签，目前此方法的实现来源于这里：http://www.rgagnon.com/javadetails/java-0424.html
      * 
      * @param htmlSource
      * @return
      */
     public static String removeHtmlTags(String htmlSource) {
-        int start = -1, end = -1;
-        String temp;
-        start = htmlSource.indexOf("<");
-        if (start >= 0) {
-            temp = htmlSource.substring(start);
-            end = temp.indexOf(">") + start;
-        }
-        while (start >= 0 && end > 0) {
-            temp = htmlSource.substring(start, end + 1);
-            end = -1;
-            htmlSource = htmlSource.replace(temp, "");
-            start = htmlSource.indexOf("<");
-            if (start >= 0) {
-                temp = htmlSource.substring(start);
-                end = temp.indexOf(">") + start;
-            }
-        }
-        return htmlSource.trim();
+        // int start = -1, end = -1;
+        // String temp;
+        // start = htmlSource.indexOf("<");
+        // if (start >= 0) {
+        // temp = htmlSource.substring(start);
+        // end = temp.indexOf(">") + start;
+        // }
+        // while (start >= 0 && end > 0) {
+        // temp = htmlSource.substring(start, end + 1);
+        // end = -1;
+        // htmlSource = htmlSource.replace(temp, "");
+        // start = htmlSource.indexOf("<");
+        // if (start >= 0) {
+        // temp = htmlSource.substring(start);
+        // end = temp.indexOf(">") + start;
+        // }
+        // }
+        // return htmlSource.trim();
+        return htmlSource.replaceAll("\\<.*?>", "");
     }
 
     public static void main(String[] args) {

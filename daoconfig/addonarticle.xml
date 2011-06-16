@@ -18,7 +18,7 @@
 		)
 			 ]]>
 	</insert>
-	<select id="SELECT_BODY_BY_AID" resultMap="TA-ADDONARTICLE" parameterClass="java.lang.Integer">
+	<select id="SELECT_BODY_BY_AID" resultMap="RM-ADDONARTICLE" parameterClass="java.lang.Integer">
 		select body from renrenaddonarticle where aid=#id#
 	</select>
 	<insert id="Insert_Addonarticle_Fanti" parameterClass="TA-ADDONARTICLE">
@@ -31,7 +31,7 @@
 		)
 			 ]]>
 	</insert>
-	<select id="SELECT_BODY_BY_AID_Fanti" resultMap="TA-ADDONARTICLE" parameterClass="java.lang.Integer">
+	<select id="SELECT_BODY_BY_AID_Fanti" resultMap="RM-ADDONARTICLE" parameterClass="java.lang.Integer">
 		select body from renrenfanti_addonarticle where aid=#id#
 	</select>
 </sqlMap>

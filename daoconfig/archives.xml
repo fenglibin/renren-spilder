@@ -50,7 +50,7 @@
 		)
 		]]>
 	</insert>
-	<select id="SELECT_NULL_DESCRIPTION_RECORDS" resultMap="it.renren.spilder.dataobject.ArchivesDO">
+	<select id="SELECT_NULL_DESCRIPTION_RECORDS" resultMap="RM-ARCHIVES">
 		select id,description from renrenarchives where description=''
 	</select>
 	<update id="UPDATE_DESCRIPTION" parameterClass="TA-ARCHIVES">
@@ -82,7 +82,7 @@
 		)
 		]]>
 	</insert>
-	<select id="SELECT_NULL_DESCRIPTION_RECORDS_Fanti" resultMap="it.renren.spilder.dataobject.ArchivesDO">
+	<select id="SELECT_NULL_DESCRIPTION_RECORDS_Fanti" resultMap="RM-ARCHIVES">
 		select id,description from renrenfanti_archives where description=''
 	</select>
 	<update id="UPDATE_DESCRIPTION_Fanti" parameterClass="TA-ARCHIVES">

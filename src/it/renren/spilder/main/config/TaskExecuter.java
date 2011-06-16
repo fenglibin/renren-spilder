@@ -99,10 +99,12 @@ public class TaskExecuter extends Thread {
                 try {
                     mainContent = getMainContent(mainContent, parentPageConfig);
                 } catch (Exception e) {
-                    log4j.logError("从 url:" + listPageUrl + "中截取得需要的内容发生异常！配置文件为：" + configFile+"。\n获取到的内容为："+mainContent);
+                    log4j.logError("从 url:" + listPageUrl + "中截取得需要的内容发生异常！配置文件为：" + configFile + "。\n获取到的内容为："
+                                   + mainContent);
                     throw new RuntimeException(e);
                 }
-                List<AHrefElement> childLinks = AHrefParser.ahrefParser(mainContent,
+                List<AHrefElement> childLinks = AHrefParser.ahrefParser(
+                                                                        mainContent,
                                                                         parentPageConfig.getUrlFilter().getMustInclude(),
                                                                         parentPageConfig.getUrlFilter().getMustNotInclude(),
                                                                         parentPageConfig.getCharset(),
@@ -141,6 +143,9 @@ public class TaskExecuter extends Thread {
                         detail.setKeywords(keywords);
 
                         String childContent = getChildContent(childBody, childPageConfig);
+                        if (StringUtil.isNull(childContent) || childContent.length() <= Constants.CONTENT_LEAST_LENGTH) {
+                            throw new RuntimeException("当前获取到内容长度小于：" + Constants.CONTENT_LEAST_LENGTH);
+                        }
                         detail.setContent(childContent);
                         String description = MetaParser.getMetaContent(childBody, childPageConfig.getCharset(),
                                                                        Constants.META_DESCRIPTIONS);
@@ -151,7 +156,8 @@ public class TaskExecuter extends Thread {
                                                                                                                 * ，
                                                                                                                 * 就取文章内容的前100个字符为描述
                                                                                                                 */
-                            description = StringUtil.removeHtmlTags(childContent).trim().substring(0,
+                            description = StringUtil.removeHtmlTags(childContent).trim().substring(
+                                                                                                   0,
                                                                                                    Constants.CONTENT_LEAST_LENGTH);
                         }
                         detail.setDescription(description);
@@ -262,7 +268,8 @@ public class TaskExecuter extends Thread {
         int startSize = childPageConfig.getContent().getStartList().size();
         for (int i = 0; i < startSize; i++) {
             try {
-                childContent = StringUtil.subString(childBody,
+                childContent = StringUtil.subString(
+                                                    childBody,
                                                     ((Element) childPageConfig.getContent().getStartList().get(i)).getText(),
                                                     ((Element) childPageConfig.getContent().getEndList().get(i)).getText());
                 break;
@@ -283,7 +290,8 @@ public class TaskExecuter extends Thread {
         int startSize = parentPageConfig.getContent().getStartList().size();
         for (int i = 0; i < startSize; i++) {
             try {
-                content = StringUtil.subString(mainContent,
+                content = StringUtil.subString(
+                                               mainContent,
                                                ((Element) parentPageConfig.getContent().getStartList().get(i)).getText(),
                                                ((Element) parentPageConfig.getContent().getEndList().get(i)).getText());
                 break;
@@ -348,7 +356,8 @@ public class TaskExecuter extends Thread {
                 if (!StringUtil.isNull(childBody)) {
                     replysList = StringUtil.getListFromStart2End(childBody,
                                                                  childPageConfig.getReplys().getReply().getStart(),
-                                                                 childPageConfig.getReplys().getReply().getEnd(),childPageConfig.getReplys().isFirstMainContent());
+                                                                 childPageConfig.getReplys().getReply().getEnd(),
+                                                                 childPageConfig.getReplys().isFirstMainContent());
                 }
             } else {/* 只配置了主配置，那就根据主配置获取回复内容 */
                 if (!StringUtil.isNull(childBody)) {
@@ -356,7 +365,8 @@ public class TaskExecuter extends Thread {
                                                           childPageConfig.getReplys().getTo(),
                                                           childPageConfig.getReplys().isIssRegularExpression());
                     replysList = StringUtil.getListFromStart2End(childBody, childPageConfig.getReplys().getStart(),
-                                                                 childPageConfig.getReplys().getEnd(),childPageConfig.getReplys().isFirstMainContent());
+                                                                 childPageConfig.getReplys().getEnd(),
+                                                                 childPageConfig.getReplys().isFirstMainContent());
                 }
             }
 
