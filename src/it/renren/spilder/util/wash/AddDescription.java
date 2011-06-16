@@ -134,6 +134,17 @@ public class AddDescription {
         System.out.println("Fan Deal End." + (new Date()));
     }
 
+    // 将FAN体中的'此文來自人人IT網，請訪問www.renren.it獲取更多內容'替换掉
+    public void replaceContent() throws SQLException {
+        System.out.println("Fan Deal Start." + (new Date()));
+        DataSource dataSource = (DataSource) ctx.getBean("dataSourceFanti");
+        Connection conn = dataSource.getConnection();
+        Statement st = conn.createStatement();
+        st.execute("update renrenfanti_addonarticle set body=replace(body,'此文來自人人IT網，請訪問www.renren.it獲取更多內容','')");
+        st.close();
+        conn.close();
+    }
+
     /**
      * @param args
      * @throws SQLException
@@ -142,7 +153,8 @@ public class AddDescription {
         AddDescription add = new AddDescription();
         // add.removeShotContentSimple();
         // add.removeShotContentFan();
-        add.changeSimple();
-        add.changeFan();
+        // add.changeSimple();
+        // add.changeFan();
+        add.replaceContent();
     }
 }

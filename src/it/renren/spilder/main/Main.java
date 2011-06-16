@@ -136,6 +136,10 @@ public class Main {
             this.springConfigFile = springConfigFile;
         }
 
+        public void setUseProxyTrue() {
+            Environment.isUseProxy = Boolean.TRUE;
+        }
+
     }
 
     /**
@@ -168,6 +172,8 @@ public class Main {
                 param.setCheckConfigFile(Boolean.TRUE);
             } else if (value.startsWith("-spring")) {// 指定SPRING的配置文件
                 param.setSpringConfigFile(value.replace("-spring", ""));
+            } else if (value.startsWith("-proxy")) {// 使用代理
+                param.setUseProxyTrue();
             }
 
         }
@@ -178,7 +184,7 @@ public class Main {
         log4j.logDebug("log4jdebuug");
         Main main = new Main();
         Main.Param param = main.new Param();
-        param = main.initParameters(args);        
+        param = main.initParameters(args);
         if (args.length == 0) {
             args = new String[1];
             // 文件测试

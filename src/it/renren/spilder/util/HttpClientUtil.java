@@ -1,5 +1,6 @@
 package it.renren.spilder.util;
 
+import it.renren.spilder.main.Environment;
 import it.renren.spilder.util.log.Log4j;
 
 import java.io.BufferedReader;
@@ -65,12 +66,12 @@ public class HttpClientUtil {
      * @param url 获取内容的URL
      * @param encode 待获取内容的编码
      * @return 根据当前的URL，获取到的网页的内容
-     * @throws IOException 
-     * @throws HttpException 
+     * @throws IOException
+     * @throws HttpException
      */
     // 通过get方法获取网页内容
     public static String getGetResponseWithHttpClient(String url, String encode) throws HttpException, IOException {
-        return getGetResponseWithHttpClient(url, encode, true);
+        return getGetResponseWithHttpClient(url, encode, Environment.isUseProxy);
     }
 
     /**
@@ -80,10 +81,11 @@ public class HttpClientUtil {
      * @param encode 待获取内容的编码
      * @param byProxy 是否通过代理的方式
      * @return 根据当前的URL，获取到的网页的内容
-     * @throws IOException 
-     * @throws HttpException 
+     * @throws IOException
+     * @throws HttpException
      */
-    public static String getGetResponseWithHttpClient(String url, String encode, boolean byProxy) throws HttpException, IOException {
+    public static String getGetResponseWithHttpClient(String url, String encode, boolean byProxy) throws HttpException,
+                                                                                                 IOException {
         HttpClient client = new HttpClient(manager);
         if (byProxy) {
             // 设置代理开始
