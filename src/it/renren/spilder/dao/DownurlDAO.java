@@ -5,4 +5,6 @@ import it.renren.spilder.dataobject.DownurlDO;
 public interface DownurlDAO {
 
     public void insertDownurl(DownurlDO downurlDO);
+
+    public DownurlDO selectDownurl(String url);
 }

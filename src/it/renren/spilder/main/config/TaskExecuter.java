@@ -126,6 +126,10 @@ public class TaskExecuter extends Thread {
                     try {
                         childUrl = UrlUtil.makeUrl(listPageUrl, childUrl);
                         log4j.logDebug("当前处理的URL：" + childUrl);
+                        if (isDealed(childUrl)) {
+                            log4j.logDebug("当前URL " + childUrl + " 已经有处理，不需要再次处理。");
+                            continue;
+                        }
                         detail.setUrl(childUrl);
                         saveDownUrl(parentPageConfig, detail);
                         if (childPageConfig.isKeepFileName()) {
@@ -371,6 +375,21 @@ public class TaskExecuter extends Thread {
         }
 
         return replysList;
+    }
+
+    /**
+     * 查询当前URL是否已经处理过
+     * 
+     * @param url
+     * @return
+     */
+    private boolean isDealed(String url) {
+        boolean is = Boolean.FALSE;
+        DownurlDO downurlDO = downurlDAO.selectDownurl(url);
+        if (downurlDO != null) {
+            is = Boolean.TRUE;
+        }
+        return is;
     }
 
     /* 保存已经获取内容的URL，如果保存出现主键重复的异常，说明该URL已经获取过内容，为正常现象 */

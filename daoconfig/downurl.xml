@@ -14,4 +14,9 @@
 		)
 			 ]]>
 	</insert>
+	<select id="SELECT_DOWNURL" parameterClass="TA-DOWNURL" resultMap="RM-DOWNURL">
+		<![CDATA[
+		select * from downurl where url=#url#
+			 ]]>
+	</select>
 </sqlMap>
