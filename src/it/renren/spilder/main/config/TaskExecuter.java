@@ -1,5 +1,7 @@
 package it.renren.spilder.main.config;
 
+import it.renren.spilder.dao.DownurlDAO;
+import it.renren.spilder.dataobject.DownurlDO;
 import it.renren.spilder.main.Constants;
 import it.renren.spilder.main.Environment;
 import it.renren.spilder.main.detail.ChildPageDetail;
@@ -15,6 +17,7 @@ import it.renren.spilder.util.UrlUtil;
 import it.renren.spilder.util.log.Log4j;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +35,7 @@ public class TaskExecuter extends Thread {
     long                 oneFileSleepTime;
     // 需要执行的任务列表，目前有简体中文操作及将简体转换为繁体，实现类需要继承接口it.renren.spilder.task.Task
     private List<Task>   taskList;
+    DownurlDAO           downurlDAO;
 
     public TaskExecuter(){
         this.oneFileSleepTime = Constants.One_File_Default_Sleep_Time;
@@ -122,8 +126,8 @@ public class TaskExecuter extends Thread {
                     try {
                         childUrl = UrlUtil.makeUrl(listPageUrl, childUrl);
                         log4j.logDebug("当前处理的URL：" + childUrl);
-
                         detail.setUrl(childUrl);
+                        saveDownUrl(parentPageConfig, detail);
                         if (childPageConfig.isKeepFileName()) {
                             detail.setFileName(getUrlName(childUrl));
                         }
@@ -147,19 +151,11 @@ public class TaskExecuter extends Thread {
                             throw new RuntimeException("当前获取到内容长度小于：" + Constants.CONTENT_LEAST_LENGTH);
                         }
                         detail.setContent(childContent);
-                        String description = MetaParser.getMetaContent(childBody, childPageConfig.getCharset(),
-                                                                       Constants.META_DESCRIPTIONS);
                         detail.setReplys(getReplyList(childBody, childPageConfig));
                         childBody = null;
-                        if (description.equals("") || description.length() >= Constants.CONTENT_LEAST_LENGTH) {/*
-                                                                                                                * 如果没有取得文章描述
-                                                                                                                * ，
-                                                                                                                * 就取文章内容的前100个字符为描述
-                                                                                                                */
-                            description = StringUtil.removeHtmlTags(childContent).trim().substring(
-                                                                                                   0,
-                                                                                                   Constants.CONTENT_LEAST_LENGTH);
-                        }
+                        String description = StringUtil.removeHtmlTags(childContent).trim().substring(
+                                                                                                      0,
+                                                                                                      Constants.CONTENT_LEAST_LENGTH);
                         detail.setDescription(description);
                         if (detail.getTitle().equals("") || detail.getContent().equals("")) {
                             throw new RuntimeException("处理该URL:" + childUrl + " 时，获取标题或内容为空!");
@@ -174,6 +170,8 @@ public class TaskExecuter extends Thread {
                         // 将文章中的相对URL地址，替换为绝对的URL地址（开始）
                         childContent = replaceRelativePath2AbsolutePate(childUrl, childContent,
                                                                         childPageConfig.getCharset());
+                        // 替换目前发现的一些问题，如获取到文章中有八个问号等
+                        childContent = childContent.replace("????????", "");
                         // 将文章中的相对URL地址，替换为绝对的URL地址（结束）
                         detail.setContent(childContent);
                         handleContent(childPageConfig, detail);
@@ -375,6 +373,15 @@ public class TaskExecuter extends Thread {
         return replysList;
     }
 
+    /* 保存已经获取内容的URL，如果保存出现主键重复的异常，说明该URL已经获取过内容，为正常现象 */
+    protected void saveDownUrl(ParentPage parentPageConfig, ChildPageDetail detail) throws SQLException {
+        if (parentPageConfig.isFilterDownloadUrl()) {
+            DownurlDO downurlDO = new DownurlDO();
+            downurlDO.setUrl(detail.getUrl());
+            downurlDAO.insertDownurl(downurlDO);
+        }
+    }
+
     public List<Task> getTaskList() {
         return taskList;
     }
@@ -399,5 +406,9 @@ public class TaskExecuter extends Thread {
         String url = "http://java.dzone.com/articles/cdi-aop.htm";
         url = getUrlName(url);
         System.out.println(url);
+    }
+
+    public void setDownurlDAO(DownurlDAO downurlDAO) {
+        this.downurlDAO = downurlDAO;
     }
 }

@@ -26,6 +26,7 @@ public class AddDescription {
     private static final ConfigurableApplicationContext ctx = new FileSystemXmlApplicationContext(
                                                                                                   new String[] { Constants.SPRING_CONFIG_FILE });
 
+    // 删除内容小于100字节的所有文章
     private void removeShotContentSimple() throws SQLException {
         DataSource dataSource = (DataSource) ctx.getBean("dataSource");
         Connection conn = dataSource.getConnection();
@@ -43,6 +44,7 @@ public class AddDescription {
         conn.close();
     }
 
+    // 删除内容小于100字节的所有文章
     private void removeShotContentFan() throws SQLException {
         DataSource dataSource = (DataSource) ctx.getBean("dataSourceFanti");
         Connection conn = dataSource.getConnection();
@@ -60,6 +62,7 @@ public class AddDescription {
         conn.close();
     }
 
+    // 更新描述为空的描述
     private void changeSimple() throws SQLException {
         System.out.println("Simple Deal Start." + (new Date()));
         DataSource dataSource = (DataSource) ctx.getBean("dataSource");
@@ -97,6 +100,45 @@ public class AddDescription {
         System.out.println("Simple Deal End." + (new Date()));
     }
 
+    // 更新所有文章的描述
+    private void changeSimpleAll() throws SQLException {
+        System.out.println("Simple Deal Start." + (new Date()));
+        DataSource dataSource = (DataSource) ctx.getBean("dataSource");
+        Connection conn = dataSource.getConnection();
+        Statement st = conn.createStatement();
+        Statement stBody = conn.createStatement();
+        ResultSet rs = st.executeQuery("select id from renrenarchives");
+        String body = "";
+        ArchivesDAO archivesDAO = (ArchivesDAO) ctx.getBean("archivesDAO");
+        ArchivesDO archivesDO = new ArchivesDO();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            System.out.println("deal id:" + id + " start. now is:" + (new Date()));
+            ResultSet rsbody = stBody.executeQuery("select body from renrenaddonarticle where aid=" + id);
+            System.out.println("get body ok:" + (new Date()));
+            if (rsbody.next()) {
+                body = rsbody.getString("body");
+                body = StringUtil.removeHtmlTags(body).trim();
+                if (body.length() > Constants.CONTENT_LEAST_LENGTH) {
+                    body = body.substring(0, Constants.CONTENT_LEAST_LENGTH);
+                }
+                System.out.println("begin update:" + (new Date()));
+                archivesDO.setId(id);
+                archivesDO.setDescription(body);
+                archivesDAO.updateDescription(archivesDO);
+                System.out.println("finish update:" + (new Date()));
+            }
+            rsbody.close();
+            System.out.println("deal id:" + id + " end." + (new Date()));
+        }
+        rs.close();
+        st.close();
+        stBody.close();
+        conn.close();
+        System.out.println("Simple Deal End." + (new Date()));
+    }
+
+    // 更新描述为空的描述
     private void changeFan() throws SQLException {
         System.out.println("Fan Deal Start." + (new Date()));
         DataSource dataSource = (DataSource) ctx.getBean("dataSourceFanti");
@@ -104,6 +146,44 @@ public class AddDescription {
         Statement st = conn.createStatement();
         Statement stBody = conn.createStatement();
         ResultSet rs = st.executeQuery("select id from renrenfanti_archives where description=''");
+        String body = "";
+        ArchivesDAO archivesDAO = (ArchivesDAO) ctx.getBean("archivesDAOFanti");
+        ArchivesDO archivesDO = new ArchivesDO();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            System.out.println("deal id:" + id + " start. now is:" + (new Date()));
+            ResultSet rsbody = stBody.executeQuery("select body from renrenfanti_addonarticle where aid=" + id);
+            System.out.println("get body ok:" + (new Date()));
+            if (rsbody.next()) {
+                body = rsbody.getString("body");
+                body = StringUtil.removeHtmlTags(body).trim();
+                if (body.length() > Constants.CONTENT_LEAST_LENGTH) {
+                    body = body.substring(0, Constants.CONTENT_LEAST_LENGTH);
+                }
+                System.out.println("begin update:" + (new Date()));
+                archivesDO.setId(id);
+                archivesDO.setDescription(body);
+                archivesDAO.updateDescription(archivesDO);
+                System.out.println("finish update:" + (new Date()));
+            }
+            rsbody.close();
+            System.out.println("deal id:" + id + " end." + (new Date()));
+        }
+        rs.close();
+        st.close();
+        stBody.close();
+        conn.close();
+        System.out.println("Fan Deal End." + (new Date()));
+    }
+
+    // 更新所有文章的描述
+    private void changeFanAll() throws SQLException {
+        System.out.println("Fan Deal Start." + (new Date()));
+        DataSource dataSource = (DataSource) ctx.getBean("dataSourceFanti");
+        Connection conn = dataSource.getConnection();
+        Statement st = conn.createStatement();
+        Statement stBody = conn.createStatement();
+        ResultSet rs = st.executeQuery("select id from renrenfanti_archives");
         String body = "";
         ArchivesDAO archivesDAO = (ArchivesDAO) ctx.getBean("archivesDAOFanti");
         ArchivesDO archivesDO = new ArchivesDO();
@@ -155,6 +235,8 @@ public class AddDescription {
         // add.removeShotContentFan();
         // add.changeSimple();
         // add.changeFan();
-        add.replaceContent();
+        add.changeSimpleAll();
+        add.changeFanAll();
+        // add.replaceContent();
     }
 }

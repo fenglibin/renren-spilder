@@ -1,7 +1,5 @@
 package it.renren.spilder.task;
 
-import java.sql.SQLException;
-
 import it.renren.spilder.main.Constants;
 import it.renren.spilder.main.config.ChildPage;
 import it.renren.spilder.main.config.ParentPage;
@@ -28,9 +26,6 @@ public abstract class Task {
         }
         return flag;
     }
-
-    /* 保存已经获取内容的URL，如果保存出现主键重复的异常，说明该URL已经获取过内容，为正常现象 */
-    protected abstract void saveDownUrl(ParentPage parentPageConfig, ChildPageDetail detail) throws SQLException;
 
     /**
      * 对获取的内容根据配置进行处理

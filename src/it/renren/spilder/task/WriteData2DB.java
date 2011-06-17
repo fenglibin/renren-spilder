@@ -1,16 +1,12 @@
 package it.renren.spilder.task;
 
-import java.sql.SQLException;
-
 import it.renren.spilder.dao.AddonarticleDAO;
 import it.renren.spilder.dao.ArchivesDAO;
 import it.renren.spilder.dao.ArctinyDAO;
-import it.renren.spilder.dao.DownurlDAO;
 import it.renren.spilder.dao.FeedbackDAO;
 import it.renren.spilder.dataobject.AddonarticleDO;
 import it.renren.spilder.dataobject.ArchivesDO;
 import it.renren.spilder.dataobject.ArctinyDO;
-import it.renren.spilder.dataobject.DownurlDO;
 import it.renren.spilder.dataobject.FeedbackDO;
 import it.renren.spilder.main.config.ChildPage;
 import it.renren.spilder.main.config.ParentPage;
@@ -29,14 +25,13 @@ public class WriteData2DB extends Task {
     ArctinyDAO           arctinyDAO;
     ArchivesDAO          archivesDAO;
     AddonarticleDAO      addonarticleDAO;
-    DownurlDAO           downurlDAO;
+
     AutoDetectTypes      autoDetectTypes;
     FeedbackDAO          feedbackDAO;
 
     public void doTask(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail) throws Exception {
         try {
             ChildPageDetail detailClone = detail.clone();
-            saveDownUrl(parentPageConfig, detailClone);
 
             // 保存图片
             String content = UrlUtil.saveImages(parentPageConfig, childPageConfig, detailClone);
@@ -101,15 +96,6 @@ public class WriteData2DB extends Task {
         }
     }
 
-    /* 保存已经获取内容的URL，如果保存出现主键重复的异常，说明该URL已经获取过内容，为正常现象 */
-    protected void saveDownUrl(ParentPage parentPageConfig, ChildPageDetail detail) throws SQLException {
-        if (parentPageConfig.isFilterDownloadUrl()) {
-            DownurlDO downurlDO = new DownurlDO();
-            downurlDO.setUrl(detail.getUrl());
-            downurlDAO.insertDownurl(downurlDO);
-        }
-    }
-
     /**
      * 根据配置翻译的条件，将当前内容翻译为指定的语言
      * 
@@ -142,10 +128,6 @@ public class WriteData2DB extends Task {
 
     public void setAddonarticleDAO(AddonarticleDAO addonarticleDAO) {
         this.addonarticleDAO = addonarticleDAO;
-    }
-
-    public void setDownurlDAO(DownurlDAO downurlDAO) {
-        this.downurlDAO = downurlDAO;
     }
 
     @Override
