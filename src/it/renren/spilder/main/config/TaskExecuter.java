@@ -107,8 +107,7 @@ public class TaskExecuter extends Thread {
                                    + mainContent);
                     throw new RuntimeException(e);
                 }
-                List<AHrefElement> childLinks = AHrefParser.ahrefParser(
-                                                                        mainContent,
+                List<AHrefElement> childLinks = AHrefParser.ahrefParser(mainContent,
                                                                         parentPageConfig.getUrlFilter().getMustInclude(),
                                                                         parentPageConfig.getUrlFilter().getMustNotInclude(),
                                                                         parentPageConfig.getCharset(),
@@ -126,12 +125,14 @@ public class TaskExecuter extends Thread {
                     try {
                         childUrl = UrlUtil.makeUrl(listPageUrl, childUrl);
                         log4j.logDebug("当前处理的URL：" + childUrl);
-                        if (isDealed(childUrl)) {
-                            log4j.logDebug("当前URL " + childUrl + " 已经有处理，不需要再次处理。");
-                            continue;
-                        }
                         detail.setUrl(childUrl);
-                        saveDownUrl(parentPageConfig, detail);
+                        if (!Environment.checkConfigFile) {
+                            if (isDealed(childUrl)) {
+                                log4j.logDebug("当前URL " + childUrl + " 已经有处理，不需要再次处理。");
+                                continue;
+                            }
+                            saveDownUrl(parentPageConfig, detail);
+                        }
                         if (childPageConfig.isKeepFileName()) {
                             detail.setFileName(getUrlName(childUrl));
                         }
@@ -157,8 +158,7 @@ public class TaskExecuter extends Thread {
                         detail.setContent(childContent);
                         detail.setReplys(getReplyList(childBody, childPageConfig));
                         childBody = null;
-                        String description = StringUtil.removeHtmlTags(childContent).trim().substring(
-                                                                                                      0,
+                        String description = StringUtil.removeHtmlTags(childContent).trim().substring(0,
                                                                                                       Constants.CONTENT_LEAST_LENGTH);
                         detail.setDescription(description);
                         if (detail.getTitle().equals("") || detail.getContent().equals("")) {
@@ -183,6 +183,8 @@ public class TaskExecuter extends Thread {
                             for (Task task : taskList) {
                                 task.doTask(parentPageConfig, childPageConfig, detail);
                             }
+                        } else {
+                            log4j.logError("当前配置文件：" + configFile + " 配置测试成功。");
                         }
                     } catch (Exception e) {
                         failedLinks++;
@@ -194,10 +196,12 @@ public class TaskExecuter extends Thread {
                     detail.setContent(null);
                     detail.setDescription(null);
                     detail = null;
-                    if (parentPageConfig.getOneUrlSleepTime() == 0) {
-                        Thread.sleep(Constants.One_Url_Default_Sleep_Time);/* 默认休息10秒钟一篇文章 */
-                    } else {
-                        Thread.sleep(parentPageConfig.getOneUrlSleepTime());
+                    if (!Environment.checkConfigFile) {
+                        if (parentPageConfig.getOneUrlSleepTime() == 0) {
+                            Thread.sleep(Constants.One_Url_Default_Sleep_Time);/* 默认休息10秒钟一篇文章 */
+                        } else {
+                            Thread.sleep(parentPageConfig.getOneUrlSleepTime());
+                        }
                     }
                 }
             }
@@ -270,8 +274,7 @@ public class TaskExecuter extends Thread {
         int startSize = childPageConfig.getContent().getStartList().size();
         for (int i = 0; i < startSize; i++) {
             try {
-                childContent = StringUtil.subString(
-                                                    childBody,
+                childContent = StringUtil.subString(childBody,
                                                     ((Element) childPageConfig.getContent().getStartList().get(i)).getText(),
                                                     ((Element) childPageConfig.getContent().getEndList().get(i)).getText());
                 break;
@@ -286,14 +289,19 @@ public class TaskExecuter extends Thread {
 
         return childContent;
     }
-
+    /**
+     * 获取文章列表的内容
+     * @param mainContent
+     * @param parentPageConfig
+     * @return
+     * @throws RuntimeException
+     */
     private static String getMainContent(String mainContent, ParentPage parentPageConfig) throws RuntimeException {
         String content = "";
         int startSize = parentPageConfig.getContent().getStartList().size();
         for (int i = 0; i < startSize; i++) {
             try {
-                content = StringUtil.subString(
-                                               mainContent,
+                content = StringUtil.subString(mainContent,
                                                ((Element) parentPageConfig.getContent().getStartList().get(i)).getText(),
                                                ((Element) parentPageConfig.getContent().getEndList().get(i)).getText());
                 break;

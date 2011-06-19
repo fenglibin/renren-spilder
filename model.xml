@@ -203,8 +203,8 @@
 								<![CDATA[248]]>
 							</Value>
 						</End>
-					</Pages>
-				</BatValues>
+					</WildcastType>
+				</Pages>
 				<Reply desc="针对当前文章的一个回复的处理，这个节点是可选的，如果不配置，则根据主配置Replys节点进行截取，如果有配置，那主配置只是用于获取所有配置的内容，具体的每一个回复根据这个节点的配置来获取">
 					<Start>
 						<Value><![CDATA[<span class='print-link'></span>]]></Value>

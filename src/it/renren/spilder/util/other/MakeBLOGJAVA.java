@@ -1,5 +1,6 @@
 package it.renren.spilder.util.other;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -17,41 +18,41 @@ import it.renren.spilder.util.log.Log4j;
  * 
  * @author Administrator
  */
-public class MakeCSDNExport {
+public class MakeBLOGJAVA {
 
-    private static Log4j log4j = new Log4j(MakeCSDNExport.class.getName());
+    private static Log4j log4j = new Log4j(MakeBLOGJAVA.class.getName());
 
     /**
      * @param args
-     * @throws IOException 
-     * @throws HttpException 
+     * @throws IOException
+     * @throws HttpException
      */
     public static void main(String[] args) throws HttpException, IOException {
         // TODO Auto-generated method stub
-        String csdn_export_html = "http://blog.csdn.net/MoreExpert.html";
-        // String filename = "E:/work/mywork/renren-spilder/config/doing/rule_csdn_blog_#_default.xml";
-        // String modXmlFile = "E:/work/mywork/renren-spilder/config/doing/rule_csdn_blog_(model)_default.xml";
-        String filename = "config/doing/rule_csdn_blog_#_default.xml";
-        String modXmlFile = "config/doing/rule_csdn_blog_(model)_default.xml";
-        String content = HttpClientUtil.getGetResponseWithHttpClient(csdn_export_html, "utf-8");
-        content = StringUtil.subString(content, "<div class=\"allBlogs\">", "<div class=\"clear\"></div>");
+        String bloglist = "http://www.blogjava.net/AllBloggers.aspx";
+        String filename = "config/www.blogjava.net/#.xml";
+        String modXmlFile = "config/www.blogjava.net/model.xml";
+        String content = HttpClientUtil.getGetResponseWithHttpClient(bloglist, "gbk");
+        content = StringUtil.subString(content, "<table align=\"center\" width=\"90%\">", "</table></form>");
         try {
             String modelContent = FileUtil.getFileContent(modXmlFile);
-            List<AHrefElement> childLinks = AHrefParser.ahrefParser(content, "blog", "#", "utf-8", false);
+            List<AHrefElement> childLinks = AHrefParser.ahrefParser(content, "", "rss.aspx", "gbk", false);
             String pages = "1";
             for (AHrefElement link : childLinks) {
                 try {
                     pages = "1";
                     String childUrl = link.getHref();
                     String thisfilename = filename.replace("#", FileUtil.getFileName(childUrl));
-                    content = HttpClientUtil.getGetResponseWithHttpClient(childUrl, "utf-8");
-                    if (content.indexOf("<div class=\"pagelist\">") > 0) {
-                        content = StringUtil.subString(content, "<div class=\"pagelist\">", "</div>");
-                        pages = StringUtil.subString(content, "£¬¹²", "Ò³");
-                    } else {
-                        pages = "1";
+                    if(new File(thisfilename).exists()){
+                        continue;
                     }
-                    String thisContent = modelContent.replace("#url#", childUrl + "?PageNumber=(*)");
+                    content = HttpClientUtil.getGetResponseWithHttpClient(childUrl + "default.html?page=1", "utf-8");
+                    if (content.indexOf("<div class=\"pager\">") > 0) {
+                        content = StringUtil.subString(content, "<div class=\"pager\">", ":");
+                        pages = StringUtil.subString(content, "¹²", "Ò³");
+                    }
+                    childUrl = childUrl + "default.html?page=(*)";
+                    String thisContent = modelContent.replace("#url#", childUrl);
                     thisContent = thisContent.replace("#pages#", pages);
                     FileUtil.writeFile(thisfilename, thisContent);
                     log4j.logDebug(childUrl + ":" + pages);

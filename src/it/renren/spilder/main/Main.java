@@ -188,10 +188,12 @@ public class Main {
         if (args.length == 0) {
             args = new String[1];
             // 文件测试
-            param.setFile(true);
-            // param.setFileName("/home/fenglibin/proc/renren-spilder/config/blog.51cto.com/rule_helpdesk.blog.51cto.com.xml");
-            param.setFileName("c:/rule_blog_yufeng_info.xml");
-            param.setFileName("E:/work/mywork/renren-spilder/config/blog.51cto.com/1/rule_51flash.blog.51cto.com.xml");
+             param.setFile(true);
+             param.setFileName("config/google.org.cn/rule_google.org.cn_wordpressblog.xml");
+             param.setFileName("config/www.blogjava.net/model.xml");
+            // 文件夹测试
+//            param.setDirectory(true);
+//            param.setDirectoryName("config/someblog");
             param.setSpringConfigFile("beans.xml");
             param.setCheckConfigFile(Boolean.TRUE);
             // 文件夹测试
