@@ -140,6 +140,10 @@ public class Main {
             Environment.isUseProxy = Boolean.TRUE;
         }
 
+        public void setProxyHost(String proxy) {
+            Environment.proxy = proxy;
+        }
+
     }
 
     /**
@@ -174,6 +178,7 @@ public class Main {
                 param.setSpringConfigFile(value.replace("-spring", ""));
             } else if (value.startsWith("-proxy")) {// 使用代理
                 param.setUseProxyTrue();
+                param.setProxyHost(value.replace("-proxy", ""));
             }
 
         }
@@ -188,12 +193,12 @@ public class Main {
         if (args.length == 0) {
             args = new String[1];
             // 文件测试
-             param.setFile(true);
-             param.setFileName("config/google.org.cn/rule_google.org.cn_wordpressblog.xml");
-             param.setFileName("config/www.blogjava.net/model.xml");
+            param.setFile(true);
+            param.setFileName("config/google.org.cn/rule_google.org.cn_wordpressblog.xml");
+            param.setFileName("config/www.blogjava.net/model.xml");
             // 文件夹测试
-//            param.setDirectory(true);
-//            param.setDirectoryName("config/someblog");
+            // param.setDirectory(true);
+            // param.setDirectoryName("config/someblog");
             param.setSpringConfigFile("beans.xml");
             param.setCheckConfigFile(Boolean.TRUE);
             // 文件夹测试

@@ -8,4 +8,6 @@ public class Environment {
     public static boolean checkConfigFile = false;
     // 否使用代理
     public static boolean isUseProxy      = false;
+    // 代理服务器地址
+    public static String  proxy           = null;
 }

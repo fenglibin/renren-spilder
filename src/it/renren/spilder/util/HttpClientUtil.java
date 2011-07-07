@@ -89,7 +89,7 @@ public class HttpClientUtil {
         HttpClient client = new HttpClient(manager);
         if (byProxy) {
             // 设置代理开始
-            String proxy = ProxyServerUtil.getRandomProxy();
+            String proxy = getProxy();
             if (!StringUtil.isNull(proxy)) {
                 String[] hostArray = proxy.split(":");
                 client.getHostConfiguration().setProxy(hostArray[0], Integer.parseInt(hostArray[1]));
@@ -226,6 +226,21 @@ public class HttpClientUtil {
 
         return new String(source.getBytes(srcEncode), destEncode);
 
+    }
+
+    /**
+     * 获取代理
+     * 
+     * @return
+     */
+    private static String getProxy() {
+        String proxy = null;
+        if (!StringUtil.isNull(Environment.proxy)) {
+            proxy = Environment.proxy;
+        } else {
+            proxy = ProxyServerUtil.getRandomProxy();
+        }
+        return proxy;
     }
 
     public static void main(String[] arg) throws HttpException, IOException {
