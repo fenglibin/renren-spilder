@@ -39,6 +39,8 @@ public class WriteData2DB extends Task {
              * 将图片地址替换后的内容，设置到DETAIL对象中，这样在繁体中可以使用。因为繁体保存中不能够再次保存图片，只能够将修改图片地址的内容给传回去
              */
             detail.setContent(content);
+            // 将当前文章是否图片文章给传过去
+            detail.setPicArticle(detailClone.isPicArticle());
 
             translate(parentPageConfig, detailClone);
             dealedArticleNum++;

@@ -196,15 +196,19 @@ public class Main {
             param.setFile(true);
             param.setFileName("config/google.org.cn/rule_google.org.cn_wordpressblog.xml");
             param.setFileName("config/www.blogjava.net/model.xml");
+            param.setFileName("config/javaeye.com/ok/rule_javaeye_blog_language.xml");
             // 文件夹测试
             // param.setDirectory(true);
-            // param.setDirectoryName("config/someblog");
+            // param.setDirectoryName("config/javaeye.com/ok");
             param.setSpringConfigFile("beans.xml");
             param.setCheckConfigFile(Boolean.TRUE);
             // 文件夹测试
             // param.setDirectory(true);
             // param.setDirectoryName("config");
             // param.setDealOnePage(true);
+            
+//            param.setUseProxyTrue();
+//            param.setProxyHost("221.7.145.42:8080");
         }
         String springConfigFile = param.getSpringConfigFile();
         if (StringUtil.isNull(springConfigFile)) {
