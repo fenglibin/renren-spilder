@@ -8,12 +8,13 @@ public class ArctinyDO implements Serializable {
 	 * 
 	 */
     private static final long serialVersionUID = 5860383479204850250L;
-    int                       id;
-    int                       typeid;
-    int                       channel;
-    int                       senddate;
-    int                       sortrank;
-    int                       mid;
+    private int               id;
+    private int               typeid;
+    private int               channel;
+    private int               senddate;
+    private int               sortrank;
+    private int               mid;
+    private String            tablePrefix;
 
     public int getId() {
         return id;
@@ -62,4 +63,13 @@ public class ArctinyDO implements Serializable {
     public void setMid(int mid) {
         this.mid = mid;
     }
+
+    public String getTablePrefix() {
+        return tablePrefix;
+    }
+
+    public void setTablePrefix(String tablePrefix) {
+        this.tablePrefix = tablePrefix;
+    }
+
 }

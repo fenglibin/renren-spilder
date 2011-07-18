@@ -31,6 +31,7 @@ public class FeedbackDO implements Serializable {
     private int               face;
     /* ÆÀÂÛµÄÄÚÈÝ */
     private String            msg;
+    private String            tablePrefix;
 
     public int getAid() {
         return aid;
@@ -134,6 +135,14 @@ public class FeedbackDO implements Serializable {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public String getTablePrefix() {
+        return tablePrefix;
+    }
+
+    public void setTablePrefix(String tablePrefix) {
+        this.tablePrefix = tablePrefix;
     }
 
 }

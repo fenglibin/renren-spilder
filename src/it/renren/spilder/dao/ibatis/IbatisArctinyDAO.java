@@ -11,36 +11,27 @@ public class IbatisArctinyDAO extends SqlMapClientDaoSupport implements ArctinyD
     private static final String Select_Current_ArticleId = "Select_Current_ArticleId";
     private static final String Update_Current_ArticleId = "Update_Current_ArticleId";
     // 条件后缀，用于支持多个不同的表的查询
-    private String              conditionSuffix;
+    private String              tablePrefix;
 
     @Override
     public Object insertArctiny(ArctinyDO arctinyDO) {
-        String statementName = Insert_Arctiny;
-        if (!StringUtil.isNull(conditionSuffix)) {
-            statementName = statementName + conditionSuffix;
-        }
-        return getSqlMapClientTemplate().insert(statementName, arctinyDO);
+        arctinyDO.setTablePrefix(StringUtil.getTablePrefix(tablePrefix));
+        return getSqlMapClientTemplate().insert(Insert_Arctiny, arctinyDO);
     }
 
     @Override
     public ArctinyDO selectArctinyByTypeId(ArctinyDO arctinyDO) {
-        String statementName = Select_Current_ArticleId;
-        if (!StringUtil.isNull(conditionSuffix)) {
-            statementName = statementName + conditionSuffix;
-        }
-        return (ArctinyDO) getSqlMapClientTemplate().queryForObject(statementName, arctinyDO);
+        arctinyDO.setTablePrefix(StringUtil.getTablePrefix(tablePrefix));
+        return (ArctinyDO) getSqlMapClientTemplate().queryForObject(Select_Current_ArticleId, arctinyDO);
     }
 
     @Override
     public void updateArctinyTypeidById(ArctinyDO arctinyDO) {
-        String statementName = Update_Current_ArticleId;
-        if (!StringUtil.isNull(conditionSuffix)) {
-            statementName = statementName + conditionSuffix;
-        }
-        getSqlMapClientTemplate().update(statementName, arctinyDO);
+        arctinyDO.setTablePrefix(StringUtil.getTablePrefix(tablePrefix));
+        getSqlMapClientTemplate().update(Update_Current_ArticleId, arctinyDO);
     }
 
-    public void setConditionSuffix(String conditionSuffix) {
-        this.conditionSuffix = conditionSuffix;
+    public void setTablePrefix(String tablePrefix) {
+        this.tablePrefix = tablePrefix;
     }
 }

@@ -10,12 +10,7 @@
 	
 	<select id="Select_All_Arctype" parameterClass="TA-ARCTYPE" resultMap="RM-ARCTYPE">
 		<![CDATA[
-			select id,typename from renrenarctype
-		]]>
-	</select>
-	<select id="Select_All_Arctype_Fanti" parameterClass="TA-ARCTYPE" resultMap="RM-ARCTYPE">
-		<![CDATA[
-			select id,typename from renrenfanti_arctype
+			select id,typename from $tablePrefix$arctype
 		]]>
 	</select>
 </sqlMap>

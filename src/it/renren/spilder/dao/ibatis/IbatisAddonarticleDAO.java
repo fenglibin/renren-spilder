@@ -11,29 +11,25 @@ public class IbatisAddonarticleDAO extends SqlMapClientDaoSupport implements Add
     private static final String Insert_Addonarticle = "Insert_Addonarticle";
     private static final String SELECT_BODY_BY_AID  = "SELECT_BODY_BY_AID";
     // 条件后缀，用于支持多个不同的表的查询
-    private String              conditionSuffix;
+    private String              tablePrefix;
 
     @Override
     public void insertAddonarticle(AddonarticleDO addonarticleDO) {
-        String statementName = Insert_Addonarticle;
-        if (!StringUtil.isNull(conditionSuffix)) {
-            statementName = statementName + conditionSuffix;
-        }
-        getSqlMapClientTemplate().insert(statementName, addonarticleDO);
+        addonarticleDO.setTablePrefix(StringUtil.getTablePrefix(tablePrefix));
+        getSqlMapClientTemplate().insert(Insert_Addonarticle, addonarticleDO);
 
-    }
-
-    public void setConditionSuffix(String conditionSuffix) {
-        this.conditionSuffix = conditionSuffix;
     }
 
     @Override
     public AddonarticleDO selectBodyByAid(int aid) {
-        String statementName = SELECT_BODY_BY_AID;
-        if (!StringUtil.isNull(conditionSuffix)) {
-            statementName = statementName + SELECT_BODY_BY_AID;
-        }
-        return (AddonarticleDO) getSqlMapClientTemplate().queryForObject(statementName, aid);
+        AddonarticleDO addonarticleDO = new AddonarticleDO();
+        addonarticleDO.setAid(aid);
+        addonarticleDO.setTablePrefix(StringUtil.getTablePrefix(tablePrefix));
+        return (AddonarticleDO) getSqlMapClientTemplate().queryForObject(SELECT_BODY_BY_AID, addonarticleDO);
+    }
+
+    public void setTablePrefix(String tablePrefix) {
+        this.tablePrefix = tablePrefix;
     }
 
 }

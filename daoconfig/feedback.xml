@@ -11,25 +11,7 @@
 	</resultMap>
 	<insert id="Insert_Feedback" parameterClass="TA-Feedback">
 		<![CDATA[
-		insert into renrenfeedback(aid, typeid, username, arctitle, ip, ischeck, dtime, mid, bad, good, ftype, face, msg) 
-		values(
-			#aid#,
-			#typeid#,
-			'Guest',
-			#arctitle#,
-			'127.0.0.1',
-			1,
-			unix_timestamp(now()),
-			0,0,0,
-			'feedback',
-			1,
-			#msg#
-		)
-			 ]]>
-	</insert>
-	<insert id="Insert_Feedback_Fanti" parameterClass="TA-Feedback">
-		<![CDATA[
-		insert into renrenfanti_feedback(aid, typeid, username, arctitle, ip, ischeck, dtime, mid, bad, good, ftype, face, msg) 
+		insert into $tablePrefix$feedback(aid, typeid, username, arctitle, ip, ischeck, dtime, mid, bad, good, ftype, face, msg) 
 		values(
 			#aid#,
 			#typeid#,

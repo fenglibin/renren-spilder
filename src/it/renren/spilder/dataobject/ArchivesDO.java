@@ -5,25 +5,26 @@ import java.io.Serializable;
 public class ArchivesDO implements Serializable {
 
     private static final long serialVersionUID = 4034609900066350370L;
-    int                       id;
-    int                       typeid;
-    int                       ismake;
-    int                       channel;
-    int                       click;
-    String                    title;
-    String                    writer;
-    String                    source;
-    int                       pubdate;
-    int                       senddate;
-    int                       sortrank;
-    int                       mid;
-    String                    keywords;
-    String                    description;
-    int                       weight;
-    int                       dutyadmin;
-    String                    flag;
-    String                    litpic;
-    String                    filename;
+    private int               id;
+    private int               typeid;
+    private int               ismake;
+    private int               channel;
+    private int               click;
+    private String            title;
+    private String            writer;
+    private String            source;
+    private int               pubdate;
+    private int               senddate;
+    private int               sortrank;
+    private int               mid;
+    private String            keywords;
+    private String            description;
+    private int               weight;
+    private int               dutyadmin;
+    private String            flag;
+    private String            litpic;
+    private String            filename;
+    private String            tablePrefix;
 
     public int getId() {
         return id;
@@ -176,4 +177,13 @@ public class ArchivesDO implements Serializable {
     public void setFilename(String filename) {
         this.filename = filename;
     }
+
+    public String getTablePrefix() {
+        return tablePrefix;
+    }
+
+    public void setTablePrefix(String tablePrefix) {
+        this.tablePrefix = tablePrefix;
+    }
+
 }

@@ -10,7 +10,7 @@
 	</resultMap>
 	<insert id="Insert_Addonarticle" parameterClass="TA-ADDONARTICLE">
 		<![CDATA[
-		insert into renrenaddonarticle(aid,typeid,body) 
+		insert into $tablePrefix$addonarticle(aid,typeid,body) 
 		values(
 			#aid#,
 			#typeid#,
@@ -18,20 +18,7 @@
 		)
 			 ]]>
 	</insert>
-	<select id="SELECT_BODY_BY_AID" resultMap="RM-ADDONARTICLE" parameterClass="java.lang.Integer">
-		select body from renrenaddonarticle where aid=#id#
-	</select>
-	<insert id="Insert_Addonarticle_Fanti" parameterClass="TA-ADDONARTICLE">
-		<![CDATA[
-		insert into renrenfanti_addonarticle(aid,typeid,body) 
-		values(
-			#aid#,
-			#typeid#,
-			#body#
-		)
-			 ]]>
-	</insert>
-	<select id="SELECT_BODY_BY_AID_Fanti" resultMap="RM-ADDONARTICLE" parameterClass="java.lang.Integer">
-		select body from renrenfanti_addonarticle where aid=#id#
+	<select id="SELECT_BODY_BY_AID" resultMap="RM-ADDONARTICLE" parameterClass="TA-ADDONARTICLE">
+		select body from $tablePrefix$addonarticle where aid=#aid#
 	</select>
 </sqlMap>

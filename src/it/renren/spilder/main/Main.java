@@ -144,6 +144,10 @@ public class Main {
             Environment.proxy = proxy;
         }
 
+        public void setTablePrefix(String tablePrefix) {
+            Environment.tablePrefix = tablePrefix;
+        }
+
     }
 
     /**
@@ -179,6 +183,8 @@ public class Main {
             } else if (value.startsWith("-proxy")) {// 使用代理
                 param.setUseProxyTrue();
                 param.setProxyHost(value.replace("-proxy", ""));
+            } else if (value.startsWith("-tablePrefix")) {// 使用代理
+                param.setTablePrefix(value.replace("-tablePrefix", ""));
             }
 
         }
@@ -196,19 +202,17 @@ public class Main {
             param.setFile(true);
             param.setFileName("config/google.org.cn/rule_google.org.cn_wordpressblog.xml");
             param.setFileName("config/www.blogjava.net/model.xml");
-            param.setFileName("config/javaeye.com/ok/rule_javaeye_blog_language.xml");
+            param.setFileName("config/headnews/rule_csdn_zixun.xml");
             // 文件夹测试
             // param.setDirectory(true);
-            // param.setDirectoryName("config/javaeye.com/ok");
+            // param.setDirectoryName("config/headnews");
+            // param.setDealOnePage(true);
+
             param.setSpringConfigFile("beans.xml");
             param.setCheckConfigFile(Boolean.TRUE);
-            // 文件夹测试
-            // param.setDirectory(true);
-            // param.setDirectoryName("config");
-            // param.setDealOnePage(true);
-            
-//            param.setUseProxyTrue();
-//            param.setProxyHost("221.7.145.42:8080");
+
+            // param.setUseProxyTrue();
+            // param.setProxyHost("221.7.145.42:8080");
         }
         String springConfigFile = param.getSpringConfigFile();
         if (StringUtil.isNull(springConfigFile)) {

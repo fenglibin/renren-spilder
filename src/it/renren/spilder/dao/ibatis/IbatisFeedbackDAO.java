@@ -10,19 +10,16 @@ public class IbatisFeedbackDAO extends SqlMapClientDaoSupport implements Feedbac
 
     private static final String Insert_Feedback = "Insert_Feedback";
     // 条件后缀，用于支持多个不同的表的查询
-    private String              conditionSuffix;
+    private String              tablePrefix;
 
     @Override
     public void insertFeedback(FeedbackDO feedbackDO) {
-        String statementName = Insert_Feedback;
-        if (!StringUtil.isNull(conditionSuffix)) {
-            statementName = statementName + conditionSuffix;
-        }
-        getSqlMapClientTemplate().insert(statementName, feedbackDO);
+        feedbackDO.setTablePrefix(StringUtil.getTablePrefix(tablePrefix));
+        getSqlMapClientTemplate().insert(Insert_Feedback, feedbackDO);
     }
 
-    public void setConditionSuffix(String conditionSuffix) {
-        this.conditionSuffix = conditionSuffix;
+    public void setTablePrefix(String tablePrefix) {
+        this.tablePrefix = tablePrefix;
     }
 
 }

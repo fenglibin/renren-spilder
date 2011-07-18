@@ -3,6 +3,7 @@ package it.renren.spilder.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.renren.spilder.main.Environment;
 import it.renren.spilder.util.log.Log4j;
 
 public class StringUtil {
@@ -205,5 +206,21 @@ public class StringUtil {
             }
         }
         return content;
+    }
+
+    /**
+     * 获取表前缀<br>
+     * 如果命令行有传入表前缀参数，则优先根据命令行传入的表前缀为准;如果命令行没有传入，再根据配置中传入的表前缀为准
+     * 
+     * @param tablePrefix
+     * @return
+     */
+    public static String getTablePrefix(String tablePrefix) {
+        if (!StringUtil.isNull(Environment.tablePrefix)) {
+            tablePrefix = Environment.tablePrefix;
+        } else if (StringUtil.isNull(tablePrefix)) {
+            tablePrefix = "";
+        }
+        return tablePrefix;
     }
 }

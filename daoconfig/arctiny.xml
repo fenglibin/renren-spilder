@@ -14,12 +14,12 @@
 	
 	<select id="Select_Current_ArticleId" parameterClass="TA-ARCTINY" resultMap="RM-ARCTINY">
 		<![CDATA[
-			select id,typeid,channel,senddate,sortrank,mid from renrenarctiny where typeid=#typeid#
+			select id,typeid,channel,senddate,sortrank,mid from $tablePrefix$arctiny where typeid=#typeid#
 		]]>
 	</select>
 	<insert id="Insert_Arctiny" parameterClass="TA-ARCTINY">
 		<![CDATA[
-		insert into renrenarctiny(typeid,channel,senddate,sortrank,mid) 
+		insert into $tablePrefix$arctiny(typeid,channel,senddate,sortrank,mid) 
 		values(
 			#typeid#,
 			1,
@@ -31,30 +31,7 @@
 	</insert>
 	<update id="Update_Current_ArticleId" parameterClass="TA-ARCTINY">
 		<![CDATA[
-			update renrenarctiny set typeid=#typeid# where id=#id#
-		]]>
-	</update>
-	
-	<select id="Select_Current_ArticleId_Fanti" parameterClass="TA-ARCTINY" resultMap="RM-ARCTINY">
-		<![CDATA[
-			select id,typeid,channel,senddate,sortrank,mid from renrenfanti_arctiny where typeid=#typeid#
-		]]>
-	</select>
-	<insert id="Insert_Arctiny_Fanti" parameterClass="TA-ARCTINY">
-		<![CDATA[
-		insert into renrenfanti_arctiny(typeid,channel,senddate,sortrank,mid) 
-		values(
-			#typeid#,
-			1,
-			unix_timestamp(now()),
-			unix_timestamp(now()),
-			1
-		)
-			 ]]>
-	</insert>
-	<update id="Update_Current_ArticleId_Fanti" parameterClass="TA-ARCTINY">
-		<![CDATA[
-			update renrenfanti_arctiny set typeid=#typeid# where id=#id#
+			update $tablePrefix$arctiny set typeid=#typeid# where id=#id#
 		]]>
 	</update>
 </sqlMap>

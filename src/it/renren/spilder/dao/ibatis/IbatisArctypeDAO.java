@@ -12,19 +12,17 @@ public class IbatisArctypeDAO extends SqlMapClientDaoSupport implements ArctypeD
 
     private static final String Select_All_Arctype = "Select_All_Arctype";
     // 条件后缀，用于支持多个不同的表的查询
-    private String              conditionSuffix;
+    private String              tablePrefix;
 
     @Override
     public List<ArctypeDO> getArctypeList() {
-        String statementName = Select_All_Arctype;
-        if (!StringUtil.isNull(conditionSuffix)) {
-            statementName = statementName + conditionSuffix;
-        }
-        return getSqlMapClientTemplate().queryForList(statementName);
+        ArctypeDO arctypeDO = new ArctypeDO();
+        arctypeDO.setTablePrefix(StringUtil.getTablePrefix(tablePrefix));
+        return getSqlMapClientTemplate().queryForList(Select_All_Arctype, arctypeDO);
     }
 
-    public void setConditionSuffix(String conditionSuffix) {
-        this.conditionSuffix = conditionSuffix;
+    public void setTablePrefix(String tablePrefix) {
+        this.tablePrefix = tablePrefix;
     }
 
 }

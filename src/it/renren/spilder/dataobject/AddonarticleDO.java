@@ -8,9 +8,10 @@ public class AddonarticleDO implements Serializable {
 	 * 
 	 */
     private static final long serialVersionUID = 8042919137539869539L;
-    int                       aid;
-    int                       typeid;
-    String                    body;
+    private int               aid;
+    private int               typeid;
+    private String            body;
+    private String            tablePrefix;
 
     public int getAid() {
         return aid;
@@ -35,4 +36,13 @@ public class AddonarticleDO implements Serializable {
     public void setBody(String body) {
         this.body = body;
     }
+
+    public String getTablePrefix() {
+        return tablePrefix;
+    }
+
+    public void setTablePrefix(String tablePrefix) {
+        this.tablePrefix = tablePrefix;
+    }
+
 }

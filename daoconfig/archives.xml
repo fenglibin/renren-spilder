@@ -26,7 +26,7 @@
 	</resultMap>
 	<insert id="Insert_Archives" parameterClass="TA-ARCHIVES">
 		<![CDATA[
-		INSERT INTO renrenarchives(id,typeid,ismake,channel,click,title,writer,source,pubdate,senddate,sortrank,mid,keywords,description,weight,dutyadmin,flag,litpic,filename)
+		INSERT INTO $tablePrefix$archives(id,typeid,ismake,channel,click,title,writer,source,pubdate,senddate,sortrank,mid,keywords,description,weight,dutyadmin,flag,litpic,filename)
 		values(
 			#id#,
 			#typeid#,
@@ -50,42 +50,10 @@
 		)
 		]]>
 	</insert>
-	<select id="SELECT_NULL_DESCRIPTION_RECORDS" resultMap="RM-ARCHIVES">
-		select id,description from renrenarchives where description=''
+	<select id="SELECT_NULL_DESCRIPTION_RECORDS" resultMap="RM-ARCHIVES" parameterClass="TA-ARCHIVES">
+		select id,description from $tablePrefix$archives where description=''
 	</select>
 	<update id="UPDATE_DESCRIPTION" parameterClass="TA-ARCHIVES">
-		update renrenarchives set description=#description# where id=#id#
-	</update>
-	<insert id="Insert_Archives_Fanti" parameterClass="TA-ARCHIVES">
-		<![CDATA[
-		INSERT INTO renrenfanti_archives(id,typeid,ismake,channel,click,title,writer,source,pubdate,senddate,sortrank,mid,keywords,description,weight,dutyadmin,flag,litpic,filename)
-		values(
-			#id#,
-			#typeid#,
-			0,
-			1,
-			#click#,
-			#title#,
-			#writer#,
-			#source#,
-			unix_timestamp(now()),
-			unix_timestamp(now()),
-			unix_timestamp(now()),
-			1,
-			#keywords#,
-			#description#,
-			#weight#,
-			1,
-			#flag#,
-			#litpic#,
-			#filename#
-		)
-		]]>
-	</insert>
-	<select id="SELECT_NULL_DESCRIPTION_RECORDS_Fanti" resultMap="RM-ARCHIVES">
-		select id,description from renrenfanti_archives where description=''
-	</select>
-	<update id="UPDATE_DESCRIPTION_Fanti" parameterClass="TA-ARCHIVES">
-		update renrenfanti_archives set description=#description# where id=#id#
+		update $tablePrefix$archives set description=#description# where id=#id#
 	</update>
 </sqlMap>

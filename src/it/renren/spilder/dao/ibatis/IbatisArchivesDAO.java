@@ -14,36 +14,28 @@ public class IbatisArchivesDAO extends SqlMapClientDaoSupport implements Archive
     private static final String SELECT_NULL_DESCRIPTION_RECORDS = "SELECT_NULL_DESCRIPTION_RECORDS";
     private static final String UPDATE_DESCRIPTION              = "UPDATE_DESCRIPTION";
     // 条件后缀，用于支持多个不同的表的查询
-    private String              conditionSuffix;
+    private String              tablePrefix;
 
     @Override
     public void insertArchives(ArchivesDO archivesDO) {
-        String statementName = Insert_Archives;
-        if (!StringUtil.isNull(conditionSuffix)) {
-            statementName = statementName + conditionSuffix;
-        }
-        getSqlMapClientTemplate().insert(statementName, archivesDO);
-    }
-
-    public void setConditionSuffix(String conditionSuffix) {
-        this.conditionSuffix = conditionSuffix;
+        archivesDO.setTablePrefix(StringUtil.getTablePrefix(tablePrefix));
+        getSqlMapClientTemplate().insert(Insert_Archives, archivesDO);
     }
 
     @Override
     public List<ArchivesDO> selectNullDescriptionRecords() {
-        String statementName = SELECT_NULL_DESCRIPTION_RECORDS;
-        if (!StringUtil.isNull(conditionSuffix)) {
-            statementName = statementName + conditionSuffix;
-        }
-        return getSqlMapClientTemplate().queryForList(statementName);
+        ArchivesDO archivesDO = new ArchivesDO();
+        archivesDO.setTablePrefix(StringUtil.getTablePrefix(tablePrefix));
+        return getSqlMapClientTemplate().queryForList(SELECT_NULL_DESCRIPTION_RECORDS, archivesDO);
     }
 
     @Override
     public int updateDescription(ArchivesDO archivesDO) {
-        String statementName = UPDATE_DESCRIPTION;
-        if (!StringUtil.isNull(conditionSuffix)) {
-            statementName = statementName + conditionSuffix;
-        }
-        return getSqlMapClientTemplate().update(statementName, archivesDO);
+        archivesDO.setTablePrefix(StringUtil.getTablePrefix(tablePrefix));
+        return getSqlMapClientTemplate().update(UPDATE_DESCRIPTION, archivesDO);
+    }
+
+    public void setTablePrefix(String tablePrefix) {
+        this.tablePrefix = tablePrefix;
     }
 }

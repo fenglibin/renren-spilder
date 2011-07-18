@@ -10,4 +10,6 @@ public class Environment {
     public static boolean isUseProxy      = false;
     // 代理服务器地址
     public static String  proxy           = null;
+    // 表前缀
+    public static String  tablePrefix     = null;
 }
