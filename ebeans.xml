@@ -4,19 +4,19 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
           <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-          <property name="url" value="jdbc:mysql://184.82.12.132:3306/englishsite?characterEncoding=utf8" />
-          <property name="username" value="englishsite" />
-          <property name="password" value="englishsite" />
+          <property name="url" value="url" />
+          <property name="username" value="username" />
+          <property name="password" value="password" />
 	</bean>
 	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
 		<property name="configLocation">
-			<value>edaoconfig/sqlmap.xml</value>
+			<value>daoconfig/sqlmap.xml</value>
 		</property>
 		<property name="sqlMapClientProperties">
 			<map>
 				<entry key="baseurl">
 					<bean class="it.renren.spilder.spring.support.GetResourceAsURL">
-						<property name="location" value="edaoconfig/sqlmap.xml" />
+						<property name="location" value="daoconfig/sqlmap.xml" />
 						<property name="parent" value="true" />
 					</bean>
 				</entry>
