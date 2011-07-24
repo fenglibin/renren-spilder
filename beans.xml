@@ -80,10 +80,7 @@
 		</property>
 		<property name="tablePrefix">
 			<value>renren</value>
-		</property>
-		<property name="dedecmsVersion">
-			<value></value>
-		</property>
+		</property>		
 	</bean>
 	<bean id="addonarticleDAO" class="it.renren.spilder.dao.ibatis.IbatisAddonarticleDAO">
 		<property name="dataSource">
@@ -135,6 +132,9 @@
 			<value>renrenfanti_</value>
 		</property>
 		<property name="sqlMapClient" ref="sqlMapClientFanti">
+		</property>
+		<property name="dedecmsVersion">
+			<value></value>
 		</property>
 	</bean>
 	<bean id="addonarticleDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisAddonarticleDAO">
