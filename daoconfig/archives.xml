@@ -56,4 +56,32 @@
 	<update id="UPDATE_DESCRIPTION" parameterClass="TA-ARCHIVES">
 		update $tablePrefix$archives set description=#description# where id=#id#
 	</update>
+	<!-- for dedecms5.7 -->
+	<insert id="Insert_Archives5.7" parameterClass="TA-ARCHIVES">
+		<![CDATA[
+		INSERT INTO $tablePrefix$archives(id,typeid,ismake,channel,click,title,writer,source,pubdate,senddate,sortrank,mid,keywords,description,weight,dutyadmin,flag,litpic,filename,voteid)
+		values(
+			#id#,
+			#typeid#,
+			0,
+			1,
+			#click#,
+			#title#,
+			#writer#,
+			#source#,
+			unix_timestamp(now()),
+			unix_timestamp(now()),
+			unix_timestamp(now()),
+			1,
+			#keywords#,
+			#description#,
+			#weight#,
+			1,
+			#flag#,
+			#litpic#,
+			#filename#,
+			0
+		)
+		]]>
+	</insert>
 </sqlMap>

@@ -25,6 +25,8 @@ public class ArchivesDO implements Serializable {
     private String            litpic;
     private String            filename;
     private String            tablePrefix;
+    // dedecms5.7中有这个字段
+    private int               voteid;
 
     public int getId() {
         return id;
@@ -184,6 +186,14 @@ public class ArchivesDO implements Serializable {
 
     public void setTablePrefix(String tablePrefix) {
         this.tablePrefix = tablePrefix;
+    }
+
+    public int getVoteid() {
+        return voteid;
+    }
+
+    public void setVoteid(int voteid) {
+        this.voteid = voteid;
     }
 
 }

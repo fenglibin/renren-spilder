@@ -15,11 +15,14 @@ public class IbatisArchivesDAO extends SqlMapClientDaoSupport implements Archive
     private static final String UPDATE_DESCRIPTION              = "UPDATE_DESCRIPTION";
     // 条件后缀，用于支持多个不同的表的查询
     private String              tablePrefix;
+    // dedecms的版本，默认是5.6
+    private String              dedecmsVersion                  = "";
 
     @Override
     public void insertArchives(ArchivesDO archivesDO) {
+        String this_insert_archives = Insert_Archives + dedecmsVersion;
         archivesDO.setTablePrefix(StringUtil.getTablePrefix(tablePrefix));
-        getSqlMapClientTemplate().insert(Insert_Archives, archivesDO);
+        getSqlMapClientTemplate().insert(this_insert_archives, archivesDO);
     }
 
     @Override
@@ -38,4 +41,9 @@ public class IbatisArchivesDAO extends SqlMapClientDaoSupport implements Archive
     public void setTablePrefix(String tablePrefix) {
         this.tablePrefix = tablePrefix;
     }
+
+    public void setDedecmsVersion(String dedecmsVersion) {
+        this.dedecmsVersion = dedecmsVersion;
+    }
+
 }

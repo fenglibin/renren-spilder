@@ -41,6 +41,8 @@ public class WriteData2DB extends Task {
             detail.setContent(content);
             // 将当前文章是否图片文章给传过去
             detail.setPicArticle(detailClone.isPicArticle());
+            // 获取文章的缩略图
+            detail.setLitpicAddress(detailClone.getLitpicAddress());
 
             translate(parentPageConfig, detailClone);
             dealedArticleNum++;
@@ -66,8 +68,7 @@ public class WriteData2DB extends Task {
             archivesDO.setTypeid(typeid);
             archivesDO.setTitle(detailClone.getTitle().length() > 100 ? detailClone.getTitle().substring(0, 99) : detailClone.getTitle());
             archivesDO.setKeywords(detailClone.getKeywords().length() > 30 ? detailClone.getKeywords().substring(0, 29) : detailClone.getKeywords());
-            archivesDO.setDescription(detailClone.getDescription().length() > 255 ? detailClone.getDescription().substring(
-                                                                                                                           0,
+            archivesDO.setDescription(detailClone.getDescription().length() > 255 ? detailClone.getDescription().substring(0,
                                                                                                                            254) : detailClone.getDescription());
             archivesDO.setClick((int) (1000 * Math.random()));
             archivesDO.setWriter(detailClone.getAuthor());

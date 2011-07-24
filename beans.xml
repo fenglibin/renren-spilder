@@ -81,6 +81,9 @@
 		<property name="tablePrefix">
 			<value>renren</value>
 		</property>
+		<property name="dedecmsVersion">
+			<value></value>
+		</property>
 	</bean>
 	<bean id="addonarticleDAO" class="it.renren.spilder.dao.ibatis.IbatisAddonarticleDAO">
 		<property name="dataSource">
