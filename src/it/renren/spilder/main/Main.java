@@ -202,7 +202,7 @@ public class Main {
             param.setFile(true);
             param.setFileName("config/google.org.cn/rule_google.org.cn_wordpressblog.xml");
             param.setFileName("config/www.blogjava.net/model.xml");
-            param.setFileName("config/headnews/rule_csdn_zixun.xml");
+            param.setFileName("config/csdn/1/rule_csdn_blog_caihaijiang_default.xml");
             // ÎÄ¼þ¼Ð²âÊÔ
             // param.setDirectory(true);
             // param.setDirectoryName("config/headnews");

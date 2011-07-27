@@ -1,7 +1,5 @@
 package it.renren.spilder.main.config;
 
-import it.renren.spilder.dao.DownurlDAO;
-import it.renren.spilder.dataobject.DownurlDO;
 import it.renren.spilder.main.Constants;
 import it.renren.spilder.main.Environment;
 import it.renren.spilder.main.detail.ChildPageDetail;
@@ -17,7 +15,6 @@ import it.renren.spilder.util.UrlUtil;
 import it.renren.spilder.util.log.Log4j;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -150,7 +147,8 @@ public class TaskExecuter extends Thread {
                         detail.setKeywords(keywords);
 
                         String childContent = getChildContent(childBody, childPageConfig);
-                        if (StringUtil.isNull(childContent) || childContent.length() <= Constants.CONTENT_LEAST_LENGTH) {
+                        if (StringUtil.isNull(childContent)
+                            || StringUtil.removeHtmlTags(childContent).trim().length() <= Constants.CONTENT_LEAST_LENGTH) {
                             throw new RuntimeException("当前获取到内容长度小于：" + Constants.CONTENT_LEAST_LENGTH);
                         }
                         detail.setContent(childContent);
