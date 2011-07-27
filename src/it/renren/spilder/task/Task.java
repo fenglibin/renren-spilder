@@ -39,4 +39,19 @@ public abstract class Task {
                                                                                                                throws Exception;
 
     protected abstract int getDealedArticleNum();
+
+    /**
+     * 查询当前URL是否已经处理过
+     * 
+     * @param url
+     * @return
+     */
+    public abstract boolean isDealed(String url);
+
+    /**
+     * 保存当前采集的url
+     * 
+     * @param url
+     */
+    public abstract void saveDownUrl(String url);
 }

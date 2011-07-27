@@ -35,7 +35,6 @@ public class TaskExecuter extends Thread {
     long                 oneFileSleepTime;
     // 需要执行的任务列表，目前有简体中文操作及将简体转换为繁体，实现类需要继承接口it.renren.spilder.task.Task
     private List<Task>   taskList;
-    DownurlDAO           downurlDAO;
 
     public TaskExecuter(){
         this.oneFileSleepTime = Constants.One_File_Default_Sleep_Time;
@@ -131,7 +130,6 @@ public class TaskExecuter extends Thread {
                                 log4j.logDebug("当前URL " + childUrl + " 已经有处理，不需要再次处理。");
                                 continue;
                             }
-                            saveDownUrl(parentPageConfig, detail);
                         }
                         if (childPageConfig.isKeepFileName()) {
                             detail.setFileName(getUrlName(childUrl));
@@ -217,6 +215,23 @@ public class TaskExecuter extends Thread {
             ruleXml = null;
         }
 
+    }
+
+    /**
+     * 当前Url是否已经处理过了
+     * 
+     * @param url
+     * @return
+     */
+    private boolean isDealed(String url) {
+        boolean result = Boolean.FALSE;
+        for (Task task : taskList) {
+            result = task.isDealed(url);
+            if (result == Boolean.FALSE) {// 只要是有一种没有处理就认为是没有处理
+                return result;
+            }
+        }
+        return result;
     }
 
     /* 标题替换 */
@@ -393,30 +408,6 @@ public class TaskExecuter extends Thread {
         return replysList;
     }
 
-    /**
-     * 查询当前URL是否已经处理过
-     * 
-     * @param url
-     * @return
-     */
-    private boolean isDealed(String url) {
-        boolean is = Boolean.FALSE;
-        DownurlDO downurlDO = downurlDAO.selectDownurl(url);
-        if (downurlDO != null) {
-            is = Boolean.TRUE;
-        }
-        return is;
-    }
-
-    /* 保存已经获取内容的URL，如果保存出现主键重复的异常，说明该URL已经获取过内容，为正常现象 */
-    protected void saveDownUrl(ParentPage parentPageConfig, ChildPageDetail detail) throws SQLException {
-        if (parentPageConfig.isFilterDownloadUrl()) {
-            DownurlDO downurlDO = new DownurlDO();
-            downurlDO.setUrl(detail.getUrl());
-            downurlDAO.insertDownurl(downurlDO);
-        }
-    }
-
     public List<Task> getTaskList() {
         return taskList;
     }
@@ -443,7 +434,4 @@ public class TaskExecuter extends Thread {
         System.out.println(url);
     }
 
-    public void setDownurlDAO(DownurlDAO downurlDAO) {
-        this.downurlDAO = downurlDAO;
-    }
 }

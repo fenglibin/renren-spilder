@@ -3,10 +3,12 @@ package it.renren.spilder.task;
 import it.renren.spilder.dao.AddonarticleDAO;
 import it.renren.spilder.dao.ArchivesDAO;
 import it.renren.spilder.dao.ArctinyDAO;
+import it.renren.spilder.dao.DownurlDAO;
 import it.renren.spilder.dao.FeedbackDAO;
 import it.renren.spilder.dataobject.AddonarticleDO;
 import it.renren.spilder.dataobject.ArchivesDO;
 import it.renren.spilder.dataobject.ArctinyDO;
+import it.renren.spilder.dataobject.DownurlDO;
 import it.renren.spilder.dataobject.FeedbackDO;
 import it.renren.spilder.main.config.ChildPage;
 import it.renren.spilder.main.config.ParentPage;
@@ -26,9 +28,15 @@ public class WriteData2DB extends Task {
 
     AutoDetectTypes      autoDetectTypes;
     FeedbackDAO          feedbackDAO;
+    DownurlDAO           downurlDAO;
 
     public void doTask(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail) throws Exception {
         try {
+            if (isDealed(detail.getUrl())) {
+                return;
+            } else {
+                saveDownUrl(detail.getUrl());
+            }
             ChildPageDetail detailClone = detail.clone();
             translate(parentPageConfig, detailClone);
             dealedArticleNum++;
@@ -114,6 +122,40 @@ public class WriteData2DB extends Task {
         }
     }
 
+    @Override
+    protected int getDealedArticleNum() {
+        return dealedArticleNum;
+    }
+
+    @Override
+    public boolean isDealed(String url) {
+        boolean is = Boolean.FALSE;
+        DownurlDO downurlDO = downurlDAO.selectDownurl(url);
+        if (downurlDO != null) {
+            is = Boolean.TRUE;
+        }
+        return is;
+    }
+
+    @Override
+    public void saveDownUrl(String url) {
+        DownurlDO downurlDO = new DownurlDO();
+        downurlDO.setUrl(url);
+        downurlDAO.insertDownurl(downurlDO);
+    }
+
+    public void setDownurlDAO(DownurlDAO downurlDAO) {
+        this.downurlDAO = downurlDAO;
+    }
+
+    public void setAutoDetectTypes(AutoDetectTypes autoDetectTypes) {
+        this.autoDetectTypes = autoDetectTypes;
+    }
+
+    public void setFeedbackDAO(FeedbackDAO feedbackDAO) {
+        this.feedbackDAO = feedbackDAO;
+    }
+
     public void setArctinyDAO(ArctinyDAO arctinyDAO) {
         this.arctinyDAO = arctinyDAO;
     }
@@ -124,19 +166,6 @@ public class WriteData2DB extends Task {
 
     public void setAddonarticleDAO(AddonarticleDAO addonarticleDAO) {
         this.addonarticleDAO = addonarticleDAO;
-    }
-
-    @Override
-    protected int getDealedArticleNum() {
-        return dealedArticleNum;
-    }
-
-    public void setAutoDetectTypes(AutoDetectTypes autoDetectTypes) {
-        this.autoDetectTypes = autoDetectTypes;
-    }
-
-    public void setFeedbackDAO(FeedbackDAO feedbackDAO) {
-        this.feedbackDAO = feedbackDAO;
     }
 
 }

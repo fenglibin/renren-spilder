@@ -1,7 +1,5 @@
 package it.renren.spilder.task;
 
-import java.sql.SQLException;
-
 import it.renren.spilder.dao.AddonarticleDAO;
 import it.renren.spilder.dao.ArchivesDAO;
 import it.renren.spilder.dao.ArctinyDAO;
@@ -33,8 +31,12 @@ public class WriteData2FanDB extends Task {
 
     public void doTask(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail) throws Exception {
         try {
+            if (isDealed(detail.getUrl())) {
+                return;
+            } else {
+                saveDownUrl(detail.getUrl());
+            }
             ChildPageDetail detailClone = detail.clone();
-            saveDownUrl(parentPageConfig, detailClone);
             dealedArticleNum++;
             log4j.logDebug("开始保存:" + detailClone.getUrl());
             int typeid = autoDetectTypes.detectType(parentPageConfig, detailClone);
@@ -59,9 +61,11 @@ public class WriteData2FanDB extends Task {
             archivesDO.setId(arctinyDO.getId());
             archivesDO.setTypeid(typeid);
             archivesDO.setTitle(jian2fan(detailClone.getTitle().length() > 100 ? detailClone.getTitle().substring(0, 99) : detailClone.getTitle()));
-            archivesDO.setKeywords(jian2fan(detailClone.getKeywords().length() > 30 ? detailClone.getKeywords().substring(0,
+            archivesDO.setKeywords(jian2fan(detailClone.getKeywords().length() > 30 ? detailClone.getKeywords().substring(
+                                                                                                                          0,
                                                                                                                           29) : detailClone.getKeywords()));
-            archivesDO.setDescription(jian2fan(detailClone.getDescription().length() > 255 ? detailClone.getDescription().substring(0,
+            archivesDO.setDescription(jian2fan(detailClone.getDescription().length() > 255 ? detailClone.getDescription().substring(
+                                                                                                                                    0,
                                                                                                                                     254) : detailClone.getDescription()));
             archivesDO.setClick((int) (1000 * Math.random()));
             archivesDO.setWriter(jian2fan(detailClone.getAuthor()));
@@ -76,8 +80,8 @@ public class WriteData2FanDB extends Task {
             String content = detailClone.getContent();
             content = content.replace("www.renren.it", "fan.renren.it");
             if (detailClone.isPicArticle()) {
-                content = content.replace(parentPageConfig.getImageDescUrl(),
-                                          Constants.RenRen_URL + parentPageConfig.getImageDescUrl());
+                content = content.replace(parentPageConfig.getImageDescUrl(), Constants.RenRen_URL
+                                                                              + parentPageConfig.getImageDescUrl());
             }
             AddonarticleDO addonarticleDO = new AddonarticleDO();
             addonarticleDO.setAid(arctinyDO.getId());
@@ -113,13 +117,22 @@ public class WriteData2FanDB extends Task {
         return string;
     }
 
-    /* 保存已经获取内容的URL，如果保存出现主键重复的异常，说明该URL已经获取过内容，为正常现象 */
-    protected void saveDownUrl(ParentPage parentPageConfig, ChildPageDetail detail) throws SQLException {
-        if (parentPageConfig.isFilterDownloadUrl()) {
-            DownurlDO downurlDO = new DownurlDO();
-            downurlDO.setUrl(detail.getUrl());
-            downurlDAOFanti.insertDownurl(downurlDO);
+    @Override
+    public boolean isDealed(String url) {
+        boolean is = Boolean.FALSE;
+        DownurlDO downurlDO = downurlDAOFanti.selectDownurl(url);
+        if (downurlDO != null) {
+            is = Boolean.TRUE;
         }
+        return is;
+    }
+
+    @Override
+    public void saveDownUrl(String url) {
+        DownurlDO downurlDO = new DownurlDO();
+        downurlDO.setUrl(url);
+        downurlDAOFanti.insertDownurl(downurlDO);
+
     }
 
     @Override
@@ -146,4 +159,5 @@ public class WriteData2FanDB extends Task {
     public void setAutoDetectTypes(AutoDetectTypes autoDetectTypes) {
         this.autoDetectTypes = autoDetectTypes;
     }
+
 }
