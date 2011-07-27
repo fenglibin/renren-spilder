@@ -13,10 +13,8 @@ import it.renren.spilder.main.config.ParentPage;
 import it.renren.spilder.main.detail.ChildPageDetail;
 import it.renren.spilder.type.AutoDetectTypes;
 import it.renren.spilder.util.StringUtil;
-import it.renren.spilder.util.UrlUtil;
 import it.renren.spilder.util.google.TranslatorUtil;
 import it.renren.spilder.util.log.Log4j;
-import it.renren.spilder.util.wash.WashUtil;
 
 public class WriteData2DB extends Task {
 
@@ -32,18 +30,6 @@ public class WriteData2DB extends Task {
     public void doTask(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail) throws Exception {
         try {
             ChildPageDetail detailClone = detail.clone();
-
-            // 保存图片
-            String content = UrlUtil.saveImages(parentPageConfig, childPageConfig, detailClone);
-            /**
-             * 将图片地址替换后的内容，设置到DETAIL对象中，这样在繁体中可以使用。因为繁体保存中不能够再次保存图片，只能够将修改图片地址的内容给传回去
-             */
-            detail.setContent(content);
-            // 将当前文章是否图片文章给传过去
-            detail.setPicArticle(detailClone.isPicArticle());
-            // 获取文章的缩略图
-            detail.setLitpicAddress(detailClone.getLitpicAddress());
-
             translate(parentPageConfig, detailClone);
             dealedArticleNum++;
             log4j.logDebug("开始保存:" + detailClone.getUrl());
@@ -68,7 +54,8 @@ public class WriteData2DB extends Task {
             archivesDO.setTypeid(typeid);
             archivesDO.setTitle(detailClone.getTitle().length() > 100 ? detailClone.getTitle().substring(0, 99) : detailClone.getTitle());
             archivesDO.setKeywords(detailClone.getKeywords().length() > 30 ? detailClone.getKeywords().substring(0, 29) : detailClone.getKeywords());
-            archivesDO.setDescription(detailClone.getDescription().length() > 255 ? detailClone.getDescription().substring(0,
+            archivesDO.setDescription(detailClone.getDescription().length() > 255 ? detailClone.getDescription().substring(
+                                                                                                                           0,
                                                                                                                            254) : detailClone.getDescription());
             archivesDO.setClick((int) (1000 * Math.random()));
             archivesDO.setWriter(detailClone.getAuthor());
@@ -86,7 +73,7 @@ public class WriteData2DB extends Task {
             AddonarticleDO addonarticleDO = new AddonarticleDO();
             addonarticleDO.setAid(arctinyDO.getId());
             addonarticleDO.setTypeid(typeid);
-            addonarticleDO.setBody(content);
+            addonarticleDO.setBody(detailClone.getContent());
             addonarticleDAO.insertAddonarticle(addonarticleDO);
             /** 对回复的处理 */
             if (detailClone.getReplys().size() > 0) {

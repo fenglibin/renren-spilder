@@ -180,6 +180,9 @@ public class TaskExecuter extends Thread {
                         // 将文章中的相对URL地址，替换为绝对的URL地址（结束）
                         detail.setContent(childContent);
                         handleContent(childPageConfig, detail);
+                        // 保存图片
+                        String content = UrlUtil.saveImages(parentPageConfig, childPageConfig, detail);
+                        detail.setContent(content);
                         if (!Environment.checkConfigFile) {
                             for (Task task : taskList) {
                                 task.doTask(parentPageConfig, childPageConfig, detail);

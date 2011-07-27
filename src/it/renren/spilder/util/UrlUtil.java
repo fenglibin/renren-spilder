@@ -109,20 +109,22 @@ public class UrlUtil {
         boolean firstImage = true;
         for (ImageElement image : imageElements) {
             String imageSrc = image.getSrc();
-            /* 获取新文件名，没有路径 */
-            String newFileName = FileUtil.getNewFileName(imageSrc);
+            /* 获取文件名，没有路径 */
+            String fileName = FileUtil.getFileName(imageSrc);
             /* 组装当前下载图片存放的路径 */
-            String imageDes = imageDescUrl + newFileName;
-            /* 替换原始图片的路径 */
-            content = content.replace(imageSrc, imageDes);
+            String imageDes = imageDescUrl + fileName;
             /* 将获取到的内容以文件的形式写到本地 */
             /* 根据当前文件所在服务器，以及图片URL，获取其远程服务器的绝对地址 */
             String imageUrl = makeUrl(url, imageSrc);
             /* 获取远程文件到本地指定目录并保存，如果因为某张图片处理错误，那忽略该错误 */
             try {
-                FileUtil.downloadFileByUrl(imageUrl, imageSaveLocation, newFileName);
-                File savedImage = new File(imageSaveLocation + newFileName);
-                if (savedImage.exists() && savedImage.length() > Constants.K) {// 只有大于1K的图片存在的时候，才将这张图片作为封面，并认为这是一个带图的文章
+                File savedImage = new File(imageSaveLocation + fileName);
+                if (!savedImage.exists()) {
+                    FileUtil.downloadFileByUrl(imageUrl, imageSaveLocation, fileName);
+                    /* 替换原始图片的路径 */
+                    content = content.replace(imageSrc, imageDes);
+                }
+                if (savedImage.length() > Constants.K) {// 只有大于1K的图片存在的时候，才将这张图片作为封面，并认为这是一个带图的文章
                     detail.setPicArticle(true);
                     if (firstImage) {
                         detail.setLitpicAddress(imageDes);
@@ -130,7 +132,7 @@ public class UrlUtil {
                     }
                 }
             } catch (Exception e) {/* 如果对拼装的图片地址处理发生异常，那再尝试对其原地址进行获取 */
-                FileUtil.downloadFileByUrl(imageSrc, imageSaveLocation, newFileName);
+                FileUtil.downloadFileByUrl(imageSrc, imageSaveLocation, fileName);
             }
         }
 
@@ -179,7 +181,8 @@ public class UrlUtil {
 
     public static void main(String[] args) {
         try {
-            log4j.logDebug(getContentByURL("http://www.ibm.com/developerworks/cn/views/java/libraryview.jsp?view_by=search&search_by=Ajax",
+            log4j.logDebug(getContentByURL(
+                                           "http://www.ibm.com/developerworks/cn/views/java/libraryview.jsp?view_by=search&search_by=Ajax",
                                            "gbk"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
