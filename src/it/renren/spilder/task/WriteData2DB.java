@@ -81,7 +81,7 @@ public class WriteData2DB extends Task {
             AddonarticleDO addonarticleDO = new AddonarticleDO();
             addonarticleDO.setAid(arctinyDO.getId());
             addonarticleDO.setTypeid(typeid);
-            addonarticleDO.setBody(detailClone.getContent());
+            addonarticleDO.setBody(getContent(childPageConfig, detail, detailClone.getContent()));
             addonarticleDAO.insertAddonarticle(addonarticleDO);
             /** 对回复的处理 */
             if (detailClone.getReplys().size() > 0) {
@@ -98,6 +98,17 @@ public class WriteData2DB extends Task {
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e);
         }
+    }
+
+    private String getContent(ChildPage childPageConfig, ChildPageDetail detail, String childContent) {
+        childContent = "<div style='display:none'><a href=\"http://www.renren.it\" target=\"_blank\">StackDoc</a><div>"
+                       + childContent
+                       + "<div style='display:none'><a href=\"http://www.renren.it\" target=\"_blank\">StackDoc</a><div>";
+        if (childPageConfig.isAddUrl()) {
+            childContent = childContent + "<br>From：<a href=\"" + detail.getUrl() + "\" target=\"_blank\">"
+                           + detail.getUrl() + "</a>";
+        }
+        return childContent;
     }
 
     /**

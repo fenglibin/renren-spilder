@@ -164,10 +164,7 @@ public class TaskExecuter extends Thread {
                         childContent = StringUtil.replaceContent(childContent, childPageConfig.getContent().getFrom(),
                                                                  childPageConfig.getContent().getTo(),
                                                                  childPageConfig.getContent().isIssRegularExpression());
-                        if (childPageConfig.isAddUrl()) {
-                            childContent = childContent + "<br>From：<a href=\"" + detail.getUrl()
-                                           + "\" target=\"_blank\">" + detail.getUrl() + "</a>";
-                        }
+
                         // 将文章中的相对URL地址，替换为绝对的URL地址（开始）
                         childContent = replaceRelativePath2AbsolutePate(childUrl, childContent,
                                                                         childPageConfig.getCharset());

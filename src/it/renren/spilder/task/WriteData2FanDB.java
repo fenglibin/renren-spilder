@@ -78,11 +78,12 @@ public class WriteData2FanDB extends Task {
             archivesDAOFanti.insertArchives(archivesDO);
 
             String content = detailClone.getContent();
-            content = content.replace("www.renren.it", "fan.renren.it");
+            content = content.replace("www.renren.it", "www.stackdoc.com");
             if (detailClone.isPicArticle()) {
                 content = content.replace(parentPageConfig.getImageDescUrl(), Constants.RenRen_URL
                                                                               + parentPageConfig.getImageDescUrl());
             }
+            content = getContent(childPageConfig, detailClone, content);
             AddonarticleDO addonarticleDO = new AddonarticleDO();
             addonarticleDO.setAid(arctinyDO.getId());
             addonarticleDO.setTypeid(typeid);
@@ -96,7 +97,7 @@ public class WriteData2FanDB extends Task {
                     feedbackDO.setAid(arctinyDO.getId());
                     feedbackDO.setArctitle(archivesDO.getTitle());
                     feedbackDO.setTypeid(typeid);
-                    feedbackDO.setMsg(reply);
+                    feedbackDO.setMsg(jian2fan(reply));
                     feedbackDAOFanti.insertFeedback(feedbackDO);
                 }
             }
@@ -104,6 +105,17 @@ public class WriteData2FanDB extends Task {
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e);
         }
+    }
+
+    private String getContent(ChildPage childPageConfig, ChildPageDetail detail, String childContent) {
+        childContent = "<div style='display:none'><a href=\"http://www.stack.com\" target=\"_blank\">StackDoc</a><div>"
+                       + childContent
+                       + "<div style='display:none'><a href=\"http://www.stack.com\" target=\"_blank\">StackDoc</a><div>";
+        if (childPageConfig.isAddUrl()) {
+            childContent = childContent + "<br>From£º<a href=\"" + detail.getUrl() + "\" target=\"_blank\">"
+                           + detail.getUrl() + "</a>";
+        }
+        return childContent;
     }
 
     private String jian2fan(String string) throws Exception {
