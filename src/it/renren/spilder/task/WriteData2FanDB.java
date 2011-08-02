@@ -108,9 +108,8 @@ public class WriteData2FanDB extends Task {
     }
 
     private String getContent(ChildPage childPageConfig, ChildPageDetail detail, String childContent) {
-        childContent = "<div style='display:none'><a href=\"http://www.stack.com\" target=\"_blank\">StackDoc</a><div>"
-                       + childContent
-                       + "<div style='display:none'><a href=\"http://www.stack.com\" target=\"_blank\">StackDoc</a><div>";
+        childContent = childContent
+                       + "<div style=\"display:none\"><a href=\"http://www.stackdoc.com\" target=\"_blank\">StackDoc</a><div>";
         if (childPageConfig.isAddUrl()) {
             childContent = childContent + "<br>From£º<a href=\"" + detail.getUrl() + "\" target=\"_blank\">"
                            + detail.getUrl() + "</a>";

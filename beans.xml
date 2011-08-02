@@ -119,7 +119,7 @@
 			<ref local="dataSourceFanti" />
 		</property>
 		<property name="tablePrefix">
-			<value>renrenfanti_</value>
+			<value>fanti_</value>
 		</property>
 		<property name="sqlMapClient" ref="sqlMapClientFanti">
 		</property>
@@ -129,7 +129,7 @@
 			<ref local="dataSourceFanti" />
 		</property>
 		<property name="tablePrefix">
-			<value>renrenfanti_</value>
+			<value>fanti_</value>
 		</property>
 		<property name="sqlMapClient" ref="sqlMapClientFanti">
 		</property>
@@ -142,7 +142,7 @@
 			<ref local="dataSourceFanti" />
 		</property>
 		<property name="tablePrefix">
-			<value>renrenfanti_</value>
+			<value>fanti_</value>
 		</property>
 		<property name="sqlMapClient" ref="sqlMapClientFanti">
 		</property>
@@ -159,7 +159,7 @@
 			<ref local="dataSourceFanti" />
 		</property>
 		<property name="tablePrefix">
-			<value>renrenfanti_</value>
+			<value>fanti_</value>
 		</property>
 		<property name="sqlMapClient" ref="sqlMapClientFanti">
 		</property>
@@ -169,7 +169,7 @@
 			<ref local="dataSourceFanti" />
 		</property>
 		<property name="tablePrefix">
-			<value>renrenfanti_</value>
+			<value>fanti_</value>
 		</property>
 		<property name="sqlMapClient" ref="sqlMapClientFanti">
 		</property>
