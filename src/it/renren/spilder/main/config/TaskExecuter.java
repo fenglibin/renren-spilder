@@ -147,6 +147,8 @@ public class TaskExecuter extends Thread {
                         detail.setKeywords(keywords);
 
                         String childContent = getChildContent(childBody, childPageConfig);
+                        /** 去掉script标签 */
+                        childContent = StringUtil.removeScript(childContent);
                         if (StringUtil.isNull(childContent)
                             || StringUtil.removeHtmlTags(childContent).trim().length() <= Constants.CONTENT_LEAST_LENGTH) {
                             throw new RuntimeException("当前获取到内容长度小于：" + Constants.CONTENT_LEAST_LENGTH);
@@ -174,8 +176,7 @@ public class TaskExecuter extends Thread {
                         detail.setContent(childContent);
                         handleContent(childPageConfig, detail);
                         // 保存图片
-                        String content = UrlUtil.saveImages(parentPageConfig, childPageConfig, detail);
-                        detail.setContent(content);
+                        UrlUtil.saveImages(parentPageConfig, childPageConfig, detail);
                         if (!Environment.checkConfigFile) {
                             for (Task task : taskList) {
                                 task.doTask(parentPageConfig, childPageConfig, detail);

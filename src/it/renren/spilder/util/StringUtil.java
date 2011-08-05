@@ -69,25 +69,17 @@ public class StringUtil {
      * @return
      */
     public static String removeHtmlTags(String htmlSource) {
-        // int start = -1, end = -1;
-        // String temp;
-        // start = htmlSource.indexOf("<");
-        // if (start >= 0) {
-        // temp = htmlSource.substring(start);
-        // end = temp.indexOf(">") + start;
-        // }
-        // while (start >= 0 && end > 0) {
-        // temp = htmlSource.substring(start, end + 1);
-        // end = -1;
-        // htmlSource = htmlSource.replace(temp, "");
-        // start = htmlSource.indexOf("<");
-        // if (start >= 0) {
-        // temp = htmlSource.substring(start);
-        // end = temp.indexOf(">") + start;
-        // }
-        // }
-        // return htmlSource.trim();
         return htmlSource.replaceAll("\\<.*?>", "");
+    }
+
+    /**
+     * È¥µôscript
+     * 
+     * @param htmlSource
+     * @return
+     */
+    public static String removeScript(String htmlSource) {
+        return htmlSource.replaceAll("\\<script.*?/script>", "");
     }
 
     public static void main(String[] args) {

@@ -87,8 +87,8 @@ public class UrlUtil {
      * @return
      * @throws Exception
      */
-    public static String saveImages(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail)
-                                                                                                                   throws Exception {
+    public static void saveImages(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail)
+                                                                                                                 throws Exception {
         // 当前图片页面所在的URL地址，或者是当前页面的主域地址；可以是"http://www.renren.it" 或 "http://www.renren.it/a/b.html"
         String url = detail.getUrl();
         // 根据URL地址获取到的内容，或者是指定部份的内容
@@ -121,9 +121,9 @@ public class UrlUtil {
                 File savedImage = new File(imageSaveLocation + fileName);
                 if (!savedImage.exists()) {
                     FileUtil.downloadFileByUrl(imageUrl, imageSaveLocation, fileName);
-                    /* 替换原始图片的路径 */
-                    content = content.replace(imageSrc, imageDes);
                 }
+                /* 替换原始图片的路径 */
+                content = content.replace(imageSrc, imageDes);
                 if (savedImage.length() > Constants.K) {// 只有大于1K的图片存在的时候，才将这张图片作为封面，并认为这是一个带图的文章
                     detail.setPicArticle(true);
                     if (firstImage) {
@@ -133,10 +133,11 @@ public class UrlUtil {
                 }
             } catch (Exception e) {/* 如果对拼装的图片地址处理发生异常，那再尝试对其原地址进行获取 */
                 FileUtil.downloadFileByUrl(imageSrc, imageSaveLocation, fileName);
+                /* 替换原始图片的路径 */
+                content = content.replace(imageSrc, imageDes);
             }
         }
-
-        return content;
+        detail.setContent(content);
     }
 
     /**

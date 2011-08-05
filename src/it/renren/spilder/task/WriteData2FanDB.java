@@ -78,7 +78,6 @@ public class WriteData2FanDB extends Task {
             archivesDAOFanti.insertArchives(archivesDO);
 
             String content = detailClone.getContent();
-            content = content.replace("www.renren.it", "www.stackdoc.com");
             if (detailClone.isPicArticle()) {
                 content = content.replace(parentPageConfig.getImageDescUrl(), Constants.RenRen_URL
                                                                               + parentPageConfig.getImageDescUrl());
@@ -108,12 +107,12 @@ public class WriteData2FanDB extends Task {
     }
 
     private String getContent(ChildPage childPageConfig, ChildPageDetail detail, String childContent) {
-        childContent = childContent
-                       + "<div style=\"display:none\"><a href=\"http://www.stackdoc.com\" target=\"_blank\">StackDoc</a><div>";
         if (childPageConfig.isAddUrl()) {
             childContent = childContent + "<br>From£º<a href=\"" + detail.getUrl() + "\" target=\"_blank\">"
                            + detail.getUrl() + "</a>";
         }
+        childContent = childContent
+                       + "<div style=\"display:none\"><a href=\"http://www.stackdoc.com\" target=\"_blank\">StackDoc</a><div>";
         return childContent;
     }
 
