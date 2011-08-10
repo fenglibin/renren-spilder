@@ -232,7 +232,8 @@ public class TaskExecuter extends Thread {
 
     /* ±ÍÃ‚ÃÊªª */
     private static String replaceTitle(ChildPage childPageConfig, String childTitle) {
-        if (!childPageConfig.getTitle().getFrom().equals("") && !childPageConfig.getTitle().getTo().equals("")) {
+        if (!StringUtil.isNull(childPageConfig.getTitle().getFrom())
+            && !StringUtil.isNull(childPageConfig.getTitle().getTo())) {
             if (childPageConfig.getTitle().isIssRegularExpression()) {
                 childTitle = childTitle.replaceAll(childPageConfig.getTitle().getFrom(),
                                                    childPageConfig.getTitle().getTo());

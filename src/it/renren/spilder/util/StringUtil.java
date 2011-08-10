@@ -190,7 +190,7 @@ public class StringUtil {
      * @return
      */
     public static String replaceContent(String content, String from, String to, boolean isIssRegularExpression) {
-        if (!from.equals("") && !to.equals("")) {
+        if (!StringUtil.isNull(from) && !StringUtil.isNull(to)) {
             if (isIssRegularExpression) {
                 content = content.replaceAll(from, to);
             } else {

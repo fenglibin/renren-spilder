@@ -5,10 +5,15 @@ import it.renren.spilder.util.FontUtil;
 
 import java.io.File;
 
+/**
+ * 类TranDir.java的实现描述：将指定文件夹下面的文件内容，全部翻译成其它语言，如简体翻译为繁体
+ * 
+ * @author fenglibin 2011-8-9 下午01:31:43
+ */
 public class TranDir {
 
     private static final String   charset   = "utf-8";
-    private static final String[] fileTypes = { "php", "html", "txt","htm" };
+    private static final String[] fileTypes = { "php", "html", "txt", "htm" };
 
     private static void tranDir(String dir) throws Exception {
         File fileDir = new File(dir);
