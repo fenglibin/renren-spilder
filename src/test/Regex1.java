@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 class Regex1{
 	public static void main(String args[]) {
-	String str="http://www.google.org.cn/posts/cl-doodle-independence-de-doodle-oktoberfest.html";
-	String regEx="http://www.google.org.cn/posts/([a-z]|-)*.html$"; //表示a或f 
+	String str="http://www.cnblogs.com/mjc467621163/archive/2011/07/1222.html";
+	String regEx="([0-9]){4}[/]([0-9]){2}[/]([0-9]){2}[/]([0-9])*.html"; //表示a或f 
 	Pattern p=Pattern.compile(regEx);
 	Matcher m=p.matcher(str);
 	boolean result=m.find();
