@@ -1,0 +1,176 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta http-equiv="Content-Language" content="zh-cn" />
+
+<meta name="robots" content="all" />
+
+<meta name="author" content="school.stackdoc.com" />
+<meta name="Copyright" content="Copyright school.stackdoc.com All Rights Reserved." />
+<meta name="MSSmartTagsPreventParsing" content="true" />
+<meta http-equiv="imagetoolbar" content="false" />
+
+<link rel="stylesheet" type="text/css" href="/c3.css" />
+
+<title>Linux命令参考</title>
+</head>
+
+<body class="linux">
+<div id="wrapper">
+
+<div id="header">
+<a href="/index.html" title="StackDoc School 在線教程" style="float:left;">StackDoc School 在線教程</a>
+<div id="ad_head">
+<script type="text/javascript"><!--
+google_ad_client = "pub-2476175026271293";
+/* 728x90, 創建於 08-12-1 */
+google_ad_slot = "4196764498";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+</div>
+
+<div id="navfirst">
+<ul id="menu">
+<li id="h"><a href="/h.html" title="HTML 系列教程">HTML教程</a></li>
+<li id="x"><a href="/x.html" title="XML 系列教程">XML教程</a></li>
+<li id="b"><a href="/b.html" title="瀏覽器腳本系列教程">瀏覽器腳本</a></li>
+<li id="s"><a href="/s.html" title="服務器腳本系列教程">服務器腳本</a></li>
+<li id="d"><a href="/d.html" title=".NET (dotnet) 教程">dot net教程</a></li>
+<li id="m"><a href="/m.html" title="多媒體系列教程">多媒體教程</a></li>
+<li id="w"><a href="/w.html" title="網站構建手冊">建站手冊</a></li>
+<li id="l"><a href="/l.html" title="Linux手冊">Linux手冊</a></li>
+</ul>
+</div><div id="navsecond">
+
+<div id="course">
+<h2>文件管理</h2>
+<ul>
+<li><a href="cat.html" title="cat">cat</a></li>
+<li><a href="chattr.html" title="chattr">chattr</a></li>
+<li><a href="chgrp.html" title="chgrp">chgrp</a></li>
+<li><a href="chmod.html" title="chmod">chmod</a></li>
+<li><a href="chown.html" title="chown">chown</a></li>
+<li><a href="cksum.html" title="cksum">cksum</a></li>
+<li><a href="cmp.html" title="cmp">cmp</a></li>
+
+<li><a href="diff.html" title="diff">diff</a></li>
+<li><a href="diffstat.html" title="diffstat">diffstat</a></li>
+<li><a href="file.html" title="file">file</a></li>
+<li><a href="find.html" title="find">find</a></li>
+<li><a href="git.html" title="git">git</a></li>
+<li><a href="gitview.html" title="gitview">gitview</a></li>
+<li><a href="indent.html" title="indent">indent</a></li>
+
+<li><a href="cut.html" title="cut">cut</a></li>
+<li><a href="ln.html" title="ln">ln</a></li>
+<li><a href="less.html" title="less">less</a></li>
+<li><a href="locate.html" title="locate">locate</a></li>
+<li><a href="isattr.html" title="isattr">isattr</a></li>
+<li><a href="mattrib.html" title="mattrib">mattrib</a></li>
+<li><a href="mc.html" title="mc">mc</a></li>
+
+<li><a href="mdel.html" title="mdel">mdel</a></li>
+<li><a href="mdir.html" title="mdir">mdir</a></li>
+<li><a href="mktemp.html" title="mktemp">mktemp</a></li>
+<li><a href="more.html" title="more">more</a></li>
+<li><a href="mmove.html" title="mmove">mmove</a></li>
+<li><a href="mread.html" title="mread">mread</a></li>
+<li><a href="mren.html" title="mren">mren</a></li>
+
+<li><a href="mtools.html" title="mtools">mtools</a></li>
+<li><a href="mtoolstest.html" title="mtoolstest">mtoolstest</a></li>
+<li><a href="mv.html" title="mv">mv</a></li>
+<li><a href="od.html" title="od">od</a></li>
+<li><a href="paste.html" title="paste">paste</a></li>
+<li><a href="patch.html" title="patch">patch</a></li>
+<li><a href="rcp.html" title="rcp">rcp</a></li>
+
+<li><a href="rm.html" title="rm">rm</a></li>
+<li><a href="slocate.html" title="slocate">slocate</a></li>
+<li><a href="split.html" title="split">split</a></li>
+<li><a href="tee.html" title="tee">tee</a></li>
+<li><a href="tmpwatch.html" title="tmpwatch">tmpwatch</a></li>
+<li><a href="touch.html" title="touch">touch</a></li>
+<li><a href="umask.html" title="umask">umask</a></li>
+
+<li><a href="which.html" title="which">which</a></li>
+<li><a href="cp.html" title="cp">cp</a></li>
+<li><a href="in.html" title="in">in</a></li>
+<li><a href="mcopy.html" title="mcopy">mcopy</a></li>
+<li><a href="mshowfat.html" title="mshowfat">mshowfat</a></li>
+<li><a href="rhmask.html" title="rhmask">rhmask</a></li>
+<li><a href="whereis.html" title="whereis">whereis</a></li>
+
+</ul>
+</div>
+
+<div id="selected">
+
+
+<div id="about"></div>
+
+</div>
+
+</div>
+
+<div id="maincontent">
+
+<h1>Linux命令参考</h1>
+<div id="tpn">
+<ul class="prenext">
+#pre#
+#next#
+</ul>
+
+</div>
+
+<div>
+#content#
+</div>
+<div>
+	<script type="text/javascript" src="/my/google_ad_300_250.js"></script>
+  <script type="text/javascript" src="/my/google_ad_300_250.js"></script>
+</div>
+<div id="bpn">
+<ul class="prenext">
+#pre#
+#next#
+</ul>
+
+</div>
+</div>
+
+<div id="sidebar">
+
+<div id="searchui">
+<form method="get" id="searchform" action="http://www.google.com.hk/search">
+
+
+<p>
+
+
+</p>
+</form>
+</div>
+
+
+
+<div id="myad">
+
+</div>
+
+</div><div id="footer">
+<p><a href="http://www.stackdoc.com">StackDoc.Com</a>&nbsp;<a href="http://school.stackdoc.com">School.StackDoc.Com</a></p>
+</div>
+
+</div>
+</body>
+</html>

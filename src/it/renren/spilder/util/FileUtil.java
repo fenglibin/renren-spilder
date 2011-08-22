@@ -72,7 +72,7 @@ public class FileUtil {
         // log4j.logDebug("保存文件:"+srcUrl+" 到 "+fileSavePath+",文件名为:"+fileName);
     }
 
-    public static void getFile(String srcUrl, String filePath) throws IOException {
+    public static void getUrlFile(String srcUrl, String filePath) throws IOException {
         URL url = new URL(srcUrl);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         long urlFileLength = httpURLConnection.getContentLength();
@@ -192,7 +192,7 @@ public class FileUtil {
      * @return
      * @throws Exception
      */
-    public static String getFileContent(String path, String charset) throws Exception {
+    public static String getFileContent(String path, String charset) throws IOException {
         String content = "";
         InputStreamReader read = new InputStreamReader(new FileInputStream(path), charset);
         BufferedReader br = new BufferedReader(read);
@@ -203,6 +203,28 @@ public class FileUtil {
         br.close();
         read.close();
         return content;
+    }
+
+    /**
+     * 将读到的文件，一行一行的放到List中
+     * 
+     * @param path
+     * @return
+     * @throws IOException
+     * @throws Exception
+     */
+    public static List<String> getFile2List(String path) throws IOException {
+        List<String> cList = new ArrayList<String>();
+        File file = new File(path);
+        FileReader fr = new FileReader(file);
+        BufferedReader br = new BufferedReader(fr);
+        String line = "";
+        while ((line = br.readLine()) != null) {
+            cList.add(line.trim());
+        }
+        br.close();
+        fr.close();
+        return cList;
     }
 
     /**
@@ -228,7 +250,7 @@ public class FileUtil {
      * @param charset
      * @throws Exception
      */
-    public static void writeFile(String filePath, String content, String charset) throws Exception {
+    public static void writeFile(String filePath, String content, String charset) throws IOException {
         PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath),
                                                                                     charset)));
         out.write(content);

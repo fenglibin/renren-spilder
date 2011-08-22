@@ -12,7 +12,7 @@ import java.io.File;
  */
 public class TranDir {
 
-    private static final String   charset   = "utf-8";
+    private static String         charset   = "utf-8";
     private static final String[] fileTypes = { "php", "html", "txt", "htm" };
 
     private static void tranDir(String dir) throws Exception {
@@ -53,7 +53,8 @@ public class TranDir {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        String dir = "/home/fenglibin/soft/DedeCmsV5.7-UTF8-Final.tar";
+        String dir = "/home/fenglibin/proc/renren-spilder/www.w3school.com.cn";
+        charset = "gbk";
         tranDir(dir);
     }
 
