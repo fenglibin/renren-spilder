@@ -14,6 +14,7 @@ public class TranDir {
 
     private static String         charset   = "utf-8";
     private static final String[] fileTypes = { "php", "html", "txt", "htm" };
+    private static final int      JIAN_FAN  = 0;                              // 值为1表示简体转为繁体，值为0表示繁体转换为简体
 
     private static void tranDir(String dir) throws Exception {
         File fileDir = new File(dir);
@@ -33,7 +34,11 @@ public class TranDir {
         }
         System.out.println("Tran:" + file);
         String content = FileUtil.getFileContent(file, charset);
-        content = FontUtil.jian2fan(content);
+        if (JIAN_FAN == 1) {
+            content = FontUtil.jian2fan(content);
+        } else if (JIAN_FAN == 0) {
+            content = FontUtil.fan2jian(content);
+        }
         FileUtil.writeFile(file, content, charset);
     }
 
@@ -53,7 +58,7 @@ public class TranDir {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        String dir = "/home/fenglibin/proc/renren-spilder/www.w3school.com.cn";
+        String dir = "E:\\work\\mywork\\www.w3school.com.cn";
         charset = "gbk";
         tranDir(dir);
     }

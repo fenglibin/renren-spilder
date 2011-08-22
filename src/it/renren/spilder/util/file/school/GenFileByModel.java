@@ -42,8 +42,9 @@ public class GenFileByModel {
      * @throws ParserException
      */
     public static void main(String[] args) throws IOException, ParserException {
-        genModelFile();
-        getContent();
+        //genModelFile();
+        //getContent();
+        genLiHref();
     }
 
     /**
@@ -99,6 +100,7 @@ public class GenFileByModel {
         mainContent = StringUtil.subString(mainContent, mainStart, mainEnd);
         List<AHrefElement> childLinks = AHrefParser.ahrefParser(mainContent, charset);
         for (String oneCommand : commandList) {
+            System.out.println("¥¶¿Ìµƒ√¸¡Ó£∫" + oneCommand);
             String oneCommandFile = commandFile;
             oneCommandFile = oneCommandFile.replace("commandName", oneCommand);
             String oneCommandContent = FileUtil.getFileContent(oneCommandFile, charset);
@@ -113,6 +115,13 @@ public class GenFileByModel {
             }
             oneCommandContent = oneCommandContent.replace("#content#", content);
             FileUtil.writeFile(oneCommandFile, oneCommandContent, charset);
+        }
+    }
+
+    private static void genLiHref() {
+        for (String oneCommand : commandList) {
+            System.out.println("<li><a href=\"" + oneCommand + ".html\" title=\"" + oneCommand + "\">" + oneCommand
+                               + "</a></li>");
         }
     }
 }
