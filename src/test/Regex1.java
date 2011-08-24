@@ -1,12 +1,14 @@
 package test;
 
+import it.renren.spilder.util.StringUtil;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class Regex1 {
 
     public static void main(String args[]) {
-        test2();
+        removeHreflink();
     }
 
     private static void test1() {
@@ -25,5 +27,27 @@ class Regex1 {
         Matcher m = p.matcher(str);
         boolean result = m.find();
         System.out.println(result);
+    }
+
+    private static void test3() {
+        String str = "http://developer.51cto.com/art/201108/285930.htm";
+        str = "http://notice501.blog.51cto.com/3428502/640960";
+        String regEx = "(art[/]([0-9]){6}[/]([0-9])*.htm)|(blog.51cto.com/([0-9])*/([0-9])*)"; // ±Ì æaªÚf
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        boolean result = m.find();
+        System.out.println(result);
+    }
+
+    private static void test4() {
+        String str = "aabb51CTOccdd51cto";
+        str = str.replace("51CTO", "");
+        System.out.println(str);
+    }
+
+    private static void removeHreflink() {
+        String str = "aa<a href=xx.htm title=t>xxxxxx</a><b>fuck</b>";
+        str = StringUtil.removeHreflink(str);
+        System.out.println(str);
     }
 }

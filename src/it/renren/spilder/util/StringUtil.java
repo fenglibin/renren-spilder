@@ -82,6 +82,30 @@ public class StringUtil {
         return htmlSource.replaceAll("\\<script.*?/script>", "");
     }
 
+    /**
+     * 去除超链接
+     * 
+     * @param htmlSource
+     * @return
+     */
+    public static String removeHreflink(String htmlSource) {
+        htmlSource = htmlSource.replaceAll("\\<a[^>]*>", "");
+        htmlSource = htmlSource.replaceAll("\\</a>", "");
+        return htmlSource;
+    }
+
+    /**
+     * 删除script标签及超链接
+     * 
+     * @param htmlSource
+     * @return
+     */
+    public static String removeScriptAndHrefTags(String htmlSource) {
+        htmlSource = removeScript(htmlSource);
+        htmlSource = removeHreflink(htmlSource);
+        return htmlSource;
+    }
+
     public static void main(String[] args) {
         String htmlSource = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'><html xmlns='http://www.w3.org/1999/xhtml'><head><meta http-equiv='Content-Type' content='text/html; charset=gb2312' /><title>例子：把字符串时间转换为timestamp_人人IT网</title><meta name='keywords' content='转换,时间,字符串,例子,array,t' /><meta name='description' content='? $strtime = 2000-02-12 16:20:35; $array = explode(-,$strtime); $year = $array[0]; $month = $array[1]; $array = explode(:,$array[2]); $minute = $array[1]; $second = $array[2]; $array = explode( ,$array[0]); $day = $array[0]; $hour = $array[' /><link href='/templets/default/style/dedecms.css' rel='stylesheet' media='screen' type='text/css' /><link rel='stylesheet' href='/templets/default/style/dedecms_skins_0.css' type='text/css' id='cssfile' /><style>";
         htmlSource = removeHtmlTags(htmlSource);

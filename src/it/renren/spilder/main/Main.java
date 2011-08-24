@@ -148,6 +148,10 @@ public class Main {
             Environment.tablePrefix = tablePrefix;
         }
 
+        public void setExitByFailedDealPages(String exitByFailedDealPages) {
+            Environment.exitByFailedDealPages = Boolean.parseBoolean(exitByFailedDealPages);
+        }
+
     }
 
     /**
@@ -185,6 +189,8 @@ public class Main {
                 param.setProxyHost(value.replace("-proxy", ""));
             } else if (value.startsWith("-tablePrefix")) {// 使用代理
                 param.setTablePrefix(value.replace("-tablePrefix", ""));
+            } else if (value.startsWith("-exitByFailedDealPages")) {// 当处理文章，失败到达一定的数量时，退出控制标识
+                param.setExitByFailedDealPages(value.replace("-exitByFailedDealPages", ""));
             }
 
         }
@@ -202,7 +208,7 @@ public class Main {
             param.setFile(true);
             param.setFileName("config/google.org.cn/rule_google.org.cn_wordpressblog.xml");
             param.setFileName("config/www.blogjava.net/model.xml");
-            param.setFileName("config/cnblogs/model.xml");
+            param.setFileName("config/developer.51cto.com.xml");
             // 文件夹测试
             // param.setDirectory(true);
             // param.setDirectoryName("config/headnews");

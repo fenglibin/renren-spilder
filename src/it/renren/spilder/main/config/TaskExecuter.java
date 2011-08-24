@@ -148,7 +148,7 @@ public class TaskExecuter extends Thread {
 
                         String childContent = getChildContent(childBody, childPageConfig);
                         /** 去掉script标签 */
-                        childContent = StringUtil.removeScript(childContent);
+                        childContent = StringUtil.removeScriptAndHrefTags(childContent);
                         if (StringUtil.isNull(childContent)
                             || StringUtil.removeHtmlTags(childContent).trim().length() <= Constants.CONTENT_LEAST_LENGTH) {
                             throw new RuntimeException("当前获取到内容长度小于：" + Constants.CONTENT_LEAST_LENGTH);
@@ -168,11 +168,11 @@ public class TaskExecuter extends Thread {
                                                                  childPageConfig.getContent().isIssRegularExpression());
 
                         // 将文章中的相对URL地址，替换为绝对的URL地址（开始）
-                        childContent = replaceRelativePath2AbsolutePate(childUrl, childContent,
-                                                                        childPageConfig.getCharset());
-                        // 替换目前发现的一些问题，如获取到文章中有八个问号等
-                        childContent = childContent.replace("????????", "");
+                        // childContent = replaceRelativePath2AbsolutePate(childUrl,
+                        // childContent,childPageConfig.getCharset());
                         // 将文章中的相对URL地址，替换为绝对的URL地址（结束）
+                        // 替换目前发现的一些问题，如获取到文章中有八个问号等
+                        childContent = childContent.replace("????", "");
                         detail.setContent(childContent);
                         handleContent(childPageConfig, detail);
                         // 保存图片
