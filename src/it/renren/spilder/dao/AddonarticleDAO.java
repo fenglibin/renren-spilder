@@ -7,4 +7,6 @@ public interface AddonarticleDAO {
     public void insertAddonarticle(AddonarticleDO addonarticleDO);
 
     public AddonarticleDO selectBodyByAid(int aid);
+
+    public void updateBodyByAid(AddonarticleDO addonarticleDO);
 }

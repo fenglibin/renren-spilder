@@ -56,6 +56,9 @@
 	<update id="UPDATE_DESCRIPTION" parameterClass="TA-ARCHIVES">
 		update $tablePrefix$archives set description=#description# where id=#id#
 	</update>
+	<update id="UPDATE_TITLE_KEYWORDS_DESCRIPTION" parameterClass="TA-ARCHIVES">
+		update $tablePrefix$archives set title=#title#,keywords=#keywords#,description=#description# where id=#id#
+	</update>
 	<!-- for dedecms5.7 -->
 	<insert id="Insert_Archives5.7" parameterClass="TA-ARCHIVES">
 		<![CDATA[

@@ -7,22 +7,15 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import it.renren.spilder.main.Constants;
-
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
-
 /**
  * 删除冗余的图片 类RemoveUnusedImages.java的实现描述：TODO 类实现描述
  * 
  * @author fenglibin 2011-4-29 下午01:00:59
  */
-public class RemoveUnusedImages {
+public class RemoveUnusedImages extends WashBase {
 
-    private static final ConfigurableApplicationContext ctx           = new FileSystemXmlApplicationContext(
-                                                                                                            new String[] { Constants.SPRING_CONFIG_FILE });
-    private static Connection                           connection    = null;
-    private static Connection                           fanConnection = null;
+    private static Connection connection    = null;
+    private static Connection fanConnection = null;
 
     /**
      * @param args
@@ -57,7 +50,7 @@ public class RemoveUnusedImages {
                     boolean delete = false;
                     if (!rs.next()) {
                         ResultSet rsFan = fanConnection.createStatement().executeQuery(
-                                                                                       "select aid from renrenfanti_addonarticle where body like '%"
+                                                                                       "select aid from fanti_addonarticle where body like '%"
                                                                                                + name + "%'");
                         if (!rsFan.next()) {
                             delete = true;

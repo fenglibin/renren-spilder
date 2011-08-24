@@ -13,18 +13,12 @@ import it.renren.spilder.dataobject.ArchivesDO;
 import it.renren.spilder.main.Constants;
 import it.renren.spilder.util.StringUtil;
 
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
-
 /**
  * 类AddDescription.java的实现描述：补充描述内容，以及删除内容长度小于100的文章
  * 
  * @author fenglibin 2011-6-16 上午09:43:05
  */
-public class AddDescription {
-
-    private static final ConfigurableApplicationContext ctx = new FileSystemXmlApplicationContext(
-                                                                                                  new String[] { Constants.SPRING_CONFIG_FILE });
+public class AddDescription extends WashBase {
 
     // 删除内容小于100字节的所有文章
     private void removeShotContentSimple() throws SQLException {
@@ -50,13 +44,13 @@ public class AddDescription {
         Connection conn = dataSource.getConnection();
         Statement st = conn.createStatement();
         Statement stDelete = conn.createStatement();
-        ResultSet rs = st.executeQuery("select aid from renrenfanti_addonarticle where length(body)<=100");
+        ResultSet rs = st.executeQuery("select aid from fanti_addonarticle where length(body)<=100");
         while (rs.next()) {
             int aid = rs.getInt("aid");
-            stDelete.execute("delete from renrenfanti_arctiny where id=" + aid);
-            stDelete.execute("delete from renrenfanti_archives where id=" + aid);
+            stDelete.execute("delete from fanti_arctiny where id=" + aid);
+            stDelete.execute("delete from fanti_archives where id=" + aid);
         }
-        stDelete.execute("delete from renrenfanti_addonarticle where length(body)<=100");
+        stDelete.execute("delete from fanti_addonarticle where length(body)<=100");
         rs.close();
         stDelete.close();
         conn.close();
@@ -145,14 +139,14 @@ public class AddDescription {
         Connection conn = dataSource.getConnection();
         Statement st = conn.createStatement();
         Statement stBody = conn.createStatement();
-        ResultSet rs = st.executeQuery("select id from renrenfanti_archives where description=''");
+        ResultSet rs = st.executeQuery("select id from fanti_archives where description=''");
         String body = "";
         ArchivesDAO archivesDAO = (ArchivesDAO) ctx.getBean("archivesDAOFanti");
         ArchivesDO archivesDO = new ArchivesDO();
         while (rs.next()) {
             int id = rs.getInt("id");
             System.out.println("deal id:" + id + " start. now is:" + (new Date()));
-            ResultSet rsbody = stBody.executeQuery("select body from renrenfanti_addonarticle where aid=" + id);
+            ResultSet rsbody = stBody.executeQuery("select body from fanti_addonarticle where aid=" + id);
             System.out.println("get body ok:" + (new Date()));
             if (rsbody.next()) {
                 body = rsbody.getString("body");
@@ -183,14 +177,14 @@ public class AddDescription {
         Connection conn = dataSource.getConnection();
         Statement st = conn.createStatement();
         Statement stBody = conn.createStatement();
-        ResultSet rs = st.executeQuery("select id from renrenfanti_archives");
+        ResultSet rs = st.executeQuery("select id from fanti_archives");
         String body = "";
         ArchivesDAO archivesDAO = (ArchivesDAO) ctx.getBean("archivesDAOFanti");
         ArchivesDO archivesDO = new ArchivesDO();
         while (rs.next()) {
             int id = rs.getInt("id");
             System.out.println("deal id:" + id + " start. now is:" + (new Date()));
-            ResultSet rsbody = stBody.executeQuery("select body from renrenfanti_addonarticle where aid=" + id);
+            ResultSet rsbody = stBody.executeQuery("select body from fanti_addonarticle where aid=" + id);
             System.out.println("get body ok:" + (new Date()));
             if (rsbody.next()) {
                 body = rsbody.getString("body");
@@ -220,7 +214,7 @@ public class AddDescription {
         DataSource dataSource = (DataSource) ctx.getBean("dataSourceFanti");
         Connection conn = dataSource.getConnection();
         Statement st = conn.createStatement();
-        st.execute("update renrenfanti_addonarticle set body=replace(body,'此文來自人人IT網，請訪問www.renren.it獲取更多內容','')");
+        st.execute("update fanti_addonarticle set body=replace(body,'此文來自人人IT網，請訪問www.renren.it獲取更多內容','')");
         st.close();
         conn.close();
     }

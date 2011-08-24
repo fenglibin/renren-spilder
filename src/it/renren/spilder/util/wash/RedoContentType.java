@@ -1,7 +1,7 @@
 package it.renren.spilder.util.wash;
 
 import it.renren.spilder.dao.ArctypeDAO;
-import it.renren.spilder.main.Constants;
+
 import it.renren.spilder.type.DedecmsTypesMap;
 import it.renren.spilder.util.FontUtil;
 import it.renren.spilder.util.StringUtil;
@@ -15,18 +15,12 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
-
 /**
  * 对文章类别进行处理
  * 
  * @author Administrator
  */
-public class RedoContentType {
-
-    private static final ConfigurableApplicationContext ctx = new FileSystemXmlApplicationContext(
-                                                                                                  new String[] { Constants.SPRING_CONFIG_FILE });
+public class RedoContentType extends WashBase {
 
     /**
      * @param args
@@ -59,15 +53,15 @@ public class RedoContentType {
         DataSource dataSource_fanti = (DataSource) ctx.getBean("dataSourceFanti");
         Connection conn_fanti = dataSource_fanti.getConnection();
         Statement st_fanti = conn_fanti.createStatement();
-        ResultSet rs_fanti = st_fanti.executeQuery("select a.id,a.title,b.body from renrenfanti_archives a,renrenfanti_addonarticle b where a.id>=81280 and a.id=b.aid");
+        ResultSet rs_fanti = st_fanti.executeQuery("select a.id,a.title,b.body from fanti_archives a,fanti_addonarticle b where a.id>=81280 and a.id=b.aid");
         while (rs_fanti.next()) {
             int id = rs_fanti.getInt("id");
             int type = detectTypeFanti(typesMapData, rs_fanti.getString("title"), rs_fanti.getString("body"));
             if (type > -1) {
                 Statement up = conn_fanti.createStatement();
-                up.executeUpdate("update renrenfanti_arctiny set typeid=" + type + " where id=" + id);
-                up.executeUpdate("update renrenfanti_archives set typeid=" + type + " where id=" + id);
-                up.executeUpdate("update renrenfanti_addonarticle set typeid=" + type + " where aid=" + id);
+                up.executeUpdate("update fanti_arctiny set typeid=" + type + " where id=" + id);
+                up.executeUpdate("update fanti_archives set typeid=" + type + " where id=" + id);
+                up.executeUpdate("update fanti_addonarticle set typeid=" + type + " where aid=" + id);
                 System.out.println("fanti is ok.");
             } else {
                 System.out.println("type is -1,keep the typeid.");

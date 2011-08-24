@@ -11,4 +11,6 @@ public interface ArchivesDAO {
     public List<ArchivesDO> selectNullDescriptionRecords();
 
     public int updateDescription(ArchivesDO archivesDO);
+
+    public int updateTitleKeywordsDescription(ArchivesDO archivesDO);
 }
