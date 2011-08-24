@@ -25,21 +25,32 @@ public class TranslateArticle extends WashBase {
      * @throws SQLException
      */
     public static void main(String[] args) throws SQLException {
-        if (args.length != 1) {
+        if (args.length < 1 || args.length > 2) {
             return;
         }
         int startId = Integer.parseInt(args[0]);
-        tran(startId);
+        int endId = -1;
+        if (args.length == 2) {
+            endId = Integer.parseInt(args[1]);
+        }
+        if (startId > endId) {
+            return;
+        }
+        tran(startId, endId);
 
     }
 
-    private static void tran(int startId) throws SQLException {
+    private static void tran(int startId, int endId) throws SQLException {
         ArchivesDAO archivesDAO = (ArchivesDAO) ctx.getBean("archivesDAOFanti");
         AddonarticleDAO addonarticleDAO = (AddonarticleDAO) ctx.getBean("addonarticleDAOFanti");
         DataSource dataSource = (DataSource) ctx.getBean("dataSourceFanti");
         Connection conn = dataSource.getConnection();
         Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery("select * from fanti_archives where id>=" + startId);
+        String sql = "select * from fanti_archives where id>=" + startId;
+        if (endId > -1) {
+            sql += " and id<=" + endId;
+        }
+        ResultSet rs = st.executeQuery(sql);
         while (rs.next()) {
             String title = rs.getString("title");
             String keywords = rs.getString("keywords");
