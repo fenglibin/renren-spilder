@@ -33,7 +33,7 @@ public class TranslateArticle extends WashBase {
         if (args.length == 2) {
             endId = Integer.parseInt(args[1]);
         }
-        if (startId > endId) {
+        if (endId > -1 && startId > endId) {
             return;
         }
         tran(startId, endId);

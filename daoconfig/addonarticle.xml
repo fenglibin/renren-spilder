@@ -19,7 +19,7 @@
 			 ]]>
 	</insert>
 	<select id="SELECT_BODY_BY_AID" resultMap="RM-ADDONARTICLE" parameterClass="TA-ADDONARTICLE">
-		select body from $tablePrefix$addonarticle where aid=#aid#
+		select aid,body,typeid from $tablePrefix$addonarticle where aid=#aid#
 	</select>
 	<update id="UPDATE_BODY_BY_AID" parameterClass="TA-ADDONARTICLE">
 		update $tablePrefix$addonarticle set body=#body# where aid=#aid#
