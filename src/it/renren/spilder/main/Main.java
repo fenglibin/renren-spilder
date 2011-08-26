@@ -152,6 +152,10 @@ public class Main {
             Environment.exitByFailedDealPages = Boolean.parseBoolean(exitByFailedDealPages);
         }
 
+        public void enableOutputHtmlContentWhenErrorHappend() {
+            Environment.isOutputHtmlContentWhenErrorHappend = Boolean.TRUE;
+        }
+
     }
 
     /**
@@ -191,6 +195,9 @@ public class Main {
                 param.setTablePrefix(value.replace("-tablePrefix", ""));
             } else if (value.startsWith("-exitByFailedDealPages")) {// 当处理文章，失败到达一定的数量时，退出控制标识
                 param.setExitByFailedDealPages(value.replace("-exitByFailedDealPages", ""));
+
+            } else if (value.startsWith("-OutputHtmlContentWhenErrorHappend")) {// 当处理文章，失败到达一定的数量时，退出控制标识
+                param.enableOutputHtmlContentWhenErrorHappend();
             }
 
         }

@@ -94,12 +94,18 @@ public class TaskExecuter extends Thread {
                                                                               parentPageConfig.getCharset());
                 } catch (Exception e) {
                     log4j.logError("从 url:" + listPageUrl + "获取得内容发生异常！配置文件为：" + configFile);
+                    if (Environment.isOutputHtmlContentWhenErrorHappend) {
+                        log4j.logError("the content is :\n" + mainContent);
+                    }
                     throw new RuntimeException(e);
                 }
                 try {
                     mainContent = getMainContent(mainContent, parentPageConfig);
                 } catch (Exception e) {
                     log4j.logError("从 url:" + listPageUrl + "中截取得需要的内容发生异常！配置文件为：" + configFile);
+                    if (Environment.isOutputHtmlContentWhenErrorHappend) {
+                        log4j.logError("the content is :\n" + mainContent);
+                    }
                     throw new RuntimeException(e);
                 }
                 List<AHrefElement> childLinks = AHrefParser.ahrefParser(
