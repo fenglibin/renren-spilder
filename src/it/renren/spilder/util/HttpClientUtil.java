@@ -99,7 +99,12 @@ public class HttpClientUtil {
         }
 
         List<Header> headers = new ArrayList<Header>();
-        headers.add(new Header("User-Agent", "Mozilla/3.0 (compatible; MSIE 6.0; Windows NT 6.1)"));
+        headers.add(new Header("User-Agent", "Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/534.10 (KHTML, like Gecko) Ubuntu/10.04 Chromium/8.0.552.224 Chrome/8.0.552.224 Safari/534.10"));
+        headers.add(new Header("Accept", "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"));
+        headers.add(new Header("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.3"));
+        headers.add(new Header("Accept-Encoding", "gzip,deflate,sdch"));
+        headers.add(new Header("Accept-Language", "en-US,en;q=0.8"));
+        headers.add(new Header("Cache-Control", "max-age=0"));
         client.getHostConfiguration().getParams().setParameter("http.default-headers", headers);
         if (initialed) {
             HttpClientUtil.SetPara();
