@@ -111,8 +111,6 @@ public class WriteData2FanDB extends Task {
             childContent = childContent + "<br>From£º<a href=\"" + detail.getUrl() + "\" target=\"_blank\">"
                            + detail.getUrl() + "</a>";
         }
-        childContent = childContent
-                       + "<div style=\"display:none\"><a href=\"http://www.stackdoc.com\" target=\"_blank\">StackDoc</a><div>";
         return childContent;
     }
 

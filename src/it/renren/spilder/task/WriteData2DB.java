@@ -105,8 +105,6 @@ public class WriteData2DB extends Task {
             childContent = childContent + "<br>From£º<a href=\"" + detail.getUrl() + "\" target=\"_blank\">"
                            + detail.getUrl() + "</a>";
         }
-        childContent = childContent
-                       + "<div style='display:none'><a href=\"http://www.renren.it\" target=\"_blank\">Www.RenRen.it</a><div>";
         return childContent;
     }
 
