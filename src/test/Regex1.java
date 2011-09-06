@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 class Regex1 {
 
     public static void main(String args[]) {
-        removeHreflink();
+        test5();
     }
 
     private static void test1() {
@@ -43,6 +43,14 @@ class Regex1 {
         String str = "aabb51CTOccdd51cto";
         str = str.replace("51CTO", "");
         System.out.println(str);
+    }
+    private static void test5() {
+        String str = "http://my.oschina.net/ohcoding/blog/31886";
+        String regEx = "blog/([0-9])*$";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        boolean result = m.find();
+        System.out.println(result);
     }
 
     private static void removeHreflink() {

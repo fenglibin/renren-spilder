@@ -9,6 +9,7 @@ public class ChildPage {
     private ContentRange description;
     private Content      content;
     private boolean      isAddUrl;
+    private String       addUrlDisplayString;
     private boolean      isKeepFileName;
     private Replys       replys = new Replys();
 
@@ -70,6 +71,14 @@ public class ChildPage {
 
     public void setAddUrl(boolean isAddUrl) {
         this.isAddUrl = isAddUrl;
+    }
+
+    public String getAddUrlDisplayString() {
+        return addUrlDisplayString;
+    }
+
+    public void setAddUrlDisplayString(String addUrlDisplayString) {
+        this.addUrlDisplayString = addUrlDisplayString;
     }
 
     public Replys getReplys() {

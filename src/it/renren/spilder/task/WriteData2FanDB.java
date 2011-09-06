@@ -16,6 +16,7 @@ import it.renren.spilder.main.config.ParentPage;
 import it.renren.spilder.main.detail.ChildPageDetail;
 import it.renren.spilder.type.AutoDetectTypes;
 import it.renren.spilder.util.FontUtil;
+import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.log.Log4j;
 
 public class WriteData2FanDB extends Task {
@@ -108,8 +109,12 @@ public class WriteData2FanDB extends Task {
 
     private String getContent(ChildPage childPageConfig, ChildPageDetail detail, String childContent) {
         if (childPageConfig.isAddUrl()) {
+            String displayText = childPageConfig.getAddUrlDisplayString();
+            if (StringUtil.isNull(displayText)) {
+                displayText = detail.getUrl();
+            }
             childContent = childContent + "<br>From£º<a href=\"" + detail.getUrl() + "\" target=\"_blank\">"
-                           + detail.getUrl() + "</a>";
+                           + displayText + "</a>";
         }
         return childContent;
     }

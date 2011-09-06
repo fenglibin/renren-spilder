@@ -102,8 +102,12 @@ public class WriteData2DB extends Task {
 
     private String getContent(ChildPage childPageConfig, ChildPageDetail detail, String childContent) {
         if (childPageConfig.isAddUrl()) {
+            String displayText = childPageConfig.getAddUrlDisplayString();
+            if (StringUtil.isNull(displayText)) {
+                displayText = detail.getUrl();
+            }
             childContent = childContent + "<br>From£º<a href=\"" + detail.getUrl() + "\" target=\"_blank\">"
-                           + detail.getUrl() + "</a>";
+                           + displayText + "</a>";
         }
         return childContent;
     }
