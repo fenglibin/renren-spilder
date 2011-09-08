@@ -69,6 +69,11 @@ public class Config {
                                                JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/Translater/To/Value") == null ? "" : JDomUtil.getValueByXpath(
                                                                                                                                                                ruleXml,
                                                                                                                                                                "/Rules/MainUrl/Translater/To/Value"));
+        parentPageConfig.setBlogType(Integer.parseInt(JDomUtil.getValueByXpath(ruleXml,
+                                                                               "/Rules/MainUrl/BlogType/TypeId").equals(
+                                                                                                                        "") ? "0" : JDomUtil.getValueByXpath(
+                                                                                                                                                             ruleXml,
+                                                                                                                                                             "/Rules/MainUrl/BlogType/TypeId")));
         return parentPageConfig;
     }
 

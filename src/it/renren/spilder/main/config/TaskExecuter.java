@@ -17,6 +17,8 @@ import it.renren.spilder.util.log.Log4j;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.htmlparser.util.ParserException;
 import org.jdom.Document;
@@ -83,132 +85,21 @@ public class TaskExecuter extends Thread {
         ParentPage parentPageConfig = Config.initParentPage(ruleXml);
         ChildPage childPageConfig = Config.initChildPage(ruleXml);
         try {
-            boolean isBreak = false;
-            for (String listPageUrl : parentPageConfig.getUrlListPages().getListPages()) {
-                if (isBreak) {
-                    break;
-                }
-                String mainContent = "";
-                try {
-                    mainContent = HttpClientUtil.getGetResponseWithHttpClient(listPageUrl,
-                                                                              parentPageConfig.getCharset());
-                } catch (Exception e) {
-                    log4j.logError("从 url:" + listPageUrl + "获取得内容发生异常！配置文件为：" + configFile);
-                    if (Environment.isOutputHtmlContentWhenErrorHappend) {
-                        log4j.logError("the content is :\n" + mainContent);
-                    }
-                    throw new RuntimeException(e);
-                }
-                try {
-                    mainContent = getMainContent(mainContent, parentPageConfig);
-                } catch (Exception e) {
-                    log4j.logError("从 url:" + listPageUrl + "中截取得需要的内容发生异常！配置文件为：" + configFile);
-                    if (Environment.isOutputHtmlContentWhenErrorHappend) {
-                        log4j.logError("the content is :\n" + mainContent);
-                    }
-                    throw new RuntimeException(e);
-                }
-                List<AHrefElement> childLinks = AHrefParser.ahrefParser(
-                                                                        mainContent,
-                                                                        parentPageConfig.getUrlFilter().getMustInclude(),
-                                                                        parentPageConfig.getUrlFilter().getMustNotInclude(),
-                                                                        parentPageConfig.getCharset(),
-                                                                        parentPageConfig.getUrlFilter().isCompByRegex());
-                int failedLinks = 0;
-                for (AHrefElement link : childLinks) {
-                    if (isBreak) {
-                        break;
-                    }
-                    if (Environment.checkConfigFile) {
-                        isBreak = Boolean.TRUE;
-                    }
-                    ChildPageDetail detail = new ChildPageDetail();
-                    String childUrl = link.getHref();
-                    try {
-                        childUrl = UrlUtil.makeUrl(listPageUrl, childUrl);
-                        log4j.logDebug("当前处理的URL：" + childUrl);
-                        detail.setUrl(childUrl);
-                        if (!Environment.checkConfigFile) {
-                            if (isDealed(childUrl)) {
-                                log4j.logDebug("当前URL " + childUrl + " 已经有处理，不需要再次处理。");
-                                continue;
-                            }
-                        }
-                        if (childPageConfig.isKeepFileName()) {
-                            detail.setFileName(getUrlName(childUrl));
-                        }
-                        String childBody = HttpClientUtil.getGetResponseWithHttpClient(childUrl,
-                                                                                       childPageConfig.getCharset());
-                        String childTitle = StringUtil.subString(childBody, childPageConfig.getTitle().getStart(),
-                                                                 childPageConfig.getTitle().getEnd());
-                        childTitle = StringUtil.removeHtmlTags(childTitle);
-                        childTitle = replaceTitle(childPageConfig, childTitle);
-                        detail.setTitle(childTitle);
+            // 用于保存已经处理了的BLOG主页URL的MAP
+            ConcurrentMap<String, String> blogHomeUrlMap = new ConcurrentHashMap<String, String>();
+            save(ruleXml, parentPageConfig, parentPageConfig.getUrlListPages().getListPages(), childPageConfig,
+                 configFile, blogHomeUrlMap);
 
-                        String keywords = MetaParser.getMetaContent(childBody, childPageConfig.getCharset(),
-                                                                    Constants.META_KEYWORDS);
-                        if (keywords.equals("")) {/* 如果没有关键字，就取文章的标题为关键字 */
-                            keywords = childTitle;
-                        }
-                        detail.setKeywords(keywords);
-
-                        String childContent = getChildContent(childBody, childPageConfig);
-                        /** 去掉script标签 */
-                        childContent = StringUtil.removeScriptAndHrefTags(childContent);
-                        if (StringUtil.isNull(childContent)
-                            || StringUtil.removeHtmlTags(childContent).trim().length() <= Constants.CONTENT_LEAST_LENGTH) {
-                            throw new RuntimeException("当前获取到内容长度小于：" + Constants.CONTENT_LEAST_LENGTH);
-                        }
-                        detail.setContent(childContent);
-                        detail.setReplys(getReplyList(childBody, childPageConfig));
-                        childBody = null;
-                        String description = StringUtil.removeHtmlTags(childContent).trim().substring(
-                                                                                                      0,
-                                                                                                      Constants.CONTENT_LEAST_LENGTH);
-                        detail.setDescription(description);
-                        if (detail.getTitle().equals("") || detail.getContent().equals("")) {
-                            throw new RuntimeException("处理该URL:" + childUrl + " 时，获取标题或内容为空!");
-                        }
-                        childContent = StringUtil.replaceContent(childContent, childPageConfig.getContent().getFrom(),
-                                                                 childPageConfig.getContent().getTo(),
-                                                                 childPageConfig.getContent().isIssRegularExpression());
-
-                        // 将文章中的相对URL地址，替换为绝对的URL地址（开始）
-                        // childContent = replaceRelativePath2AbsolutePate(childUrl,
-                        // childContent,childPageConfig.getCharset());
-                        // 将文章中的相对URL地址，替换为绝对的URL地址（结束）
-                        // 替换目前发现的一些问题，如获取到文章中有八个问号等
-                        childContent = childContent.replace("????", "");
-                        detail.setContent(childContent);
-                        handleContent(childPageConfig, detail);
-                        // 保存图片
-                        UrlUtil.saveImages(parentPageConfig, childPageConfig, detail);
-                        if (!Environment.checkConfigFile) {
-                            for (Task task : taskList) {
-                                task.doTask(parentPageConfig, childPageConfig, detail);
-                            }
-                        } else {
-                            log4j.logError("当前配置文件：" + configFile + " 配置测试成功。");
-                        }
-                    } catch (Exception e) {
-                        failedLinks++;
-                        if (failedLinks >= Constants.ONE_CONFIG_FILE_MAX_FAILED_TIMES && Environment.dealOnePage) {
-                            isBreak = Boolean.TRUE;
-                        }
-                        log4j.logError("处理该URL时发生异常:" + childUrl, e);
-                    }
-                    detail.setContent(null);
-                    detail.setDescription(null);
-                    detail = null;
-                    if (!Environment.checkConfigFile) {
-                        if (parentPageConfig.getOneUrlSleepTime() == 0) {
-                            Thread.sleep(Constants.One_Url_Default_Sleep_Time);/* 默认休息10秒钟一篇文章 */
-                        } else {
-                            Thread.sleep(parentPageConfig.getOneUrlSleepTime());
-                        }
-                    }
+            // 以下是获取当前博客的博客主页上面的文章
+            // 将MAP转换为List
+            List<String> blogHomeUrlList = new ArrayList<String>();
+            if (blogHomeUrlMap.size() > 0) {
+                for (String url : blogHomeUrlMap.keySet()) {
+                    blogHomeUrlList.add(url);
                 }
             }
+            blogHomeUrlMap = null;
+            save(ruleXml, parentPageConfig, blogHomeUrlList, childPageConfig, configFile, blogHomeUrlMap);
         } catch (Exception e) {
             log4j.logError("根据配置文件:" + configFile + " 进行处理内容异常发生：", e);
         } finally {
@@ -217,6 +108,153 @@ public class TaskExecuter extends Thread {
             ruleXml = null;
         }
 
+    }
+
+    /**
+     * 保存
+     * 
+     * @param ruleXml
+     * @param parentPageConfig
+     * @param listPages
+     * @param childPageConfig
+     * @param configFile
+     * @param blogHomeUrlMap
+     * @throws ParserException
+     * @throws InterruptedException
+     */
+    private void save(Document ruleXml, ParentPage parentPageConfig, List<String> listPages, ChildPage childPageConfig,
+                      String configFile, ConcurrentMap<String, String> blogHomeUrlMap) throws ParserException,
+                                                                                      InterruptedException {
+        boolean isBreak = false;
+
+        for (String listPageUrl : listPages) {
+            if (isBreak) {
+                break;
+            }
+            String mainContent = "";
+            try {
+                mainContent = HttpClientUtil.getGetResponseWithHttpClient(listPageUrl, parentPageConfig.getCharset());
+            } catch (Exception e) {
+                log4j.logError("从 url:" + listPageUrl + "获取得内容发生异常！配置文件为：" + configFile);
+                if (Environment.isOutputHtmlContentWhenErrorHappend) {
+                    log4j.logError("the content is :\n" + mainContent);
+                }
+                throw new RuntimeException(e);
+            }
+            try {
+                mainContent = getMainContent(mainContent, parentPageConfig);
+            } catch (Exception e) {
+                log4j.logError("从 url:" + listPageUrl + "中截取得需要的内容发生异常！配置文件为：" + configFile);
+                if (Environment.isOutputHtmlContentWhenErrorHappend) {
+                    log4j.logError("the content is :\n" + mainContent);
+                }
+                throw new RuntimeException(e);
+            }
+            List<AHrefElement> childLinksList = AHrefParser.ahrefParser(
+                                                                        mainContent,
+                                                                        parentPageConfig.getUrlFilter().getMustInclude(),
+                                                                        parentPageConfig.getUrlFilter().getMustNotInclude(),
+                                                                        parentPageConfig.getCharset(),
+                                                                        parentPageConfig.getUrlFilter().isCompByRegex());
+            int failedLinks = 0;
+            for (AHrefElement link : childLinksList) {
+                if (isBreak) {
+                    break;
+                }
+                if (Environment.checkConfigFile) {
+                    isBreak = Boolean.TRUE;
+                }
+                ChildPageDetail detail = new ChildPageDetail();
+                String childUrl = link.getHref();
+                try {
+                    childUrl = UrlUtil.makeUrl(listPageUrl, childUrl);
+                    log4j.logDebug("当前处理的URL：" + childUrl);
+                    String blogHomeUrl = analysisBlogHomeUrl(parentPageConfig.getBlogType(), childUrl);
+                    if (blogHomeUrlMap != null && !StringUtil.isNull(blogHomeUrl)) {
+                        blogHomeUrlMap.put(blogHomeUrl, blogHomeUrl);
+                    }
+                    detail.setUrl(childUrl);
+                    if (!Environment.checkConfigFile) {
+                        if (isDealed(childUrl)) {
+                            log4j.logDebug("当前URL " + childUrl + " 已经有处理，不需要再次处理。");
+                            continue;
+                        }
+                    }
+                    if (childPageConfig.isKeepFileName()) {
+                        detail.setFileName(getUrlName(childUrl));
+                    }
+                    String childBody = HttpClientUtil.getGetResponseWithHttpClient(childUrl,
+                                                                                   childPageConfig.getCharset());
+                    String childTitle = StringUtil.subString(childBody, childPageConfig.getTitle().getStart(),
+                                                             childPageConfig.getTitle().getEnd());
+                    childTitle = StringUtil.removeHtmlTags(childTitle);
+                    childTitle = replaceTitle(childPageConfig, childTitle);
+                    detail.setTitle(childTitle);
+
+                    String keywords = MetaParser.getMetaContent(childBody, childPageConfig.getCharset(),
+                                                                Constants.META_KEYWORDS);
+                    if (keywords.equals("")) {/* 如果没有关键字，就取文章的标题为关键字 */
+                        keywords = childTitle;
+                    }
+                    detail.setKeywords(keywords);
+
+                    String childContent = getChildContent(childBody, childPageConfig);
+                    /** 去掉script标签 */
+                    childContent = StringUtil.removeScriptAndHrefTags(childContent);
+                    if (StringUtil.isNull(childContent)
+                        || StringUtil.removeHtmlTags(childContent).trim().length() <= Constants.CONTENT_LEAST_LENGTH) {
+                        throw new RuntimeException("当前获取到内容长度小于：" + Constants.CONTENT_LEAST_LENGTH);
+                    }
+                    detail.setContent(childContent);
+                    detail.setReplys(getReplyList(childBody, childPageConfig));
+                    childBody = null;
+                    String description = StringUtil.removeHtmlTags(childContent).trim().substring(
+                                                                                                  0,
+                                                                                                  Constants.CONTENT_LEAST_LENGTH);
+                    detail.setDescription(description);
+                    if (detail.getTitle().equals("") || detail.getContent().equals("")) {
+                        throw new RuntimeException("处理该URL:" + childUrl + " 时，获取标题或内容为空!");
+                    }
+                    childContent = StringUtil.replaceContent(childContent, childPageConfig.getContent().getFrom(),
+                                                             childPageConfig.getContent().getTo(),
+                                                             childPageConfig.getContent().isIssRegularExpression());
+
+                    // 将文章中的相对URL地址，替换为绝对的URL地址（开始）
+                    // childContent = replaceRelativePath2AbsolutePate(childUrl,
+                    // childContent,childPageConfig.getCharset());
+                    // 将文章中的相对URL地址，替换为绝对的URL地址（结束）
+                    // 替换目前发现的一些问题，如获取到文章中有八个问号等
+                    childContent = childContent.replace("????", "");
+                    detail.setContent(childContent);
+                    handleContent(childPageConfig, detail);
+                    // 保存图片
+                    UrlUtil.saveImages(parentPageConfig, childPageConfig, detail);
+                    if (!Environment.checkConfigFile) {
+                        for (Task task : taskList) {
+                            task.doTask(parentPageConfig, childPageConfig, detail);
+                        }
+                    } else {
+                        log4j.logError("当前配置文件：" + configFile + " 配置测试成功。");
+                    }
+                } catch (Exception e) {
+                    failedLinks++;
+                    if (failedLinks >= Constants.ONE_CONFIG_FILE_MAX_FAILED_TIMES && Environment.dealOnePage) {
+                        isBreak = Boolean.TRUE;
+                    }
+                    log4j.logError("处理该URL时发生异常:" + childUrl, e);
+                }
+                detail.setContent(null);
+                detail.setDescription(null);
+                detail = null;
+                if (!Environment.checkConfigFile) {
+                    if (parentPageConfig.getOneUrlSleepTime() == 0) {
+                        Thread.sleep(Constants.One_Url_Default_Sleep_Time);/* 默认休息10秒钟一篇文章 */
+                    } else {
+                        Thread.sleep(parentPageConfig.getOneUrlSleepTime());
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -411,6 +449,28 @@ public class TaskExecuter extends Thread {
         return replysList;
     }
 
+    /**
+     * 根据当前的博客类型，以及当前博客的一个URL地址，获取当前博客的主页地址
+     * 
+     * @param blogType 博客类型，目前1表示类CSDN的博客，博客不是独立的域名；2表示类ITEYE的博客，博客有独立的域名
+     * @param childUrl 当前博客的一个URL
+     * @return 当前博客的主页地址
+     */
+    private static String analysisBlogHomeUrl(int blogType, String childUrl) {
+        String blogHomeUrl = "";
+        if (blogType > 0) {
+            if (blogType == 1) {
+                String host = UrlUtil.getHost(childUrl);
+                childUrl = childUrl.replace(host, "");
+                String user = StringUtil.subStringSmart(childUrl, "/", "/");
+                blogHomeUrl = host + "/" + user;
+            } else if (blogType == 2) {
+                blogHomeUrl = UrlUtil.getHost(childUrl);
+            }
+        }
+        return blogHomeUrl;
+    }
+
     public List<Task> getTaskList() {
         return taskList;
     }
@@ -435,6 +495,8 @@ public class TaskExecuter extends Thread {
         String url = "http://java.dzone.com/articles/cdi-aop.htm";
         url = getUrlName(url);
         System.out.println(url);
+        url = "http://java.dzone.com/articles/cdi-aop.htm";
+        System.out.println(analysisBlogHomeUrl(1, url));
     }
 
 }

@@ -216,6 +216,7 @@ public class Main {
             param.setFileName("config/google.org.cn/rule_google.org.cn_wordpressblog.xml");
             param.setFileName("config/www.blogjava.net/model.xml");
             param.setFileName("config/developer.51cto.com.xml");
+            param.setFileName("config/blog.oschina.net.xml");
             // ÎÄ¼þ¼Ð²âÊÔ
             // param.setDirectory(true);
             // param.setDirectoryName("config/headnews");

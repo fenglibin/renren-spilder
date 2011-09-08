@@ -14,7 +14,7 @@ public class TranDir {
 
     private static String         charset   = "utf-8";
     private static final String[] fileTypes = { "php", "html", "txt", "htm" };
-    private static final int      JIAN_FAN  = 0;                              // 值为1表示简体转为繁体，值为0表示繁体转换为简体
+    private static final int      JIAN_FAN  = 1;                              // 值为1表示简体转为繁体，值为0表示繁体转换为简体
 
     private static void tranDir(String dir) throws Exception {
         File fileDir = new File(dir);
@@ -53,14 +53,43 @@ public class TranDir {
         return is;
     }
 
+    private static void trandir() throws Exception {
+        String dir = "";
+        charset = "gbk";
+        dir = "/usr/fenglibin/api_bg5/t";
+        tranDir(dir);
+        dir = "/usr/fenglibin/api_bg5/c++";
+        tranDir(dir);
+        dir = "/usr/fenglibin/api_bg5/DHTML";
+        tranDir(dir);
+        dir = "/usr/fenglibin/api_bg5/Hibernate3.2";
+        tranDir(dir);
+        dir = "/usr/fenglibin/api_bg5/j2me";
+        tranDir(dir);
+        dir = "/usr/fenglibin/api_bg5/JavaScript";
+        tranDir(dir);
+        dir = "/usr/fenglibin/api_bg5/Spring2.5";
+        tranDir(dir);
+        dir = "/usr/fenglibin/api_bg5/tsql2.1";
+        tranDir(dir);
+
+        charset = "utf-8";
+        dir = "/usr/fenglibin/api_bg5/css3.0";
+        tranDir(dir);
+        dir = "/usr/fenglibin/api_bg5/Ext3";
+        tranDir(dir);
+        dir = "/usr/fenglibin/api_bg5/jQuery1.3";
+        tranDir(dir);
+        dir = "/usr/fenglibin/api_bg5/mysql5.1zh";
+        tranDir(dir);
+    }
+
     /**
      * @param args
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        String dir = "E:\\work\\mywork\\www.w3school.com.cn";
-        charset = "gbk";
-        tranDir(dir);
+        trandir();
     }
 
 }

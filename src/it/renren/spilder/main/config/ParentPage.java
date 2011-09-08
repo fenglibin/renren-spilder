@@ -26,6 +26,7 @@ public class ParentPage {
     private long       oneUrlSleepTime = 0;
     private Translater translater;
     private String     autoDetectTypeMapClass;
+    private int        blogType;
 
     public boolean isSRcommand() {
         return isSRcommand;
@@ -245,4 +246,13 @@ public class ParentPage {
     public void setAutoDetectTypeMapClass(String autoDetectTypeMapClass) {
         this.autoDetectTypeMapClass = autoDetectTypeMapClass;
     }
+
+    public int getBlogType() {
+        return blogType;
+    }
+
+    public void setBlogType(int blogType) {
+        this.blogType = blogType;
+    }
+
 }

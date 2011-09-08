@@ -169,7 +169,7 @@ public class UrlUtil {
      * @param url
      * @return
      */
-    private static String getHost(String url) {
+    public static String getHost(String url) {
         String host = null;
         String urlTemp = url.replace("://", "");
         if (urlTemp.indexOf("/") > 0) {
