@@ -26,6 +26,9 @@
 				</WildcastType>
 			</BatValues>	
 		</Values>
+		<BlogType desc="博客类型，目前只支持两种类型的博客，值为1表示是CSDN的博客类型，每个博客没有自己的域名；值为2表示是JAVA的博客类型，不同的博客有自己的域名">
+			<TypeId desc="博客类型的ID，目前只支持1和2"></TypeId>
+		</BlogType>
 		<DesArticleId desc="结果分类ID">
 			<Value>23</Value>
 		</DesArticleId>
@@ -232,10 +235,13 @@
 				</Reply>
 			</Replys>
 		</Content>
-		<AddUrl desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false【可选】">
+		<AddUrl desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false.Display表示当前链接显示的文字，如果没有Display则直接显示URL">
 			<Value>
 				<![CDATA[true]]>
 			</Value>
+			<Display>
+				<![CDATA[OSChina]]>
+			</Display>
 		</AddUrl>
 		<KeepFileName desc="是否保留原获取网页的文件名【可选】">
 			<Value>
