@@ -171,6 +171,9 @@ public class TaskExecuter extends Thread {
                     log4j.logDebug("当前处理的URL：" + childUrl);
                     String blogHomeUrl = analysisBlogHomeUrl(parentPageConfig.getBlogType(), childUrl);
                     if (blogHomeUrlMap != null && !StringUtil.isNull(blogHomeUrl)) {
+                        if (!StringUtil.isNull(parentPageConfig.getHomeUrlAddStr())) {
+                            blogHomeUrl += parentPageConfig.getHomeUrlAddStr();
+                        }
                         blogHomeUrlMap.put(blogHomeUrl, blogHomeUrl);
                     }
                     detail.setUrl(childUrl);

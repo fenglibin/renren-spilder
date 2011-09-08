@@ -27,6 +27,7 @@ public class ParentPage {
     private Translater translater;
     private String     autoDetectTypeMapClass;
     private int        blogType;
+    private String     homeUrlAddStr;
 
     public boolean isSRcommand() {
         return isSRcommand;
@@ -253,6 +254,14 @@ public class ParentPage {
 
     public void setBlogType(int blogType) {
         this.blogType = blogType;
+    }
+
+    public String getHomeUrlAddStr() {
+        return homeUrlAddStr;
+    }
+
+    public void setHomeUrlAddStr(String homeUrlAddStr) {
+        this.homeUrlAddStr = homeUrlAddStr;
     }
 
 }

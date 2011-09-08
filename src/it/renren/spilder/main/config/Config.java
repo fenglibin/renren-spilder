@@ -74,6 +74,7 @@ public class Config {
                                                                                                                         "") ? "0" : JDomUtil.getValueByXpath(
                                                                                                                                                              ruleXml,
                                                                                                                                                              "/Rules/MainUrl/BlogType/TypeId")));
+        parentPageConfig.setHomeUrlAddStr(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/BlogType/HomeUrlAddStr"));
         return parentPageConfig;
     }
 
