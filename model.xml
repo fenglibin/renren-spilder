@@ -28,6 +28,7 @@
 		</Values>
 		<BlogType desc="博客类型，目前只支持两种类型的博客，值为1表示是CSDN的博客类型，每个博客没有自己的域名；值为2表示是JAVA的博客类型，不同的博客有自己的域名">
 			<TypeId desc="博客类型的ID，目前只支持1和2"></TypeId>
+			<HomeUrlAddStr desc="在获取到的博客主页地址后面增加的字符串，有时获取到的主页地址不是用户博客的直接地址，而是空间的地址，如OSCHINA，这个时候需要补充成博客地址"></HomeUrlAddStr>
 		</BlogType>
 		<DesArticleId desc="结果分类ID">
 			<Value>23</Value>
