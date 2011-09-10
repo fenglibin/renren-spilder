@@ -62,11 +62,9 @@ public class WriteData2FanDB extends Task {
             archivesDO.setId(arctinyDO.getId());
             archivesDO.setTypeid(typeid);
             archivesDO.setTitle(jian2fan(detailClone.getTitle().length() > 100 ? detailClone.getTitle().substring(0, 99) : detailClone.getTitle()));
-            archivesDO.setKeywords(jian2fan(detailClone.getKeywords().length() > 30 ? detailClone.getKeywords().substring(
-                                                                                                                          0,
+            archivesDO.setKeywords(jian2fan(detailClone.getKeywords().length() > 30 ? detailClone.getKeywords().substring(0,
                                                                                                                           29) : detailClone.getKeywords()));
-            archivesDO.setDescription(jian2fan(detailClone.getDescription().length() > 255 ? detailClone.getDescription().substring(
-                                                                                                                                    0,
+            archivesDO.setDescription(jian2fan(detailClone.getDescription().length() > 255 ? detailClone.getDescription().substring(0,
                                                                                                                                     254) : detailClone.getDescription()));
             archivesDO.setClick((int) (1000 * Math.random()));
             archivesDO.setWriter(jian2fan(detailClone.getAuthor()));
@@ -80,8 +78,8 @@ public class WriteData2FanDB extends Task {
 
             String content = detailClone.getContent();
             if (detailClone.isPicArticle()) {
-                content = content.replace(parentPageConfig.getImageDescUrl(), Constants.RenRen_URL
-                                                                              + parentPageConfig.getImageDescUrl());
+                content = content.replace(parentPageConfig.getImageDescUrl(),
+                                          Constants.RenRen_URL + parentPageConfig.getImageDescUrl());
             }
             content = getContent(childPageConfig, detailClone, content);
             AddonarticleDO addonarticleDO = new AddonarticleDO();
@@ -171,6 +169,10 @@ public class WriteData2FanDB extends Task {
 
     public void setAutoDetectTypes(AutoDetectTypes autoDetectTypes) {
         this.autoDetectTypes = autoDetectTypes;
+    }
+
+    public void setFeedbackDAOFanti(FeedbackDAO feedbackDAOFanti) {
+        this.feedbackDAOFanti = feedbackDAOFanti;
     }
 
 }
