@@ -4,6 +4,8 @@ import it.renren.spilder.main.Constants;
 import it.renren.spilder.main.config.ChildPage;
 import it.renren.spilder.main.config.ParentPage;
 import it.renren.spilder.main.detail.ChildPageDetail;
+import it.renren.spilder.parser.AHrefElement;
+import it.renren.spilder.parser.AHrefParser;
 import it.renren.spilder.parser.ImageElement;
 import it.renren.spilder.parser.ImageParser;
 import it.renren.spilder.util.log.Log4j;
@@ -13,6 +15,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
+
+import org.htmlparser.util.ParserException;
 
 /**
  * @author Fenglb E-mail:fenglb@sunline.cn
@@ -180,10 +184,31 @@ public class UrlUtil {
         return host;
     }
 
+    /**
+     * 将内容中链接的相对路径替换为绝对路径
+     * 
+     * @param childUrl 当前页面的URL
+     * @param childContent 当前页面的内容
+     * @param charset 当前页面的编码
+     * @return
+     * @throws ParserException
+     */
+    public static String replaceRelativePath2AbsolutePate(String childUrl, String childContent, String charset)
+                                                                                                               throws ParserException {
+        List<AHrefElement> childLinks = AHrefParser.ahrefParser(childContent, null, null, charset, Boolean.FALSE);
+        for (AHrefElement href : childLinks) {
+            String url = href.getHref();
+            if (!url.startsWith("http")) {
+                String urlAbsolute = UrlUtil.makeUrl(childUrl, url);
+                childContent = childContent.replace(url, urlAbsolute);
+            }
+        }
+        return childContent;
+    }
+
     public static void main(String[] args) {
         try {
-            log4j.logDebug(getContentByURL(
-                                           "http://www.ibm.com/developerworks/cn/views/java/libraryview.jsp?view_by=search&search_by=Ajax",
+            log4j.logDebug(getContentByURL("http://www.ibm.com/developerworks/cn/views/java/libraryview.jsp?view_by=search&search_by=Ajax",
                                            "gbk"));
         } catch (IOException e) {
             // TODO Auto-generated catch block

@@ -3,7 +3,11 @@ package it.renren.spilder.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.htmlparser.util.ParserException;
+
 import it.renren.spilder.main.Environment;
+import it.renren.spilder.parser.AHrefElement;
+import it.renren.spilder.parser.AHrefParser;
 import it.renren.spilder.util.log.Log4j;
 
 public class StringUtil {
