@@ -204,14 +204,14 @@ public class TaskExecuter extends Thread {
                     /** 去掉script标签 */
                     childContent = StringUtil.removeScriptAndHrefTags(childContent);
                     if (StringUtil.isNull(childContent)
-                        || StringUtil.removeHtmlTags(childContent).trim().length() <= Constants.CONTENT_LEAST_LENGTH) {
-                        throw new RuntimeException("当前获取到内容长度小于：" + Constants.CONTENT_LEAST_LENGTH);
+                        || StringUtil.removeHtmlTags(childContent).trim().length() <= parentPageConfig.getContent().getMinLength()) {
+                        throw new RuntimeException("当前获取到内容长度小于：" + parentPageConfig.getContent().getMinLength());
                     }
                     detail.setContent(childContent);
                     detail.setReplys(getReplyList(childBody, childPageConfig));
                     childBody = null;
                     String description = StringUtil.removeHtmlTags(childContent).trim().substring(0,
-                                                                                                  Constants.CONTENT_LEAST_LENGTH);
+                                                                                                  parentPageConfig.getContent().getMinLength());
                     detail.setDescription(description);
                     if (detail.getTitle().equals("") || detail.getContent().equals("")) {
                         throw new RuntimeException("处理该URL:" + childUrl + " 时，获取标题或内容为空!");
@@ -228,8 +228,10 @@ public class TaskExecuter extends Thread {
                     childContent = childContent.replace("????", "");
                     detail.setContent(childContent);
                     handleContent(childPageConfig, detail);
-                    // 保存图片
-                    UrlUtil.saveImages(parentPageConfig, childPageConfig, detail);
+                    if (parentPageConfig.isSaveImage()) {
+                        // 保存图片
+                        UrlUtil.saveImages(parentPageConfig, childPageConfig, detail);
+                    }
                     if (!Environment.checkConfigFile) {
                         for (Task task : taskList) {
                             task.doTask(parentPageConfig, childPageConfig, detail);

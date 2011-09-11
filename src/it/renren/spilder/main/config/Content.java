@@ -1,6 +1,5 @@
 package it.renren.spilder.main.config;
 
-
 import java.util.List;
 
 public class Content extends ContentRangeWithReplace {
@@ -9,6 +8,7 @@ public class Content extends ContentRangeWithReplace {
     private List   endList;
     private String WashContent;
     private String handler;
+    private int    minLength;
 
     public List getEndList() {
         return endList;
@@ -41,4 +41,13 @@ public class Content extends ContentRangeWithReplace {
     public void setHandler(String handler) {
         this.handler = handler;
     }
+
+    public int getMinLength() {
+        return minLength;
+    }
+
+    public void setMinLength(int minLength) {
+        this.minLength = minLength;
+    }
+
 }

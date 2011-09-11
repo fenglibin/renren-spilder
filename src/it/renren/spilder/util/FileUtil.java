@@ -28,7 +28,8 @@ import org.apache.commons.httpclient.methods.GetMethod;
 
 public class FileUtil {
 
-    private static Log4j log4j = new Log4j(FileUtil.class.getName());
+    private static Log4j       log4j = new Log4j(FileUtil.class.getName());
+    private static PrintWriter appendWriter;
 
     public static synchronized void downloadFileByUrl(String srcUrl, String filePath) {
         downloadFileByUrl(srcUrl, filePath, null);
@@ -255,6 +256,22 @@ public class FileUtil {
                                                                                     charset)));
         out.write(content);
         out.close();
+    }
+
+    /**
+     * 以追加的方式输出文件
+     * 
+     * @param filePath
+     * @param content
+     * @throws IOException
+     */
+    public static void writeFileAppend(String filePath, String content) throws IOException {
+        if (appendWriter == null) {
+            appendWriter = new PrintWriter(new FileWriter(filePath, true), true);
+        }
+        appendWriter.println();
+        appendWriter.write(content);
+        appendWriter.flush();
     }
 
     public static void main(String[] args) {

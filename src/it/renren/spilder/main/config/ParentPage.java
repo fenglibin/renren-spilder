@@ -17,6 +17,7 @@ import bsh.EvalError;
 public class ParentPage {
 
     private String     charset;
+    private boolean    isSaveImage;
     private String     imageDescUrl;
     private String     imageSaveLocation;
     private String     desArticleId;
@@ -170,6 +171,14 @@ public class ParentPage {
 
     public void setCharset(String charset) {
         this.charset = charset;
+    }
+
+    public boolean isSaveImage() {
+        return isSaveImage;
+    }
+
+    public void setSaveImage(boolean isSaveImage) {
+        this.isSaveImage = isSaveImage;
     }
 
     public String getImageDescUrl() {

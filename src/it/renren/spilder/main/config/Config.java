@@ -21,6 +21,8 @@ public class Config {
         ParentPage parentPageConfig = new ParentPage();
         parentPageConfig.setCharset(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/Charset/Value"));
         parentPageConfig.getUrlListPages().setValues((Element) (XPath.selectSingleNode(ruleXml, "/Rules/MainUrl/Values")));
+        parentPageConfig.setSaveImage(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/ImageDescUrl/IsSaveImage") == null ? true : Boolean.parseBoolean(JDomUtil.getValueByXpath(ruleXml,
+                                                                                                                                                                                  "/Rules/MainUrl/ImageDescUrl/IsSaveImage")));
         parentPageConfig.setImageDescUrl(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/ImageDescUrl/Value"));
         parentPageConfig.setImageSaveLocation(JDomUtil.getValueByXpath(ruleXml,
                                                                        "/Rules/MainUrl/ImageSaveLocation/Value"));
@@ -70,6 +72,10 @@ public class Config {
                                                                                                          "/Rules/Child/Title/Replace/IsRegularExpression/Value")));
         childPageConfig.getTitle().setFrom(JDomUtil.getValueByXpath(ruleXml, "/Rules/Child/Title/Replace/From/Value"));
         childPageConfig.getTitle().setFrom(JDomUtil.getValueByXpath(ruleXml, "/Rules/Child/Title/Replace/To/Value"));
+
+        childPageConfig.getContent().setMinLength(Integer.parseInt(JDomUtil.getValueByXpath(ruleXml,
+                                                                                            "/Rules/Child/Content/MinLength") == null ? String.valueOf(it.renren.spilder.main.Constants.CONTENT_LEAST_LENGTH) : JDomUtil.getValueByXpath(ruleXml,
+                                                                                                                                                                                                                                         "/Rules/Child/Content/MinLength")));
 
         childPageConfig.getContent().setStartList(XPath.selectNodes(ruleXml, "/Rules/Child/Content/Start/Value"));
         childPageConfig.getContent().setEndList(XPath.selectNodes(ruleXml, "/Rules/Child/Content/End/Value"));
