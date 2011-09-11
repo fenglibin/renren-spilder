@@ -50,6 +50,7 @@
 			</Value>
 		</Charset>
 		<ImageDescUrl desc="将原内容中的图片地址替换、用户保存图片的相对路径">
+			<IsSaveImage desc="是否保留远程的图片到本地，默认值为true">true</IsSaveImage>
 			<Value>
 				<![CDATA[/uploads/allimg/]]>
 			</Value>
@@ -131,6 +132,7 @@
 			</Replace>
 		</Title>
 		<Content desc="内容">
+			<MinLength desc="内容的最小长度，默认为100">1</MinLength>
 			<Start>
 				<Value><![CDATA[<span class='print-link'></span>]]></Value>
 			</Start>
