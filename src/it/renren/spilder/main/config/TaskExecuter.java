@@ -204,17 +204,18 @@ public class TaskExecuter extends Thread {
                     String childContent = getChildContent(childBody, childPageConfig);
                     /** 去掉script标签 */
                     childContent = StringUtil.removeScriptAndHrefTags(childContent);
+                    String childContentWithoutHtmlTagTrim = StringUtil.removeHtmlTags(childContent).trim();
                     if (StringUtil.isNull(childContent)
-                        || StringUtil.removeHtmlTags(childContent).trim().length() <= parentPageConfig.getContent().getMinLength()) {
+                        || childContentWithoutHtmlTagTrim.length() <= parentPageConfig.getContent().getMinLength()) {
                         throw new RuntimeException("当前获取到内容长度小于：" + parentPageConfig.getContent().getMinLength());
                     }
                     detail.setContent(childContent);
                     detail.setReplys(getReplyList(childBody, childPageConfig));
                     childBody = null;
-                    String description = StringUtil.removeHtmlTags(childContent).trim().substring(
-                                                                                                  0,
-                                                                                                  Constants.CONTENT_LEAST_LENGTH);
-                    detail.setDescription(description);
+                    if (childContentWithoutHtmlTagTrim.length() > Constants.CONTENT_LEAST_LENGTH) {// 加这个逻辑判断的原因是因为有些时候要获取的内容本身就是小于100的，如只获取页面中的电子邮件。通过通过上面的文章内容长度的检查，那说明当前内容是合法的
+                        String description = childContentWithoutHtmlTagTrim.substring(0, Constants.CONTENT_LEAST_LENGTH);
+                        detail.setDescription(description);
+                    }
                     if (detail.getTitle().equals("") || detail.getContent().equals("")) {
                         throw new RuntimeException("处理该URL:" + childUrl + " 时，获取标题或内容为空!");
                     }
