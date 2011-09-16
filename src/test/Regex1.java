@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 class Regex1 {
 
     public static void main(String args[]) {
-        test5();
+        test6();
     }
 
     private static void test1() {
@@ -47,6 +47,14 @@ class Regex1 {
     private static void test5() {
         String str = "http://my.oschina.net/ohcoding/blog/31886";
         String regEx = "blog/([0-9])*$";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        boolean result = m.find();
+        System.out.println(result);
+    }
+    private static void test6() {
+        String str = "http://www.web20share.com/2011/08/ewaimai-interview.html";
+        String regEx = "([0-9]){4}/([0-9]){2}/\\S+.html$";
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(str);
         boolean result = m.find();

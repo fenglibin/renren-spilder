@@ -13,10 +13,9 @@ public class TestTranslator {
         // TODO Auto-generated method stub
         try {
             Translate.setHttpReferrer("http://www.google.com");
-            // String translatedText = Translate.translate("How are you?",Language.ENGLISH,
-            // Language.CHINESE_SIMPLIFIED);
-            String str = "";
-            String translatedText = Translate.translate(str, Language.CHINESE_SIMPLIFIED, Language.ENGLISH);
+            String translatedText = Translate.translate("How are you?", Language.ENGLISH, Language.CHINESE_SIMPLIFIED);
+//            String str = "";
+//            String translatedText = Translate.translate(str, Language.CHINESE_SIMPLIFIED, Language.ENGLISH);
             log4j.logDebug(translatedText);
         } catch (Exception ex) {
             log4j.logError(ex);

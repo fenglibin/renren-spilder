@@ -150,7 +150,8 @@ public class TaskExecuter extends Thread {
                 }
                 throw new RuntimeException(e);
             }
-            List<AHrefElement> childLinksList = AHrefParser.ahrefParser(mainContent,
+            List<AHrefElement> childLinksList = AHrefParser.ahrefParser(
+                                                                        mainContent,
                                                                         parentPageConfig.getUrlFilter().getMustInclude(),
                                                                         parentPageConfig.getUrlFilter().getMustNotInclude(),
                                                                         parentPageConfig.getCharset(),
@@ -210,8 +211,9 @@ public class TaskExecuter extends Thread {
                     detail.setContent(childContent);
                     detail.setReplys(getReplyList(childBody, childPageConfig));
                     childBody = null;
-                    String description = StringUtil.removeHtmlTags(childContent).trim().substring(0,
-                                                                                                  parentPageConfig.getContent().getMinLength());
+                    String description = StringUtil.removeHtmlTags(childContent).trim().substring(
+                                                                                                  0,
+                                                                                                  Constants.CONTENT_LEAST_LENGTH);
                     detail.setDescription(description);
                     if (detail.getTitle().equals("") || detail.getContent().equals("")) {
                         throw new RuntimeException("处理该URL:" + childUrl + " 时，获取标题或内容为空!");
@@ -337,7 +339,8 @@ public class TaskExecuter extends Thread {
         int startSize = childPageConfig.getContent().getStartList().size();
         for (int i = 0; i < startSize; i++) {
             try {
-                childContent = StringUtil.subString(childBody,
+                childContent = StringUtil.subString(
+                                                    childBody,
                                                     ((Element) childPageConfig.getContent().getStartList().get(i)).getText(),
                                                     ((Element) childPageConfig.getContent().getEndList().get(i)).getText());
                 break;
@@ -366,7 +369,8 @@ public class TaskExecuter extends Thread {
         int startSize = parentPageConfig.getContent().getStartList().size();
         for (int i = 0; i < startSize; i++) {
             try {
-                content = StringUtil.subString(mainContent,
+                content = StringUtil.subString(
+                                               mainContent,
                                                ((Element) parentPageConfig.getContent().getStartList().get(i)).getText(),
                                                ((Element) parentPageConfig.getContent().getEndList().get(i)).getText());
                 break;

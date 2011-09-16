@@ -227,10 +227,10 @@ public class AddDescription extends WashBase {
         AddDescription add = new AddDescription();
         // add.removeShotContentSimple();
         // add.removeShotContentFan();
-        // add.changeSimple();
-        // add.changeFan();
-        add.changeSimpleAll();
-        add.changeFanAll();
+        add.changeSimple();
+        add.changeFan();
+//        add.changeSimpleAll();
+//        add.changeFanAll();
         // add.replaceContent();
     }
 }
