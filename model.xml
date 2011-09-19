@@ -51,6 +51,7 @@
 		</Charset>
 		<ImageDescUrl desc="将原内容中的图片地址替换、用户保存图片的相对路径">
 			<IsSaveImage desc="是否保留远程的图片到本地，默认值为true">true</IsSaveImage>
+			<OnlyImage desc="是否只保留图片，默认值为false">false</OnlyImage>
 			<Value>
 				<![CDATA[/uploads/allimg/]]>
 			</Value>
@@ -237,6 +238,10 @@
 					</Replace>
 				</Reply>
 			</Replys>
+			<SeparatePage>
+				<MaxPages desc="给当前URL指定最大的页面">20</maxPages>
+				<UrlSuffix desc="当前URL的后缀">.html</UrlSuffix>
+			</SeparatePage>
 		</Content>
 		<AddUrl desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false.Display表示当前链接显示的文字，如果没有Display则直接显示URL">
 			<Value>
