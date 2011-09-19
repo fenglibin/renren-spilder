@@ -156,6 +156,10 @@ public class Main {
             Environment.isOutputHtmlContentWhenErrorHappend = Boolean.TRUE;
         }
 
+        public void setSaveImage2CurrentHtmlFileTileNameDir() {
+            Environment.isSaveImage2CurrentHtmlFileTileNameDir = Boolean.TRUE;
+        }
+
     }
 
     /**
@@ -195,9 +199,10 @@ public class Main {
                 param.setTablePrefix(value.replace("-tablePrefix", ""));
             } else if (value.startsWith("-exitByFailedDealPages")) {// 当处理文章，失败到达一定的数量时，退出控制标识
                 param.setExitByFailedDealPages(value.replace("-exitByFailedDealPages", ""));
-
             } else if (value.startsWith("-OutputHtmlContentWhenErrorHappend")) {// 当处理文章，失败到达一定的数量时，退出控制标识
                 param.enableOutputHtmlContentWhenErrorHappend();
+            } else if (value.startsWith("-SaveImage2CurrentHtmlFileTileNameDir")) {// 保存图片时先根据标题建立文件夹
+                param.setSaveImage2CurrentHtmlFileTileNameDir();
             }
 
         }
@@ -217,7 +222,8 @@ public class Main {
             param.setFileName("config/www.blogjava.net/model.xml");
             param.setFileName("config/developer.51cto.com.xml");
             param.setFileName("config/blog.oschina.net.xml");
-            param.setFileName("config/get5d6dEmail.xml");
+            param.setFileName("config/meinvktv1.xml");
+
             // 文件夹测试
             // param.setDirectory(true);
             // param.setDirectoryName("config/headnews");

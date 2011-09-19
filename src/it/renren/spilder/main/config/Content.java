@@ -9,6 +9,8 @@ public class Content extends ContentRangeWithReplace {
     private String WashContent;
     private String handler;
     private int    minLength;
+    private int    separatePageMaxPages;
+    private String separatePageUrlSuffix;
 
     public List getEndList() {
         return endList;
@@ -48,6 +50,22 @@ public class Content extends ContentRangeWithReplace {
 
     public void setMinLength(int minLength) {
         this.minLength = minLength;
+    }
+
+    public int getSeparatePageMaxPages() {
+        return separatePageMaxPages;
+    }
+
+    public void setSeparatePageMaxPages(int separatePageMaxPages) {
+        this.separatePageMaxPages = separatePageMaxPages;
+    }
+
+    public String getSeparatePageUrlSuffix() {
+        return separatePageUrlSuffix;
+    }
+
+    public void setSeparatePageUrlSuffix(String separatePageUrlSuffix) {
+        this.separatePageUrlSuffix = separatePageUrlSuffix;
     }
 
 }

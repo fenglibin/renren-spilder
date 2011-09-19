@@ -18,6 +18,7 @@ public class ParentPage {
 
     private String     charset;
     private boolean    isSaveImage;
+    private boolean    onlyImage;
     private String     imageDescUrl;
     private String     imageSaveLocation;
     private String     desArticleId;
@@ -179,6 +180,14 @@ public class ParentPage {
 
     public void setSaveImage(boolean isSaveImage) {
         this.isSaveImage = isSaveImage;
+    }
+
+    public boolean isOnlyImage() {
+        return onlyImage;
+    }
+
+    public void setOnlyImage(boolean onlyImage) {
+        this.onlyImage = onlyImage;
     }
 
     public String getImageDescUrl() {

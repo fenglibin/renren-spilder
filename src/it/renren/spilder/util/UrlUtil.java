@@ -1,6 +1,7 @@
 package it.renren.spilder.util;
 
 import it.renren.spilder.main.Constants;
+import it.renren.spilder.main.Environment;
 import it.renren.spilder.main.config.ChildPage;
 import it.renren.spilder.main.config.ParentPage;
 import it.renren.spilder.main.detail.ChildPageDetail;
@@ -105,6 +106,10 @@ public class UrlUtil {
         String date = DateUtil.getNow("yyyy-MM-dd");
         imageDescUrl = imageDescUrl + date + "/";
         imageSaveLocation = imageSaveLocation + date + File.separator;
+        if (Environment.isSaveImage2CurrentHtmlFileTileNameDir) {
+            imageDescUrl += detail.getTitle() + File.separator;
+            imageSaveLocation += detail.getTitle() + File.separator;
+        }
         File file = new File(imageSaveLocation);
         if (!file.exists()) {
             file.mkdirs();
@@ -208,7 +213,8 @@ public class UrlUtil {
 
     public static void main(String[] args) {
         try {
-            log4j.logDebug(getContentByURL("http://www.ibm.com/developerworks/cn/views/java/libraryview.jsp?view_by=search&search_by=Ajax",
+            log4j.logDebug(getContentByURL(
+                                           "http://www.ibm.com/developerworks/cn/views/java/libraryview.jsp?view_by=search&search_by=Ajax",
                                            "gbk"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
