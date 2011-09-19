@@ -133,7 +133,7 @@
 			</Replace>
 		</Title>
 		<Content desc="内容">
-			<MinLength desc="内容的最小长度，默认为100">1</MinLength>
+			<MinLength desc="内容的最小长度，默认为100，这个适用于只获取图片或者EMAIL的场景">1</MinLength>
 			<Start>
 				<Value><![CDATA[<span class='print-link'></span>]]></Value>
 			</Start>
@@ -239,8 +239,8 @@
 				</Reply>
 			</Replys>
 			<SeparatePage>
-				<MaxPages desc="给当前URL指定最大的页面">20</maxPages>
-				<UrlSuffix desc="当前URL的后缀">.html</UrlSuffix>
+				<MaxPages desc="给当前URL指定最大的页面，适用于分页采集，没有必要去获取最大页数，给一个最大页数，过了就不要了，或者不到就异常退出">20</maxPages>
+				<UrlSuffix desc="当前URL的后缀，这是用来把当前的URL给替换掉，用于生成获取时，生成新的URL；规则是把URL的这里配置的值先去掉，再加上分页号，再加这里配置的值给加上就是分页页面的URL了">.html</UrlSuffix>
 			</SeparatePage>
 		</Content>
 		<AddUrl desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false.Display表示当前链接显示的文字，如果没有Display则直接显示URL">
