@@ -119,34 +119,57 @@ public class UrlUtil {
         for (ImageElement image : imageElements) {
             String imageSrc = image.getSrc();
             /* 获取文件名，没有路径 */
-            String fileName = FileUtil.getFileName(imageSrc);
+            String imageName = FileUtil.getFileName(imageSrc);
             /* 组装当前下载图片存放的路径 */
-            String imageDes = imageDescUrl + fileName;
+            String imageDes = imageDescUrl + imageName;
             /* 将获取到的内容以文件的形式写到本地 */
             /* 根据当前文件所在服务器，以及图片URL，获取其远程服务器的绝对地址 */
             String imageUrl = makeUrl(url, imageSrc);
             /* 获取远程文件到本地指定目录并保存，如果因为某张图片处理错误，那忽略该错误 */
             try {
-                File savedImage = new File(imageSaveLocation + fileName);
+                File savedImage = new File(imageSaveLocation + imageName);
                 if (!savedImage.exists()) {
-                    FileUtil.downloadFileByUrl(imageUrl, imageSaveLocation, fileName);
+                    FileUtil.downloadFileByUrl(imageUrl, imageSaveLocation, imageName);
                 }
                 /* 替换原始图片的路径 */
                 content = content.replace(imageSrc, imageDes);
                 if (savedImage.length() > Constants.K) {// 只有大于1K的图片存在的时候，才将这张图片作为封面，并认为这是一个带图的文章
                     detail.setPicArticle(true);
-                    if (firstImage) {
-                        detail.setLitpicAddress(imageDes);
+                    if (firstImage) {// 第一张图片，此处生成缩略图
+                        String litPicName = getLitPicName(imageSrc, imageSaveLocation, imageName);
+                        detail.setLitpicAddress(imageDescUrl + litPicName);
                         firstImage = false;
                     }
                 }
             } catch (Exception e) {/* 如果对拼装的图片地址处理发生异常，那再尝试对其原地址进行获取 */
-                FileUtil.downloadFileByUrl(imageSrc, imageSaveLocation, fileName);
+                FileUtil.downloadFileByUrl(imageSrc, imageSaveLocation, imageName);
                 /* 替换原始图片的路径 */
                 content = content.replace(imageSrc, imageDes);
             }
         }
         detail.setContent(content);
+    }
+
+    /**
+     * 保存缩略图，并返回缩略图的文件名
+     * 
+     * @param imageSrc
+     * @param imageSaveLocation
+     * @param imageName
+     * @return
+     * @throws IOException
+     */
+    private static String getLitPicName(String imageSrc, String imageSaveLocation, String imageName) throws IOException {
+        String litPicName = "";
+        String ext = FileUtil.getFileExtensation(imageName);
+        String filePrefix = imageName.replace(Constants.DOT + ext, "");
+        litPicName = filePrefix + "-lp" + Constants.DOT + ext;
+        File savedLitImage = new File(imageSaveLocation + litPicName);
+        if (!savedLitImage.exists()) {
+            ImageUtil.changeImageSize(imageSaveLocation + imageName, imageSaveLocation + litPicName,
+                                      Constants.LIT_PIC_MAX_WIDTH_OR_HEIGHT);
+        }
+        return litPicName;
     }
 
     /**

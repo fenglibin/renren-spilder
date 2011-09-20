@@ -1,5 +1,6 @@
 package it.renren.spilder.util;
 
+import it.renren.spilder.main.Constants;
 import it.renren.spilder.util.log.Log4j;
 
 import java.io.BufferedInputStream;
@@ -141,11 +142,10 @@ public class FileUtil {
 
     /* 根据当前图片获取其新的地址 */
     public static String getNewFileName(String imageSrc) {
-        String filename = "";
         String fileName = getFileName(imageSrc);
         String ext = getFileExtensation(fileName);
-        filename = getRandomString() + "." + ext;
-        return filename;
+        fileName = getRandomString() + Constants.DOT + ext;
+        return fileName;
     }
 
     /**

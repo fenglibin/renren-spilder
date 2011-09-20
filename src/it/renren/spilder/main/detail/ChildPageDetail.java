@@ -26,6 +26,7 @@ public class ChildPageDetail {
     private String       fileName      = "";
 
     private List<String> replys;
+    private boolean      dealResult;
 
     public String getFileName() {
         return fileName;
@@ -129,6 +130,14 @@ public class ChildPageDetail {
 
     public void setReplys(List<String> replys) {
         this.replys = replys;
+    }
+
+    public boolean isDealResult() {
+        return dealResult;
+    }
+
+    public void setDealResult(boolean dealResult) {
+        this.dealResult = dealResult;
     }
 
     public String toString() {

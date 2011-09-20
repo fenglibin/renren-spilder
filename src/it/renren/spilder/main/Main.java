@@ -160,6 +160,10 @@ public class Main {
             Environment.isSaveImage2CurrentHtmlFileTileNameDir = Boolean.TRUE;
         }
 
+        public void setImageSite() {
+            Environment.isImageSite = Boolean.TRUE;
+        }
+
     }
 
     /**
@@ -203,6 +207,8 @@ public class Main {
                 param.enableOutputHtmlContentWhenErrorHappend();
             } else if (value.startsWith("-SaveImage2CurrentHtmlFileTileNameDir")) {// 保存图片时先根据标题建立文件夹
                 param.setSaveImage2CurrentHtmlFileTileNameDir();
+            } else if (value.startsWith("-isImageSite")) {// 保存图片时先根据标题建立文件夹
+                param.setImageSite();
             }
 
         }
@@ -223,7 +229,7 @@ public class Main {
             param.setFileName("config/developer.51cto.com.xml");
             param.setFileName("config/blog.oschina.net.xml");
             param.setFileName("config/meinvktv1.xml");
-
+            // Environment.isSaveImage2CurrentHtmlFileTileNameDir = Boolean.TRUE;
             // 文件夹测试
             // param.setDirectory(true);
             // param.setDirectoryName("config/headnews");

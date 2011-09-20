@@ -1,6 +1,7 @@
 package it.renren.spilder.task;
 
 import it.renren.spilder.main.Constants;
+import it.renren.spilder.main.Environment;
 import it.renren.spilder.main.config.ChildPage;
 import it.renren.spilder.main.config.ParentPage;
 import it.renren.spilder.main.detail.ChildPageDetail;
@@ -23,6 +24,14 @@ public abstract class Task {
         }
         if (parentPageConfig.isSRcommand()) {
             flag = flag + "," + Constants.ARTICLE_TEJIAN;
+        }
+        if (Environment.isImageSite) {
+            if (flag.indexOf(Constants.ARTICLE_TOUTIAO) < 0) {
+                flag = flag + "," + Constants.ARTICLE_TOUTIAO;
+            }
+            if (flag.indexOf(Constants.ARTICLE_TEJIAN) < 0) {
+                flag = flag + "," + Constants.ARTICLE_TEJIAN;
+            }
         }
         return flag;
     }

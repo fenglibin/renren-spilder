@@ -18,4 +18,6 @@ public class Environment {
     public static boolean isOutputHtmlContentWhenErrorHappend    = Boolean.FALSE;
     // 在保存图片时，先建立与当前HTML的TITLE相同的目录，再保存当前图片到此目录中，默认值为false
     public static boolean isSaveImage2CurrentHtmlFileTileNameDir = Boolean.FALSE;
+    // 是否图片站，这个用于控制在获取的每片文章都加上头条及特荐
+    public static boolean isImageSite                            = Boolean.FALSE;
 }
