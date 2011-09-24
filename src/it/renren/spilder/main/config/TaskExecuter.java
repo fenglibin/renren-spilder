@@ -305,6 +305,9 @@ public class TaskExecuter extends Thread {
                                                              childPageConfig.getTitle().getEnd());
                     childTitle = StringUtil.removeHtmlTags(childTitle);
                     childTitle = replaceTitle(childPageConfig, childTitle);
+                    if (childTitle.indexOf("404") > 0) {// 当请求时，返回了404页面则退出了
+                        break;
+                    }
                     detail.setTitle(childTitle);
                     String keywords = MetaParser.getMetaContent(childBody, childPageConfig.getCharset(),
                                                                 Constants.META_KEYWORDS);

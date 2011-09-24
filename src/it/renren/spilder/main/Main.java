@@ -228,15 +228,16 @@ public class Main {
             param.setFileName("config/www.blogjava.net/model.xml");
             param.setFileName("config/developer.51cto.com.xml");
             param.setFileName("config/blog.oschina.net.xml");
-            param.setFileName("config/meinvktv1.xml");
-            // Environment.isSaveImage2CurrentHtmlFileTileNameDir = Boolean.TRUE;
+            param.setFileName("config/meinvktv2.xml");
+            Environment.isImageSite = Boolean.TRUE;
+            Environment.isSaveImage2CurrentHtmlFileTileNameDir = Boolean.TRUE;
             // ÎÄ¼þ¼Ð²âÊÔ
             // param.setDirectory(true);
             // param.setDirectoryName("config/headnews");
             // param.setDealOnePage(true);
 
             param.setSpringConfigFile("beans.xml");
-            param.setCheckConfigFile(Boolean.TRUE);
+            // param.setCheckConfigFile(Boolean.TRUE);
 
             // param.setUseProxyTrue();
             // param.setProxyHost("221.7.145.42:8080");

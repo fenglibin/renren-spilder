@@ -107,7 +107,7 @@ public class UrlUtil {
         imageDescUrl = imageDescUrl + date + "/";
         imageSaveLocation = imageSaveLocation + date + File.separator;
         if (Environment.isSaveImage2CurrentHtmlFileTileNameDir) {
-            imageDescUrl += detail.getTitle() + File.separator;
+            // imageDescUrl += detail.getTitle() + File.separator;
             imageSaveLocation += detail.getTitle() + File.separator;
         }
         File file = new File(imageSaveLocation);

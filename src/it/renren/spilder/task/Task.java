@@ -29,9 +29,6 @@ public abstract class Task {
             if (flag.indexOf(Constants.ARTICLE_TOUTIAO) < 0) {
                 flag = flag + "," + Constants.ARTICLE_TOUTIAO;
             }
-            if (flag.indexOf(Constants.ARTICLE_TEJIAN) < 0) {
-                flag = flag + "," + Constants.ARTICLE_TEJIAN;
-            }
         }
         return flag;
     }
