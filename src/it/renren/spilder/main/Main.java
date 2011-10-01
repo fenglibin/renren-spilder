@@ -164,6 +164,10 @@ public class Main {
             Environment.isImageSite = Boolean.TRUE;
         }
 
+        public void setWaterImageLocation(String waterImageLocation) {
+            Environment.waterImageLocation = waterImageLocation;
+        }
+
     }
 
     /**
@@ -209,6 +213,8 @@ public class Main {
                 param.setSaveImage2CurrentHtmlFileTileNameDir();
             } else if (value.startsWith("-isImageSite")) {// 保存图片时先根据标题建立文件夹
                 param.setImageSite();
+            } else if (value.startsWith("-waterImageLocation")) {// 为采集的图片增加水印的水印图片地址
+                param.setWaterImageLocation(value.replace("-waterImageLocation", ""));
             }
 
         }
@@ -228,16 +234,16 @@ public class Main {
             param.setFileName("config/www.blogjava.net/model.xml");
             param.setFileName("config/developer.51cto.com.xml");
             param.setFileName("config/blog.oschina.net.xml");
-            param.setFileName("config/meinvktv2.xml");
-            Environment.isImageSite = Boolean.TRUE;
-            Environment.isSaveImage2CurrentHtmlFileTileNameDir = Boolean.TRUE;
+            param.setFileName("config/moandroid.com.xml");
+            // Environment.isImageSite = Boolean.TRUE;
+            // Environment.isSaveImage2CurrentHtmlFileTileNameDir = Boolean.TRUE;
             // 文件夹测试
             // param.setDirectory(true);
             // param.setDirectoryName("config/headnews");
             // param.setDealOnePage(true);
 
             param.setSpringConfigFile("beans.xml");
-            // param.setCheckConfigFile(Boolean.TRUE);
+            param.setCheckConfigFile(Boolean.TRUE);
 
             // param.setUseProxyTrue();
             // param.setProxyHost("221.7.145.42:8080");

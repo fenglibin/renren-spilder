@@ -288,8 +288,8 @@ public class TaskExecuter extends Thread {
             try {
                 String childUrl = "";
                 if (currentSeparatePage > 1) {
-                    childUrl = detail.getUrl().replace(childPageConfig.getContent().getSeparatePageUrlSuffix(), "");
-                    childUrl += "_" + currentSeparatePage + childPageConfig.getContent().getSeparatePageUrlSuffix();
+                    childUrl = getSeparatePageUrl(detail.getUrl(), currentSeparatePage,
+                                                  childPageConfig.getContent().getSeparatePageUrlSuffix());
                 } else {
                     childUrl = detail.getUrl();
                 }
@@ -463,7 +463,8 @@ public class TaskExecuter extends Thread {
         // childContent,childPageConfig.getCharset());
         // 将文章中的相对URL地址，替换为绝对的URL地址（结束）
         // 替换目前发现的一些问题，如获取到文章中有八个问号等
-        childContent = childContent.replace("????", "");
+        childContent = childContent.replace("???", "");
+        childContent = childContent.replace("??", "");
         return childContent;
     }
 
@@ -556,13 +557,22 @@ public class TaskExecuter extends Thread {
             if (blogType == 1) {
                 String host = UrlUtil.getHost(childUrl);
                 childUrl = childUrl.replace(host, "");
-                String user = StringUtil.subStringSmart(childUrl, "/", "/");
-                blogHomeUrl = host + "/" + user;
+                String user = StringUtil.subStringSmart(childUrl, Constants.URL_SEPARATOR, Constants.URL_SEPARATOR);
+                blogHomeUrl = host + Constants.URL_SEPARATOR + user;
             } else if (blogType == 2) {
                 blogHomeUrl = UrlUtil.getHost(childUrl);
             }
         }
         return blogHomeUrl;
+    }
+
+    private static String getSeparatePageUrl(String mainUrl, int currentSeparatePage, String suffix) {
+        String childUrl = "";
+        String urlHead = StringUtil.substringBeforeLastWithSeparator(mainUrl, Constants.URL_SEPARATOR);
+        String pageUrlName = StringUtil.subStringFromLastStart(mainUrl, Constants.URL_SEPARATOR, suffix);
+        String param = StringUtil.subStringFromLastStart(mainUrl, suffix, null);
+        childUrl = urlHead + pageUrlName + Constants.SEPARATE_PAGE_SEPARATOR + currentSeparatePage + suffix + param;
+        return childUrl;
     }
 
     public List<Task> getTaskList() {

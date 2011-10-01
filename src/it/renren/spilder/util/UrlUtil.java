@@ -130,6 +130,10 @@ public class UrlUtil {
                 File savedImage = new File(imageSaveLocation + imageName);
                 if (!savedImage.exists()) {
                     FileUtil.downloadFileByUrl(imageUrl, imageSaveLocation, imageName);
+                    if (!StringUtil.isNull(Environment.waterImageLocation)) {// 需要增加水印
+                        ImageUtil.addWaterMark(imageSaveLocation + imageName, Environment.waterImageLocation,
+                                               ImageUtil.WaterImageLocation.LEFT_FOOT, 1);
+                    }
                 }
                 /* 替换原始图片的路径 */
                 content = content.replace(imageSrc, imageDes);

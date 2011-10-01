@@ -49,6 +49,24 @@ public class StringUtil {
     }
 
     /**
+     * 字符串截取，与subString不同的是，开始字符串lastStart不是从字符串开始查找到的第一个，而是找到的最后一个lastStart字符串，然后再截取到从这个时候开始的end字符串为止，如下示例：<br>
+     * 如有一个字符串是：aa1111bb222aa3333bb4444bb，传入的参数lastStart为aa，end为bb，则时得到的结果为:<br>
+     * <b>3333</b>
+     * 
+     * @param src 源字符串
+     * @param start 当前字符串中的最后一个开始字符串
+     * @param end 结尾字符串
+     * @return
+     */
+    public static String subStringFromLastStart(String src, String lastStart, String end) {
+        src = src.substring(src.lastIndexOf(lastStart)).substring(lastStart.length());
+        if (end != null) {
+            src = src.substring(0, src.indexOf(end));
+        }
+        return src;
+    }
+
+    /**
      * 从原始字符串中，取得从start字符串开始但不包括start字符串，到end字符串为止其中所有的字符，如str='aabbccddee',start='bb',end='ee',则此时结果为'ccdd'。
      * 如果开始字符串不存在，则开始处为原字符串的第一字符，如果结束字符串不存在，则为字符串的最后一个字符。果
      * 
@@ -132,6 +150,13 @@ public class StringUtil {
         return realBody.toString();
     }
 
+    /**
+     * 根据指定的分隔符，从源字符串查找到最后一个分隔符，然后返回此分隔符前面的内容，如果找不到此分隔符则返回原字符串，
+     * 
+     * @param str
+     * @param separator
+     * @return
+     */
     public static String substringBeforeLast(String str, String separator) {
         if ((str == null) || (separator == null) || (str.length() == 0) || (separator.length() == 0)) {
             return str;
@@ -144,6 +169,22 @@ public class StringUtil {
         }
 
         return str.substring(0, pos);
+    }
+
+    /**
+     * 根据指定的分隔符，从源字符串查找到最后一个分隔符，然后返回此分隔符前面的内容，如果找不到此分隔符则返回原字符串。<br>
+     * 此时会把分隔符加到分隔后得到的字符串再返回，前提是找到了此分隔符，否则返回原字符串，不加上分隔符
+     * 
+     * @param str
+     * @param separator
+     * @return
+     */
+    public static String substringBeforeLastWithSeparator(String str, String separator) {
+        String result = substringBeforeLast(str, separator);
+        if (!result.equals(str)) {
+            result += separator;
+        }
+        return result;
     }
 
     /**

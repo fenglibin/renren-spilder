@@ -58,5 +58,9 @@ public class Constants {
     // DEDE的分页符
     public static final String DEDE_SEPARATE_PAGE_STRING            = "<br>#p#副标题#e#<br>";
     // 缩略图的最大宽度或高度
-    public static final int    LIT_PIC_MAX_WIDTH_OR_HEIGHT          = 400;
+    public static final int    LIT_PIC_MAX_WIDTH_OR_HEIGHT          = 200;
+    // URL分隔字符
+    public static final String URL_SEPARATOR                        = "/";
+    // 分页的分隔字符
+    public static final String SEPARATE_PAGE_SEPARATOR              = "_";
 }

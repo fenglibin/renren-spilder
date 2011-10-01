@@ -20,4 +20,6 @@ public class Environment {
     public static boolean isSaveImage2CurrentHtmlFileTileNameDir = Boolean.FALSE;
     // 是否图片站，这个用于控制在获取的每片文章都加上头条及特荐
     public static boolean isImageSite                            = Boolean.FALSE;
+    // 为采集的图片增加水印的图片地址
+    public static String  waterImageLocation                     = null;
 }
