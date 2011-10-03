@@ -9,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -169,9 +170,10 @@ public class FileUtil {
      * 
      * @param path
      * @return
-     * @throws Exception
+     * @throws IOException
+      * @throws Exception
      */
-    public static String getFileContent(String path) throws Exception {
+    public static String getFileContent(String path) throws IOException {
         File file = new File(path);
         String content = "";
         FileReader fr = new FileReader(file);

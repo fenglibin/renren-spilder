@@ -168,6 +168,10 @@ public class Main {
             Environment.waterImageLocation = waterImageLocation;
         }
 
+        public void setCookFile(String cookFile) {
+            Environment.cookFile = cookFile;
+        }
+
     }
 
     /**
@@ -186,25 +190,25 @@ public class Main {
             }
             if (value.startsWith("-f")) {// 文件
                 param.setFile(Boolean.TRUE);
-                param.setFileName(value.replace("-f", ""));
+                param.setFileName(value.replace("-f=", "").replace("-f", ""));
             } else if (value.startsWith("-d")) {// 目录
                 param.setDirectory(Boolean.TRUE);
-                param.setDirectoryName(value.replace("-d", ""));
+                param.setDirectoryName(value.replace("-d=", "").replace("-d", ""));
             } else if (value.startsWith("-o")) {// 单个文件执行完后，暂停的时间，以毫秒为单位
-                param.setOneFileSleepTime(value.replace("-o", ""));
+                param.setOneFileSleepTime(value.replace("-o=", "").replace("-o", ""));
             } else if (value.startsWith("-l")) {// 循环执行某文件，暂停的时候，以毫秒为单位
-                param.setLoopSleepTime(value.replace("-l", ""));
+                param.setLoopSleepTime(value.replace("-l=", "").replace("-l", ""));
             } else if (value.startsWith("-p")) {// 单个文件中，是否只获取配置文件中指定的第一页内容
                 param.setDealOnePage(Boolean.TRUE);
             } else if (value.startsWith("-check")) {// 用于表示测试该分类下面的配置文件是否能够正常工作，关位进行数据库的操作，并且一个配置文件只检测一条记录
                 param.setCheckConfigFile(Boolean.TRUE);
             } else if (value.startsWith("-spring")) {// 指定SPRING的配置文件
-                param.setSpringConfigFile(value.replace("-spring", ""));
+                param.setSpringConfigFile(value.replace("-spring=", "").replace("-spring", ""));
             } else if (value.startsWith("-proxy")) {// 使用代理
                 param.setUseProxyTrue();
                 param.setProxyHost(value.replace("-proxy", ""));
-            } else if (value.startsWith("-tablePrefix")) {// 使用代理
-                param.setTablePrefix(value.replace("-tablePrefix", ""));
+            } else if (value.startsWith("-tablePrefix")) {// 表前缀，支持在不修改配置的情况下，在往表中写入内容时，指定不同的表前缀
+                param.setTablePrefix(value.replace("-tablePrefix=", "").replace("-tablePrefix", ""));
             } else if (value.startsWith("-exitByFailedDealPages")) {// 当处理文章，失败到达一定的数量时，退出控制标识
                 param.setExitByFailedDealPages(value.replace("-exitByFailedDealPages", ""));
             } else if (value.startsWith("-OutputHtmlContentWhenErrorHappend")) {// 当处理文章，失败到达一定的数量时，退出控制标识
@@ -214,7 +218,9 @@ public class Main {
             } else if (value.startsWith("-isImageSite")) {// 保存图片时先根据标题建立文件夹
                 param.setImageSite();
             } else if (value.startsWith("-waterImageLocation")) {// 为采集的图片增加水印的水印图片地址
-                param.setWaterImageLocation(value.replace("-waterImageLocation", ""));
+                param.setWaterImageLocation(value.replace("-waterImageLocation=", "").replace("-waterImageLocation", ""));
+            } else if (value.startsWith("-cookFile")) {// 设置cookie存放的文件，因为cookie内容比较多，就不传到参数里了，直接放到文件文件中读取
+                param.setCookFile(value.replace("-cookFile=", "").replace("-cookFile", ""));
             }
 
         }

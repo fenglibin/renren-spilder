@@ -15,6 +15,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.Header;
@@ -74,6 +75,16 @@ public class HttpClientUtil {
         return getGetResponseWithHttpClient(url, encode, Environment.isUseProxy);
     }
 
+    public static String getGetResponseWithHttpClient(String url, String encode, boolean byProxy) throws HttpException,
+                                                                                                 IOException {
+        String cookie = null;
+        if (StringUtil.isNull(Environment.cookFile)) {
+            cookie = FileUtil.getFileContent(Environment.cookFile);
+
+        }
+        return getGetResponseWithHttpClient(url, encode, byProxy, cookie);
+    }
+
     /**
      * 通过get方法获取网页内容
      * 
@@ -84,8 +95,9 @@ public class HttpClientUtil {
      * @throws IOException
      * @throws HttpException
      */
-    public static String getGetResponseWithHttpClient(String url, String encode, boolean byProxy) throws HttpException,
-                                                                                                 IOException {
+    public static String getGetResponseWithHttpClient(String url, String encode, boolean byProxy, String cookie)
+                                                                                                                throws HttpException,
+                                                                                                                IOException {
         HttpClient client = new HttpClient(manager);
         if (byProxy) {
             // 设置代理开始
@@ -99,11 +111,16 @@ public class HttpClientUtil {
         }
 
         List<Header> headers = new ArrayList<Header>();
-        headers.add(new Header("User-Agent", "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.854.0 Safari/535.2"));
+        headers.add(new Header("User-Agent",
+                               "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.854.0 Safari/535.2"));
         headers.add(new Header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"));
         headers.add(new Header("Accept-Charset", "GBK,utf-8;q=0.7,*;q=0.3"));
         headers.add(new Header("Accept-Language", "zh-CN,zh;q=0.8"));
-        headers.add(new Header("Cache-Control", "max-age=0"));
+        headers.add(new Header("Cache-Control", "max-age=3600"));
+        headers.add(new Header("Connection", "keep-alive"));
+        if (!StringUtil.isNull(cookie)) {
+            headers.add(new Header("Cookie", cookie));
+        }
         client.getHostConfiguration().getParams().setParameter("http.default-headers", headers);
         if (initialed) {
             HttpClientUtil.SetPara();
@@ -248,7 +265,13 @@ public class HttpClientUtil {
     }
 
     public static void main(String[] arg) throws HttpException, IOException {
-        String content = getGetResponseWithHttpClient("http://www.ibm.com", "gbk");
-        log4j.logDebug(content);
+        String url = "http://weibo.pp.cc/time/index.php?mod=content&action=list&account=2363930463&tid=0&page=2";
+        String encode = "utf-8";
+        String content = getGetResponseWithHttpClient(
+                                                      url,
+                                                      encode,
+                                                      false,
+                                                      "__utma=56876395.1779520664.1317621310.1317621310.1317621310.1; __utmc=56876395; __utmz=56876395.1317621310.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); j2rZ_2132_auth=e05agqeNrR0PxhhSMLXFRQMWPdI%2Behd%2F5T9wbObLrl8gVl%2B9osb1s83idVVoY2i8jGzwxxdEKd0KAeKfGo%2FUlVHqLYA06u%2FDmqdGMl8o5Dy06kzcaFdnXYo");
+        System.out.println(content);
     }
 }

@@ -22,4 +22,6 @@ public class Environment {
     public static boolean isImageSite                            = Boolean.FALSE;
     // 为采集的图片增加水印的图片地址
     public static String  waterImageLocation                     = null;
+    // 存放cook内容的文件
+    public static String  cookFile                               = null;
 }
