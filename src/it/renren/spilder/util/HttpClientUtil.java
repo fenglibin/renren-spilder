@@ -15,7 +15,6 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.Header;
@@ -78,7 +77,7 @@ public class HttpClientUtil {
     public static String getGetResponseWithHttpClient(String url, String encode, boolean byProxy) throws HttpException,
                                                                                                  IOException {
         String cookie = null;
-        if (StringUtil.isNull(Environment.cookFile)) {
+        if (!StringUtil.isNull(Environment.cookFile)) {
             cookie = FileUtil.getFileContent(Environment.cookFile);
 
         }
