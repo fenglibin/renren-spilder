@@ -130,10 +130,20 @@ public class FileUtil {
         return filename;
     }
 
+    /**
+     * 返回文件的扩展名，如果没有扩展名的，则返回空字符串""
+     * 
+     * @param filename
+     * @return
+     */
     public static String getFileExtensation(String filename) {
-        String name = "";
-        name = filename.split("\\.")[1];
-        return name;
+        String extName = "";
+        String[] nameArray = filename.split("\\.");
+        if (nameArray.length <= 1) {
+            return extName;
+        }
+        extName = nameArray[nameArray.length - 1];
+        return extName;
     }
 
     public static String getRandomString() {
@@ -170,7 +180,7 @@ public class FileUtil {
      * @param path
      * @return
      * @throws IOException
-      * @throws Exception
+     * @throws Exception
      */
     public static String getFileContent(String path) throws IOException {
         File file = new File(path);

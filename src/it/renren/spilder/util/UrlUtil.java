@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.List;
 
 import org.htmlparser.util.ParserException;
@@ -118,6 +119,8 @@ public class UrlUtil {
         boolean firstImage = true;
         for (ImageElement image : imageElements) {
             String imageSrc = image.getSrc();
+            /* 将图片URL中的中文编码进行还原 */
+            imageSrc = URLDecoder.decode(imageSrc, childPageConfig.getCharset());
             /* 获取文件名，没有路径 */
             String imageName = FileUtil.getFileName(imageSrc);
             /* 组装当前下载图片存放的路径 */
@@ -138,11 +141,13 @@ public class UrlUtil {
                 /* 替换原始图片的路径 */
                 content = content.replace(imageSrc, imageDes);
                 if (savedImage.length() > Constants.K) {// 只有大于1K的图片存在的时候，才将这张图片作为封面，并认为这是一个带图的文章
-                    detail.setPicArticle(true);
                     if (firstImage) {// 第一张图片，此处生成缩略图
                         String litPicName = getLitPicName(imageSrc, imageSaveLocation, imageName);
-                        detail.setLitpicAddress(imageDescUrl + litPicName);
-                        firstImage = false;
+                        if (!StringUtil.isNull(litPicName)) {
+                            detail.setPicArticle(true);
+                            detail.setLitpicAddress(imageDescUrl + litPicName);
+                            firstImage = false;
+                        }
                     }
                 }
             } catch (Exception e) {/* 如果对拼装的图片地址处理发生异常，那再尝试对其原地址进行获取 */
@@ -155,7 +160,7 @@ public class UrlUtil {
     }
 
     /**
-     * 保存缩略图，并返回缩略图的文件名
+     * 保存缩略图，并返回缩略图的文件名。如果传入的图片文件名没有扩展名，则不保存缩略图，以空字符串""返回
      * 
      * @param imageSrc
      * @param imageSaveLocation
@@ -166,6 +171,9 @@ public class UrlUtil {
     private static String getLitPicName(String imageSrc, String imageSaveLocation, String imageName) throws IOException {
         String litPicName = "";
         String ext = FileUtil.getFileExtensation(imageName);
+        if (StringUtil.isNull(ext)) {
+            return litPicName;
+        }
         String filePrefix = imageName.replace(Constants.DOT + ext, "");
         litPicName = filePrefix + "-lp" + Constants.DOT + ext;
         File savedLitImage = new File(imageSaveLocation + litPicName);
