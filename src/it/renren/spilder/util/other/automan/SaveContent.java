@@ -3,7 +3,10 @@ package it.renren.spilder.util.other.automan;
 import java.io.IOException;
 
 import org.apache.commons.httpclient.HttpException;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import it.renren.spilder.main.Constants;
 import it.renren.spilder.util.HttpClientUtil;
 
 import com.alibaba.fastjson.JSONObject;
@@ -14,6 +17,9 @@ import com.alibaba.fastjson.JSONObject;
  * @author fenglibin 2011-10-3 ÏÂÎç04:54:24
  */
 public class SaveContent {
+
+    protected static final ConfigurableApplicationContext ctx = new FileSystemXmlApplicationContext(
+                                                                                                    new String[] { Constants.SPRING_CONFIG_FILE });
 
     /**
      * @param args

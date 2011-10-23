@@ -100,6 +100,7 @@
 		<OneUrlSleepTime>
 			<Value>60000</Value>
 		</OneUrlSleepTime>
+		<DealOnePage desc="是否只处理一页，当这个参数的值为true时，它的功能与命令行加上-p是一样的效果。并且它还会同时覆盖命令行的值，优先级级命令行传入的值更高。值只能够是true或false">false</DealOnePage>
 	</MainUrl>
 	<Child>
 		<Charset desc="编码">

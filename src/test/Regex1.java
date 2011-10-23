@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 class Regex1 {
 
     public static void main(String args[]) {
-        test6();
+        test7();
     }
 
     private static void test1() {
@@ -60,6 +60,15 @@ class Regex1 {
         boolean result = m.find();
         System.out.println(result);
     }
+    private static void test7() {
+        String str = "http://www.guao.hk/posts/stick-google-plus-buttons-on-your-pages-or-your-search-traffic-dies.html";
+        String regEx = "http://www.guao.hk/posts/(.+).html$";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        boolean result = m.find();
+        System.out.println(result);
+    }
+    
 
     private static void removeHreflink() {
         String str = "aa<a href=xx.htm title=t>xxxxxx</a><b>fuck</b>";
