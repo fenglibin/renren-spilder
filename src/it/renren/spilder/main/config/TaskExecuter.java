@@ -150,8 +150,7 @@ public class TaskExecuter extends Thread {
                 }
                 throw new RuntimeException(e);
             }
-            List<AHrefElement> childLinksList = AHrefParser.ahrefParser(
-                                                                        mainContent,
+            List<AHrefElement> childLinksList = AHrefParser.ahrefParser(mainContent,
                                                                         parentPageConfig.getUrlFilter().getMustInclude(),
                                                                         parentPageConfig.getUrlFilter().getMustNotInclude(),
                                                                         parentPageConfig.getCharset(),
@@ -192,7 +191,7 @@ public class TaskExecuter extends Thread {
                 }
                 if (!detail.isDealResult()) {
                     failedLinks++;
-                    if (failedLinks >= Constants.ONE_CONFIG_FILE_MAX_FAILED_TIMES && Environment.dealOnePage) {
+                    if (failedLinks >= Constants.ONE_CONFIG_FILE_MAX_FAILED_TIMES && isDealOnePage(parentPageConfig)) {
                         isBreak = Boolean.TRUE;
                     }
                 }
@@ -206,6 +205,27 @@ public class TaskExecuter extends Thread {
                 }
             }
         }
+    }
+
+    /**
+     * 判断当前配置是否只处理一页。<br>
+     * 1、如果用户的配置文件中配置了节点/Rules/MainUrl/DealOnePage，则以用户配置的值为准，该值只要不为true，则返回false;<br>
+     * 2、如果用户没有配置节点/Rules/MainUrl/DealOnePage，则以命令行是否传入"-p"参数确定
+     * 
+     * @param parentPageConfig
+     * @return
+     */
+    private boolean isDealOnePage(ParentPage parentPageConfig) {
+        boolean result = false;
+        String dealOnePage = parentPageConfig.getDealOnePage();
+        if (StringUtil.isNull(dealOnePage)) {// 没有设置
+            result = Environment.dealOnePage;
+        } else {
+            if (dealOnePage.equalsIgnoreCase("true")) {
+                result = true;
+            }
+        }
+        return result;
     }
 
     /**
@@ -439,8 +459,7 @@ public class TaskExecuter extends Thread {
         int startSize = childPageConfig.getContent().getStartList().size();
         for (int i = 0; i < startSize; i++) {
             try {
-                childContent = StringUtil.subString(
-                                                    childBody,
+                childContent = StringUtil.subString(childBody,
                                                     ((Element) childPageConfig.getContent().getStartList().get(i)).getText(),
                                                     ((Element) childPageConfig.getContent().getEndList().get(i)).getText());
                 break;
@@ -481,8 +500,7 @@ public class TaskExecuter extends Thread {
         int startSize = parentPageConfig.getContent().getStartList().size();
         for (int i = 0; i < startSize; i++) {
             try {
-                content = StringUtil.subString(
-                                               mainContent,
+                content = StringUtil.subString(mainContent,
                                                ((Element) parentPageConfig.getContent().getStartList().get(i)).getText(),
                                                ((Element) parentPageConfig.getContent().getEndList().get(i)).getText());
                 break;

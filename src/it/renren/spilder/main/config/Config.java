@@ -64,10 +64,7 @@ public class Config {
                                                                                "/Rules/MainUrl/BlogType/TypeId") == null ? "0" : JDomUtil.getValueByXpath(ruleXml,
                                                                                                                                                           "/Rules/MainUrl/BlogType/TypeId")));
         parentPageConfig.setHomeUrlAddStr(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/BlogType/HomeUrlAddStr"));
-        if (JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/DealOnePage") != null) {
-            Environment.dealOnePage = Boolean.parseBoolean(JDomUtil.getValueByXpath(ruleXml,
-                                                                                    "/Rules/MainUrl/DealOnePage"));
-        }
+        parentPageConfig.setDealOnePage(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/DealOnePage"));
         return parentPageConfig;
     }
 

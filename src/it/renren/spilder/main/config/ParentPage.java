@@ -30,6 +30,7 @@ public class ParentPage {
     private String     autoDetectTypeMapClass;
     private int        blogType;
     private String     homeUrlAddStr;
+    private String     dealOnePage;
 
     public boolean isSRcommand() {
         return isSRcommand;
@@ -280,6 +281,14 @@ public class ParentPage {
 
     public void setHomeUrlAddStr(String homeUrlAddStr) {
         this.homeUrlAddStr = homeUrlAddStr;
+    }
+
+    public String getDealOnePage() {
+        return dealOnePage;
+    }
+
+    public void setDealOnePage(String dealOnePage) {
+        this.dealOnePage = dealOnePage;
     }
 
 }
