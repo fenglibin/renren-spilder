@@ -361,6 +361,25 @@ public class FileUtil {
         fis.close();
     }
 
+    /**
+     * 根据传入的文件名，确定是否常用的图片文件：jpg、png、gif、bmp，是则返回true，否则返回false
+     * 
+     * @param fileName
+     * @return
+     */
+    public static boolean isImageUsualFile(String fileName) {
+        boolean is = Boolean.FALSE;
+        String extName = getFileExtensation(fileName);
+        if (!StringUtil.isNull(extName)) {
+            extName = extName.toLowerCase();
+            if (extName.equals("jpg") || extName.equals("png") || extName.equals("gif") || extName.equals("bmp")) {
+                is = Boolean.TRUE;
+            }
+        }
+        return is;
+
+    }
+
     public static void main(String[] args) {
         // String url = "www.163.com/a/b.jpg?noscript";
         // String filename = getFileName(url);

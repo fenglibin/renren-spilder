@@ -123,6 +123,10 @@ public class UrlUtil {
             imageSrc = URLDecoder.decode(imageSrc, childPageConfig.getCharset());
             /* 获取文件名，没有路径 */
             String imageName = FileUtil.getFileName(imageSrc);
+            /* 是否常用图片文件格式检查 */
+            if (!FileUtil.isImageUsualFile(imageName)) {
+                continue;
+            }
             /* 组装当前下载图片存放的路径 */
             String imageDes = imageDescUrl + imageName;
             /* 将获取到的内容以文件的形式写到本地 */
@@ -248,8 +252,7 @@ public class UrlUtil {
 
     public static void main(String[] args) {
         try {
-            log4j.logDebug(getContentByURL(
-                                           "http://www.ibm.com/developerworks/cn/views/java/libraryview.jsp?view_by=search&search_by=Ajax",
+            log4j.logDebug(getContentByURL("http://www.ibm.com/developerworks/cn/views/java/libraryview.jsp?view_by=search&search_by=Ajax",
                                            "gbk"));
         } catch (IOException e) {
             // TODO Auto-generated catch block

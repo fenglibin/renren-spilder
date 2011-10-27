@@ -200,7 +200,8 @@ public class TaskExecuter extends Thread {
                     if (parentPageConfig.getOneUrlSleepTime() == 0) {
                         Thread.sleep(Constants.One_Url_Default_Sleep_Time);/* 默认休息10秒钟一篇文章 */
                     } else {
-                        Thread.sleep(parentPageConfig.getOneUrlSleepTime());
+                        Thread.sleep(parentPageConfig.getOneUrlSleepTime()
+                                     + (long) (Math.random() * Constants.One_Url_Default_Sleep_Time));
                     }
                 }
             }
