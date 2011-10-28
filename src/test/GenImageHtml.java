@@ -8,16 +8,21 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * 类GenImageHtml.java的实现描述：根据指定目录生成图片相关的文件
+ * 
+ * @author fenglibin 2011-10-28 上午10:30:06
+ */
 public class GenImageHtml {
 
-    private static String imagesDir = "H:/images/1";
+    private static String imagesDir = "/usr/fenglibin/images/test";
 
     /**
      * @param args
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        step3();
+        step4();
     }
 
     /**
@@ -59,6 +64,11 @@ public class GenImageHtml {
         }
     }
 
+    /**
+     * 生成图片首页HTML
+     * 
+     * @throws IOException
+     */
     public static void step3() throws IOException {
         File imageDirFile = new File(imagesDir);
         File[] imageDirs = imageDirFile.listFiles();
@@ -77,7 +87,7 @@ public class GenImageHtml {
                 }
                 String whoName = FileUtil.getFileContent(dir.getAbsolutePath() + "/who.txt");
                 mapWho.put(dir.getName(), whoName);
-            }            
+            }
         }
         Iterator<String> it = map.keySet().iterator();
         int i = 1;
@@ -91,7 +101,7 @@ public class GenImageHtml {
                 oneStringImage += "<tr>";
                 oneStringWords += "<tr>";
             }
-            oneStringImage += "<td><a href='" + key + "/index.html'><img src='" + value
+            oneStringImage += "<td><a href='" + key + "/index.htm'><img src='" + value
                               + "' border='0' width='0' height='0' onload='AutoResizeImage(100,0,this)'></a></td>";
             oneStringWords += "<td>" + mapWho.get(key) + "</td>";
             if (i % oneRowImages == 0) {
@@ -112,7 +122,7 @@ public class GenImageHtml {
             allString += oneStringWords;
             oneStringImage = "";
             oneStringWords = "";
-        }else if(i % oneRowImages == 2){
+        } else if (i % oneRowImages == 2) {
             oneStringImage += "<td></td><td></td></tr>";
             oneStringWords += "<td></td><td></td></tr>";
             allString += oneStringImage;
@@ -123,6 +133,11 @@ public class GenImageHtml {
         System.out.println(allString);
     }
 
+    /**
+     * 生成每个子目录下面的index.htm文件
+     * 
+     * @throws Exception
+     */
     public static void step4() throws Exception {
         File imageDirFile = new File(imagesDir);
         File[] imageDirs = imageDirFile.listFiles();

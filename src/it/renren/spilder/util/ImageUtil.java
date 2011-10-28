@@ -1,8 +1,5 @@
 package it.renren.spilder.util;
 
-import it.renren.spilder.task.WriteData2FanDB;
-import it.renren.spilder.util.log.Log4j;
-
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -27,22 +24,6 @@ import javax.imageio.stream.ImageOutputStream;
  * @author fenglibin 2011-9-20 下午03:41:10
  */
 public class ImageUtil {
-
-    private static Log4j log4j = new Log4j(WriteData2FanDB.class.getName());
-
-    public static void main(String[] args) throws IOException {
-        String src = "/usr/fenglibin/renren-spilder/allimg/temp/FD113033211.jpg";
-        String water = "/usr/fenglibin/renren-spilder/allimg/temp/login_logo.gif";
-        String desc = "/home/fenglibin/tmp/img/2010112712190344343201-lp_1.jpg";
-        String dirSrc = "/usr/fenglibin/renren-spilder/allimg/temp/FD113033211.jpg";
-        File dir = new File(dirSrc);
-        File[] fileList = dir.listFiles();
-        // for (File file : fileList) {
-        // reduceImageHeight(file, 26);
-        // }
-        addWaterMark(src, water, WaterImageLocation.LEFT_FOOT, 1);
-
-    }
 
     /**
      * 图片文件读取
@@ -80,6 +61,7 @@ public class ImageUtil {
     public static void changeImageSize(String srcImg, String outImg, int maxLength) throws IOException {
         // 得到图片
         BufferedImage src = InputImage(srcImg);
+        boolean dispose = Boolean.TRUE;
         if (null != src) {
             int old_w = src.getWidth(); // 得到源图宽
             int old_h = src.getHeight(); // 得到源图长
@@ -98,9 +80,85 @@ public class ImageUtil {
             } else {
                 new_w = old_w;
                 new_h = old_h;
+                if (src.equals(outImg)) {
+                    dispose = Boolean.FALSE;
+                }
             }
 
-            disposeImage(src, outImg, new_w, new_h);
+            if (dispose) {
+                disposeImage(src, outImg, new_w, new_h);
+            }
+
+        }
+    }
+
+    /**
+     * 通过指定图片的最大宽度，对原图片进行压缩，此时高度按相应的比例进行压缩；此时如果指定的最大宽度大于等于原图片的宽度，则不对该图片进行压缩。
+     * 
+     * @param srcImg :源图片路径
+     * @param outImg :输出的压缩图片的路
+     * @param maxWidth 目标图片的最大宽度
+     * @throws IOException
+     */
+    public static void changeImageSizeWithMaxWidth(String srcImg, String outImg, int maxWidth) throws IOException {
+        // 得到图片
+        BufferedImage src = InputImage(srcImg);
+        boolean dispose = Boolean.TRUE;
+        if (null != src) {
+            int old_w = src.getWidth(); // 得到源图宽
+            int old_h = src.getHeight(); // 得到源图长
+            int new_w = 0;// 新图的宽
+            int new_h = 0;// 新图的长
+            if (maxWidth < old_w) {// 现在指定的最大宽度必须要小原来的宽度，否则就不压缩
+                // 图片要缩放的比例
+                new_w = maxWidth;
+                new_h = (int) Math.round(old_h * ((float) maxWidth / old_w));
+            } else {
+                new_w = old_w;
+                new_h = old_h;
+                if (src.equals(outImg)) {
+                    dispose = Boolean.FALSE;
+                }
+            }
+            if (dispose) {
+                disposeImage(src, outImg, new_w, new_h);
+            }
+        }
+    }
+
+    /**
+     * 通过指定图片的最大高度，对原图片进行压缩，此时宽度按相应的比例进行压缩；此时如果指定的最大高度大于等于原图片的高度，则不对该图片进行压缩。
+     * 
+     * @param srcImg :源图片路径
+     * @param outImg :输出的压缩图片的路
+     * @param maxHeight 目标图片的最大高度
+     * @throws IOException
+     */
+    public static void changeImageSizeWithMaxHeight(String srcImg, String outImg, int maxHeight)
+                                                                                                      throws IOException {
+        // 得到图片
+        BufferedImage src = InputImage(srcImg);
+        boolean dispose = Boolean.TRUE;
+        if (null != src) {
+            int old_w = src.getWidth(); // 得到源图宽
+            int old_h = src.getHeight(); // 得到源图长
+            int new_w = 0;// 新图的宽
+            int new_h = 0;// 新图的长
+            if (maxHeight < old_h) {// 现在指定的最大宽度必须要小原来的宽度，否则就不压缩
+                // 图片要缩放的比例
+                new_w = (int) Math.round(old_w * ((float) maxHeight / old_h));
+                new_h = maxHeight;
+            } else {
+                new_w = old_w;
+                new_h = old_h;
+                if (src.equals(outImg)) {
+                    dispose = Boolean.FALSE;
+                }
+            }
+            if (dispose) {
+                disposeImage(src, outImg, new_w, new_h);
+            }
+
         }
     }
 
@@ -182,18 +240,52 @@ public class ImageUtil {
         }
     }
 
+    /**
+     * 剪切图片文件，并根据指定的宽度和高度进行保留，覆盖原图片文件
+     * 
+     * @param srcFile
+     * @param width
+     * @param height
+     * @throws IOException
+     */
     public static void cutImgFile(String srcFile, int width, int height) throws IOException {
         cutImgFile(new File(srcFile), 0, 0, width, height, null);
     }
 
+    /**
+     * 剪切图片文件，并根据指定的宽度和高度进行保留，并生成新的目标图片文件，不覆盖原图片文件
+     * 
+     * @param srcFile
+     * @param width
+     * @param height
+     * @param descFile
+     * @throws IOException
+     */
     public static void cutImgFile(String srcFile, int width, int height, String descFile) throws IOException {
         cutImgFile(new File(srcFile), 0, 0, width, height, descFile);
     }
 
+    /**
+     * 剪切图片文件，并根据指定的宽度和高度进行保留，覆盖原图片文件
+     * 
+     * @param file
+     * @param width
+     * @param height
+     * @throws IOException
+     */
     public static void cutImgFile(File file, int width, int height) throws IOException {
         cutImgFile(file, 0, 0, width, height, null);
     }
 
+    /**
+     * 剪切图片文件，并根据指定的宽度和高度进行保留，并生成新的目标图片文件，不覆盖原图片文件
+     * 
+     * @param file
+     * @param width
+     * @param height
+     * @param descFile
+     * @throws IOException
+     */
     public static void cutImgFile(File file, int width, int height, String descFile) throws IOException {
         cutImgFile(file, 0, 0, width, height, descFile);
     }
@@ -231,7 +323,7 @@ public class ImageUtil {
     }
 
     /**
-     * 给图片减少高度，不按比较，图片宽度不变
+     * 给图片减少高度，不按比较，图片宽度不变；如果指定的待减少高度值大于等于原图片的高度值，则不进行剪切。
      * 
      * @param file
      * @param reduceHeight 待减少的高度值
@@ -242,7 +334,53 @@ public class ImageUtil {
         int width = src.getWidth();
         int height = src.getHeight();
         src = null;
+        if (reduceHeight >= height) {
+            return;
+        }
         cutImgFile(file, width, height - reduceHeight);
+    }
+
+    /**
+     * 给图片减少宽度，不按比较，图片高度不变；如果指定的待减少宽度值大于等于原图片的宽度值，则不进行剪切。
+     * 
+     * @param file
+     * @param reduceWeight 待减少的宽度值
+     * @throws IOException
+     */
+    public static void reduceImageWidth(File file, int reduceWeight) throws IOException {
+        BufferedImage src = InputImage(file.getAbsolutePath());
+        int width = src.getWidth();
+        int height = src.getHeight();
+        src = null;
+        if (reduceWeight >= width) {
+            return;
+        }
+        cutImgFile(file, width - reduceWeight, height);
+    }
+
+    /**
+     * 对原图进行高度和宽度的剪切，不按比例输出；如果指定的待减少高度值大于等于原图片的高度值，高度不进行剪切，如果指定的待减少宽度值大于等于原图片的宽度值，宽度不进行剪切。
+     * 
+     * @param file
+     * @param reduceWeight 待减少的高度值
+     * @param reduceHeight 待减少的宽度值
+     * @throws IOException
+     */
+    public static void reduceImageWidth(File file, int reduceWeight, int reduceHeight) throws IOException {
+        BufferedImage src = InputImage(file.getAbsolutePath());
+        int width = src.getWidth();
+        int height = src.getHeight();
+        src = null;
+        if (reduceWeight >= width) {
+            reduceWeight = 0;
+        }
+        if (reduceHeight >= height) {
+            reduceHeight = 0;
+        }
+        if (reduceWeight == 0 && reduceHeight == 0) {
+            return;
+        }
+        cutImgFile(file, width - reduceWeight, height - reduceHeight);
     }
 
     /**
