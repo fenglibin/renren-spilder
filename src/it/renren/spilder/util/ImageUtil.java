@@ -134,8 +134,7 @@ public class ImageUtil {
      * @param maxHeight 目标图片的最大高度
      * @throws IOException
      */
-    public static void changeImageSizeWithMaxHeight(String srcImg, String outImg, int maxHeight)
-                                                                                                      throws IOException {
+    public static void changeImageSizeWithMaxHeight(String srcImg, String outImg, int maxHeight) throws IOException {
         // 得到图片
         BufferedImage src = InputImage(srcImg);
         boolean dispose = Boolean.TRUE;
@@ -317,19 +316,35 @@ public class ImageUtil {
             descFile = file.getAbsolutePath();
         }
         ImageOutputStream out = ImageIO.createImageOutputStream(new FileOutputStream(descFile));
-        ImageIO.write(bi, endName, out);
+        ImageIO.write(bi, endName, out);        
         out.close();
+        iis.close();
+        is.close();        
         bi.flush();
     }
 
     /**
-     * 给图片减少高度，不按比较，图片宽度不变；如果指定的待减少高度值大于等于原图片的高度值，则不进行剪切。
+     * 给图片减少高度，不按比较，图片宽度不变；如果指定的待减少高度值大于等于原图片的高度值，则不进行剪切。<br>
+     * 该方法生成的目标文件会直接覆盖源文件。
      * 
      * @param file
      * @param reduceHeight 待减少的高度值
      * @throws IOException
      */
     public static void reduceImageHeight(File file, int reduceHeight) throws IOException {
+        reduceImageHeight(file, reduceHeight, null);
+    }
+
+    /**
+     * 给图片减少高度，不按比较，图片宽度不变；如果指定的待减少高度值大于等于原图片的高度值，则不进行剪切。<br>
+     * 如果目标文件不为空，则生成新的目标文件，否则直接覆盖源文件。
+     * 
+     * @param file
+     * @param reduceHeight 待减少的高度值
+     * @param descFile 减少后生成的目标文件
+     * @throws IOException
+     */
+    public static void reduceImageHeight(File file, int reduceHeight, String descFile) throws IOException {
         BufferedImage src = InputImage(file.getAbsolutePath());
         int width = src.getWidth();
         int height = src.getHeight();
@@ -337,17 +352,31 @@ public class ImageUtil {
         if (reduceHeight >= height) {
             return;
         }
-        cutImgFile(file, width, height - reduceHeight);
+        cutImgFile(file, width, height - reduceHeight, descFile);
     }
 
     /**
-     * 给图片减少宽度，不按比较，图片高度不变；如果指定的待减少宽度值大于等于原图片的宽度值，则不进行剪切。
+     * 给图片减少宽度，不按比较，图片高度不变；如果指定的待减少宽度值大于等于原图片的宽度值，则不进行剪切。<br>
+     * 该方法生成的目标文件会直接覆盖源文件。
      * 
      * @param file
      * @param reduceWeight 待减少的宽度值
      * @throws IOException
      */
     public static void reduceImageWidth(File file, int reduceWeight) throws IOException {
+        reduceImageWidth(file, reduceWeight, null);
+    }
+
+    /**
+     * 给图片减少宽度，不按比较，图片高度不变；如果指定的待减少宽度值大于等于原图片的宽度值，则不进行剪切。<br>
+     * 如果目标文件不为空，则生成新的目标文件，否则直接覆盖源文件。
+     * 
+     * @param file
+     * @param reduceWeight 待减少的宽度值
+     * @param descFile 减少后生成的目标文件
+     * @throws IOException
+     */
+    public static void reduceImageWidth(File file, int reduceWeight, String descFile) throws IOException {
         BufferedImage src = InputImage(file.getAbsolutePath());
         int width = src.getWidth();
         int height = src.getHeight();
@@ -355,11 +384,12 @@ public class ImageUtil {
         if (reduceWeight >= width) {
             return;
         }
-        cutImgFile(file, width - reduceWeight, height);
+        cutImgFile(file, width - reduceWeight, height, descFile);
     }
 
     /**
-     * 对原图进行高度和宽度的剪切，不按比例输出；如果指定的待减少高度值大于等于原图片的高度值，高度不进行剪切，如果指定的待减少宽度值大于等于原图片的宽度值，宽度不进行剪切。
+     * 对原图进行高度和宽度的剪切，不按比例输出；如果指定的待减少高度值大于等于原图片的高度值，高度不进行剪切，如果指定的待减少宽度值大于等于原图片的宽度值，宽度不进行剪切。<br>
+     * 该方法生成的目标文件会直接覆盖源文件。
      * 
      * @param file
      * @param reduceWeight 待减少的高度值
@@ -367,6 +397,21 @@ public class ImageUtil {
      * @throws IOException
      */
     public static void reduceImageWidth(File file, int reduceWeight, int reduceHeight) throws IOException {
+        reduceImageWidth(file, reduceWeight, reduceHeight, null);
+    }
+
+    /**
+     * 对原图进行高度和宽度的剪切，不按比例输出；如果指定的待减少高度值大于等于原图片的高度值，高度不进行剪切，如果指定的待减少宽度值大于等于原图片的宽度值，宽度不进行剪切。<br>
+     * 如果目标文件不为空，则生成新的目标文件，否则直接覆盖源文件。
+     * 
+     * @param file
+     * @param reduceWeight 待减少的高度值
+     * @param reduceHeight 待减少的宽度值
+     * @param descFile 减少后生成的目标文件
+     * @throws IOException
+     */
+    public static void reduceImageWidth(File file, int reduceWeight, int reduceHeight, String descFile)
+                                                                                                       throws IOException {
         BufferedImage src = InputImage(file.getAbsolutePath());
         int width = src.getWidth();
         int height = src.getHeight();
@@ -468,5 +513,172 @@ public class ImageUtil {
     public static enum WaterImageLocation {
         // LEFT_TOP, TOP_CENTER, RIGHT_TOP, MID_CENTER, RIGHT_FOOT,
         LEFT_FOOT
+    }
+
+    /**
+     * 调整指定源图片目录及其子目录图片文件的大小为指定的最大宽度，直接覆盖源图片文件
+     * 
+     * @param srcImageDir 源图片文件目录
+     * @param maxWidth 调整后的图片最大宽度
+     * @throws IOException
+     */
+    public static void changeDirImagesWidthSize(String srcImageDir, int maxWidth) throws IOException {
+        changeDirImagesWidthSize(srcImageDir, null, maxWidth);
+    }
+
+    /**
+     * 调整指定源图片目录及其子目录图片文件的大小为指定的最大宽度。如果没有指定了目标文件夹，则是对源图片进行覆盖处理，如果指定了，则将调整后的图片存到目标文件夹中
+     * 
+     * @param srcImageDir 源图片文件目录
+     * @param descImageDir 目标图片文件目录
+     * @param maxWidth 调整后的图片最大宽度
+     * @throws IOException
+     */
+    public static void changeDirImagesWidthSize(String srcImageDir, String descImageDir, int maxWidth)
+                                                                                                      throws IOException {
+        changeDirImagesSize(srcImageDir, descImageDir, maxWidth, 0);
+    }
+
+    /**
+     * 调整指定源图片目录及其子目录图片文件的大小为指定的最大高度，直接覆盖源图片文件
+     * 
+     * @param srcImageDir 源图片文件目录
+     * @param maxHeight 调整后的图片最大高度
+     * @throws IOException
+     */
+    public static void changeDirImagesHeightSize(String srcImageDir, int maxHeight) throws IOException {
+        changeDirImagesHeightSize(srcImageDir, null, maxHeight);
+    }
+
+    /**
+     * 调整指定源图片目录及其子目录图片文件的大小为指定的最大高度。如果没有指定了目标文件夹，则是对源图片进行覆盖处理，如果指定了，则将调整后的图片存到目标文件夹中
+     * 
+     * @param srcImageDir 源图片文件目录
+     * @param descImageDir 目标图片文件目录
+     * @param maxHeight 调整后的图片最大高度
+     * @throws IOException
+     */
+    public static void changeDirImagesHeightSize(String srcImageDir, String descImageDir, int maxHeight)
+                                                                                                        throws IOException {
+        changeDirImagesSize(srcImageDir, descImageDir, maxHeight, 1);
+    }
+
+    /**
+     * 调整指定源图片目录及其子目录图片文件的大小为指定的最大宽度 或 高度，这里根据type的值而定，如果为0表示调整宽度，如果为1表示调整高度。<br>
+     * 如果没有指定了目标文件夹，则是对源图片进行覆盖处理，如果指定了，则将调整后的图片存到目标文件夹中
+     * 
+     * @param srcImageDir 源图片文件目录
+     * @param descImageDir 目标图片文件目录
+     * @param maxSize 调整后的图片最大宽度 或 高度
+     * @param type 调整类型 0表示调整宽度，1表示调整高度
+     * @throws IOException
+     */
+    public static void changeDirImagesSize(String srcImageDir, String descImageDir, int maxSize, int type)
+                                                                                                          throws IOException {
+        File srcImageDirFile = new File(srcImageDir);
+        File[] files = srcImageDirFile.listFiles();
+        for (File file : files) {
+            if (StringUtil.isNull(descImageDir)) {
+                descImageDir = srcImageDir;
+            }
+            if (file.isDirectory()) {
+                if (file.listFiles().length > 0) {
+                    changeDirImagesSize(file.getAbsolutePath(),
+                                        file.getAbsolutePath().replace(srcImageDir, descImageDir), maxSize, type);
+                }
+            } else if (FileUtil.isImageUsualFile(file.getName())) {// 只处理常见的图片文件
+                if (type == 0) {
+                    changeImageSizeWithMaxWidth(srcImageDir + File.separator + file.getName(),
+                                                descImageDir + File.separator + file.getName(), maxSize);
+                } else if (type == 1) {
+
+                    changeImageSizeWithMaxHeight(srcImageDir + File.separator + file.getName(),
+                                                 descImageDir + File.separator + file.getName(), maxSize);
+                }
+            }
+        }
+    }
+
+    /**
+     * 对源目录中的图片文件进行前切，从图边的右边开始，剪切指定的高度。<br>
+     * 覆盖源文件。
+     * 
+     * @param srcImageDir 源图片文件目录
+     * @param widthSize 待剪切的图片宽度
+     * @throws IOException
+     */
+    public static void cutDirImagesWidth(String srcImageDir, int widthSize) throws IOException {
+        cutDirImagesWidth(srcImageDir, null, widthSize);
+    }
+
+    /**
+     * 对源目录中的图片文件进行前切，从图边的右边开始，剪切指定的高度。<br>
+     * 如果指定了目标目录，则生成的文件放到目标目录中，否则覆盖源文件。
+     * 
+     * @param srcImageDir 源图片文件目录
+     * @param descImageDir 目标图片文件目录
+     * @param widthSize 待剪切的图片宽度
+     * @throws IOException
+     */
+    public static void cutDirImagesWidth(String srcImageDir, String descImageDir, int widthSize) throws IOException {
+        cutDirImagesSize(srcImageDir, descImageDir, widthSize, 0);
+    }
+
+    /**
+     * 对源目录中的图片文件进行前切，从图片下边开始，剪切指定的高度。<br>
+     * 覆盖源文件。
+     * 
+     * @param srcImageDir 源图片文件目录
+     * @param heightSize 待剪切的图片高度
+     * @throws IOException
+     */
+    public static void cutDirImagesHeight(String srcImageDir, int heightSize) throws IOException {
+        cutDirImagesHeight(srcImageDir, null, heightSize);
+    }
+
+    /**
+     * 对源目录中的图片文件进行前切，从图片下边开始，剪切指定的高度。<br>
+     * 如果指定了目标目录，则生成的文件放到目标目录中，否则覆盖源文件。
+     * 
+     * @param srcImageDir 源图片文件目录
+     * @param descImageDir 目标图片文件目录
+     * @param heightSize 待剪切的图片高度
+     * @throws IOException
+     */
+    public static void cutDirImagesHeight(String srcImageDir, String descImageDir, int heightSize) throws IOException {
+        cutDirImagesSize(srcImageDir, descImageDir, heightSize, 1);
+    }
+
+    /**
+     * 对源目录中的图片文件进行前切，如果类型指定宽度，则剪切右边的内容，如果指定提高度，则从下边开剪切。<br>
+     * 如果指定了目标目录，则生成的文件放到目标目录中，否则覆盖源文件。
+     * 
+     * @param srcImageDir 源图片文件目录
+     * @param descImageDir 目标图片文件目录
+     * @param reduceSize 待剪切的图片宽度 或 高度
+     * @param type 剪切类型 0表示剪切宽度，1表示剪切高度
+     * @throws IOException
+     */
+    public static void cutDirImagesSize(String srcImageDir, String descImageDir, int reduceSize, int type)
+                                                                                                          throws IOException {
+        File srcImageDirFile = new File(srcImageDir);
+        File[] files = srcImageDirFile.listFiles();
+        for (File file : files) {
+            if (StringUtil.isNull(descImageDir)) {
+                descImageDir = srcImageDir;
+            }
+            if (file.isDirectory()) {
+                if (file.listFiles().length > 0) {
+                    cutDirImagesSize(file.getAbsolutePath(), file.getAbsolutePath().replace(srcImageDir, descImageDir),
+                                     reduceSize, type);
+                }
+            } else if (FileUtil.isImageUsualFile(file.getName())) {// 只处理常见的图片文件
+                if (type == 0) {
+                    ImageUtil.reduceImageWidth(file, reduceSize, descImageDir + File.separator + file.getName());
+                } else if (type == 1) {
+                    ImageUtil.reduceImageHeight(file, reduceSize, descImageDir + File.separator + file.getName());
+                }
+            }
+        }
     }
 }

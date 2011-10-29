@@ -3,7 +3,6 @@ package test;
 import it.renren.spilder.util.FileUtil;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -16,12 +15,16 @@ import java.util.Map;
 public class GenImageHtml {
 
     private static String imagesDir = "/usr/fenglibin/images/test";
+    private static String charset   = "gbk";
 
     /**
      * @param args
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
+        //step1();
+        //step2();
+        step3();
         step4();
     }
 
@@ -38,7 +41,11 @@ public class GenImageHtml {
                 String who = "who.txt";
                 File fileWho = new File(dir.getAbsolutePath() + File.separator + who);
                 if (!fileWho.exists()) {
-                    FileUtil.writeFile(dir.getAbsolutePath() + File.separator + who, dir.getName());
+                    String dirName = dir.getName();
+                    if (dirName.length() > 9) {
+                        dirName = dirName.substring(0, 9);
+                    }
+                    FileUtil.writeFile(dir.getAbsolutePath() + File.separator + who, dirName,charset);
                 }
             }
         }
@@ -67,9 +74,9 @@ public class GenImageHtml {
     /**
      * Éú³ÉÍ¼Æ¬Ê×Ò³HTML
      * 
-     * @throws IOException
+     * @throws Exception
      */
-    public static void step3() throws IOException {
+    public static void step3() throws Exception {
         File imageDirFile = new File(imagesDir);
         File[] imageDirs = imageDirFile.listFiles();
         Map<String, String> map = new HashMap<String, String>();
@@ -85,7 +92,7 @@ public class GenImageHtml {
                         break;
                     }
                 }
-                String whoName = FileUtil.getFileContent(dir.getAbsolutePath() + "/who.txt");
+                String whoName = FileUtil.getFileContent(dir.getAbsolutePath() + "/who.txt",charset);
                 mapWho.put(dir.getName(), whoName);
             }
         }
@@ -102,7 +109,7 @@ public class GenImageHtml {
                 oneStringWords += "<tr>";
             }
             oneStringImage += "<td><a href='" + key + "/index.htm'><img src='" + value
-                              + "' border='0' width='0' height='0' onload='AutoResizeImage(100,0,this)'></a></td>";
+                              + "' border='0' width='0' height='0' onload='AutoResizeImage(150,0,this)'></a></td>";
             oneStringWords += "<td>" + mapWho.get(key) + "</td>";
             if (i % oneRowImages == 0) {
                 oneStringImage += "</tr>";
@@ -130,7 +137,9 @@ public class GenImageHtml {
             oneStringImage = "";
             oneStringWords = "";
         }
-        System.out.println(allString);
+        String images_mode = FileUtil.getFileContent(imagesDir + "/" + "images_model.htm",charset);
+        images_mode = images_mode.replace("#data#", allString);
+        FileUtil.writeFile(imagesDir + File.separator + "images.htm", images_mode);
     }
 
     /**
@@ -141,7 +150,7 @@ public class GenImageHtml {
     public static void step4() throws Exception {
         File imageDirFile = new File(imagesDir);
         File[] imageDirs = imageDirFile.listFiles();
-        String index_mode = FileUtil.getFileContent(imagesDir + "/" + "index_model.htm");
+        String index_mode = FileUtil.getFileContent(imagesDir + "/" + "index_model.htm",charset);
         for (File dir : imageDirs) {
             if (dir.isDirectory() && dir.listFiles().length > 0) {
                 File[] subListFiles = dir.listFiles();
@@ -154,7 +163,7 @@ public class GenImageHtml {
                 }
                 imageNameStrngs = imageNameStrngs.substring(0, imageNameStrngs.length() - 1);
                 String index_mode_this = index_mode.replace("#imageNameStrngs#", imageNameStrngs);
-                FileUtil.writeFile(dir.getAbsolutePath() + File.separator + "index.htm", index_mode_this);
+                FileUtil.writeFile(dir.getAbsolutePath() + File.separator + "index.htm", index_mode_this,charset);
             }
         }
     }
