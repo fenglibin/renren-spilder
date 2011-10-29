@@ -2,55 +2,31 @@
 
 <head>
 <meta http-equiv="Content-Language" content="zh-cn" />
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<title>美图欣赏</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk">
+<meta name="description" content="MM图片欣赏是一款欣赏漂亮MM的软件，提供离线查看的功能，所有的MM图片都是人工进过了人工审核的，该软件绝对不含任何违规或露点的内容，绝对是每个男人都值得拥有的软件" />
+<meta name="keywords" content="美女,美女图片,漂亮MM" />
+<title>漂亮MM欣赏系列一</title>
 <script type="text/javascript">
 var imgVar="#imageNameStrngs#";
 var imgVarArray = imgVar.split(",");
 var imgVarArrayLength = imgVarArray.length;
-function AutoResizeImage(maxWidth,maxHeight,objImg){
-	if (typeof(objImg)=='string'){
-		objImg = $(objImg);
-	}
-	var img = new Image();
-	img.onload = function(){
-		var hRatio;
-		var wRatio;
-		var Ratio = 1;
-		var w = img.width;
-		var h = img.height;
-		wRatio = maxWidth / w;
-		hRatio = maxHeight / h;
-		wRatio = wRatio>1?1:wRatio;
-		hRatio = hRatio>1?1:hRatio;
-		if (maxWidth ==0 && maxHeight==0){
-			Ratio = 1;
-		}else if (maxWidth==0){//
-			if (hRatio<1) {
-				Ratio = hRatio;
-			}
-		}else if (maxHeight==0){
-			if (wRatio<1) {
-				Ratio = wRatio;
-			}
-		}else {
-			Ratio = (wRatio<=hRatio?wRatio:hRatio);
-		}
-		if (Ratio<1){
-			w = w * Ratio;
-			h = h * Ratio;
-		}
-		objImg.height = h;
-		objImg.width = w;
-		this.onload = function(){}
-	}
-	img.src = objImg.src;
-}
 </script>
 </head>
 
 <body topmargin="0" leftmargin="0">
-<img src="" border="0" id="imgId" onclick="disNext()">
+<script type="text/javascript"><!--
+  // XHTML should not attempt to parse these strings, declare them CDATA.
+  /* <![CDATA[ */
+  window.googleAfmcRequest = {
+    client: 'ca-mb-pub-2476175026271293',
+    format: '320x50_mb',
+    output: 'html',
+    slotname: '4928055755',
+  };
+  /* ]]> */
+//--></script>
+<script type="text/javascript"    src="http://pagead2.googlesyndication.com/pagead/show_afmc_ads.js"></script>
+<img src="" border="0" id="imgId" ondblclick="exitThis();" onclick="disNext()">
 
 </body>
 </html>
@@ -59,14 +35,20 @@ function AutoResizeImage(maxWidth,maxHeight,objImg){
 	function disNext(){
 		document.getElementById("imgId").src=imgVarArray[currentImage];
 		currentImage++;
-		if(currentImage==imgVarArrayLength){
+		if(currentImage==imgVarArrayLength){//最后一张直接后退
+			/*
 			if(confirm("已经是最后一张了，继续查看吗？")){
 				currentImage=0;
 			}else{
 				window.location="../images.htm";
 			}
+			*/
+			history.back(-1);
 			
 		}
 	}
 	disNext();
+	function exitThis(){
+		history.back(-1);
+	}
 </script>
