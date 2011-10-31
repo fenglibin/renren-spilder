@@ -37,10 +37,10 @@ public class GenImageHtml {
     }
 
     public void genHtml() throws Exception {
-        // step1();
-        // step2();
-        //step3();
-        // step4();
+        step1();
+        step2();
+        step3();
+        step4();
         step5();
     }
 
