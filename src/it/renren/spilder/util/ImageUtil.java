@@ -32,7 +32,7 @@ public class ImageUtil {
      * @return
      * @throws IOException
      */
-    private static BufferedImage InputImage(String srcImg) throws IOException {
+    public static BufferedImage InputImage(String srcImg) throws IOException {
         BufferedImage srcImage = null;
         FileInputStream in = new FileInputStream(srcImg);
         srcImage = javax.imageio.ImageIO.read(in);
@@ -316,10 +316,10 @@ public class ImageUtil {
             descFile = file.getAbsolutePath();
         }
         ImageOutputStream out = ImageIO.createImageOutputStream(new FileOutputStream(descFile));
-        ImageIO.write(bi, endName, out);        
+        ImageIO.write(bi, endName, out);
         out.close();
         iis.close();
-        is.close();        
+        is.close();
         bi.flush();
     }
 

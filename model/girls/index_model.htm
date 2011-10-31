@@ -5,27 +5,39 @@
 <meta http-equiv="Content-Type" content="text/html; charset=gbk">
 <meta name="description" content="MM图片欣赏是一款欣赏漂亮MM的软件，提供离线查看的功能，所有的MM图片都是人工进过了人工审核的，该软件绝对不含任何违规或露点的内容，绝对是每个男人都值得拥有的软件" />
 <meta name="keywords" content="美女,美女图片,漂亮MM" />
-<title>漂亮MM欣赏系列一</title>
+<title>漂亮MM欣赏系列#seqNumber#</title>
 <script type="text/javascript">
-var imgVar="#imageNameStrngs#";
-var imgVarArray = imgVar.split(",");
-var imgVarArrayLength = imgVarArray.length;
+	var imgVar="#imageNameStrngs#";
+	var imgVarArray = imgVar.split(",");
+	var imgVarArrayLength = imgVarArray.length;
 </script>
+<script type="text/javascript" src="http://mm.renren.it/openGoogleAd.htm"></script>
 </head>
 
 <body topmargin="0" leftmargin="0">
-<script type="text/javascript"><!--
-  // XHTML should not attempt to parse these strings, declare them CDATA.
-  /* <![CDATA[ */
-  window.googleAfmcRequest = {
-    client: 'ca-mb-pub-2476175026271293',
-    format: '320x50_mb',
-    output: 'html',
-    slotname: '4928055755',
-  };
-  /* ]]> */
-//--></script>
-<script type="text/javascript"    src="http://pagead2.googlesyndication.com/pagead/show_afmc_ads.js"></script>
+<div id="googelAd">
+	<script type="text/javascript"><!--
+	  // XHTML should not attempt to parse these strings, declare them CDATA.
+	  /* <![CDATA[ */
+	  window.googleAfmcRequest = {
+		client: 'ca-mb-pub-2476175026271293',
+		format: '320x50_mb',
+		output: 'html',
+		slotname: '4928055755',
+	  };
+	  /* ]]> */
+	//--></script>
+	<script type="text/javascript"    src="http://pagead2.googlesyndication.com/pagead/show_afmc_ads.js"></script>
+</div>
+<script type="text/javascript">
+	try{
+		if(mm.openGoogleAd!=true){
+			document.getElementById("googelAd").innerHTML="";
+		}
+	}catch(e){
+		document.getElementById("googelAd").innerHTML="";
+	}
+</script>
 <img src="" border="0" id="imgId" ondblclick="exitThis();" onclick="disNext()">
 
 </body>
@@ -43,8 +55,7 @@ var imgVarArrayLength = imgVarArray.length;
 				window.location="../images.htm";
 			}
 			*/
-			history.back(-1);
-			
+			history.back(-1);			
 		}
 	}
 	disNext();

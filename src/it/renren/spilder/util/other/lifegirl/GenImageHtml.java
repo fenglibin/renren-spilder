@@ -1,10 +1,11 @@
-package test;
+package it.renren.spilder.util.other.lifegirl;
 
 import it.renren.spilder.util.FileUtil;
+import it.renren.spilder.util.NumberUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -14,18 +15,33 @@ import java.util.Map;
  */
 public class GenImageHtml {
 
-    private static String imagesDir = "/usr/fenglibin/images/test";
-    private static String charset   = "gbk";
+    private String imagesDir          = "/usr/fenglibin/images/test";
+    /* 每个图片目录图片展示的模板 */
+    private String singal_index_model = "model/girls/index_model.htm";
+    private String images_model       = "model/girls/images_model.htm";
+    private String index              = "model/girls/index.htm";
+    private String charset            = "gbk";
+    // 当前软件的系列序号
+    private String seqNumber          = "";
 
     /**
      * @param args
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        //step1();
-        //step2();
-        step3();
-        step4();
+        GenImageHtml gen = new GenImageHtml();
+        // gen.step1();
+        // gen.step2();
+        gen.step3();
+        gen.step4();
+    }
+
+    public void genHtml() throws Exception {
+        // step1();
+        // step2();
+        //step3();
+        // step4();
+        step5();
     }
 
     /**
@@ -33,7 +49,7 @@ public class GenImageHtml {
      * 
      * @throws Exception
      */
-    public static void step1() throws Exception {
+    public void step1() throws Exception {
         File imageDirFile = new File(imagesDir);
         File[] imageDirs = imageDirFile.listFiles();
         for (File dir : imageDirs) {
@@ -45,7 +61,7 @@ public class GenImageHtml {
                     if (dirName.length() > 9) {
                         dirName = dirName.substring(0, 9);
                     }
-                    FileUtil.writeFile(dir.getAbsolutePath() + File.separator + who, dirName,charset);
+                    FileUtil.writeFile(dir.getAbsolutePath() + File.separator + who, dirName, charset);
                 }
             }
         }
@@ -54,18 +70,20 @@ public class GenImageHtml {
     /**
      * 将所有的文件夹重命名，以便于andorid识别，因为androiv不识别中文文件名
      */
-    public static void step2() {
+    public void step2() {
         File imageDirFile = new File(imagesDir);
         File[] imageDirs = imageDirFile.listFiles();
         for (File dir : imageDirs) {
             if (dir.isDirectory() && dir.listFiles().length > 0) {
-                File dest = new File(imagesDir + "/" + String.valueOf(System.currentTimeMillis()));
-                dir.renameTo(dest);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                if (!NumberUtil.isNumber(dir.getName())) {// 如果目录名已经为数字了，则不进行重命名处理了
+                    File dest = new File(imagesDir + "/" + String.valueOf(System.currentTimeMillis()));
+                    dir.renameTo(dest);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -76,14 +94,14 @@ public class GenImageHtml {
      * 
      * @throws Exception
      */
-    public static void step3() throws Exception {
+    public void step3() throws Exception {
         File imageDirFile = new File(imagesDir);
         File[] imageDirs = imageDirFile.listFiles();
         Map<String, String> map = new HashMap<String, String>();
         Map<String, String> mapWho = new HashMap<String, String>();
         int oneRowImages = 2;
         for (File dir : imageDirs) {
-            if (dir.isDirectory() && dir.listFiles().length > 0) {
+            if (dir.isDirectory() && dir.listFiles().length > 0 && !dir.getName().equals("res")) {
                 File[] subListFiles = dir.listFiles();
                 for (File oneFile : subListFiles) {
                     if (FileUtil.isImageUsualFile(oneFile.getName())) {// 取第一个图片文件
@@ -92,18 +110,17 @@ public class GenImageHtml {
                         break;
                     }
                 }
-                String whoName = FileUtil.getFileContent(dir.getAbsolutePath() + "/who.txt",charset);
+                String whoName = FileUtil.getFileContent(dir.getAbsolutePath() + "/who.txt", charset);
                 mapWho.put(dir.getName(), whoName);
             }
         }
-        Iterator<String> it = map.keySet().iterator();
         int i = 1;
         String allString = "";
         String oneStringImage = "";
         String oneStringWords = "";
-        while (it.hasNext()) {
-            String key = it.next();
-            String value = map.get(key);
+        for (Map.Entry<String, String> oneMap : map.entrySet()) {
+            String key = oneMap.getKey();
+            String value = oneMap.getValue();
             if (i % oneRowImages != 0) {
                 oneStringImage += "<tr>";
                 oneStringWords += "<tr>";
@@ -137,8 +154,9 @@ public class GenImageHtml {
             oneStringImage = "";
             oneStringWords = "";
         }
-        String images_mode = FileUtil.getFileContent(imagesDir + "/" + "images_model.htm",charset);
+        String images_mode = FileUtil.getFileContent(images_model, charset);
         images_mode = images_mode.replace("#data#", allString);
+        images_mode = images_mode.replace("#seqNumber#", seqNumber);
         FileUtil.writeFile(imagesDir + File.separator + "images.htm", images_mode);
     }
 
@@ -147,10 +165,10 @@ public class GenImageHtml {
      * 
      * @throws Exception
      */
-    public static void step4() throws Exception {
+    public void step4() throws Exception {
         File imageDirFile = new File(imagesDir);
         File[] imageDirs = imageDirFile.listFiles();
-        String index_mode = FileUtil.getFileContent(imagesDir + "/" + "index_model.htm",charset);
+        String signel_index_mode = FileUtil.getFileContent(singal_index_model, charset);
         for (File dir : imageDirs) {
             if (dir.isDirectory() && dir.listFiles().length > 0) {
                 File[] subListFiles = dir.listFiles();
@@ -162,9 +180,30 @@ public class GenImageHtml {
                     }
                 }
                 imageNameStrngs = imageNameStrngs.substring(0, imageNameStrngs.length() - 1);
-                String index_mode_this = index_mode.replace("#imageNameStrngs#", imageNameStrngs);
-                FileUtil.writeFile(dir.getAbsolutePath() + File.separator + "index.htm", index_mode_this,charset);
+                String index_mode_this = signel_index_mode.replace("#imageNameStrngs#", imageNameStrngs);
+                index_mode_this = index_mode_this.replace("#seqNumber#", seqNumber);
+                FileUtil.writeFile(dir.getAbsolutePath() + File.separator + "index.htm", index_mode_this, charset);
             }
         }
     }
+
+    /**
+     * 生成首页
+     * 
+     * @throws IOException
+     */
+    public void step5() throws IOException {
+        String indexHtml = FileUtil.getFileContent(index, charset);
+        indexHtml = indexHtml.replace("#seqNumber#", seqNumber);
+        FileUtil.writeFile(imagesDir + "/" + "index.htm", indexHtml, charset);
+    }
+
+    public void setImagesDir(String imagesDir) {
+        this.imagesDir = imagesDir;
+    }
+
+    public void setSeqNumber(String seqNumber) {
+        this.seqNumber = seqNumber;
+    }
+
 }

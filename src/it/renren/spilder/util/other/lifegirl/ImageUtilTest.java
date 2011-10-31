@@ -1,23 +1,23 @@
-package test;
+package it.renren.spilder.util.other.lifegirl;
 
 import it.renren.spilder.util.ImageUtil;
 import java.io.IOException;
 
 public class ImageUtilTest {
 
-    private static String imageDir = "/usr/fenglibin/images/test";
+    private static String imageDir = "/usr/fenglibin/images/lifegirl/index_icon";
 
     /**
      * @param args
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        cutImageSize();
+        //cutImageSize();
         changeImageSize();
     }
 
     public static void changeImageSize() throws IOException {
-        int maxWidth = 400;
+        int maxWidth = 150;
         ImageUtil.changeDirImagesWidthSize(imageDir, null, maxWidth);
     }
 
