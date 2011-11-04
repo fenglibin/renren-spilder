@@ -2,6 +2,7 @@ package it.renren.spilder.util.other.lifegirl;
 
 import it.renren.spilder.util.FileUtil;
 import it.renren.spilder.util.ImageUtil;
+import it.renren.spilder.util.NumberUtil;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,7 +11,7 @@ import java.util.TreeMap;
 
 public class GenImageHtmls {
 
-    private static String imagesDir    = "/usr/fenglibin/images/2011-09-19";
+    private static String imagesDir    = "/usr/fenglibin/images/lifegirl";
     private static String images_model = "model/girls/images_model.htm";
     private static String index        = "model/girls/index.htm";
     private static String charset      = "gbk";
@@ -26,7 +27,9 @@ public class GenImageHtmls {
         Map<Integer, String> map = new TreeMap<Integer, String>();
         for (File dir : imageDirs) {
             if (dir.isDirectory() && dir.listFiles().length > 0) {
-                map.put(Integer.parseInt(dir.getName()), dir.getAbsolutePath());
+                if (NumberUtil.isNumber(dir.getName())) {
+                    map.put(Integer.parseInt(dir.getName()), dir.getAbsolutePath());
+                }
             }
         }
         for (Map.Entry<Integer, String> oneMap : map.entrySet()) {
@@ -38,6 +41,11 @@ public class GenImageHtmls {
 
     }
 
+    /**
+     * Éú³ÉÊ×Ò³
+     * 
+     * @throws Exception
+     */
     public static void step2() throws Exception {
         File imageDirFile = new File(imagesDir);
         File[] imageDirs = imageDirFile.listFiles();

@@ -343,6 +343,17 @@ public class FileUtil {
     }
 
     /**
+     * 文件拷贝
+     * 
+     * @param file
+     * @param outFile
+     * @throws IOException
+     */
+    public static void copy(File file, String outFile) throws IOException {
+        readAndWrite(file, outFile);
+    }
+
+    /**
      * 读入一个文件并输出为新的文件
      * 
      * @param file

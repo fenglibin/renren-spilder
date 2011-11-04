@@ -1,7 +1,9 @@
 package it.renren.spilder.util.other.lifegirl;
 
 import it.renren.spilder.util.FileUtil;
+import it.renren.spilder.util.ImageUtil;
 import it.renren.spilder.util.NumberUtil;
+import it.renren.spilder.util.StringUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,11 +39,12 @@ public class GenImageHtml {
     }
 
     public void genHtml() throws Exception {
-        step1();
-        step2();
+        // step1();
+        // step2();
         step3();
         step4();
         step5();
+        step6();
     }
 
     /**
@@ -58,9 +61,6 @@ public class GenImageHtml {
                 File fileWho = new File(dir.getAbsolutePath() + File.separator + who);
                 if (!fileWho.exists()) {
                     String dirName = dir.getName();
-                    if (dirName.length() > 9) {
-                        dirName = dirName.substring(0, 9);
-                    }
                     FileUtil.writeFile(dir.getAbsolutePath() + File.separator + who, dirName, charset);
                 }
             }
@@ -68,7 +68,7 @@ public class GenImageHtml {
     }
 
     /**
-     * 将所有的文件夹重命名，以便于andorid识别，因为androiv不识别中文文件名
+     * 将所有的文件夹重命名，以便于andorid识别，因为andorid不识别中文文件名
      */
     public void step2() {
         File imageDirFile = new File(imagesDir);
@@ -76,7 +76,7 @@ public class GenImageHtml {
         for (File dir : imageDirs) {
             if (dir.isDirectory() && dir.listFiles().length > 0) {
                 if (!NumberUtil.isNumber(dir.getName())) {// 如果目录名已经为数字了，则不进行重命名处理了
-                    File dest = new File(imagesDir + "/" + String.valueOf(System.currentTimeMillis()));
+                    File dest = new File(imagesDir + File.separator + String.valueOf(System.currentTimeMillis()));
                     dir.renameTo(dest);
                     try {
                         Thread.sleep(1000);
@@ -100,13 +100,22 @@ public class GenImageHtml {
         Map<String, String> map = new HashMap<String, String>();
         Map<String, String> mapWho = new HashMap<String, String>();
         int oneRowImages = 2;
+        /* 存放首页图片的文件夹 */
+        String index_inco_dir_name = "index_inco";
+        String index_inco_dir = imagesDir + File.separator + index_inco_dir_name;
+        File file = new File(index_inco_dir);
+        if (!file.exists()) {
+            file.mkdir();
+        }
         for (File dir : imageDirs) {
-            if (dir.isDirectory() && dir.listFiles().length > 0 && !dir.getName().equals("res")) {
+            if (dir.isDirectory() && dir.listFiles().length > 0 && !dir.getName().equals("res")
+                && !dir.getName().equals("index_inco")) {
                 File[] subListFiles = dir.listFiles();
                 for (File oneFile : subListFiles) {
                     if (FileUtil.isImageUsualFile(oneFile.getName())) {// 取第一个图片文件
-                        String temp = dir.getName() + "/" + oneFile.getName();
-                        map.put(dir.getName(), temp);
+                        // String temp = dir.getName() + File.separator + oneFile.getName();
+                        FileUtil.copy(oneFile, index_inco_dir + File.separator + oneFile.getName());
+                        map.put(dir.getName(), index_inco_dir_name + File.separator + oneFile.getName());
                         break;
                     }
                 }
@@ -127,7 +136,11 @@ public class GenImageHtml {
             }
             oneStringImage += "<td><a href='" + key + "/index.htm'><img src='" + value
                               + "' border='0' width='0' height='0' onload='AutoResizeImage(150,0,this)'></a></td>";
-            oneStringWords += "<td>" + mapWho.get(key) + "</td>";
+            String username = mapWho.get(key);
+            if (username.length() > 9) {
+                username = username.substring(0, 9);
+            }
+            oneStringWords += "<td>" + username + "</td>";
             if (i % oneRowImages == 0) {
                 oneStringImage += "</tr>";
                 oneStringWords += "</tr>";
@@ -179,10 +192,12 @@ public class GenImageHtml {
                         imageNameStrngs += ",";
                     }
                 }
-                imageNameStrngs = imageNameStrngs.substring(0, imageNameStrngs.length() - 1);
-                String index_mode_this = signel_index_mode.replace("#imageNameStrngs#", imageNameStrngs);
-                index_mode_this = index_mode_this.replace("#seqNumber#", seqNumber);
-                FileUtil.writeFile(dir.getAbsolutePath() + File.separator + "index.htm", index_mode_this, charset);
+                if (!StringUtil.isNull(imageNameStrngs)) {
+                    imageNameStrngs = imageNameStrngs.substring(0, imageNameStrngs.length() - 1);
+                    String index_mode_this = signel_index_mode.replace("#imageNameStrngs#", imageNameStrngs);
+                    index_mode_this = index_mode_this.replace("#seqNumber#", seqNumber);
+                    FileUtil.writeFile(dir.getAbsolutePath() + File.separator + "index.htm", index_mode_this, charset);
+                }
             }
         }
     }
@@ -195,7 +210,17 @@ public class GenImageHtml {
     public void step5() throws IOException {
         String indexHtml = FileUtil.getFileContent(index, charset);
         indexHtml = indexHtml.replace("#seqNumber#", seqNumber);
-        FileUtil.writeFile(imagesDir + "/" + "index.htm", indexHtml, charset);
+        FileUtil.writeFile(imagesDir + File.separator + "index.htm", indexHtml, charset);
+    }
+
+    /**
+     * 将首页的图片重新生成为大小150px宽度的，减少大小
+     * 
+     * @throws IOException
+     */
+    public void step6() throws IOException {
+        int maxWidth = 200;
+        ImageUtil.changeDirImagesWidthSize(imagesDir + File.separator + "index_inco", null, maxWidth);
     }
 
     public void setImagesDir(String imagesDir) {
