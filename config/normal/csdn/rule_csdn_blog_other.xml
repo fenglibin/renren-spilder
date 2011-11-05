@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="gbk"?>
+<Rules>
+	<MainUrl>
+		<Values desc="链接的列表地址，Value中的列表地址可以是多条，以逗号分开">
+			
+			<BatValues desc="批量增加，支持通配置符'(*)'">
+				<Value>
+					<![CDATA[http://blog.csdn.net/other/index.html]]>
+				</Value>
+				<WildcastType desc="通配符的类型:1表示数字，2表示a-z的字母">
+					<Value>
+						<![CDATA[1]]>
+					</Value>
+					<Start>
+						<Value>
+							<![CDATA[1]]>
+						</Value>
+					</Start>
+					<End>
+						<Value>
+							<![CDATA[7]]>
+						</Value>
+					</End>
+				</WildcastType>
+			</BatValues>	
+		</Values>
+		<DesArticleId>
+			<Value>98</Value>
+		</DesArticleId>
+		<AutoDetect>
+			<TypeMapMakeClass>it.renren.spilder.type.DedecmsTypesMap</TypeMapMakeClass>
+		</AutoDetect>
+		<MainRange desc="内容范围">
+			<Start>
+				<Value><![CDATA[<div class="main_center">]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[<div class="page_nav">]]></Value>
+			</End>
+		</MainRange>
+		<Charset desc="编码">
+			<Value>
+				<![CDATA[utf-8]]>
+			</Value>
+		</Charset>
+		<ImageDescUrl desc="将原内容中的图片地址替换、用户保存图片的相对路径">
+			<Value>
+				<![CDATA[/uploads/allimg/]]>
+			</Value>
+		</ImageDescUrl>
+		<ImageSaveLocation desc="保存图片的路径，将图片写出到硬盘上">
+			<Value>
+				<![CDATA[/home/fenglibin/www/img.renren.it]]>
+			</Value>
+		</ImageSaveLocation>
+		<Recommend desc="随机推荐数，即多少篇文章推荐一篇.'0'表示不随机推荐">
+			<Value><![CDATA[5]]></Value>
+		</Recommend>
+		<UrlFilter url="url筛选">
+			<MustInclude desc="url中必须包括的字符串">
+				<Value>
+					<![CDATA[details]]>
+				</Value>
+			</MustInclude>
+			<MustNotInclude desc="url中不能够包括的字符串">
+				<Value>
+					<![CDATA[comments]]>
+				</Value>
+			</MustNotInclude>
+		</UrlFilter>
+		<OneUrlSleepTime>
+			<Value>60000</Value>
+		</OneUrlSleepTime>
+	</MainUrl>
+	<Child>
+		<Charset desc="编码">
+			<Value>
+				<![CDATA[utf-8]]>
+			</Value>
+		</Charset>
+		<Title desc="标题">
+			<Start>
+				<Value><![CDATA[javascript:collectArticle(']]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[',]]></Value>
+			</End>
+		</Title>
+		<Content desc="内容">
+			<Start>
+				<Value><![CDATA[<div class="article_content">]]></Value>
+			</Start>
+			<Start>
+				<Value><![CDATA[<div id="article_content" class="article_content">]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[<div class="share_buttons" id="sharePanel"></div>]]></Value>
+			</End>
+			<End>
+				<Value><![CDATA[<div class="share_buttons" id="sharePanel"></div>]]></Value>
+			</End>
+			<Replace desc="替换内容">
+				<IsRegularExpression desc="是否正则表达式">
+					<Value>
+						<![CDATA[false]]>
+					</Value>
+				</IsRegularExpression>
+				<From desc="原内容">
+					<Value>
+						<![CDATA[<textarea readonly name="code"]]>
+					</Value>
+				</From>
+				<To desc="目标内容">
+					<Value>
+						<![CDATA[<textarea readonly name="code" style="width: 600px;height: 628px; "]]>
+					</Value>
+				</To>
+			</Replace>
+		</Content>
+		<AddUrl desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false">
+			<Value>
+				<![CDATA[true]]>
+			</Value>
+			<Display>
+				<![CDATA[CSDN]]>
+			</Display>
+		</AddUrl>
+	</Child>
+</Rules>

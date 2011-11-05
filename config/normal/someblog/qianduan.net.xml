@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="gbk"?>
+<Rules>
+	<MainUrl>
+		<Values desc="链接的列表地址，Value中的列表地址可以是多条，以逗号分开">			
+			<Value desc="当前主页面的Url地址">
+				<![CDATA[http://www.qianduan.net/]]>
+			</Value>
+			<BatValues desc="批量增加，支持通配置符'(*)'">
+				<Value>
+					<![CDATA[http://www.qianduan.net/page/(*)]]>
+				</Value>
+				<WildcastType desc="通配符的类型:1表示数字，2表示a-z的字母">
+					<Value>
+						<![CDATA[1]]>
+					</Value>
+					<Start>
+						<Value>
+							<![CDATA[2]]>
+						</Value>
+					</Start>
+					<End>
+						<Value>
+							<![CDATA[45]]>
+						</Value>
+					</End>
+				</WildcastType>
+			</BatValues>
+		</Values>
+		<DesArticleId>
+			<Value>27</Value>
+		</DesArticleId>
+		<MainRange desc="内容范围">
+			<Start>
+				<Value><![CDATA[<html]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[</html>]]></Value>
+			</End>
+		</MainRange>
+		<Charset desc="编码">
+			<Value>
+				<![CDATA[UTF-8]]>
+			</Value>
+		</Charset>
+		<ImageDescUrl desc="将原内容中的图片地址替换、用户保存图片的相对路径">
+			<Value>
+				<![CDATA[/uploads/allimg/]]>
+			</Value>
+		</ImageDescUrl>
+		<ImageSaveLocation desc="保存图片的路径，将图片写出到硬盘上">
+			<Value>
+				<![CDATA[/home/fenglibin/www/img.renren.it]]>
+			</Value>
+		</ImageSaveLocation>
+		<Recommend desc="随机推荐数，即多少篇文章推荐一篇.'0'表示不随机推荐">
+			<Value><![CDATA[1]]></Value>
+		</Recommend>
+		<UrlFilter url="url筛选">
+			<MustInclude desc="url中必须包括的字符串">
+				<Value>
+					<![CDATA[http://www.qianduan.net/(.+).html$]]>
+				</Value>
+			</MustInclude>
+			<MustNotInclude desc="url中不能够包括的字符串">
+				<Value>
+					<![CDATA[]]>
+				</Value>
+			</MustNotInclude>
+			<IsCompByRegex desc="必须包括与不能够包括这两项，与URL的比较是否通过正则规则进行比较,值只可以是true及false">
+				<Value>true</Value>
+			</IsCompByRegex>
+		</UrlFilter>		
+		<OneUrlSleepTime>
+			<Value>6000</Value>
+    </OneUrlSleepTime>
+	</MainUrl>
+	<Child>
+		<Charset desc="编码">
+			<Value>
+				<![CDATA[UTF-8]]>
+			</Value>
+		</Charset>
+		<Title desc="标题">
+			<Start>
+				<Value><![CDATA[<title>]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[ | ]]></Value>
+			</End>
+		</Title>
+		<Content desc="内容">
+			<Start>
+				<Value><![CDATA[<div class="inner_promot">]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[<div style="overflow: hidden;padding-right: 20px;">]]></Value>
+			</End>
+			<Replys desc="针对当前文章所有回复的处理">
+				<Start>
+					<Value><![CDATA[<ul class="commentlist">]]></Value>
+				</Start>
+				<End>
+					<Value><![CDATA[<div class="comment-page clearfix">]]></Value>
+				</End>
+				<Reply desc="针对当前文章的一个回复的处理，这个节点是可选的，如果不配置，则根据主配置Replys节点进行截取，如果有配置，那主配置只是用于获取所有配置的内容，具体的每一个回复根据这个节点的配置来获取">
+					<Start>
+						<Value><![CDATA[<p>]]></Value>
+					</Start>
+					<End>
+						<Value><![CDATA[</p>]]></Value>
+					</End>
+				</Reply>
+			</Replys>
+		</Content>
+		<AddUrl desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false.Display表示当前链接显示的文字，如果没有Display则直接显示URL">
+			<Value>
+				<![CDATA[true]]>
+			</Value>
+			<Display>
+				<![CDATA[qianduan.net]]>
+			</Display>
+		</AddUrl>
+	</Child>
+</Rules>

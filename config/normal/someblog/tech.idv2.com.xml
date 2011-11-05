@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="gbk"?>
+<Rules>
+	<MainUrl>
+		<Values desc="链接的列表地址，Value中的列表地址可以是多条，以逗号分开">
+			<Value desc="当前主页面的Url地址">
+				<![CDATA[http://tech.idv2.com]]>
+			</Value>
+			<BatValues desc="批量增加，支持通配置符'(*)'，与下面的Value二选一">
+				<Value>
+					<![CDATA[http://tech.idv2.com/page/(*)]]>
+				</Value>
+				<WildcastType desc="通配符的类型:1表示数字，2表示a-z的字母">
+					<Value>
+						<![CDATA[1]]>
+					</Value>
+					<Start>
+						<Value>
+							<![CDATA[2]]>
+						</Value>
+					</Start>
+					<End>
+						<Value>
+							<![CDATA[38]]>
+						</Value>
+					</End>
+				</WildcastType>
+			</BatValues>
+		</Values>
+		<DesArticleId>
+			<Value>90</Value>
+		</DesArticleId>
+		<AutoDetect>
+			<TypeMapMakeClass>it.renren.spilder.type.DedecmsTypesMap</TypeMapMakeClass>
+		</AutoDetect>
+		<MainRange desc="内容范围">
+			<Start>
+				<Value><![CDATA[<!-- begin Pukiwiki generated code--><p>]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[<br/>
+	<p class="pagenavi">]]></Value>
+			</End>
+		</MainRange>
+		<Charset desc="编码">
+			<Value>
+				<![CDATA[UTF-8]]>
+			</Value>
+		</Charset>
+		<ImageDescUrl desc="将原内容中的图片地址替换、用户保存图片的相对路径">
+			<Value>
+				<![CDATA[/uploads/allimg/]]>
+			</Value>
+		</ImageDescUrl>
+		<ImageSaveLocation desc="保存图片的路径，将图片写出到硬盘上">
+			<Value>
+				<![CDATA[/home/fenglibin/www/img.renren.it]]>
+			</Value>
+		</ImageSaveLocation>
+		<Recommend desc="随机推荐数，即多少篇文章推荐一篇.'0'表示不随机推荐">
+			<Value><![CDATA[5]]></Value>
+		</Recommend>
+		<UrlFilter url="url筛选">
+			<MustInclude desc="url中必须包括的字符串">
+				<Value>
+					<![CDATA[tech.idv2.com]]>
+				</Value>
+			</MustInclude>
+			<MustNotInclude desc="url中不能够包括的字符串">
+				<Value>
+					<![CDATA[comments,tag,category,delicious.com,respond,#more]]>
+				</Value>
+			</MustNotInclude>
+		</UrlFilter>		
+		<OneUrlSleepTime>
+			<Value>60000</Value>
+    </OneUrlSleepTime>
+	</MainUrl>
+	<Child>
+		<Charset desc="编码">
+			<Value>
+				<![CDATA[UTF-8]]>
+			</Value>
+		</Charset>
+		<Title desc="标题">
+			<Start>
+				<Value><![CDATA[<title>]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[ - ]]></Value>
+			</End>
+		</Title>
+		<Content desc="内容">
+			<Start>
+				<Value><![CDATA[<p><!-- begin Pukiwiki generated code--><p>]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[<div class="entrymeta">]]></Value>
+			</End>
+			<Replys desc="针对当前文章所有回复的处理">
+				<Start>
+					<Value><![CDATA[<div class="clear"></div>
+
+				<br />]]></Value>
+				</Start>
+				<End>
+					<Value><![CDATA[</div>]]></Value>
+				</End>
+			</Replys>
+		</Content>
+		<AddUrl desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false">
+			<Value>
+				<![CDATA[true]]>
+			</Value>
+		</AddUrl>
+	</Child>
+</Rules>

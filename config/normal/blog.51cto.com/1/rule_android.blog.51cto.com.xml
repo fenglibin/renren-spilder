@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="gbk"?>
+<Rules>
+	<MainUrl>
+		<Values desc="链接的列表地址，Value中的列表地址可以是多条，以逗号分开">
+			<!--Value desc="当前主页面的Url地址">
+				<![CDATA[http://blog.csdn.net/zhengyun_ustc/category/30537.aspx?PageNumber=(*)]]>
+			</Value-->
+			<BatValues desc="批量增加，支持通配置符'(*)'">
+				<Value>http://android.blog.51cto.com/268543/p-(*)</Value>
+				<WildcastType desc="通配符的类型:1表示数字，2表示a-z的字母">
+					<Value>
+						<![CDATA[1]]>
+					</Value>
+					<Start>
+						<Value>
+							<![CDATA[1]]>
+						</Value>
+					</Start>
+					<End>
+						<Value>9</Value>
+					</End>
+				</WildcastType>
+			</BatValues>	
+		</Values>
+		<DesArticleId>
+			<Value>90</Value>
+		</DesArticleId>
+		<AutoDetect>
+			<TypeMapMakeClass>it.renren.spilder.type.DedecmsTypesMap</TypeMapMakeClass>
+		</AutoDetect>
+		<MainRange desc="内容范围">
+			<Start>
+				<Value><![CDATA[<html]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[</html>]]></Value>
+			</End>
+		</MainRange>
+		<Charset desc="编码">
+			<Value>
+				<![CDATA[gb2312]]>
+			</Value>
+		</Charset>
+		<ImageDescUrl desc="将原内容中的图片地址替换、用户保存图片的相对路径">
+			<Value>
+				<![CDATA[/uploads/allimg/]]>
+			</Value>
+		</ImageDescUrl>
+		<ImageSaveLocation desc="保存图片的路径，将图片写出到硬盘上">
+			<Value>
+				<![CDATA[/home/fenglibin/www/img.renren.it]]>
+			</Value>
+		</ImageSaveLocation>
+		<Recommend desc="随机推荐数，即多少篇文章推荐一篇.'0'表示不随机推荐">
+			<Value><![CDATA[5]]></Value>
+		</Recommend>
+		<UrlFilter url="url筛选">
+			<MustInclude desc="url中必须包括的字符串">
+				<Value>
+					<![CDATA[blog.51cto.com/([0-9])*/([0-9])*$]]>
+				</Value>
+			</MustInclude>
+			<MustNotInclude desc="url中不能够包括的字符串">
+				<Value>
+					<![CDATA[]]>
+				</Value>
+			</MustNotInclude>
+			<IsCompByRegex desc="必须包括与不能够包括这两项，与URL的比较是否通过正则规则进行比较,值只可以是true及false">
+				<Value>true</Value>
+			</IsCompByRegex>
+		</UrlFilter>		
+		<OneUrlSleepTime>
+			<Value>60000</Value>
+        </OneUrlSleepTime>
+	</MainUrl>
+	<Child>
+		<Charset desc="编码">
+			<Value>
+				<![CDATA[gb2312]]>
+			</Value>
+		</Charset>
+		<Title desc="标题">
+			<Start>
+				<Value><![CDATA[<title>]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[ - ]]></Value>
+			</End>
+		</Title>
+		<Content desc="内容">
+			<Start>
+				<Value><![CDATA[<div class="showContent">]]></Value>
+			</Start>
+			<Start>
+				<Value><![CDATA[            <!--正文 begin-->]]></Value>
+			</Start>
+			<Start>
+				<Value><![CDATA[</a></div></td></tr>
+
+		<tr><td>]]></Value>
+			</Start>
+			<Start>
+				<Value><![CDATA[<br><br></div>
+		</div>
+		<div>]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[<p>本文出自]]></Value>
+			</End>
+			<End>
+				<Value><![CDATA[<!--正文 end-->]]></Value>
+			</End>
+			<End>
+				<Value><![CDATA[		</table>
+		</div>
+
+			</div>]]></Value>
+			</End>
+			<End>
+				<Value><![CDATA[		</div>
+
+			</div>
+		<br><br>]]></Value>
+			</End>
+			
+		</Content>
+		<AddUrl desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false">
+			<Value>
+				<![CDATA[true]]>
+			</Value>
+			<Display>
+				<![CDATA[51CTO]]>
+			</Display>
+		</AddUrl>
+	</Child>
+</Rules>

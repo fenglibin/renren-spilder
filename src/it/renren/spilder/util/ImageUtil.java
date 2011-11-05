@@ -25,6 +25,10 @@ import javax.imageio.stream.ImageOutputStream;
  */
 public class ImageUtil {
 
+    public static BufferedImage InputImage(String srcImg) throws IOException {
+        return InputImage(new File(srcImg));
+    }
+
     /**
      * 图片文件读取
      * 
@@ -32,7 +36,7 @@ public class ImageUtil {
      * @return
      * @throws IOException
      */
-    public static BufferedImage InputImage(String srcImg) throws IOException {
+    public static BufferedImage InputImage(File srcImg) throws IOException {
         BufferedImage srcImage = null;
         FileInputStream in = new FileInputStream(srcImg);
         srcImage = javax.imageio.ImageIO.read(in);
@@ -103,6 +107,19 @@ public class ImageUtil {
     public static void changeImageSizeWithMaxWidth(String srcImg, String outImg, int maxWidth) throws IOException {
         // 得到图片
         BufferedImage src = InputImage(srcImg);
+        changeImageSizeWithMaxWidth(src, outImg, maxWidth);
+    }
+
+    /**
+     * 通过指定图片的最大宽度，对原图片进行压缩，此时高度按相应的比例进行压缩；此时如果指定的最大宽度大于等于原图片的宽度，则不对该图片进行压缩。
+     * 
+     * @param srcImg :源图片
+     * @param outImg :输出的压缩图片的路
+     * @param maxWidth 目标图片的最大宽度
+     * @throws IOException
+     */
+    public static void changeImageSizeWithMaxWidth(BufferedImage src, String outImg, int maxWidth) throws IOException {
+
         boolean dispose = Boolean.TRUE;
         if (null != src) {
             int old_w = src.getWidth(); // 得到源图宽
@@ -137,6 +154,18 @@ public class ImageUtil {
     public static void changeImageSizeWithMaxHeight(String srcImg, String outImg, int maxHeight) throws IOException {
         // 得到图片
         BufferedImage src = InputImage(srcImg);
+        changeImageSizeWithMaxHeight(src, outImg, maxHeight);
+    }
+
+    /**
+     * 通过指定图片的最大高度，对原图片进行压缩，此时宽度按相应的比例进行压缩；此时如果指定的最大高度大于等于原图片的高度，则不对该图片进行压缩。
+     * 
+     * @param srcImg :源图片
+     * @param outImg :输出的压缩图片的路
+     * @param maxHeight 目标图片的最大高度
+     * @throws IOException
+     */
+    public static void changeImageSizeWithMaxHeight(BufferedImage src, String outImg, int maxHeight) throws IOException {
         boolean dispose = Boolean.TRUE;
         if (null != src) {
             int old_w = src.getWidth(); // 得到源图宽
@@ -597,6 +626,75 @@ public class ImageUtil {
                 }
             }
         }
+    }
+
+    /**
+     * 根据图片自身的宽度和高度情况，如果图片是属于宽图，即宽度大于高度的图，这个时候为了图片的美观，此时按图片的最大高度进行缩放；反之则按最大宽度缩放图片。示例：<br>
+     * 如果此时图片的尺寸为800*600，宽度大于高度，此时生成的图片按传入的参数最大高度最大高度进行缩放，如这里传入的maxHeight为480，则生成的图片应该为：640*480；<br>
+     * 如果此时图片的尺寸为640*1200，高度大于宽度，此时生成的图片按传入的参数最大宽度最大高度进行缩放，如这里传入的maxWidth为320，则生成的图片应该为：320*600；<br>
+     * 影响指定源目录下面的所有子目录
+     * 
+     * @param srcImageDir 源图片文件的DIR
+     * @param maxWidth 如果按宽度生成，目标图片最大的宽度
+     * @param maxHeight 如果按高度生成，目标图片最大的高度
+     * @throws IOException
+     */
+    public static void changeImageSizeBySmallBetweenWidthHeight(String srcImageDir, int maxWidth, int maxHeight)
+                                                                                                                throws IOException {
+        File srcImageDirFile = new File(srcImageDir);
+        File[] files = srcImageDirFile.listFiles();
+        for (File file : files) {
+            if (file.isDirectory()) {
+                if (file.listFiles().length > 0) {
+                    changeImageSizeBySmallBetweenWidthHeight(file.getAbsolutePath(), maxWidth, maxHeight);
+                }
+            } else if (FileUtil.isImageUsualFile(file.getName())) {// 只处理常见的图片文件
+                changeImageSizeBySmallBetweenWidthHeightForOneFile(file, maxWidth, maxHeight);
+            }
+        }
+    }
+
+    /**
+     * 根据图片自身的宽度和高度情况，如果图片是属于宽图，即宽度大于高度的图，这个时候为了图片的美观，此时按图片的最大高度进行缩放；反之则按最大宽度缩放图片。示例：<br>
+     * 如果此时图片的尺寸为800*600，宽度大于高度，此时生成的图片按传入的参数最大高度最大高度进行缩放，如这里传入的maxHeight为480，则生成的图片应该为：640*480；<br>
+     * 如果此时图片的尺寸为640*1200，高度大于宽度，此时生成的图片按传入的参数最大宽度最大高度进行缩放，如这里传入的maxWidth为320，则生成的图片应该为：320*600；
+     * 
+     * @param srcImageDir
+     * @param maxWidth
+     * @param maxHeight
+     * @throws IOException
+     */
+    public static void changeImageSizeBySmallBetweenWidthHeightForOneFile(String file, int maxWidth, int maxHeight)
+                                                                                                                   throws IOException {
+        changeImageSizeBySmallBetweenWidthHeightForOneFile(new File(file), maxWidth, maxHeight);
+    }
+
+    /**
+     * 根据图片自身的宽度和高度情况，如果图片是属于宽图，即宽度大于高度的图，这个时候为了图片的美观，此时按图片的最大高度进行缩放；反之则按最大宽度缩放图片。示例：<br>
+     * 如果此时图片的尺寸为800*600，宽度大于高度，此时生成的图片按传入的参数最大高度最大高度进行缩放，如这里传入的maxHeight为480，则生成的图片应该为：640*480；<br>
+     * 如果此时图片的尺寸为640*1200，高度大于宽度，此时生成的图片按传入的参数最大宽度最大高度进行缩放，如这里传入的maxWidth为320，则生成的图片应该为：320*600；
+     * 
+     * @param file 源图片文件
+     * @param maxWidth 如果按宽度生成，目标图片最大的宽度
+     * @param maxHeight 如果按高度生成，目标图片最大的高度
+     * @throws IOException
+     */
+    public static void changeImageSizeBySmallBetweenWidthHeightForOneFile(File file, int maxWidth, int maxHeight)
+                                                                                                                 throws IOException {
+        if (FileUtil.isImageUsualFile(file.getName())) {// 只处理常见的图片文件
+            BufferedImage srcImg = InputImage(file);
+            if (null != srcImg) {
+                int width = srcImg.getWidth(); // 得到源图宽
+                int height = srcImg.getHeight(); // 得到源图长
+                if (width > height && height > maxHeight) {// 宽度大于高度，按高度生成
+                    changeImageSizeWithMaxHeight(srcImg, file.getAbsolutePath(), maxHeight);
+                } else if (height > width && width > maxWidth) {
+                    changeImageSizeWithMaxWidth(srcImg, file.getAbsolutePath(), maxWidth);
+                }
+            }
+            srcImg = null;
+        }
+
     }
 
     /**

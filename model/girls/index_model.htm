@@ -18,6 +18,11 @@
 			var Ratio = 1;
 			var w = img.width;
 			var h = img.height;
+			if(w>h){
+				maxWidth = 0;
+			}else{
+				maxHeight = 0;
+			}
 			wRatio = maxWidth / w;
 			hRatio = maxHeight / h;
 			wRatio = wRatio>1?1:wRatio;
@@ -85,18 +90,16 @@
 	var currentImage = 0;
 	function disNext(){
 		var imgObj = document.getElementById("imgId");
-		imgObj.src=imgVarArray[currentImage];
-		AutoResizeImage(320,0,imgObj);
+		AutoResizeImage(320,480,imgObj);
+		imgObj.src=imgVarArray[currentImage];		
 		currentImage++;
-		if(currentImage==imgVarArrayLength){//最后一张直接后退
-			/*
+		if(currentImage==imgVarArrayLength){//最后一张直接后退			
 			if(confirm("已经是最后一张了，继续查看吗？")){
 				currentImage=0;
 			}else{
-				window.location="../images.htm";
-			}
-			*/
-			history.back(-1);			
+				window.location="../index.htm";
+			}			
+			history.back(-1);
 		}
 	}
 	disNext();

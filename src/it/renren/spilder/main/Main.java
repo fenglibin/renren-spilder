@@ -215,7 +215,7 @@ public class Main {
                 param.enableOutputHtmlContentWhenErrorHappend();
             } else if (value.startsWith("-SaveImage2CurrentHtmlFileTileNameDir")) {// 保存图片时先根据标题建立文件夹
                 param.setSaveImage2CurrentHtmlFileTileNameDir();
-            } else if (value.startsWith("-isImageSite")) {// 保存图片时先根据标题建立文件夹
+            } else if (value.startsWith("-isImageSite")) {// 是否图片站，这个用于控制在获取的每片文章都加上头条及特荐
                 param.setImageSite();
             } else if (value.startsWith("-waterImageLocation")) {// 为采集的图片增加水印的水印图片地址
                 param.setWaterImageLocation(value.replace("-waterImageLocation=", "").replace("-waterImageLocation", ""));

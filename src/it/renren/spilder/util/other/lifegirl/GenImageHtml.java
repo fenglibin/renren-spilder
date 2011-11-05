@@ -5,6 +5,7 @@ import it.renren.spilder.util.ImageUtil;
 import it.renren.spilder.util.NumberUtil;
 import it.renren.spilder.util.StringUtil;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -17,14 +18,16 @@ import java.util.Map;
  */
 public class GenImageHtml {
 
-    private String imagesDir          = "/usr/fenglibin/images/test";
+    private String imagesDir          = "/usr/fenglibin/images/test/test";
     /* 每个图片目录图片展示的模板 */
     private String singal_index_model = "model/girls/index_model.htm";
+    /* 说明页 */
     private String images_model       = "model/girls/images_model.htm";
+    /* 当前分类的首页 */
     private String index              = "model/girls/index.htm";
     private String charset            = "gbk";
     // 当前软件的系列序号
-    private String seqNumber          = "";
+    private String seqNumber          = "1";
 
     /**
      * @param args
@@ -32,19 +35,21 @@ public class GenImageHtml {
      */
     public static void main(String[] args) throws Exception {
         GenImageHtml gen = new GenImageHtml();
-        // gen.step1();
-        // gen.step2();
+        gen.step1();
+        gen.step2();
         gen.step3();
         gen.step4();
+        gen.step5();
+        gen.step6();
     }
 
     public void genHtml() throws Exception {
         // step1();
         // step2();
         step3();
-        step4();
-        step5();
-        step6();
+        // step4();
+         step5();
+        // step6();
     }
 
     /**
@@ -111,13 +116,24 @@ public class GenImageHtml {
             if (dir.isDirectory() && dir.listFiles().length > 0 && !dir.getName().equals("res")
                 && !dir.getName().equals("index_inco")) {
                 File[] subListFiles = dir.listFiles();
+                int i = 1;
                 for (File oneFile : subListFiles) {
                     if (FileUtil.isImageUsualFile(oneFile.getName())) {// 取第一个图片文件
-                        // String temp = dir.getName() + File.separator + oneFile.getName();
-                        FileUtil.copy(oneFile, index_inco_dir + File.separator + oneFile.getName());
-                        map.put(dir.getName(), index_inco_dir_name + File.separator + oneFile.getName());
-                        break;
+                        BufferedImage src = ImageUtil.InputImage(oneFile.getAbsolutePath());
+                        int height = src.getHeight();
+                        int width = src.getWidth();
+                        if (height >= 400 && width < height) {
+                            FileUtil.copy(oneFile, index_inco_dir + File.separator + oneFile.getName());
+                            map.put(dir.getName(), index_inco_dir_name + File.separator + oneFile.getName());
+                            break;
+                        }
+//                        if (i == subListFiles.length) {// 最后一张都还是没有合适的
+//                            FileUtil.copy(oneFile, index_inco_dir + File.separator + oneFile.getName());
+//                            map.put(dir.getName(), index_inco_dir_name + File.separator + oneFile.getName());
+//                        }
+                        src = null;
                     }
+                    i++;
                 }
                 String whoName = FileUtil.getFileContent(dir.getAbsolutePath() + "/who.txt", charset);
                 mapWho.put(dir.getName(), whoName);
@@ -167,10 +183,10 @@ public class GenImageHtml {
             oneStringImage = "";
             oneStringWords = "";
         }
-        String images_mode = FileUtil.getFileContent(images_model, charset);
+        String images_mode = FileUtil.getFileContent(index, charset);
         images_mode = images_mode.replace("#data#", allString);
         images_mode = images_mode.replace("#seqNumber#", seqNumber);
-        FileUtil.writeFile(imagesDir + File.separator + "images.htm", images_mode);
+        FileUtil.writeFile(imagesDir + File.separator + "index.htm", images_mode);
     }
 
     /**
@@ -203,18 +219,18 @@ public class GenImageHtml {
     }
 
     /**
-     * 生成首页
+     * 生成说明页
      * 
      * @throws IOException
      */
     public void step5() throws IOException {
-        String indexHtml = FileUtil.getFileContent(index, charset);
+        String indexHtml = FileUtil.getFileContent(images_model, charset);
         indexHtml = indexHtml.replace("#seqNumber#", seqNumber);
-        FileUtil.writeFile(imagesDir + File.separator + "index.htm", indexHtml, charset);
+        FileUtil.writeFile(imagesDir + File.separator + "images.htm", indexHtml, charset);
     }
 
     /**
-     * 将首页的图片重新生成为大小150px宽度的，减少大小
+     * 将首页的图片重新生成为大小200px宽度的，减少大小
      * 
      * @throws IOException
      */

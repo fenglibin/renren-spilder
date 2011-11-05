@@ -11,7 +11,7 @@ import java.util.TreeMap;
 
 public class GenImageHtmls {
 
-    private static String imagesDir    = "/usr/fenglibin/images/lifegirl";
+    private static String imagesDir    = "/usr/fenglibin/images/lifegirl_update";
     private static String images_model = "model/girls/images_model.htm";
     private static String index        = "model/girls/index.htm";
     private static String charset      = "gbk";
@@ -121,14 +121,14 @@ public class GenImageHtmls {
             oneStringImage = "";
             oneStringWords = "";
         }
-        String images_mode = FileUtil.getFileContent(images_model, charset);
+        String images_mode = FileUtil.getFileContent(index, charset);
         images_mode = images_mode.replace("#data#", allString);
         images_mode = images_mode.replace("#seqNumber#", "");
-        FileUtil.writeFile(imagesDir + File.separator + "images.htm", images_mode);
+        FileUtil.writeFile(imagesDir + File.separator + "index.htm", images_mode);
 
-        String indexHtml = FileUtil.getFileContent(index, charset);
+        String indexHtml = FileUtil.getFileContent(images_model, charset);
         indexHtml = indexHtml.replace("#seqNumber#", "");
-        FileUtil.writeFile(imagesDir + "/" + "index.htm", indexHtml, charset);
+        FileUtil.writeFile(imagesDir + "/" + "images.htm", indexHtml, charset);
 
     }
 }

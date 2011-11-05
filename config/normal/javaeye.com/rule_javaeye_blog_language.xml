@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="gbk"?>
+<Rules>
+	<MainUrl>
+		<Values desc="链接的列表地址，Value中的列表地址可以是多条，以逗号分开">
+			
+			<BatValues desc="批量增加，支持通配置符'(*)'">
+				<Value>
+					<![CDATA[http://www.iteye.com/blogs/category/language?page=(*)]]>
+				</Value>
+				<WildcastType desc="通配符的类型:1表示数字，2表示a-z的字母">
+					<Value>
+						<![CDATA[1]]>
+					</Value>
+					<Start>
+						<Value>
+							<![CDATA[1]]>
+						</Value>
+					</Start>
+					<End>
+						<Value>
+							<![CDATA[6802]]>
+						</Value>
+					</End>
+				</WildcastType>
+			</BatValues>	
+		</Values>
+		<DesArticleId>
+			<Value>98</Value>
+		</DesArticleId>
+		<AutoDetect>
+			<TypeMapMakeClass>it.renren.spilder.type.DedecmsTypesMap</TypeMapMakeClass>
+		</AutoDetect>
+		<MainRange desc="内容范围">
+			<Start>
+				<Value><![CDATA[<div class="blog clearfix">]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[<div class="pagination">]]></Value>
+			</End>
+		</MainRange>
+		<Charset desc="编码">
+			<Value>
+				<![CDATA[utf-8]]>
+			</Value>
+		</Charset>
+		<ImageDescUrl desc="将原内容中的图片地址替换、用户保存图片的相对路径">
+			<Value>
+				<![CDATA[/uploads/allimg/]]>
+			</Value>
+		</ImageDescUrl>
+		<ImageSaveLocation desc="保存图片的路径，将图片写出到硬盘上">
+			<Value>
+				<![CDATA[/home/fenglibin/www/img.renren.it]]>
+			</Value>
+		</ImageSaveLocation>
+		<Recommend desc="随机推荐数，即多少篇文章推荐一篇.'0'表示不随机推荐">
+			<Value><![CDATA[5]]></Value>
+		</Recommend>
+		<UrlFilter url="url筛选">
+			<MustInclude desc="url中必须包括的字符串">
+				<Value>
+					<![CDATA[blog]]>
+				</Value>
+			</MustInclude>
+			<MustNotInclude desc="url中不能够包括的字符串">
+				<Value>
+					<![CDATA[tag,comments,category]]>
+				</Value>
+			</MustNotInclude>
+		</UrlFilter>
+		<OneUrlSleepTime>
+			<Value>60000</Value>
+		</OneUrlSleepTime>
+	</MainUrl>
+	<Child>
+		<Charset desc="编码">
+			<Value>
+				<![CDATA[utf-8]]>
+			</Value>
+		</Charset>
+		<Title desc="标题">
+			<Start>
+				<Value><![CDATA[<title>]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[- ]]></Value>
+			</End>
+			<Replace desc="替换标题">
+				<IsRegularExpression desc="是否正则表达式，值只能够是true或false">
+					<Value>
+						<![CDATA[false]]>
+					</Value>
+				</IsRegularExpression>
+				<From desc="待替换标题部分">
+					<Value>
+						<![CDATA[]]>
+					</Value>
+				</From>
+				<To desc="目标部份">
+					<Value>
+						<![CDATA[]]>
+					</Value>
+				</To>
+			</Replace>
+		</Title>
+		<Content desc="内容">
+			<Start>
+				<Value><![CDATA[<div id="blog_content" class="blog_content">]]></Value>
+			</Start>
+			<Start>
+				<Value><![CDATA[<div id="blog_content" class="blog_content">]]></Value>
+			</Start>
+			<Start>
+				<Value><![CDATA[<div id="blog_content" class="blog_content">]]></Value>
+			</Start>
+			<Start>
+				<Value><![CDATA[<div id="blog_content" class="blog_content">]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[<div class="attachments">]]></Value>
+			</End>
+			<End>
+				<Value><![CDATA[<script type="text/javascript">]]></Value>
+			</End>
+			<End>
+				<Value><![CDATA[<div id="bottoms" class="clearfix">]]></Value>
+			</End>			
+			<End>
+				<Value><![CDATA[  <div class="blog_nav">
+    <div class="pre_next">]]></Value>
+			</End>
+			<Replace desc="替换内容">
+				<IsRegularExpression desc="是否正则表达式">
+					<Value>
+						<![CDATA[false]]>
+					</Value>
+				</IsRegularExpression>
+				<From desc="原内容">
+					<Value>
+						<![CDATA[]]>
+					</Value>
+				</From>
+				<To desc="目标内容">
+					<Value>
+						<![CDATA[]]>
+					</Value>
+				</To>
+			</Replace>
+		</Content>
+		<AddUrl desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false">
+			<Value>
+				<![CDATA[true]]>
+			</Value>
+		</AddUrl>
+	</Child>
+</Rules>
