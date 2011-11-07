@@ -49,7 +49,7 @@
 		</ImageDescUrl>
 		<ImageSaveLocation desc="保存图片的路径，将图片写出到硬盘上">
 			<Value>
-				<![CDATA[/home/fenglibin/www/img.renren.it]]>
+				<![CDATA[/home/fenglibin/www/img.renren.it/]]>
 			</Value>
 		</ImageSaveLocation>
 		<Recommend desc="随机推荐数，即多少篇文章推荐一篇.'0'表示不随机推荐">
