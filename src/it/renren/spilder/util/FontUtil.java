@@ -28,14 +28,20 @@ public class FontUtil {
         for (int i = 0; i < string.length(); i++) {
             location = -1;
             String temp = string.substring(i, i + 1);
-            byte[] bt = temp.getBytes();
-            if (bt.length > 1) {// 通过当前字符的字节来判断，如果大于一个字节就认为是中文了
-                if ((location = fanti.indexOf(temp)) >= 0) {
-                    temp = jianti.substring(location, location + 1);
-                }
-                if (location > -1) {
-                    string.replace(i, i + 1, temp);
-                }
+            // byte[] bt = temp.getBytes();
+            // if (bt.length > 1) {// 通过当前字符的字节来判断，如果大于一个字节就认为是中文了
+            // if ((location = fanti.indexOf(temp)) >= 0) {
+            // temp = jianti.substring(location, location + 1);
+            // }
+            // if (location > -1) {
+            // string.replace(i, i + 1, temp);
+            // }
+            // }
+            if ((location = fanti.indexOf(temp)) >= 0) {
+                temp = jianti.substring(location, location + 1);
+            }
+            if (location > -1) {
+                string.replace(i, i + 1, temp);
             }
         }
         return string.toString();
@@ -56,14 +62,20 @@ public class FontUtil {
         for (int i = 0; i < string.length(); i++) {
             location = -1;
             String temp = string.substring(i, i + 1);
-            byte[] bt = temp.getBytes();
-            if (bt.length > 1) {// 通过当前字符的字节来判断，如果大于一个字节就认为是中文了
-                if ((location = jianti.indexOf(temp)) >= 0) {
-                    temp = fanti.substring(location, location + 1);
-                }
-                if (location > -1) {
-                    string.replace(i, i + 1, temp);
-                }
+            // byte[] bt = temp.getBytes();
+            // if (bt.length > 1) {// 通过当前字符的字节来判断，如果大于一个字节就认为是中文了
+            // if ((location = jianti.indexOf(temp)) >= 0) {
+            // temp = fanti.substring(location, location + 1);
+            // }
+            // if (location > -1) {
+            // string.replace(i, i + 1, temp);
+            // }
+            // }
+            if ((location = jianti.indexOf(temp)) >= 0) {
+                temp = fanti.substring(location, location + 1);
+            }
+            if (location > -1) {
+                string.replace(i, i + 1, temp);
             }
         }
         return string.toString();

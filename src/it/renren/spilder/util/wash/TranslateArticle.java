@@ -64,9 +64,11 @@ public class TranslateArticle extends WashBase {
             archivesDAO.updateTitleKeywordsDescription(archivesDO);
 
             AddonarticleDO addonarticleDO = addonarticleDAO.selectBodyByAid(id);
-            addonarticleDO.setAid(id);
-            addonarticleDO.setBody(FontUtil.jian2fan(addonarticleDO.getBody()));
-            addonarticleDAO.updateBodyByAid(addonarticleDO);
+            if (addonarticleDO != null) {
+                addonarticleDO.setAid(id);
+                addonarticleDO.setBody(FontUtil.jian2fan(addonarticleDO.getBody()));
+                addonarticleDAO.updateBodyByAid(addonarticleDO);
+            }
         }
         rs.close();
         st.close();
