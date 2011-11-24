@@ -92,7 +92,7 @@ public class ImageUtil {
             if (dispose) {
                 disposeImage(src, outImg, new_w, new_h);
             }
-
+            src = null;
         }
     }
 

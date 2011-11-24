@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class ImageUtilTest {
 
-    private static String imageDir = "/usr/fenglibin/images/lifegirl_update";
+    private static String imageDir = "/usr/fenglibin/renren-spilder/allimg/2011-11-05";
 
     /**
      * @param args

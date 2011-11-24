@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class GenImageHtml {
 
-    private String imagesDir          = "/usr/fenglibin/images/test/test";
+    private String imagesDir          = "/usr/fenglibin/images/lifegirl_update";
     /* 每个图片目录图片展示的模板 */
     private String singal_index_model = "model/girls/index_model.htm";
     /* 说明页 */
@@ -46,9 +46,9 @@ public class GenImageHtml {
     public void genHtml() throws Exception {
         // step1();
         // step2();
-        step3();
-        // step4();
-         step5();
+        //step3();
+        step4();
+        // step5();
         // step6();
     }
 
@@ -127,10 +127,10 @@ public class GenImageHtml {
                             map.put(dir.getName(), index_inco_dir_name + File.separator + oneFile.getName());
                             break;
                         }
-//                        if (i == subListFiles.length) {// 最后一张都还是没有合适的
-//                            FileUtil.copy(oneFile, index_inco_dir + File.separator + oneFile.getName());
-//                            map.put(dir.getName(), index_inco_dir_name + File.separator + oneFile.getName());
-//                        }
+                        // if (i == subListFiles.length) {// 最后一张都还是没有合适的
+                        // FileUtil.copy(oneFile, index_inco_dir + File.separator + oneFile.getName());
+                        // map.put(dir.getName(), index_inco_dir_name + File.separator + oneFile.getName());
+                        // }
                         src = null;
                     }
                     i++;
@@ -186,7 +186,9 @@ public class GenImageHtml {
         String images_mode = FileUtil.getFileContent(index, charset);
         images_mode = images_mode.replace("#data#", allString);
         images_mode = images_mode.replace("#seqNumber#", seqNumber);
-        FileUtil.writeFile(imagesDir + File.separator + "index.htm", images_mode);
+        String descFile = imagesDir + File.separator + "index.htm";
+        System.out.println(descFile);
+        FileUtil.writeFile(descFile, images_mode);
     }
 
     /**
@@ -212,7 +214,9 @@ public class GenImageHtml {
                     imageNameStrngs = imageNameStrngs.substring(0, imageNameStrngs.length() - 1);
                     String index_mode_this = signel_index_mode.replace("#imageNameStrngs#", imageNameStrngs);
                     index_mode_this = index_mode_this.replace("#seqNumber#", seqNumber);
-                    FileUtil.writeFile(dir.getAbsolutePath() + File.separator + "index.htm", index_mode_this, charset);
+                    String descFile = dir.getAbsolutePath() + File.separator + "index.htm";
+                    System.out.println(descFile);
+                    FileUtil.writeFile(descFile, index_mode_this, charset);
                 }
             }
         }

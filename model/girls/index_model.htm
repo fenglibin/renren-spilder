@@ -77,6 +77,12 @@
 	try{
 		if(mm.openGoogleAd!=true){
 			document.getElementById("googelAd").innerHTML="";
+		}else{
+			var userAgent = navigator.userAgent.toLowerCase();
+			/*非移动或android浏览器，也不显示*/
+			if (!(/android/.test(userAgent) || /mobile/.test(userAgent))){
+				document.getElementById("googelAd").innerHTML="";
+			}
 		}
 	}catch(e){
 		document.getElementById("googelAd").innerHTML="";
@@ -101,6 +107,7 @@
 			}			
 			history.back(-1);
 		}
+		AutoResizeImage(320,480,imgObj);
 	}
 	disNext();
 	function exitThis(){

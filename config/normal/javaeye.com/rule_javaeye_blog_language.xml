@@ -116,15 +116,26 @@
 			<Start>
 				<Value><![CDATA[<div id="blog_content" class="blog_content">]]></Value>
 			</Start>
+			<Start>
+				<Value><![CDATA[<div id="blog_content" class="blog_content">]]></Value>
+			</Start>
 			<End>
 				<Value><![CDATA[<div class="attachments">]]></Value>
 			</End>
 			<End>
-				<Value><![CDATA[<script type="text/javascript">]]></Value>
+				<Value><![CDATA[</div>
+
+  
+
+
+  <IFRAME]]></Value>
 			</End>
 			<End>
 				<Value><![CDATA[<div id="bottoms" class="clearfix">]]></Value>
-			</End>			
+			</End>
+			<End>
+				<Value><![CDATA[<script type="text/javascript">]]></Value>
+			</End>				
 			<End>
 				<Value><![CDATA[  <div class="blog_nav">
     <div class="pre_next">]]></Value>
