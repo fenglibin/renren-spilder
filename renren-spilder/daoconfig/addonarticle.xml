@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Addonarticle">
+	<typeAlias alias="TA-ADDONARTICLE" type="it.renren.spilder.dataobject.AddonarticleDO"/>
+	<resultMap id="RM-ADDONARTICLE" class="TA-ADDONARTICLE">
+		<result property="aid"          javaType="java.lang.Integer"  		jdbcType="NUMERIC"    	column="aid" />
+		<result property="typeid"       javaType="java.lang.Integer"  		jdbcType="NUMERIC"    	column="typeid" />
+		<result property="body"      	javaType="java.lang.String"  	jdbcType="VARCHAR"    	column="body" />
+	</resultMap>
+	<insert id="Insert_Addonarticle" parameterClass="TA-ADDONARTICLE">
+		<![CDATA[
+		insert into $tablePrefix$addonarticle(aid,typeid,body) 
+		values(
+			#aid#,
+			#typeid#,
+			#body#
+		)
+			 ]]>
+	</insert>
+	<select id="SELECT_BODY_BY_AID" resultMap="RM-ADDONARTICLE" parameterClass="TA-ADDONARTICLE">
+		select aid,body,typeid from $tablePrefix$addonarticle where aid=#aid#
+	</select>
+	<update id="UPDATE_BODY_BY_AID" parameterClass="TA-ADDONARTICLE">
+		update $tablePrefix$addonarticle set body=#body# where aid=#aid#
+	</update>
+</sqlMap>

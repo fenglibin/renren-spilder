@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Arctiny">
+	<typeAlias alias="TA-ARCTINY" type="it.renren.spilder.dataobject.ArctinyDO"/>
+	<resultMap id="RM-ARCTINY" class="TA-ARCTINY">
+		<result property="id"           javaType="java.lang.Integer"  		jdbcType="NUMERIC"    	column="id" />
+		<result property="typeid"       javaType="java.lang.Integer"  		jdbcType="NUMERIC"    	column="typeid" />
+		<result property="channel"      javaType="java.lang.Integer"  		jdbcType="NUMERIC"    	column="channel" />
+		<result property="senddate"     javaType="java.lang.Integer"  		jdbcType="NUMERIC"    	column="senddate" />
+		<result property="sortrank"     javaType="java.lang.Integer"  		jdbcType="NUMERIC"    	column="sortrank" />
+		<result property="mid"          javaType="java.lang.Integer"  		jdbcType="NUMERIC"    	column="mid" />
+	</resultMap>
+	
+	<select id="Select_Current_ArticleId" parameterClass="TA-ARCTINY" resultMap="RM-ARCTINY">
+		<![CDATA[
+			select id,typeid,channel,senddate,sortrank,mid from $tablePrefix$arctiny where typeid=#typeid#
+		]]>
+	</select>
+	<insert id="Insert_Arctiny" parameterClass="TA-ARCTINY">
+		<![CDATA[
+		insert into $tablePrefix$arctiny(typeid,channel,senddate,sortrank,mid) 
+		values(
+			#typeid#,
+			1,
+			unix_timestamp(now()),
+			unix_timestamp(now()),
+			1
+		)
+			 ]]>
+	</insert>
+	<update id="Update_Current_ArticleId" parameterClass="TA-ARCTINY">
+		<![CDATA[
+			update $tablePrefix$arctiny set typeid=#typeid# where id=#id#
+		]]>
+	</update>
+</sqlMap>

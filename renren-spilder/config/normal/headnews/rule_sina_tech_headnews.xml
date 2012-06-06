@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="gbk"?>
+<Rules desc="新浪科技头条">
+	<MainUrl>
+		<Values desc="链接的列表地址，Value中的列表地址可以是多条，以逗号分开">
+			<Value desc="当前主页面的Url地址">
+				<![CDATA[http://tech.sina.com.cn/]]>
+			</Value>
+			<!--BatValues desc="批量增加，支持通配置符'(*)'">
+				<Value>
+					<![CDATA[http://www.ibm.com/developerworks/cn/views/java/libraryview.jsp?view_by=search&search_by=Ajax]]>
+				</Value>
+				<WildcastType desc="通配符的类型:1表示数字，2表示a-z的字母">
+					<Value>
+						<![CDATA[1]]>
+					</Value>
+					<Start>
+						<Value>
+							<![CDATA[1]]>
+						</Value>
+					</Start>
+					<End>
+						<Value>
+							<![CDATA[10]]>
+						</Value>
+					</End>
+				</WildcastType>
+			</BatValues-->	
+		</Values>
+		<DesArticleId>
+			<Value>3</Value>
+		</DesArticleId>
+		<MainRange desc="内容范围">
+			<Start>
+				<Value><![CDATA[<div class="topywdiv">]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[</ul>
+<!-- publish_helper_end -->]]></Value>
+			</End>
+		</MainRange>
+		<Charset desc="编码">
+			<Value>
+				<![CDATA[gb2312]]>
+			</Value>
+		</Charset>
+		<ImageDescUrl desc="将原内容中的图片地址替换、用户保存图片的相对路径">
+			<Value>
+				<![CDATA[/uploads/allimg/]]>
+			</Value>
+		</ImageDescUrl>
+		<ImageSaveLocation desc="保存图片的路径，将图片写出到硬盘上">
+			<Value>
+				<![CDATA[/home/fenglibin/www/img.renren.it/]]>
+			</Value>
+		</ImageSaveLocation>
+		<Recommend desc="随机推荐数，即多少篇文章推荐一篇.'0'表示不随机推荐">
+			<Value><![CDATA[5]]></Value>
+		</Recommend>
+		<UrlFilter url="url筛选">
+			<MustInclude desc="url中必须包括的字符串">
+				<Value>
+					<![CDATA[.shtml]]>
+				</Value>
+			</MustInclude>
+			<MustNotInclude desc="url中不能够包括的字符串">
+				<Value>
+					<![CDATA[]]>
+				</Value>
+			</MustNotInclude>
+		</UrlFilter>
+	</MainUrl>
+	<Child>
+		<Charset desc="编码">
+			<Value>
+				<![CDATA[gb2312]]>
+			</Value>
+		</Charset>
+		<Title desc="标题">
+			<Start>
+				<Value><![CDATA[<div class="blkContainerSblk">
+				]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[</h1>]]></Value>
+			</End>
+			<Replace desc="替换标题">
+				<IsRegularExpression desc="是否正则表达式，值只能够是true或false">
+					<Value>
+						<![CDATA[false]]>
+					</Value>
+				</IsRegularExpression>
+				<From desc="待替换标题部分">
+					<Value>
+						<![CDATA[]]>
+					</Value>
+				</From>
+				<To desc="目标部份">
+					<Value>
+						<![CDATA[]]>
+					</Value>
+				</To>
+			</Replace>
+		</Title>
+		<Content desc="内容">
+			<Start>
+				<Value><![CDATA[<!-- <div class="moduleParagraph"> -->]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[<!-- publish_helper_end -->]]></Value>
+			</End>
+			<Replace desc="替换内容">
+				<IsRegularExpression desc="是否正则表达式">
+					<Value>
+						<![CDATA[false]]>
+					</Value>
+				</IsRegularExpression>
+				<From desc="原内容">
+					<Value>
+						<![CDATA[]]>
+					</Value>
+				</From>
+				<To desc="目标内容">
+					<Value>
+						<![CDATA[]]>
+					</Value>
+				</To>
+			</Replace>
+		</Content>
+	</Child>
+</Rules>
