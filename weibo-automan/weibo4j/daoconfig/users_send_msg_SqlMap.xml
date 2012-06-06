@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="users_send_msg" >
+  <resultMap id="BaseResultMap" class="weiboautoman.timer.dataobject.UsersSendMsg" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="msg_id" property="msgId" jdbcType="BIGINT" />
+    <result column="send_date" property="sendDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="weiboautoman.timer.dataobject.UsersSendMsg" >
+    select id, user_id, msg_id, send_date
+    from users_send_msg
+    where id = #id:BIGINT#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="weiboautoman.timer.dataobject.UsersSendMsg" >
+    delete from users_send_msg
+    where id = #id:BIGINT#
+  </delete>
+  <insert id="insert" parameterClass="weiboautoman.timer.dataobject.UsersSendMsg" >
+    insert into users_send_msg (id, user_id, msg_id, send_date)
+    values (#id:BIGINT#, #userId:BIGINT#, #msgId:BIGINT#, #sendDate:TIMESTAMP#)
+  </insert>
+  <insert id="insertSelective" parameterClass="weiboautoman.timer.dataobject.UsersSendMsg" >
+    insert into users_send_msg
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="userId" >
+        user_id
+      </isNotNull>
+      <isNotNull prepend="," property="msgId" >
+        msg_id
+      </isNotNull>
+      <isNotNull prepend="," property="sendDate" >
+        send_date
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        #id:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="userId" >
+        #userId:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="msgId" >
+        #msgId:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="sendDate" >
+        #sendDate:TIMESTAMP#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="weiboautoman.timer.dataobject.UsersSendMsg" >
+    update users_send_msg
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="userId" >
+        user_id = #userId:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="msgId" >
+        msg_id = #msgId:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="sendDate" >
+        send_date = #sendDate:TIMESTAMP#
+      </isNotNull>
+    </dynamic>
+    where id = #id:BIGINT#
+  </update>
+  <update id="updateByPrimaryKey" parameterClass="weiboautoman.timer.dataobject.UsersSendMsg" >
+    update users_send_msg
+    set user_id = #userId:BIGINT#,
+      msg_id = #msgId:BIGINT#,
+      send_date = #sendDate:TIMESTAMP#
+    where id = #id:BIGINT#
+  </update>
+</sqlMap>

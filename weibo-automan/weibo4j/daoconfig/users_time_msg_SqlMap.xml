@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="users_time_msg" >
+  <resultMap id="BaseResultMap" class="weiboautoman.timer.dataobject.UsersTimeMsg" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="weibo_id" property="weiboId" jdbcType="VARCHAR" />
+    <result column="msg_content" property="msgContent" jdbcType="VARCHAR" />
+    <result column="msg_picture" property="msgPicture" jdbcType="VARCHAR" />
+    <result column="send_time" property="sendTime" jdbcType="INTEGER" />
+    <result column="is_send" property="isSend" jdbcType="CHAR" />
+    <result column="send_result" property="sendResult" jdbcType="VARCHAR" />
+    <result column="msg_id" property="msgId" jdbcType="BIGINT" />
+    <result column="send_type" property="sendType" jdbcType="CHAR" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="weiboautoman.timer.dataobject.UsersTimeMsg" >
+    select id, user_id, weibo_id, msg_content, msg_picture, send_time, is_send, send_result, msg_id,send_type
+    from users_time_msg
+    where id = #id:BIGINT#
+  </select>
+  <!--查询满足条件的记录数-->
+  <select id="selectByUserIdFirstNumberLikeCount" parameterClass="java.util.Map" resultClass="java.lang.Long">
+  	select count(*) 
+  		from users_time_msg 
+  		where upper(is_send)='N' and unix_timestamp(now())>=send_time
+  			and send_type = #sendType#
+	  	<isNotNull property="userIdFirstNumber" >
+	        and user_id like #userIdFirstNumber#
+	    </isNotNull>
+  </select>
+  <!--翻页查询记录-->
+  <select id="selectByUserIdFirstNumberLike" parameterClass="java.util.Map" resultMap="BaseResultMap">
+  	select id, user_id, weibo_id, msg_content, msg_picture, send_time, is_send, send_result, msg_id, send_type
+    from users_time_msg
+  	where upper(is_send)='N' and unix_timestamp(now())>=send_time
+  		and send_type = #sendType#
+  	<isNotNull property="userIdFirstNumber" >
+        and user_id like #userIdFirstNumber#
+    </isNotNull>
+  	limit #start#,#pageSize#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="weiboautoman.timer.dataobject.UsersTimeMsg" >
+    delete from users_time_msg
+    where id = #id:BIGINT#
+  </delete>
+  <insert id="insert" parameterClass="weiboautoman.timer.dataobject.UsersTimeMsg" >
+    insert into users_time_msg (id, user_id, weibo_id, msg_content, msg_picture, send_time, is_send, send_result, msg_id, send_type)
+    values (#id:BIGINT#, #userId:BIGINT#, #weiboId:VARCHAR#, #msgContent:VARCHAR#,
+      #msgPicture:VARCHAR#, #sendTime:INTEGER#, #isSend:CHAR#, #sendResult:VARCHAR#, #msgId:BIGINT#, #sendType:CHAR#)
+  </insert>
+  <insert id="insertSelective" parameterClass="weiboautoman.timer.dataobject.UsersTimeMsg" >
+    insert into users_time_msg
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="userId" >
+        user_id
+      </isNotNull>
+      <isNotNull prepend="," property="weiboId" >
+        weibo_id
+      </isNotNull>
+      <isNotNull prepend="," property="msgContent" >
+        msg_content
+      </isNotNull>
+      <isNotNull prepend="," property="msgPicture" >
+        msg_picture
+      </isNotNull>
+      <isNotNull prepend="," property="sendTime" >
+        send_time
+      </isNotNull>
+      <isNotNull prepend="," property="isSend" >
+        is_send
+      </isNotNull>
+      <isNotNull prepend="," property="sendResult" >
+        send_result
+      </isNotNull>
+      <isNotNull prepend="," property="msgId" >
+        msg_id
+      </isNotNull>
+      <isNotNull prepend="," property="sendType" >
+        send_type
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        #id:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="userId" >
+        #userId:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="weiboId" >
+        #weiboId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="msgContent" >
+        #msgContent:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="msgPicture" >
+        #msgPicture:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="sendTime" >
+        #sendTime:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="isSend" >
+        #isSend:CHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="sendResult" >
+        #sendResult:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="msgId" >
+        #msgId:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="sendType" >
+        #sendType:CHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="weiboautoman.timer.dataobject.UsersTimeMsg" >
+    update users_time_msg
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="userId" >
+        user_id = #userId:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="weiboId" >
+        weibo_id = #weiboId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="msgContent" >
+        msg_content = #msgContent:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="msgPicture" >
+        msg_picture = #msgPicture:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="sendTime" >
+        send_time = #sendTime:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="isSend" >
+        is_send = #isSend:CHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="sendResult" >
+        send_result = #sendResult:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="msgId" >
+        msg_id = #msgId:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="sendType" >
+        send_type = #sendType:BIGINT#
+      </isNotNull>
+    </dynamic>
+    where id = #id:BIGINT#
+  </update>
+  <update id="updateByPrimaryKey" parameterClass="weiboautoman.timer.dataobject.UsersTimeMsg" >
+    update users_time_msg
+    set user_id = #userId:BIGINT#,
+      weibo_id = #weiboId:VARCHAR#,
+      msg_content = #msgContent:VARCHAR#,
+      msg_picture = #msgPicture:VARCHAR#,
+      send_time = #sendTime:INTEGER#,
+      is_send = #isSend:CHAR#,
+      send_result = #sendResult:VARCHAR#,
+      msg_id = #msgId:BIGINT#,
+      send_type = #sendType:CHAR#
+    where id = #id:BIGINT#
+  </update>
+</sqlMap>

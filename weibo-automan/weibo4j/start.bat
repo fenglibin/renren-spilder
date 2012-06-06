@@ -1,0 +1,1 @@
+java -jar -Xmx256m -Xms256m -Xmn96m -XX:PermSize=32m -XX:+DisableExplicitGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:+UseCMSInitiatingOccupancyOnly WeiboAutoman.jar

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ibatorConfiguration
+  PUBLIC "-//Apache Software Foundation//DTD Apache iBATIS Ibator Configuration 1.0//EN"
+  "http://ibatis.apache.org/dtd/ibator-config_1_0.dtd">
+
+<ibatorConfiguration>
+  <!--数据库驱动的文件绝对路径-->
+  <classPathEntry location="mysql-connector-java-5.1.13-bin.jar" />
+  <ibatorContext id="MysqlTables" targetRuntime="Ibatis2Java2">
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://127.0.0.1:3306/weibo?characterEncoding=gbk"
+        userId="root"
+        password="1212121212">
+    </jdbcConnection>
+    <!--配置生成DO文件存放的路径。注：targetProject必须要存在，下同-->
+    <javaModelGenerator targetPackage="weiboautoman.timer.dataobject" targetProject="weibo/src">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+    <!--配置存放生成的ibatis配置路径-->
+    <sqlMapGenerator targetPackage="daoconfig"  targetProject="weibo/src">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+    <!--配置生成DAO及实现类的路径-->
+    <daoGenerator type="SPRING" targetPackage="weiboautoman.timer.dao"  targetProject="weibo/src">
+      <property name="enableSubPackages" value="true" />
+    </daoGenerator>
+    <!--配置需要生成的表，如果表名及字段名不需要特殊处理，直接下面这样配置就可以。注：如果是ORACLE必须指定schema-->
+    <!--这里可以配置多个表名，至少一个表-->
+    <table tableName="msg"></table>
+    <table tableName="msg_type"></table>
+    <table tableName="users"></table>
+    <table tableName="users_time_msg"></table>
+    <table tableName="users_weibo"></table>
+	  <table tableName="users_send_msg"></table>
+    <table tableName="users_special"></table>
+  </ibatorContext>
+</ibatorConfiguration>

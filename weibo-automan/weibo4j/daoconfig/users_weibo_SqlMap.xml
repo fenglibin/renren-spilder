@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="users_weibo" >
+  <resultMap id="BaseResultMap" class="weiboautoman.timer.dataobject.UsersWeibo" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="weibo_id" property="weiboId" jdbcType="VARCHAR" />
+    <result column="weibo_email" property="weiboEmail" jdbcType="VARCHAR" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="token_secret" property="tokenSecret" jdbcType="VARCHAR" />
+    <result column="weibo_type" property="weiboType" jdbcType="CHAR" />
+    <result column="nick" property="nick" jdbcType="VARCHAR" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="head" property="head" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="SmallResultMap" class="weiboautoman.timer.dataobject.vo.UsersWeiboVO" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="weibo_id" property="weiboId" jdbcType="VARCHAR" />
+    <result column="weibo_email" property="weiboEmail" jdbcType="VARCHAR" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="token_secret" property="tokenSecret" jdbcType="VARCHAR" />
+    <result column="weibo_type" property="weiboType" jdbcType="CHAR" />
+    <result column="nick" property="nick" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="weiboautoman.timer.dataobject.UsersWeibo" >
+    select id, user_id, weibo_id, weibo_email, token, token_secret, weibo_type, nick, location,
+      head, introduction
+    from users_weibo
+    where id = #id:BIGINT#
+  </select>
+  <select id="selectByPrimaryKeySmall" resultMap="SmallResultMap" parameterClass="weiboautoman.timer.dataobject.UsersWeibo" >
+    select id, user_id, weibo_id, weibo_email, token, token_secret, weibo_type, nick
+    from users_weibo
+    where id = #id:BIGINT#
+  </select>
+  <select id="selectUserWeiboByUserId" resultMap="SmallResultMap" parameterClass="weiboautoman.timer.dataobject.UsersWeibo" >
+    select id, user_id, weibo_id, weibo_email, token, token_secret, weibo_type, nick
+    from users_weibo
+    where user_id = #userId:BIGINT#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="weiboautoman.timer.dataobject.UsersWeibo" >
+    delete from users_weibo
+    where id = #id:BIGINT#
+  </delete>
+  <insert id="insert" parameterClass="weiboautoman.timer.dataobject.UsersWeibo" >
+    insert into users_weibo (id, user_id, weibo_id, weibo_email, token, token_secret, weibo_type,
+      nick, location, head, introduction)
+    values (#id:BIGINT#, #userId:BIGINT#, #weiboId:VARCHAR#, #weiboEmail:VARCHAR#, #token:VARCHAR#,
+      #tokenSecret:VARCHAR#, #weiboType:CHAR#, #nick:VARCHAR#, #location:VARCHAR#, #head:VARCHAR#,
+      #introduction:VARCHAR#)
+  </insert>
+  <insert id="insertSelective" parameterClass="weiboautoman.timer.dataobject.UsersWeibo" >
+    insert into users_weibo
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="userId" >
+        user_id
+      </isNotNull>
+      <isNotNull prepend="," property="weiboId" >
+        weibo_id
+      </isNotNull>
+      <isNotNull prepend="," property="weiboEmail" >
+        weibo_email
+      </isNotNull>
+      <isNotNull prepend="," property="token" >
+        token
+      </isNotNull>
+      <isNotNull prepend="," property="tokenSecret" >
+        token_secret
+      </isNotNull>
+      <isNotNull prepend="," property="weiboType" >
+        weibo_type
+      </isNotNull>
+      <isNotNull prepend="," property="nick" >
+        nick
+      </isNotNull>
+      <isNotNull prepend="," property="location" >
+        location
+      </isNotNull>
+      <isNotNull prepend="," property="head" >
+        head
+      </isNotNull>
+      <isNotNull prepend="," property="introduction" >
+        introduction
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        #id:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="userId" >
+        #userId:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="weiboId" >
+        #weiboId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="weiboEmail" >
+        #weiboEmail:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="token" >
+        #token:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="tokenSecret" >
+        #tokenSecret:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="weiboType" >
+        #weiboType:CHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="nick" >
+        #nick:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="location" >
+        #location:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="head" >
+        #head:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="introduction" >
+        #introduction:VARCHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="weiboautoman.timer.dataobject.UsersWeibo" >
+    update users_weibo
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="userId" >
+        user_id = #userId:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="weiboId" >
+        weibo_id = #weiboId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="weiboEmail" >
+        weibo_email = #weiboEmail:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="token" >
+        token = #token:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="tokenSecret" >
+        token_secret = #tokenSecret:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="weiboType" >
+        weibo_type = #weiboType:CHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="nick" >
+        nick = #nick:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="location" >
+        location = #location:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="head" >
+        head = #head:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="introduction" >
+        introduction = #introduction:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    where id = #id:BIGINT#
+  </update>
+  <update id="updateByPrimaryKey" parameterClass="weiboautoman.timer.dataobject.UsersWeibo" >
+    update users_weibo
+    set user_id = #userId:BIGINT#,
+      weibo_id = #weiboId:VARCHAR#,
+      weibo_email = #weiboEmail:VARCHAR#,
+      token = #token:VARCHAR#,
+      token_secret = #tokenSecret:VARCHAR#,
+      weibo_type = #weiboType:CHAR#,
+      nick = #nick:VARCHAR#,
+      location = #location:VARCHAR#,
+      head = #head:VARCHAR#,
+      introduction = #introduction:VARCHAR#
+    where id = #id:BIGINT#
+  </update>
+</sqlMap>

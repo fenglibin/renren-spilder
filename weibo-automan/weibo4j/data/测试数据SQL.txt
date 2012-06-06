@@ -1,0 +1,4 @@
+insert into users(id,name,password,email,reg_date,reg_ip) values(1,'feng','feng','feng@163.com','2011-01-01','127.0.0.1');
+insert into msg values(1,'hello',1,1,'D:/t/IMG_1818.JPG');
+insert into users_special values(1,1,1);
+insert into users_weibo values(1,1,'1','1@163.com','1','1','S','1','1','1','1','2011-01-01');

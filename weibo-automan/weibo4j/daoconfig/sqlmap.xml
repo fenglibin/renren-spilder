@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<settings cacheModelsEnabled="true" enhancementEnabled="false" lazyLoadingEnabled="false" maxRequests="3000" maxSessions="3000" maxTransactions="3000" useStatementNamespaces="true"/>
+	<!-- url参数为读取指定的文件 -->
+	<sqlMap url="${baseurl}/msg_SqlMap.xml" />
+	<sqlMap url="${baseurl}/msg_type_SqlMap.xml" />
+	<sqlMap url="${baseurl}/users_SqlMap.xml" />
+	<sqlMap url="${baseurl}/users_time_msg_SqlMap.xml" />
+	<sqlMap url="${baseurl}/users_weibo_SqlMap.xml" />
+	<sqlMap url="${baseurl}/users_special_SqlMap.xml" />
+	<sqlMap url="${baseurl}/users_send_msg_SqlMap.xml" />
+</sqlMapConfig>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="users" >
+  <resultMap id="BaseResultMap" class="weiboautoman.timer.dataobject.Users" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="reg_date" property="regDate" jdbcType="TIMESTAMP" />
+    <result column="reg_ip" property="regIp" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="last_login_date" property="lastLoginDate" jdbcType="TIMESTAMP" />
+    <result column="last_task_date" property="lastTaskDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="weiboautoman.timer.dataobject.Users" >
+    select id, name, password, email, reg_date, reg_ip, status, score, last_login_date, last_task_date
+    from users
+    where id = #id:BIGINT#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="weiboautoman.timer.dataobject.Users" >
+    delete from users
+    where id = #id:BIGINT#
+  </delete>
+  <insert id="insert" parameterClass="weiboautoman.timer.dataobject.Users" >
+    insert into users (id, name, password, email, reg_date, reg_ip, status, score, last_login_date, last_task_date)
+    values (#id:BIGINT#, #name:VARCHAR#, #password:VARCHAR#, #email:BIGINT#, #regDate:TIMESTAMP#,
+      #regIp:VARCHAR#, #status:INTEGER#, #score:INTEGER#, #lastLoginDate:TIMESTAMP#, #lastTaskDate:TIMESTAMP#)
+  </insert>
+  <insert id="insertSelective" parameterClass="weiboautoman.timer.dataobject.Users" >
+    insert into users
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="name" >
+        name
+      </isNotNull>
+      <isNotNull prepend="," property="password" >
+        password
+      </isNotNull>
+      <isNotNull prepend="," property="email" >
+        email
+      </isNotNull>
+      <isNotNull prepend="," property="regDate" >
+        reg_date
+      </isNotNull>
+      <isNotNull prepend="," property="regIp" >
+        reg_ip
+      </isNotNull>
+      <isNotNull prepend="," property="status" >
+        status
+      </isNotNull>
+      <isNotNull prepend="," property="score" >
+        score
+      </isNotNull>
+      <isNotNull prepend="," property="lastLoginDate" >
+        last_login_date
+      </isNotNull>
+      <isNotNull prepend="," property="lastTaskDate" >
+        last_task_date
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        #id:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="name" >
+        #name:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="password" >
+        #password:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="email" >
+        #email:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="regDate" >
+        #regDate:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="regIp" >
+        #regIp:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="status" >
+        #status:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="score" >
+        #score:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="lastLoginDate" >
+        #lastLoginDate:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="lastTaskDate" >
+        #lastTaskDate:TIMESTAMP#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="weiboautoman.timer.dataobject.Users" >
+    update users
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="name" >
+        name = #name:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="password" >
+        password = #password:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="email" >
+        email = #email:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="regDate" >
+        reg_date = #regDate:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="regIp" >
+        reg_ip = #regIp:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="status" >
+        status = #status:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="score" >
+        score = #score:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="lastLoginDate" >
+        last_login_date = #lastLoginDate:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="lastTaskDate" >
+        last_task_date = #lastTaskDate:TIMESTAMP#
+      </isNotNull>
+    </dynamic>
+    where id = #id:BIGINT#
+  </update>
+  <update id="updateByPrimaryKey" parameterClass="weiboautoman.timer.dataobject.Users" >
+    update users
+    set name = #name:VARCHAR#,
+      password = #password:VARCHAR#,
+      email = #email:BIGINT#,
+      reg_date = #regDate:TIMESTAMP#,
+      reg_ip = #regIp:VARCHAR#,
+      status = #status:INTEGER#,
+      score = #score:INTEGER#,
+      last_login_date = #lastLoginDate:TIMESTAMP#,
+      last_task_date = #lastTaskDate:TIMESTAMP#
+    where id = #id:BIGINT#
+  </update>
+</sqlMap>

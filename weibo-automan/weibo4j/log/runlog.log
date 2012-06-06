@@ -1,0 +1,708 @@
+[WARN] 2012-02-12 13:32:23,937 [weiboautoman.timer.core.AutoMan]  Message:
+Server Started:Sun Feb 12 13:32:23 CST 2012
+[WARN] 2012-02-12 13:32:31,890 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:32:32,781 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 13:32:33,468 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:32:33,468 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 13:32:33,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:32:33,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 13:32:40,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:32:40,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 13:32:43,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:32:43,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 13:32:53,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:32:53,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 13:33:03,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:33:03,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 13:33:08,171 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:33:08,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 13:33:08,203 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:33:08,328 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 13:33:08,328 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:33:08,328 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 13:33:08,328 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:33:08,343 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 13:33:10,500 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:33:13,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:33:13,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 13:33:17,234 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[ERROR] 2012-02-12 13:33:21,078 [weiboautoman.timer.job.WeiboSenderThread]  Message:
+给用户ID为：1 生成特殊用户发送消息时发生异常：test exception.
+java.lang.RuntimeException: test exception.
+	at weiboautoman.timer.dao.ibatis.UsersSendMsgDAOImpl.insert(UsersSendMsgDAOImpl.java:23)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:310)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:182)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:149)
+	at org.springframework.aop.aspectj.AspectJAfterAdvice.invoke(AspectJAfterAdvice.java:42)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:50)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:89)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)
+	at $Proxy6.insert(Unknown Source)
+	at weiboautoman.timer.job.SendMessage2SpecailUsers.run(SendMessage2SpecailUsers.java:98)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.springframework.util.MethodInvoker.invoke(MethodInvoker.java:276)
+	at org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean$MethodInvokingJob.executeInternal(MethodInvokingJobDetailFactoryBean.java:260)
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:86)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:199)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:546)
+[WARN] 2012-02-12 13:33:23,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:33:23,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 13:33:33,453 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:33:33,453 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 13:33:33,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:33:33,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 13:33:43,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 13:33:43,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:57:11,359 [weiboautoman.timer.core.AutoMan]  Message:
+Server Started:Sun Feb 12 14:57:11 CST 2012
+[WARN] 2012-02-12 14:57:21,921 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:57:21,921 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:57:22,031 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:57:22,031 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:57:22,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:57:22,515 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:57:24,656 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:57:24,671 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:57:26,718 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:57:26,734 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:57:26,796 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:57:26,796 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:57:26,843 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:57:26,843 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:57:26,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:57:26,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:57:30,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:57:30,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:57:36,093 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:57:40,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:57:40,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:57:50,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:57:50,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:58:00,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:58:00,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:58:10,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:58:10,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:58:16,062 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:58:20,796 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:58:20,796 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:58:20,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:58:20,875 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[ERROR] 2012-02-12 14:58:22,578 [weiboautoman.timer.job.WeiboSenderThread]  Message:
+给用户ID为：1 生成特殊用户发送消息时发生异常：test exception.
+java.lang.RuntimeException: test exception.
+	at weiboautoman.timer.dao.ibatis.UsersSendMsgDAOImpl.insert(UsersSendMsgDAOImpl.java:23)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:310)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:182)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:149)
+	at org.springframework.aop.aspectj.AspectJAfterAdvice.invoke(AspectJAfterAdvice.java:42)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:50)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:106)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:89)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)
+	at $Proxy6.insert(Unknown Source)
+	at weiboautoman.timer.job.SendMessage2SpecailUsers.run(SendMessage2SpecailUsers.java:98)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.springframework.util.MethodInvoker.invoke(MethodInvoker.java:276)
+	at org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean$MethodInvokingJob.executeInternal(MethodInvokingJobDetailFactoryBean.java:260)
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:86)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:199)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:546)
+[WARN] 2012-02-12 14:58:30,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:58:30,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 14:58:40,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 14:58:40,859 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:01:45,937 [weiboautoman.timer.core.AutoMan]  Message:
+Server Started:Sun Feb 12 15:01:45 CST 2012
+[WARN] 2012-02-12 15:01:54,687 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:01:54,750 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:01:54,765 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:01:54,765 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:01:54,781 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:01:54,796 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:01:54,796 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:01:54,812 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:01:54,875 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:01:54,890 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:01:54,890 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:01:54,890 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:01:54,906 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:01:54,906 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:01:55,531 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:01:55,546 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:01:55,593 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:01:55,593 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:01:57,562 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:01:57,562 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:02:05,593 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:02:05,593 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:02:05,609 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:02:05,609 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:02:05,671 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:02:05,671 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:02:05,671 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:02:05,687 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:02:05,812 [weiboautoman.timer.job.WeiboSenderThread]  Message:
+users_time_msg id::1,user_id:1 send weibo cause  some error. the error sendResult:{"result":false,"timeMsgWeiboId":[{"result":false,"nick":"1","uwid":1,"reason":"没有找到图片文件或图片文件处理出错:D:/t/IMG_1818.JPG.","type":"S"}]}
+[WARN] 2012-02-12 15:02:05,812 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:02:05,828 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:02:15,593 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:02:15,609 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:02:25,593 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:02:25,593 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:02:35,593 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:02:35,593 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:02:55,750 [weiboautoman.timer.core.AutoMan]  Message:
+Server Started:Sun Feb 12 15:02:55 CST 2012
+[WARN] 2012-02-12 15:03:03,890 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:03:03,937 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:03:03,953 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:03:03,968 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:03:03,968 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:03:03,984 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:03:04,000 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:03:04,015 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:03:04,140 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:03:04,140 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:03:04,156 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:03:04,156 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:03:04,171 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:03:04,171 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:03:05,390 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:03:05,390 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:03:05,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:03:05,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:03:06,046 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:03:06,062 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:03:15,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:03:15,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:03:25,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:03:25,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:03:35,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:03:35,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[ERROR] 2012-02-12 15:03:36,046 [weiboautoman.timer.job.WeiboSenderThread]  Message:
+给用户ID为：1 生成特殊用户发送消息时发生异常：test exception.
+java.lang.RuntimeException: test exception.
+	at weiboautoman.timer.dao.ibatis.UsersTimeMsgDAOImpl.insert(UsersTimeMsgDAOImpl.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:310)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:182)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:149)
+	at org.springframework.aop.aspectj.AspectJAfterAdvice.invoke(AspectJAfterAdvice.java:42)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:50)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:106)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:89)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)
+	at $Proxy3.insert(Unknown Source)
+	at weiboautoman.timer.job.SendMessage2SpecailUsers.run(SendMessage2SpecailUsers.java:121)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.springframework.util.MethodInvoker.invoke(MethodInvoker.java:276)
+	at org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean$MethodInvokingJob.executeInternal(MethodInvokingJobDetailFactoryBean.java:260)
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:86)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:199)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:546)
+[WARN] 2012-02-12 15:03:45,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:03:45,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:03:55,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:03:55,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:04:05,375 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:04:05,390 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:04:05,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:04:05,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:04:15,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:04:15,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:04:25,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:04:25,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:04:35,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:04:35,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:04:45,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:04:45,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:04:55,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:04:55,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:05:05,375 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:05:05,375 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:05:05,421 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:05:05,437 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:16:47,312 [weiboautoman.timer.core.AutoMan]  Message:
+Server Started:Sun Feb 12 15:16:47 CST 2012
+[WARN] 2012-02-12 15:16:55,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:16:55,265 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:16:55,265 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:16:55,281 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:16:55,281 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:16:55,296 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:16:55,296 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:16:55,312 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:16:55,312 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:16:55,312 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:16:55,328 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:16:55,328 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:16:55,328 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:16:55,328 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:16:56,875 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:16:56,875 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:16:56,906 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:16:56,906 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:17:06,906 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:17:06,906 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:17:11,203 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:17:11,218 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[ERROR] 2012-02-12 15:17:12,375 [weiboautoman.timer.job.WeiboSenderThread]  Message:
+给用户ID为：1 生成特殊用户发送消息时发生异常：test exception.
+java.lang.RuntimeException: test exception.
+	at weiboautoman.timer.dao.ibatis.UsersTimeMsgDAOImpl.insert(UsersTimeMsgDAOImpl.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:310)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:182)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:149)
+	at org.springframework.aop.aspectj.AspectJAfterAdvice.invoke(AspectJAfterAdvice.java:42)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:50)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:106)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:89)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)
+	at $Proxy3.insert(Unknown Source)
+	at weiboautoman.timer.job.SendMessage2SpecailUsers.run(SendMessage2SpecailUsers.java:121)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:310)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:182)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:149)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:106)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:89)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)
+	at $Proxy11.run(Unknown Source)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.springframework.util.MethodInvoker.invoke(MethodInvoker.java:276)
+	at org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean$MethodInvokingJob.executeInternal(MethodInvokingJobDetailFactoryBean.java:260)
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:86)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:199)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:546)
+[ERROR] 2012-02-12 15:17:12,437 [org.quartz.core.JobRunShell]  Message:
+Job DEFAULT.scheduledSendSpecialUserJob threw an unhandled Exception: 
+org.springframework.scheduling.quartz.JobMethodInvocationFailedException: Invocation of method 'run' on target class [class $Proxy11] failed; nested exception is org.springframework.transaction.UnexpectedRollbackException: Transaction rolled back because it has been marked as rollback-only
+	at org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean$MethodInvokingJob.executeInternal(MethodInvokingJobDetailFactoryBean.java:269)
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:86)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:199)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:546)
+Caused by: org.springframework.transaction.UnexpectedRollbackException: Transaction rolled back because it has been marked as rollback-only
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:672)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.commitTransactionAfterReturning(TransactionAspectSupport.java:321)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:116)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:89)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)
+	at $Proxy11.run(Unknown Source)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.springframework.util.MethodInvoker.invoke(MethodInvoker.java:276)
+	at org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean$MethodInvokingJob.executeInternal(MethodInvokingJobDetailFactoryBean.java:260)
+	... 3 more
+[ERROR] 2012-02-12 15:17:12,453 [org.quartz.core.ErrorLogger]  Message:
+Job (DEFAULT.scheduledSendSpecialUserJob threw an exception.
+org.quartz.SchedulerException: Job threw an unhandled exception. [See nested exception: org.springframework.scheduling.quartz.JobMethodInvocationFailedException: Invocation of method 'run' on target class [class $Proxy11] failed; nested exception is org.springframework.transaction.UnexpectedRollbackException: Transaction rolled back because it has been marked as rollback-only]
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:210)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:546)
+Caused by: org.springframework.scheduling.quartz.JobMethodInvocationFailedException: Invocation of method 'run' on target class [class $Proxy11] failed; nested exception is org.springframework.transaction.UnexpectedRollbackException: Transaction rolled back because it has been marked as rollback-only
+	at org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean$MethodInvokingJob.executeInternal(MethodInvokingJobDetailFactoryBean.java:269)
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:86)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:199)
+	... 1 more
+Caused by: org.springframework.transaction.UnexpectedRollbackException: Transaction rolled back because it has been marked as rollback-only
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:672)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.commitTransactionAfterReturning(TransactionAspectSupport.java:321)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:116)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:89)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)
+	at $Proxy11.run(Unknown Source)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.springframework.util.MethodInvoker.invoke(MethodInvoker.java:276)
+	at org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean$MethodInvokingJob.executeInternal(MethodInvokingJobDetailFactoryBean.java:260)
+	... 3 more
+[WARN] 2012-02-12 15:17:16,906 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:17:16,906 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:17:26,906 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:17:26,906 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:17:55,562 [weiboautoman.timer.core.AutoMan]  Message:
+Server Started:Sun Feb 12 15:17:55 CST 2012
+[WARN] 2012-02-12 15:18:03,062 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:18:03,140 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:18:03,140 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:18:03,140 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:18:03,156 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:18:03,171 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:18:03,171 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:18:03,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:18:03,203 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:18:03,203 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:18:03,203 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:18:03,203 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:18:03,203 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:18:03,218 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:18:05,156 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:18:05,156 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:18:05,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:18:05,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:18:15,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:18:15,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:18:20,687 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:18:20,703 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:18:25,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:18:25,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:18:35,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:18:35,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:18:45,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:18:45,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:18:55,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:18:55,187 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:20:20,390 [weiboautoman.timer.core.AutoMan]  Message:
+Server Started:Sun Feb 12 15:20:20 CST 2012
+[WARN] 2012-02-12 15:20:27,718 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:20:27,781 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:20:27,796 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:20:27,796 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:20:27,812 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:20:27,828 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:20:27,828 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:20:27,843 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:20:27,906 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:20:27,921 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:20:27,921 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:20:27,921 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:20:27,921 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:20:27,937 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:20:29,984 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:20:30,000 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:20:30,046 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:20:30,046 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[WARN] 2012-02-12 15:20:30,125 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:20:30,140 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.
+[ERROR] 2012-02-12 15:20:30,218 [weiboautoman.timer.job.WeiboSenderThread]  Message:
+给用户ID为：1 生成特殊用户发送消息时发生异常：test exception.
+java.lang.RuntimeException: test exception.
+	at weiboautoman.timer.dao.ibatis.UsersTimeMsgDAOImpl.insert(UsersTimeMsgDAOImpl.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:310)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:182)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:149)
+	at org.springframework.aop.aspectj.AspectJAfterAdvice.invoke(AspectJAfterAdvice.java:42)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:50)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:106)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:89)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)
+	at $Proxy3.insert(Unknown Source)
+	at weiboautoman.timer.job.SendMessage2SpecailUsers.run(SendMessage2SpecailUsers.java:121)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:310)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:182)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:149)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:106)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:89)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:171)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)
+	at $Proxy11.run(Unknown Source)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.springframework.util.MethodInvoker.invoke(MethodInvoker.java:276)
+	at org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean$MethodInvokingJob.executeInternal(MethodInvokingJobDetailFactoryBean.java:260)
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:86)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:199)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:546)
+[WARN] 2012-02-12 15:20:40,046 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something before.
+[WARN] 2012-02-12 15:20:40,046 [weiboautoman.timer.spring.aop.service.MsgAspectService]  Message:
+Aspect is doing something after.

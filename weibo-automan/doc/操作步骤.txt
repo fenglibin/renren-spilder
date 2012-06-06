@@ -1,0 +1,1 @@
+1、打开beans.xml中，找dataSource节点，配置其中的url、username、password

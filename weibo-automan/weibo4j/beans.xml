@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="GB2312"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"
+    default-autowire="byName">
+	<!--数据源配置（开始） -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://127.0.0.1:3306/weibo?characterEncoding=gbk" />
+		<property name="username" value="root" />
+		<property name="password" value="1212121212" />
+		<property name="maxActive"><value>20</value></property>
+		<property name="initialSize"><value>1</value></property>
+	    <property name="maxWait"><value>60000</value></property>
+	    <property name="maxIdle"><value>20</value></property> <!-- 可以和maxActive保持一致 -->
+	    <property name="minIdle"><value>0</value></property> <!-- 可以和initialSize保持一致 -->
+	    <property name="removeAbandoned"><value>true</value></property>
+	    <property name="removeAbandonedTimeout"><value>180</value></property>
+	    <property name="timeBetweenEvictionRunsMillis"><value>60000</value></property>
+		<property name="minEvictableIdleTimeMillis"><value>180000</value></property>
+		<!-- validate connection 检测配置 -->
+	    <property name="testWhileIdle"><value>true</value></property>
+	    <property name="testOnBorrow"><value>false</value></property>
+		<property name="testOnReturn"><value>false</value></property>
+	    <property name="validationQuery"><value>SELECT @@SQL_MODE</value></property>
+	    <property name="numTestsPerEvictionRun"><value>20</value></property> <!-- 注意和maxActive保持一致 -->
+	</bean>
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>daoconfig/sqlmap.xml</value>
+		</property>
+		<property name="sqlMapClientProperties">
+			<map>
+				<entry key="baseurl">
+					<bean class="weiboautoman.timer.spring.support.GetResourceAsURL">
+						<property name="location" value="daoconfig/sqlmap.xml" />
+						<property name="parent" value="true" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+	<!--数据源配置（结束） -->
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="select*" read-only="true"/>
+			<tx:method name="*"/>
+		</tx:attributes>
+	</tx:advice>
+	<tx:advice id="txAdvice2" transaction-manager="txManager">
+		<tx:attributes>			
+			<tx:method name="run"/> <!-- 如果加上事务传播属性的值为NEVER，则该方法中插入数据库的操作将是独立的事情： propagation="NEVER" -->
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<!-- 针对每一个独立的DAO操作实现，声明事务 -->
+		<aop:pointcut id="msgPointcut" expression="execution(* weiboautoman.timer.dao.ibatis.*DAOImpl.*(..))"/>
+		<!-- 针对一个方法中调用多个DAO插入操作的多个事务的统一处理 -->
+		<aop:pointcut id="sendMessage2SpecialUserPointcut" expression="execution(* weiboautoman.timer.job.SendMessage2SpecailUsers.run())"/>
+		<aop:advisor pointcut-ref="msgPointcut" advice-ref="txAdvice"/>
+		<aop:advisor pointcut-ref="sendMessage2SpecialUserPointcut" advice-ref="txAdvice2"/>
+		<aop:aspect id="msgAspect" ref="msgAspectService">
+			<!-- aop:pointcut id="msgPointcut" expression="execution(* weiboautoman.timer.dao.ibatis.*DAOImpl.*(..))"/-->
+			<aop:before pointcut-ref="msgPointcut" method="doSomethingBefore"/>
+			<aop:after pointcut-ref="msgPointcut" method="doSomethingAfter"/>			
+		</aop:aspect>
+		
+	</aop:config>
+	<bean id="msgAspectService" class="weiboautoman.timer.spring.aop.service.MsgAspectService"/>
+
+	<!--DAO配置（开始） -->
+	<bean id="msgDAO" class="weiboautoman.timer.dao.ibatis.MsgDAOImpl"></bean>
+	<bean id="msgTypeDAO" class="weiboautoman.timer.dao.ibatis.MsgTypeDAOImpl"></bean>
+	<bean id="usersDAO" class="weiboautoman.timer.dao.ibatis.UsersDAOImpl"></bean>
+	<bean id="usersTimeMsgDAO" class="weiboautoman.timer.dao.ibatis.UsersTimeMsgDAOImpl"></bean>
+	<bean id="usersWeiboDAO" class="weiboautoman.timer.dao.ibatis.UsersWeiboDAOImpl"></bean>
+	<bean id="usersSpecialDAO" class="weiboautoman.timer.dao.ibatis.UsersSpecialDAOImpl"></bean>
+	<bean id="usersSendMsgDAO" class="weiboautoman.timer.dao.ibatis.UsersSendMsgDAOImpl"></bean>
+	<!--DAO配置（结束） -->
+
+	<!--定时器任务配置（开始） -->
+	<!-- 配置发送定时微博的任务（开始） -->
+	<bean id="sendWeiboMsgJob" class="weiboautoman.timer.job.SendWeiboMsgJob">
+		<property name="weiboSenderThread">
+			<ref local="weiboSenderThread"></ref>
+		</property>
+	</bean>
+	<bean id="scheduledSendWeiboMsgJob"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 多线程发送 
+		<property name="targetObject" ref="sendWeiboMsgJob" />
+		-->
+		<!-- 单线程发送 -->
+		<property name="targetObject" ref="weiboSenderThread" />
+		<property name="targetMethod" value="run" />
+	</bean>
+	<bean id="sendWeiboMsgJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="scheduledSendWeiboMsgJob" />
+		<property name="startDelay" value="10000" />
+		<!-- 每1分钟执行一次 -->
+		<property name="repeatInterval" value="60000" />
+	</bean>
+	<!-- 配置发送定时微博的任务（结束） -->
+	
+	<!-- 配置立即发送微博的任务（开始） -->
+	<bean id="sendWeiboMsgImmediateJob" class="weiboautoman.timer.job.SendWeiboMsgImmediateJob">
+		<property name="weiboSenderThread">
+			<ref local="weiboSenderThread"></ref>
+		</property>
+	</bean>
+	<bean id="scheduledSendWeiboMsgImmediateJob"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 多线程发送 
+		<property name="targetObject" ref="sendWeiboMsgImmediateJob" />
+		-->
+		<!-- 单线程发送 -->
+		<property name="targetObject" ref="weiboSenderImmediateThread" />
+		<property name="targetMethod" value="run" />
+	</bean>
+	<bean id="sendWeiboMsgImmediateJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="scheduledSendWeiboMsgImmediateJob" />
+		<property name="startDelay" value="10000" />
+		<!-- 每10秒钟执行一次 -->
+		<property name="repeatInterval" value="10000" />
+	</bean>
+	<!-- 配置立即发送微博的任务（结束） -->
+	
+	<!-- 配置发送给特殊用户微博的任务（开始） -->
+	<bean id="scheduledSendSpecialUserJob"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="sendMessage2SpecailUsers" />
+		<property name="targetMethod" value="run" />
+	</bean>
+	<bean id="sendSpecialUserJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="scheduledSendSpecialUserJob" />
+		<property name="startDelay" value="5000" />
+		<!-- 每分钟执行一次 -->
+		<property name="repeatInterval" value="60000" />
+	</bean>
+	<!-- 配置发送给特殊用户微博的任务（结束） -->
+	
+	<bean id="schedulerFactory"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
+		autowire="no">
+		<property name="triggers">
+			<list>
+				<ref bean="sendWeiboMsgJobTrigger" />
+				<ref bean="sendWeiboMsgImmediateJobTrigger" />
+				<ref bean="sendSpecialUserJobTrigger" />
+			</list>
+		</property>
+		<property name="autoStartup" value="true" />
+	</bean>	
+	<!--定时器任务配置（结束） -->
+
+	<!--发送微博的线程:默认为发送定时微博的线程 -->
+	<bean id="weiboSenderThread" class="weiboautoman.timer.job.WeiboSenderThread" scope="prototype">
+		<!-- 存放图片的路径前缀 -->
+		<property name="imagePath">
+			<value>/usr/fenglibin/images/weibotest/</value>
+		</property>
+		<property name="weiboSender">
+			<map>
+				<entry key="S">
+					<bean class="weiboautoman.timer.job.sender.SinaWeiboSender"></bean>
+				</entry>
+				<entry key="Q">
+					<bean class="weiboautoman.timer.job.sender.QQWeiboSender"></bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<!-- 发送立即发送微博的线程 -->
+	<bean id="weiboSenderImmediateThread" class="weiboautoman.timer.job.WeiboSenderThread" scope="prototype">
+		<!-- 存放图片的路径前缀 -->
+		<property name="imagePath">
+			<value>/usr/fenglibin/images/weibotest/</value>
+		</property>
+		<property name="weiboSender">
+			<map>
+				<entry key="S">
+					<bean class="weiboautoman.timer.job.sender.SinaWeiboSender"></bean>
+				</entry>
+				<entry key="Q">
+					<bean class="weiboautoman.timer.job.sender.QQWeiboSender"></bean>
+				</entry>
+			</map>
+		</property>
+		<property name="sendType">
+			<value>Y</value>
+		</property>
+	</bean>
+	<bean id="environment" class="weiboautoman.timer.core.Environment">
+		<!-- 存放图片的路径前缀 -->
+		<property name="imagePath">
+			<value>/usr/fenglibin/images/weibotest/</value>
+		</property>
+	</bean>
+	<bean id="sendMessage2SpecailUsers" class="weiboautoman.timer.job.SendMessage2SpecailUsers">
+	</bean>
+	<!--BO配置（开始） -->
+	<bean id="usersTimeMsgBO" class="weiboautoman.timer.bo.UsersTimeMsgBO"></bean>
+	<!--BO配置（结束） -->
+</beans>

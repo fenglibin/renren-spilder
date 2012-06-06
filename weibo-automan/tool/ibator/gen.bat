@@ -1,0 +1,1 @@
+java -jar ibator.jar -configfile config.xml -overwrite

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="msg" >
+  <resultMap id="BaseResultMap" class="weiboautoman.timer.dataobject.Msg" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="sortno" property="sortno" jdbcType="INTEGER" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="picture" property="picture" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="weiboautoman.timer.dataobject.Msg" >
+    select id, content, sortno, type_id, picture
+    from msg
+    where id = #id:BIGINT#
+  </select>
+  <!-- 根据user_id随机查出一条未发送过的记录 -->
+  <select id="selectOneNotSendMessage" resultMap="BaseResultMap" parameterClass="java.util.Map" >
+    select t1.id, t1.content, t1.sortno, t1.type_id, t1.picture FROM `msg` AS t1 
+	JOIN (SELECT ROUND(RAND() * ((SELECT MAX(id) FROM `msg`)-(SELECT MIN(id) FROM `msg`))+(SELECT MIN(id) FROM `msg`)) AS id) AS t2 
+	WHERE not exists (select 1 from users_send_msg where msg_id=t1.id and user_id=#userId:BIGINT#)
+	and t1.id >= t2.id 
+	<isGreaterThan prepend="and" property="typeId" compareValue="0">
+        t1.type_id=#typeId#
+    </isGreaterThan>
+	LIMIT 1;
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="weiboautoman.timer.dataobject.Msg" >
+    delete from msg
+    where id = #id:BIGINT#
+  </delete>
+  <insert id="insert" parameterClass="weiboautoman.timer.dataobject.Msg" >
+    insert into msg (id, content, sortno, type_id, picture)
+    values (#id:BIGINT#, #content:VARCHAR#, #sortno:INTEGER#, #typeId:INTEGER#, #picture:VARCHAR#)
+  </insert>
+  <insert id="insertSelective" parameterClass="weiboautoman.timer.dataobject.Msg" >
+    insert into msg
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="content" >
+        content
+      </isNotNull>
+      <isNotNull prepend="," property="sortno" >
+        sortno
+      </isNotNull>
+      <isNotNull prepend="," property="typeId" >
+        type_id
+      </isNotNull>
+      <isNotNull prepend="," property="picture" >
+        picture
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        #id:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="content" >
+        #content:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="sortno" >
+        #sortno:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="typeId" >
+        #typeId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="picture" >
+        #picture:VARCHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="weiboautoman.timer.dataobject.Msg" >
+    update msg
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="content" >
+        content = #content:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="sortno" >
+        sortno = #sortno:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="typeId" >
+        type_id = #typeId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="picture" >
+        picture = #picture:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    where id = #id:BIGINT#
+  </update>
+  <update id="updateByPrimaryKey" parameterClass="weiboautoman.timer.dataobject.Msg" >
+    update msg
+    set content = #content:VARCHAR#,
+      sortno = #sortno:INTEGER#,
+      type_id = #typeId:INTEGER#,
+      picture = #picture:VARCHAR#
+    where id = #id:BIGINT#
+  </update>
+</sqlMap>

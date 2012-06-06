@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="users_special">
+  <resultMap class="weiboautoman.timer.dataobject.UsersSpecial" id="BaseResultMap">
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="time_interval" property="timeInterval" jdbcType="INTEGER" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+  </resultMap>
+  <!--查询总共的特殊用户的记录数-->
+  <select id="selectTotalCount" resultClass="java.lang.Long">
+  	select count(1) from users_special
+  </select>
+  <select id="selectOnePage" parameterClass="java.util.Map" resultMap="BaseResultMap">
+  	select user_id, time_interval, type_id from users_special
+  	limit #start#,#pageSize#
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="weiboautoman.timer.dataobject.UsersSpecial" >
+    select user_id, time_interval, type_id
+    from users_special
+    where user_id = #userId:BIGINT#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="weiboautoman.timer.dataobject.UsersSpecial" >
+    delete from users_special
+    where user_id = #userId:BIGINT#
+  </delete>
+  <insert id="insert" parameterClass="weiboautoman.timer.dataobject.UsersSpecial" >
+    insert into users_special (user_id, time_interval, type_id)
+    values (#userId:BIGINT#, #timeInterval:INTEGER#, #typeId:INTEGER#)
+  </insert>
+  <insert id="insertSelective" parameterClass="weiboautoman.timer.dataobject.UsersSpecial" >
+    insert into users_special
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="userId" >
+        user_id
+      </isNotNull>
+      <isNotNull prepend="," property="timeInterval" >
+        time_interval
+      </isNotNull>
+      <isNotNull prepend="," property="typeId" >
+        type_id
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="userId" >
+        #userId:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="timeInterval" >
+        #timeInterval:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="typeId" >
+        #typeId:INTEGER#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="weiboautoman.timer.dataobject.UsersSpecial" >
+    update users_special
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="timeInterval" >
+        time_interval = #timeInterval:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="typeId" >
+        type_id = #typeId:INTEGER#
+      </isNotNull>
+    </dynamic>
+    where user_id = #userId:BIGINT#
+  </update>
+  <update id="updateByPrimaryKey" parameterClass="weiboautoman.timer.dataobject.UsersSpecial" >
+    update users_special
+    set time_interval = #timeInterval:INTEGER#,
+      type_id = #typeId:INTEGER#
+    where user_id = #userId:BIGINT#
+  </update>
+</sqlMap>
