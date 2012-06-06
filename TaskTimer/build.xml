@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<project name="RENREN IT TIMER PROJECT" default="jar" basedir=".">
+
+	<!-- =================================================================== -->
+	<!-- Initialization target                                               -->
+	<!-- =================================================================== -->
+	<target name="init">
+		<property name="name" value="RENREN IT TIMER" />
+		<property name="version" value="1.0" />
+
+		<!-- properties   -->
+
+		<property name="java-debug" value="true" />
+
+		<property file="version.properties" />
+
+		<property name="company.name" value="www.RENREN.it" />
+		<property name="company" value="www.RENREN.it" />
+		<property name="package" value="it.renren.timer" />
+		<property name="lib.dir" value="${basedir}/lib" />
+		<property name="timer.dir" value="." />
+		<property name="src.dir" value="${basedir}/src" />
+		<property name="build.classes" value="${basedir}/bin" />
+
+		<!-- lib.class.path  -->
+		<path id="lib.class.path">
+			<fileset dir="${lib.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+		</path>
+		<echo message="${name}  Build file at ${basedir}" />
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Help on usage                                                       -->
+	<!-- =================================================================== -->
+	<target name="usage" depends="init">
+		<echo message="" />
+		<echo message="" />
+		<echo message="${Name}  Build file" />
+		<echo message="-------------------------------------------------------------" />
+		<echo message="" />
+		<echo message=" available targets are:" />
+		<echo message="" />
+		<echo message="   jar  --> generates the ${name}.jar file" />
+		<echo message="   compile  --> compiles the source code (default)" />
+		<echo message="   javadoc  --> generates the API documentation" />
+		<echo message="   clean    --> cleans up the directory" />
+		<echo message="" />
+		<echo message=" See the comments inside the build.xml file for more details." />
+		<echo message="-------------------------------------------------------------" />
+		<echo message="" />
+		<echo message="" />
+	</target>
+
+
+	<!-- =================================================================== -->
+	<!-- Compile after all the prepare work                                  -->
+	<!-- =================================================================== -->
+	<target name="compile" depends="init">
+		<javac srcdir="${src.dir}" destdir="${build.classes}" classpathref="lib.class.path" encoding="GBK" debug="${java-debug}" includes="it/renren/**/*.java" />
+	</target>
+
+	<target name="jar" depends="compile">
+		<mkdir dir="${timer.dir}" />
+		<jar jarfile="${timer.dir}/Timer.jar">
+			<fileset dir="${build.classes}" includes="it/renren/**" />
+			<fileset dir="${build.classes}" includes="log4j.xml" />
+			<fileset dir="${build.classes}" includes="commons-logging.properties" />
+			<manifest>
+				<attribute name="Built-By" value="${user.name}(${os.name} ${os.arch} ${os.version})" />
+				<attribute name="Main-Class" value="it.renren.timer.core.Main" />
+				<section name="${name}">
+					<attribute name="Specification-Title" value="${name}" />
+					<attribute name="Specification-Version" value="${version}" />
+					<attribute name="Specification-Vendor" value="${company.name}" />
+					<attribute name="Implementation-Title" value="${ant.project.name}" />
+					<attribute name="Implementation-Version" value="${version}" />
+					<attribute name="Implementation-Vendor" value="${company.name}" />
+				</section>
+				<attribute name="Class-Path" value="lib/commons-logging-1.1.jar lib/log4j-1.2.14.jar lib/quartz-all-1.7.3.jar lib/slf4j-api-1.6.1.jar lib/slf4j-log4j12-1.6.1.jar lib/sourceforge.spring-2.5.5.jar" />
+			</manifest>
+		</jar>
+	</target>
+</project>

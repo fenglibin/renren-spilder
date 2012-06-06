@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="GB2312"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"
+    default-autowire="byName">
+
+
+	<!--定时器任务配置（开始） -->
+	<!-- 配置定时任务（开始） -->
+	<bean id="scheduledJob"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="runCommand" />
+		<property name="targetMethod" value="start" />
+	</bean>
+	<bean id="sendWeiboMsgJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="scheduledJob" />
+		<property name="startDelay" value="43200000" />
+		<!-- 每12小时执行一次 -->
+		<property name="repeatInterval" value="43200000" />
+	</bean>
+	<!-- 配置定时任务（结束） -->
+
+	
+	<bean id="schedulerFactory"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
+		autowire="no">
+		<property name="triggers">
+			<list>
+				<ref bean="sendWeiboMsgJobTrigger" />
+			</list>
+		</property>
+		<property name="autoStartup" value="true" />
+	</bean>	
+	<!--定时器任务配置（结束） -->
+
+	<!--定时任务-->
+	<bean id="runCommand" class="it.renren.timer.job.RunCommand">
+		<property name="command" value="/home/fenglibin/timetask/startSpilder.sh"></property>
+	</bean>
+</beans>
