@@ -57,7 +57,7 @@
 		<UrlFilter url="url筛选">
 			<MustInclude desc="url中必须包括的字符串">
 				<Value>
-					<![CDATA[.html]]>
+					<![CDATA[/blog/post/(.+).html$]]>
 				</Value>
 			</MustInclude>
 			<MustNotInclude desc="url中不能够包括的字符串">
@@ -65,6 +65,9 @@
 					<![CDATA[]]>
 				</Value>
 			</MustNotInclude>
+			<IsCompByRegex desc="必须包括与不能够包括这两项，与URL的比较是否通过正则规则进行比较,值只可以是true及false">
+				<Value>true</Value>
+			</IsCompByRegex>
 		</UrlFilter>
 		
 	</MainUrl>
@@ -105,7 +108,7 @@
     	</div>]]></Value>
 			</Start>
 			<End>
-				<Value><![CDATA[<h6 class="post-footer">]]></Value>
+				<Value><![CDATA[<div class="ad_bottom">]]></Value>
 			</End>
 			<Replace desc="替换内容">
 				<IsRegularExpression desc="是否正则表达式">
@@ -124,11 +127,6 @@
 					</Value>
 				</To>
 			</Replace>
-			<WashContent desc="是否对内容进行清洗，清洗规则就是在内容中补充一些字符，欺骗搜索引擎进行，模拟伪原创;现在补充的规则是在每一个P分段符号补充，如果没有P分段符则在BR分段符后补充;不需要清，请将值留空，或去掉该节点">
-				<Value>
-					<![CDATA[<div style="display:none">此文来自人人IT网，请访问img.renren.it获取更多内容</div>]]>
-				</Value>
-			</WashContent>
 		</Content>
 		<AddUrl desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false">
 			<Value>
@@ -139,6 +137,9 @@
 			<Value>
 				<![CDATA[true]]>
 			</Value>
+			<Display>
+				<![CDATA[ERYI]]>
+			</Display>
 		</KeepFileName>
 	</Child>
 </Rules>

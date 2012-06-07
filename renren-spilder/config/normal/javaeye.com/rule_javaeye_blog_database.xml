@@ -29,10 +29,10 @@
 		</DesArticleId>
 		<MainRange desc="内容范围">
 			<Start>
-				<Value><![CDATA[<div class="blog clearfix">]]></Value>
+				<Value><![CDATA[<html]]></Value>
 			</Start>
 			<End>
-				<Value><![CDATA[<div class="pagination">]]></Value>
+				<Value><![CDATA[</html>]]></Value>
 			</End>
 		</MainRange>
 		<Charset desc="编码">
@@ -56,7 +56,7 @@
 		<UrlFilter url="url筛选">
 			<MustInclude desc="url中必须包括的字符串">
 				<Value>
-					<![CDATA[blog]]>
+					<![CDATA[blog/]]>
 				</Value>
 			</MustInclude>
 			<MustNotInclude desc="url中不能够包括的字符串">

@@ -31,10 +31,10 @@
 		</DesArticleId>
 		<MainRange desc="内容范围">
 			<Start>
-				<Value><![CDATA[<div style="clear: left;"></div>]]></Value>
+				<Value><![CDATA[<html]]></Value>
 			</Start>
 			<End>
-				<Value><![CDATA[<div class="item-list">]]></Value>
+				<Value><![CDATA[</html>]]></Value>
 			</End>
 		</MainRange>
 		<Charset desc="编码">
@@ -104,7 +104,7 @@
 				<Value><![CDATA[<span class='print-link'></span>]]></Value>
 			</Start>
 			<End>
-				<Value><![CDATA[<div class="fivestar-static-form-item">]]></Value>
+				<Value><![CDATA[<div style="clear: both;"></div>]]></Value>
 			</End>
 			<Replace desc="替换内容">
 				<IsRegularExpression desc="是否正则表达式">
@@ -133,6 +133,9 @@
 			<Value>
 				<![CDATA[true]]>
 			</Value>
+			<Display>
+				<![CDATA[DZONE]]>
+			</Display>
 		</KeepFileName>
 	</Child>
 </Rules>

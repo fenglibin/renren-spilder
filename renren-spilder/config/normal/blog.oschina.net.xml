@@ -90,11 +90,17 @@
 		</Title>
 		<Content desc="ÄÚÈÝ">
 			<Start>
+				<Value><![CDATA[<div class='BlogContent'><div>]]></Value>
+			</Start>	
+			<Start>
 				<Value><![CDATA[<div class='BlogContent TextContent'>]]></Value>
 			</Start>
 			<Start>
 				<Value><![CDATA[<div class='BlogContent TextContent'>]]></Value>
 			</Start>
+			<End>
+				<Value><![CDATA[<div class='BlogTags'>]]></Value>
+			</End>		
 			<End>
 				<Value><![CDATA[<div class='BlogTags'>]]></Value>
 			</End>
