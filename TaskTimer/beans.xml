@@ -17,11 +17,18 @@
 		<property name="targetObject" ref="runCommand" />
 		<property name="targetMethod" value="start" />
 	</bean>
-	<bean id="sendWeiboMsgJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+	<!--bean id="jobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
 		<property name="jobDetail" ref="scheduledJob" />
 		<property name="startDelay" value="43200000" />
-		<!-- 每12小时执行一次 -->
 		<property name="repeatInterval" value="43200000" />
+	</bean-->
+	<bean id="jobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref local="scheduledJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 9,18 * * ?</value>
+		</property>
 	</bean>
 	<!-- 配置定时任务（结束） -->
 
@@ -31,7 +38,7 @@
 		autowire="no">
 		<property name="triggers">
 			<list>
-				<ref bean="sendWeiboMsgJobTrigger" />
+				<ref bean="jobTrigger" />
 			</list>
 		</property>
 		<property name="autoStartup" value="true" />
