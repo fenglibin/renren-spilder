@@ -92,6 +92,15 @@ public class Regex1 extends TestCase {
         assertTrue(result);
     }
 
+    public void test10() {
+        String str = "http://tech.sina.com.cn/iii/2012-06-12/09487257092.shtml";
+        String regEx = "/([a-z]){1,3}/([0-9]){4}\\-([0-9]){2}\\-([0-9]){2}/([0-9])*.shtml$";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        boolean result = m.find();
+        assertTrue(result);
+    }
+
     public void removeHreflink() {
         String str = "aa<a href=xx.htm title=t>xxxxxx</a><b>fuck</b>";
         str = StringUtil.removeHreflink(str);

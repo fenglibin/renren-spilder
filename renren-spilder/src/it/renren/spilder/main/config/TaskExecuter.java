@@ -89,7 +89,9 @@ public class TaskExecuter extends Thread {
             ConcurrentMap<String, String> blogHomeUrlMap = new ConcurrentHashMap<String, String>();
             save(ruleXml, parentPageConfig, parentPageConfig.getUrlListPages().getListPages(), childPageConfig,
                  configFile, blogHomeUrlMap);
-
+            if (blogHomeUrlMap.size() == 0) {
+                log4j.logWarn("Can not get any child url,please check the rules.");
+            }
             // 以下是获取当前博客的博客主页上面的文章
             // 将MAP转换为List
             List<String> blogHomeUrlList = new ArrayList<String>();
@@ -155,6 +157,9 @@ public class TaskExecuter extends Thread {
                                                                         parentPageConfig.getUrlFilter().getMustNotInclude(),
                                                                         parentPageConfig.getCharset(),
                                                                         parentPageConfig.getUrlFilter().isCompByRegex());
+            if (childLinksList.size() == 0) {
+                log4j.logWarn("从页面中没有分析出需要的子URL，请检查匹配的表达式。");
+            }
             int failedLinks = 0;
             for (AHrefElement link : childLinksList) {
                 ChildPageDetail detail = new ChildPageDetail();

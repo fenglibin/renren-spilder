@@ -31,7 +31,7 @@
 		</DesArticleId>
 		<MainRange desc="内容范围">
 			<Start>
-				<Value><![CDATA[<!DOCTYPE html PUBLIC]]></Value>
+				<Value><![CDATA[<html]]></Value>
 			</Start>
 			<End>
 				<Value><![CDATA[</html>]]></Value>
@@ -55,6 +55,9 @@
 		<Recommend desc="随机推荐数，即多少篇文章推荐一篇.'0'表示不随机推荐">
 			<Value><![CDATA[5]]></Value>
 		</Recommend>
+		<SRecommend desc="是否增加到特别推荐中">
+			<Value><![CDATA[true]]></Value>
+		</SRecommend>
 		<OneUrlSleepTime desc="每获取一个篇文章的内容以后，暂停的时间，以毫秒为单位">
 			<Value><![CDATA[3000]]></Value>
 		</OneUrlSleepTime>
@@ -104,8 +107,16 @@
 		</Title>
 		<Content desc="内容">
 			<Start>
+				<Value><![CDATA[</span></p>
+<p class="p1">]]></Value>
+			</Start>
+			<Start>
 				<Value><![CDATA[<div class="article_content">]]></Value>
 			</Start>
+			<End>
+				<Value><![CDATA[</div>
+<div class="share_buttons" id="sharePanel"></div>]]></Value>
+			</End>
 			<End>
 				<Value><![CDATA[<div class="share_buttons" id="sharePanel"></div>]]></Value>
 			</End>
@@ -131,6 +142,9 @@
 			<Value>
 				<![CDATA[true]]>
 			</Value>
+			<Display>
+				<![CDATA[<font color=#CCCCCC>CSDN</font>]]>
+			</Display>
 		</AddUrl>
 	</Child>
 </Rules>
