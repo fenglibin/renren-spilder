@@ -130,7 +130,7 @@
 				<![CDATA[true]]>
 			</Value>
 			<Display>
-				<![CDATA[SEARCHDATABASE]]>
+				<![CDATA[<font color=#CCCCCC>SEARCHDATABASE</font>]]>
 			</Display>
 		</AddUrl>
 	</Child>

@@ -111,11 +111,6 @@
 					</Value>
 				</To>
 			</Replace>
-			<WashContent desc="是否对内容进行清洗，清洗规则就是在内容中补充一些字符，欺骗搜索引擎进行，模拟伪原创;现在补充的规则是在每一个P分段符号补充，如果没有P分段符则在BR分段符后补充;不需要清，请将值留空，或去掉该节点">
-				<Value>
-					<![CDATA[<div style="display:none">此文来自人人IT网，请访问img.renren.it获取更多内容</div>]]>
-				</Value>
-			</WashContent>
 		</Content>
 	</Child>
 </Rules>

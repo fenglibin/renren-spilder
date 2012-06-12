@@ -7,7 +7,7 @@
 			</Value-->
 			<BatValues desc="批量增加，支持通配置符'(*)'">
 				<Value>
-					<![CDATA[http://www.google.org.cn/page/(*)]]>
+					<![CDATA[http://www.guao.hk/page/(*)]]>
 				</Value>
 				<WildcastType desc="通配符的类型:1表示数字，2表示a-z的字母">
 					<Value>
