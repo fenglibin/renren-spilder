@@ -93,6 +93,9 @@
 			<Value>
 				<![CDATA[true]]>
 			</Value>
+			<Display>
+				<![CDATA[<font color=#CCCCCC>Web20Share</font>]]>
+			</Display>
 		</AddUrl>
 		<KeepFileName desc="是否保留原获取网页的文件名">
 			<Value>
