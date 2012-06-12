@@ -162,6 +162,9 @@
 			<Value>
 				<![CDATA[true]]>
 			</Value>
+			<Display>
+				<![CDATA[<font color=#CCCCCC>ITEYE</font>]]>
+			</Display>
 		</AddUrl>
 	</Child>
 </Rules>
