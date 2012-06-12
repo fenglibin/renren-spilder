@@ -134,7 +134,7 @@
 				<![CDATA[true]]>
 			</Value>
 			<Display>
-				<![CDATA[DZONE]]>
+				<![CDATA[<font color=#CCCCCC>DZONE</font>]]>
 			</Display>
 		</KeepFileName>
 	</Child>
