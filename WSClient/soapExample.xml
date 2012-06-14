@@ -1,0 +1,17 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Header>
+   </soapenv:Header>
+   <soapenv:Body>
+       <input>
+          <CONTROL_ID>TRANSACTION_CONTROL</CONTROL_ID>
+          <BATCH_ID>199</BATCH_ID>
+          <REQUESTS>
+             <element>
+                <REQUEST_ID>600001</REQUEST_ID>
+                <PORTFOLIO_NO>3123619</PORTFOLIO_NO>
+                <BOOKING_CENTER>HK</BOOKING_CENTER>
+             </element>
+          </REQUESTS>
+       </input>
+   </soapenv:Body>
+</soapenv:Envelope>
