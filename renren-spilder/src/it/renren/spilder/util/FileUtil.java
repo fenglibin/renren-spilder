@@ -475,13 +475,6 @@ public class FileUtil {
         return result;
     }
 
-    public static void write2File(String content, String filePath) throws IOException {
-        FileWriter fw = new FileWriter(filePath);
-        fw.write(content);
-        fw.flush();
-        fw.close();
-    }
-
     public static void main(String[] args) {
         // String url = "www.163.com/a/b.jpg?noscript";
         // String filename = getFileName(url);

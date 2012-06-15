@@ -16,22 +16,22 @@ import java.util.List;
 public class GenHtmlListPages {
 
     private static final String  LIST_PAGE_HTML_MODEL = "/it/renren/spilder/util/html/listPageModel.html";
-    private static String        basePath             = "D:/test";
-    private static String        baseUrl              = "http://www.renren.it/list";
+    private static String        basePath             = "/home/fenglibin/www/www.renren.it/a";
+    private static String        baseUrl              = "http://www.renren.it/a";
     private static String        charset              = "GBK";
     private static final String  FOUR_BLANK_STRING    = "&nbsp;&nbsp;&nbsp;&nbsp;";
     private static StringBuilder htmlString           = new StringBuilder("");
-    private static int           pageSize             = 20;
+    private static int           pageSize             = 100;
     private static int           currentPage          = 1;
     private static int           currentSize          = 0;
     private static String        modelContent;
-    private static String        listOutDir           = "D:/testout";
+    private static String        listOutDir           = "/home/fenglibin/www/www.renren.it/list";
 
     /**
      * @param args
-     * @throws IOException
+     * @throws Exception
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         if (args.length > 0) {
             for (int i = 0; i < args.length; i++) {
                 String arg = args[i];
@@ -50,7 +50,7 @@ public class GenHtmlListPages {
         checkAndMakeHtmlFile(true);
     }
 
-    private static void genHtmlList(String path) throws IOException {
+    private static void genHtmlList(String path) throws Exception {
         File filePath = new File(path);
         File[] files = filePath.listFiles();
         if (files != null && files.length > 0) {
@@ -71,15 +71,19 @@ public class GenHtmlListPages {
     private static String getTitle(File htmlFile) throws IOException {
         String html = FileUtil.getFileContent(htmlFile, getCharset());
         String title = "";
-        title = StringUtil.subString(html, "<title>", "_");
+        try {
+            title = StringUtil.subString(html, "<title>", "_");
+        } catch (Exception e) {
+            title = htmlFile.getName();
+        }
         return title;
     }
 
-    private static void checkAndMakeHtmlFile() throws IOException {
+    private static void checkAndMakeHtmlFile() throws Exception {
         checkAndMakeHtmlFile(false);
     }
 
-    private static void checkAndMakeHtmlFile(boolean finalCheck) throws IOException {
+    private static void checkAndMakeHtmlFile(boolean finalCheck) throws Exception {
         if (finalCheck) {
             if (currentSize < getPageSize() && currentPage > 0) {
                 genHtml(true);
@@ -94,10 +98,10 @@ public class GenHtmlListPages {
         }
     }
 
-    private static void genHtml(boolean finalCheck) throws IOException {
+    private static void genHtml(boolean finalCheck) throws Exception {
         htmlString.append(getPageNav(finalCheck));
-        FileUtil.write2File(modelContent.replace("${content}", htmlString.toString()), getListOutDir() + "/list_"
-                                                                                       + currentPage + ".html");
+        FileUtil.writeFile(getListOutDir() + "/list_" + currentPage + ".html",
+                           modelContent.replace("${content}", htmlString.toString()), getCharset());
     }
 
     /**
@@ -126,7 +130,7 @@ public class GenHtmlListPages {
     private static List<File> getFileList(File[] files) {
         List<File> fileList = new ArrayList<File>();
         for (File file : files) {
-            if (file.isFile() && file.getName().endsWith(".html")) {
+            if (file.isFile() && file.getName().endsWith(".html") && !file.getName().startsWith("list")) {
                 fileList.add(file);
             }
         }

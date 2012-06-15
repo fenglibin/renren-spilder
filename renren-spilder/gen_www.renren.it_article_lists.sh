@@ -1,0 +1,1 @@
+java -Xmn128m -Xms128m -Xmx256m -cp renren.it_spilder.jar it.renren.spilder.util.html.GenHtmlListPages basePath=/home/fenglibin/www/www.renren.it/a listOutDir=/home/fenglibin/www/www.renren.it/list baseUrl=http://www.renren.it/a pageSize=100 charset=utf-8
