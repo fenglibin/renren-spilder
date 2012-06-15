@@ -29,8 +29,9 @@ import org.apache.commons.httpclient.methods.GetMethod;
 
 public class FileUtil {
 
-    private static Log4j       log4j = new Log4j(FileUtil.class.getName());
+    private static Log4j       log4j          = new Log4j(FileUtil.class.getName());
     private static PrintWriter appendWriter;
+    private static String      defaultCharset = "GBK";
 
     public static synchronized void downloadFileByUrl(String srcUrl, String filePath) {
         downloadFileByUrl(srcUrl, filePath, null);
@@ -183,16 +184,21 @@ public class FileUtil {
      * @throws Exception
      */
     public static String getFileContent(String path) throws IOException {
-        File file = new File(path);
+        return read(path);
+    }
+
+    /**
+     * 根据指定编码读取文件的内容
+     * 
+     * @param path
+     * @param charset
+     * @return
+     * @throws Exception
+     */
+    public static String getFileContent(File path, String charset) throws IOException {
         String content = "";
-        FileReader fr = new FileReader(file);
-        BufferedReader br = new BufferedReader(fr);
-        String line = "";
-        while ((line = br.readLine()) != null) {
-            content += line + "\n";
-        }
-        br.close();
-        fr.close();
+        InputStreamReader reader = new InputStreamReader(new FileInputStream(path), charset);
+        content = read(reader);
         return content;
     }
 
@@ -206,14 +212,8 @@ public class FileUtil {
      */
     public static String getFileContent(String path, String charset) throws IOException {
         String content = "";
-        InputStreamReader read = new InputStreamReader(new FileInputStream(path), charset);
-        BufferedReader br = new BufferedReader(read);
-        String line = "";
-        while ((line = br.readLine()) != null) {
-            content += line + "\n";
-        }
-        br.close();
-        read.close();
+        InputStreamReader reader = new InputStreamReader(new FileInputStream(path), charset);
+        content = read(reader);
         return content;
     }
 
@@ -389,6 +389,97 @@ public class FileUtil {
         }
         return is;
 
+    }
+
+    /**
+     * get file content by given file path
+     * 
+     * @param filePath
+     * @return
+     * @throws IOException
+     */
+    public static String read(String filePath) throws IOException {
+        FileReader fr = new FileReader(filePath);
+        return read(fr);
+    }
+
+    /**
+     * get file content by given file
+     * 
+     * @param filePath
+     * @return
+     * @throws IOException
+     */
+    public static String read(File file) throws IOException {
+        FileReader fr = new FileReader(file);
+        return read(fr);
+    }
+
+    /**
+     * get file content by class path,the default charset is GBK
+     * 
+     * @param is
+     * @return
+     * @throws IOException
+     */
+    public static String readFromClassPath(String classpath) throws IOException {
+        return readFromClassPath(classpath, defaultCharset);
+    }
+
+    /**
+     * 从CLASSPATH中根据指定的编码读取内容
+     * 
+     * @param classpath
+     * @param charset
+     * @return
+     * @throws IOException
+     */
+    public static String readFromClassPath(String classpath, String charset) throws IOException {
+        InputStream is = Thread.currentThread().getClass().getResourceAsStream(classpath);
+        InputStreamReader reader = new InputStreamReader(is, charset);
+        return read(reader);
+    }
+
+    /**
+     * get file content by InputStream
+     * 
+     * @param is
+     * @return
+     * @throws IOException
+     */
+    public static String read(InputStream is) throws IOException {
+        InputStreamReader streamReader = new InputStreamReader(is);
+        return read(streamReader);
+    }
+
+    /**
+     * get file content by InputStreamReader
+     * 
+     * @param fr
+     * @return
+     * @throws IOException
+     */
+    public static String read(InputStreamReader fr) throws IOException {
+        String result = "";
+        BufferedReader br = new BufferedReader(fr);
+        String line = br.readLine();
+        while (line != null) {
+            result += line;
+            line = br.readLine();
+            if (line != null) {
+                result += "\n";
+            }
+        }
+        br.close();
+        fr.close();
+        return result;
+    }
+
+    public static void write2File(String content, String filePath) throws IOException {
+        FileWriter fw = new FileWriter(filePath);
+        fw.write(content);
+        fw.flush();
+        fw.close();
     }
 
     public static void main(String[] args) {
