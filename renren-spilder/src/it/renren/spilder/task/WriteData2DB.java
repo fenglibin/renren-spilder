@@ -103,7 +103,7 @@ public class WriteData2DB extends Task {
     private String getContent(ChildPage childPageConfig, ChildPageDetail detail, String childContent) {
         if (childPageConfig.isAddUrl()) {
             String displayText = childPageConfig.getAddUrlDisplayString();
-            if (StringUtil.isNull(displayText)) {
+            if (StringUtil.isEmpty(displayText)) {
                 displayText = detail.getUrl();
             }
             childContent = childContent + "<br>From£º<a href=\"" + detail.getUrl() + "\" target=\"_blank\">"
@@ -122,7 +122,7 @@ public class WriteData2DB extends Task {
     private void translate(ParentPage parentPageConfig, ChildPageDetail detail) throws Exception {
         String from = parentPageConfig.getTranslater().getFrom();
         String to = parentPageConfig.getTranslater().getTo();
-        if (!StringUtil.isNull(from) && !StringUtil.isNull(to)) {
+        if (!StringUtil.isEmpty(from) && !StringUtil.isEmpty(to)) {
             log4j.logDebug("Translate begin,from " + from + " to " + to + "." + System.currentTimeMillis());
             detail.setAuthor(TranslatorUtil.translateHTML(detail.getAuthor(), from, to));
             detail.setContent(TranslatorUtil.translateHTML(detail.getContent(), from, to));

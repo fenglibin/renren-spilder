@@ -607,7 +607,7 @@ public class ImageUtil {
         File srcImageDirFile = new File(srcImageDir);
         File[] files = srcImageDirFile.listFiles();
         for (File file : files) {
-            if (StringUtil.isNull(descImageDir)) {
+            if (StringUtil.isEmpty(descImageDir)) {
                 descImageDir = srcImageDir;
             }
             if (file.isDirectory()) {
@@ -762,7 +762,7 @@ public class ImageUtil {
         File srcImageDirFile = new File(srcImageDir);
         File[] files = srcImageDirFile.listFiles();
         for (File file : files) {
-            if (StringUtil.isNull(descImageDir)) {
+            if (StringUtil.isEmpty(descImageDir)) {
                 descImageDir = srcImageDir;
             }
             if (file.isDirectory()) {

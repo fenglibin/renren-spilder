@@ -381,7 +381,7 @@ public class FileUtil {
     public static boolean isImageUsualFile(String fileName) {
         boolean is = Boolean.FALSE;
         String extName = getFileExtensation(fileName);
-        if (!StringUtil.isNull(extName)) {
+        if (!StringUtil.isEmpty(extName)) {
             extName = extName.toLowerCase();
             if (extName.equals("jpg") || extName.equals("png") || extName.equals("gif") || extName.equals("bmp")) {
                 is = Boolean.TRUE;
@@ -473,6 +473,93 @@ public class FileUtil {
         br.close();
         fr.close();
         return result;
+    }
+
+    /**
+     * 对给定的目录里面的文件进行重命名,不进行目录的递归处理
+     * 
+     * @param srcPath
+     * @param srcExt
+     * @param desExt
+     */
+    public static void renameFilesInDir(String srcPath, String srcExt, String desExt) {
+
+        renameFilesInDir(srcPath, srcExt, desExt, Boolean.FALSE);
+    }
+
+    /**
+     * 对给定的目录里面的文件进行重命名，并通过参数includeChildDir指定是否要递归子目录。如果指定了递归，则输出目录会保持和原目录一样的目录结构。
+     * 
+     * @param srcPath
+     * @param srcExt
+     * @param desPath
+     * @param desExt
+     * @param includeChildDir
+     */
+    public static void renameFilesInDir(String srcPath, String srcExt, String desExt, Boolean includeChildDir) {
+        File filePath = new File(srcPath);
+        File[] files = filePath.listFiles();
+        if (files != null && files.length > 0) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    rename(file, srcExt, desExt);
+                } else if (includeChildDir) {
+                    renameFilesInDir(file.getAbsolutePath(), srcExt, desExt, includeChildDir);
+                }
+            }
+        }
+    }
+
+    /**
+     * 将文件重命名并输出到目标文件名
+     * 
+     * @param file 原文件路径名
+     * @param srcExt 原文件扩展名，扩展名需要带上点"."，如".php";<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个如果不为空，则表示只针扩展名为此的进行重命名，否则不对给定的文件进行判断，都进行重命名
+     * @param desExt 目标扩展名，扩展名需要带上点"."，如".phps";<br>
+     */
+    public static void rename(String file, String srcExt, String desExt) {
+        File sourceFile = new File(file);
+        rename(sourceFile, srcExt, desExt);
+    }
+
+    /**
+     * 将文件重命名并输出到目标文件名
+     * 
+     * @param file 原文件
+     * @param srcExt 原文件扩展名，扩展名需要带上点"."，如".php";<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个如果不为空，则表示只针扩展名为此的进行重命名，否则不对给定的文件进行判断，都进行重命名
+     * @param desExt 目标扩展名，扩展名需要带上点"."，如".phps";<br>
+     */
+    public static void rename(File sourceFile, String srcExt, String desExt) {
+        if (sourceFile == null) {
+            throw new RuntimeException("Source file is null.");
+        }
+        if (!sourceFile.exists()) {
+            throw new RuntimeException("Source file does not exists:" + sourceFile.getAbsolutePath());
+        }
+        if (!StringUtil.isEmpty(srcExt) && !sourceFile.getName().endsWith(srcExt)) {
+            return;
+        }
+        if (!desExt.startsWith(".")) {
+            return;
+        }
+        sourceFile.renameTo(new File(replaceFileExt(sourceFile.getAbsolutePath(), desExt)));
+    }
+
+    /**
+     * 替换给定文件的扩展名，如原文件file为："d:/a/b/c.txt"，desExt为".php"，则结果是"d:/a/b/c.php"
+     * 
+     * @param file 原文件的路径
+     * @param desExt 结果扩展名，扩展名需要带上点"."
+     * @return
+     */
+    public static String replaceFileExt(String file, String desExt) {
+        if (file.indexOf(".") > 0 && desExt.startsWith(".")) {
+            file = file.substring(0, file.lastIndexOf("."));
+            file += desExt;
+        }
+        return file;
     }
 
     public static void main(String[] args) {

@@ -138,7 +138,7 @@ public class ChangeWebfileSuffix {
      * @return
      */
     private static String getRelativeUrl(String parentPath, String sourceUrl) {
-        if (!sourceUrl.startsWith("/") || StringUtil.isNull(sourceUrl)) {
+        if (!sourceUrl.startsWith("/") || StringUtil.isEmpty(sourceUrl)) {
             return sourceUrl;
         }
         String keepedSourceUrl = sourceUrl;

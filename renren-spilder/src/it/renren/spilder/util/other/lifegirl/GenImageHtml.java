@@ -208,7 +208,7 @@ public class GenImageHtml {
                         imageNameStrngs += ",";
                     }
                 }
-                if (!StringUtil.isNull(imageNameStrngs)) {
+                if (!StringUtil.isEmpty(imageNameStrngs)) {
                     imageNameStrngs = imageNameStrngs.substring(0, imageNameStrngs.length() - 1);
                     String index_mode_this = signel_index_mode.replace("#imageNameStrngs#", imageNameStrngs);
                     index_mode_this = index_mode_this.replace("#seqNumber#", seqNumber);

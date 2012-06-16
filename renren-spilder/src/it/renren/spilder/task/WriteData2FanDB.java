@@ -110,7 +110,7 @@ public class WriteData2FanDB extends Task {
     private String getContent(ChildPage childPageConfig, ChildPageDetail detail, String childContent) {
         if (childPageConfig.isAddUrl()) {
             String displayText = childPageConfig.getAddUrlDisplayString();
-            if (StringUtil.isNull(displayText)) {
+            if (StringUtil.isEmpty(displayText)) {
                 displayText = detail.getUrl();
             }
             childContent = childContent + "<br>From£º<a href=\"" + detail.getUrl() + "\" target=\"_blank\">"

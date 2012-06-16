@@ -9,7 +9,7 @@ public class NumberUtil {
      * @return
      */
     public static boolean isNumber(String str) {
-        if (StringUtil.isNull(str)) {
+        if (StringUtil.isEmpty(str)) {
             return Boolean.FALSE;
         }
         int len = str.length();

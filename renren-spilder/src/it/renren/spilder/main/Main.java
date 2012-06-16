@@ -256,7 +256,7 @@ public class Main {
             // param.setProxyHost("221.7.145.42:8080");
         }
         String springConfigFile = param.getSpringConfigFile();
-        if (StringUtil.isNull(springConfigFile)) {
+        if (StringUtil.isEmpty(springConfigFile)) {
             springConfigFile = Constants.SPRING_CONFIG_FILE;
         }
         ctx = new FileSystemXmlApplicationContext(new String[] { springConfigFile });

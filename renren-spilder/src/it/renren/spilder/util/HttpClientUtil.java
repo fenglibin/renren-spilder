@@ -77,7 +77,7 @@ public class HttpClientUtil {
     public static String getGetResponseWithHttpClient(String url, String encode, boolean byProxy) throws HttpException,
                                                                                                  IOException {
         String cookie = null;
-        if (!StringUtil.isNull(Environment.cookFile)) {
+        if (!StringUtil.isEmpty(Environment.cookFile)) {
             cookie = FileUtil.getFileContent(Environment.cookFile);
 
         }
@@ -101,7 +101,7 @@ public class HttpClientUtil {
         if (byProxy) {
             // 设置代理开始
             String proxy = getProxy();
-            if (!StringUtil.isNull(proxy)) {
+            if (!StringUtil.isEmpty(proxy)) {
                 String[] hostArray = proxy.split(":");
                 client.getHostConfiguration().setProxy(hostArray[0], Integer.parseInt(hostArray[1]));
                 client.getParams().setAuthenticationPreemptive(true);
@@ -117,7 +117,7 @@ public class HttpClientUtil {
         headers.add(new Header("Accept-Language", "zh-CN,zh;q=0.8"));
         headers.add(new Header("Cache-Control", "max-age=3600"));
         headers.add(new Header("Connection", "keep-alive"));
-        if (!StringUtil.isNull(cookie)) {
+        if (!StringUtil.isEmpty(cookie)) {
             headers.add(new Header("Cookie", cookie));
         }
         client.getHostConfiguration().getParams().setParameter("http.default-headers", headers);
@@ -255,7 +255,7 @@ public class HttpClientUtil {
      */
     private static String getProxy() {
         String proxy = null;
-        if (!StringUtil.isNull(Environment.proxy)) {
+        if (!StringUtil.isEmpty(Environment.proxy)) {
             proxy = Environment.proxy;
         } else {
             proxy = ProxyServerUtil.getRandomProxy();

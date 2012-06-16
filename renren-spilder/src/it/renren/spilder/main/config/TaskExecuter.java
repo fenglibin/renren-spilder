@@ -174,8 +174,8 @@ public class TaskExecuter extends Thread {
                 }
                 detail.setUrl(childUrl);
                 String blogHomeUrl = analysisBlogHomeUrl(parentPageConfig.getBlogType(), childUrl);
-                if (blogHomeUrlMap != null && !StringUtil.isNull(blogHomeUrl)) {
-                    if (!StringUtil.isNull(parentPageConfig.getHomeUrlAddStr())) {
+                if (blogHomeUrlMap != null && !StringUtil.isEmpty(blogHomeUrl)) {
+                    if (!StringUtil.isEmpty(parentPageConfig.getHomeUrlAddStr())) {
                         blogHomeUrl += parentPageConfig.getHomeUrlAddStr();
                     }
                     blogHomeUrlMap.put(blogHomeUrl, blogHomeUrl);
@@ -224,7 +224,7 @@ public class TaskExecuter extends Thread {
     private boolean isDealOnePage(ParentPage parentPageConfig) {
         boolean result = false;
         String dealOnePage = parentPageConfig.getDealOnePage();
-        if (StringUtil.isNull(dealOnePage)) {// 没有设置
+        if (StringUtil.isEmpty(dealOnePage)) {// 没有设置
             result = Environment.dealOnePage;
         } else {
             if (dealOnePage.equalsIgnoreCase("true")) {
@@ -266,7 +266,7 @@ public class TaskExecuter extends Thread {
             detail.setKeywords(keywords);
 
             String childContentWithoutHtmlTagTrim = StringUtil.removeHtmlTags(childContent).trim();
-            if (StringUtil.isNull(childContent)
+            if (StringUtil.isEmpty(childContent)
                 || childContentWithoutHtmlTagTrim.length() < parentPageConfig.getContent().getMinLength()) {
                 throw new RuntimeException("当前获取到内容长度小于：" + parentPageConfig.getContent().getMinLength());
             }
@@ -343,7 +343,7 @@ public class TaskExecuter extends Thread {
                     detail.setKeywords(keywords);
 
                     String childContentWithoutHtmlTagTrim = StringUtil.removeHtmlTags(childContent).trim();
-                    if (StringUtil.isNull(childContent)
+                    if (StringUtil.isEmpty(childContent)
                         || childContentWithoutHtmlTagTrim.length() < parentPageConfig.getContent().getMinLength()) {
                         throw new RuntimeException("当前获取到内容长度小于：" + parentPageConfig.getContent().getMinLength());
                     }
@@ -407,8 +407,8 @@ public class TaskExecuter extends Thread {
 
     /* 标题替换 */
     private static String replaceTitle(ChildPage childPageConfig, String childTitle) {
-        if (!StringUtil.isNull(childPageConfig.getTitle().getFrom())
-            && !StringUtil.isNull(childPageConfig.getTitle().getTo())) {
+        if (!StringUtil.isEmpty(childPageConfig.getTitle().getFrom())
+            && !StringUtil.isEmpty(childPageConfig.getTitle().getTo())) {
             if (childPageConfig.getTitle().isIssRegularExpression()) {
                 childTitle = childTitle.replaceAll(childPageConfig.getTitle().getFrom(),
                                                    childPageConfig.getTitle().getTo());
@@ -433,7 +433,7 @@ public class TaskExecuter extends Thread {
                                                                                         IllegalAccessException,
                                                                                         ClassNotFoundException {
         /* 文章内容通过HANDLER特殊处理 */
-        if (!StringUtil.isNull(childPageConfig.getContent().getHandler())) {
+        if (!StringUtil.isEmpty(childPageConfig.getContent().getHandler())) {
             Handler handler = (Handler) Class.forName(childPageConfig.getContent().getHandler()).newInstance();
             handler.execute(detail);
         }
@@ -533,10 +533,10 @@ public class TaskExecuter extends Thread {
     private static List<String> getReplyList(String childBody, ChildPage childPageConfig) throws RuntimeException {
         List<String> replysList = new ArrayList<String>();
 
-        if (!StringUtil.isNull(childPageConfig.getReplys().getStart())
-            && !StringUtil.isNull(childPageConfig.getReplys().getEnd())) {// 判断是否有获取回复的配置
-            if (!StringUtil.isNull(childPageConfig.getReplys().getReply().getStart())
-                && !StringUtil.isNull(childPageConfig.getReplys().getReply().getEnd())) {/*
+        if (!StringUtil.isEmpty(childPageConfig.getReplys().getStart())
+            && !StringUtil.isEmpty(childPageConfig.getReplys().getEnd())) {// 判断是否有获取回复的配置
+            if (!StringUtil.isEmpty(childPageConfig.getReplys().getReply().getStart())
+                && !StringUtil.isEmpty(childPageConfig.getReplys().getReply().getEnd())) {/*
                                                                                           * 配置了子回复节点，就根据子回复节点的配置来处理，
                                                                                           * 主配置用于截取帶有所有回復內容的部份
                                                                                           * ，而取出每一個回復則在子配置中
@@ -546,14 +546,14 @@ public class TaskExecuter extends Thread {
                 childBody = StringUtil.replaceContent(childBody, childPageConfig.getReplys().getFrom(),
                                                       childPageConfig.getReplys().getTo(),
                                                       childPageConfig.getReplys().isIssRegularExpression());
-                if (!StringUtil.isNull(childBody)) {
+                if (!StringUtil.isEmpty(childBody)) {
                     replysList = StringUtil.getListFromStart2End(childBody,
                                                                  childPageConfig.getReplys().getReply().getStart(),
                                                                  childPageConfig.getReplys().getReply().getEnd(),
                                                                  childPageConfig.getReplys().isFirstMainContent());
                 }
             } else {/* 只配置了主配置，那就根据主配置获取回复内容 */
-                if (!StringUtil.isNull(childBody)) {
+                if (!StringUtil.isEmpty(childBody)) {
                     childBody = StringUtil.replaceContent(childBody, childPageConfig.getReplys().getFrom(),
                                                           childPageConfig.getReplys().getTo(),
                                                           childPageConfig.getReplys().isIssRegularExpression());

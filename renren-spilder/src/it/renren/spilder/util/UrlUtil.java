@@ -137,7 +137,7 @@ public class UrlUtil {
                 File savedImage = new File(imageSaveLocation + imageName);
                 if (!savedImage.exists()) {
                     FileUtil.downloadFileByUrl(imageUrl, imageSaveLocation, imageName);
-                    if (!StringUtil.isNull(Environment.waterImageLocation)) {// 需要增加水印
+                    if (!StringUtil.isEmpty(Environment.waterImageLocation)) {// 需要增加水印
                         ImageUtil.addWaterMark(imageSaveLocation + imageName, Environment.waterImageLocation,
                                                ImageUtil.WaterImageLocation.LEFT_FOOT, 1);
                     }
@@ -147,7 +147,7 @@ public class UrlUtil {
                 if (savedImage.length() > Constants.K) {// 只有大于1K的图片存在的时候，才将这张图片作为封面，并认为这是一个带图的文章
                     if (firstImage) {// 第一张图片，此处生成缩略图
                         String litPicName = getLitPicName(imageSrc, imageSaveLocation, imageName);
-                        if (!StringUtil.isNull(litPicName)) {
+                        if (!StringUtil.isEmpty(litPicName)) {
                             detail.setPicArticle(true);
                             detail.setLitpicAddress(imageDescUrl + litPicName);
                             firstImage = false;
@@ -175,7 +175,7 @@ public class UrlUtil {
     private static String getLitPicName(String imageSrc, String imageSaveLocation, String imageName) throws IOException {
         String litPicName = "";
         String ext = FileUtil.getFileExtensation(imageName);
-        if (StringUtil.isNull(ext)) {
+        if (StringUtil.isEmpty(ext)) {
             return litPicName;
         }
         String filePrefix = imageName.replace(Constants.DOT + ext, "");

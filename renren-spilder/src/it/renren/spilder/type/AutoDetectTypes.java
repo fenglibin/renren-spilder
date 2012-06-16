@@ -22,7 +22,7 @@ public class AutoDetectTypes {
      */
     public int detectType(ParentPage parentPageConfig, ChildPageDetail detail) {
         int type = -1;
-        if (StringUtil.isNull(parentPageConfig.getAutoDetectTypeMapClass())) {
+        if (StringUtil.isEmpty(parentPageConfig.getAutoDetectTypeMapClass())) {
             return Integer.parseInt(parentPageConfig.getDesArticleId());
         }
         if (typesMapData == null) {

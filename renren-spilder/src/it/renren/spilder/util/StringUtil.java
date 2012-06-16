@@ -1,14 +1,10 @@
 package it.renren.spilder.util;
 
+import it.renren.spilder.main.Environment;
+import it.renren.spilder.util.log.Log4j;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.htmlparser.util.ParserException;
-
-import it.renren.spilder.main.Environment;
-import it.renren.spilder.parser.AHrefElement;
-import it.renren.spilder.parser.AHrefParser;
-import it.renren.spilder.util.log.Log4j;
 
 public class StringUtil {
 
@@ -23,7 +19,7 @@ public class StringUtil {
         return str;
     }
 
-    public static boolean isNull(String str) {
+    public static boolean isEmpty(String str) {
         if (str == null || "".equals(str.trim())) {
             return true;
         }
@@ -77,10 +73,10 @@ public class StringUtil {
      * @throws Exception
      */
     public static String subStringSmart(String src, String start, String end) {
-        if (!isNull(start)) {
+        if (!isEmpty(start)) {
             src = src.indexOf(start) > -1 ? src.substring(src.indexOf(start)).substring(start.length()) : src;
         }
-        if (!isNull(end)) {
+        if (!isEmpty(end)) {
             src = src.indexOf(end) > -1 ? src.substring(0, src.indexOf(end)) : src;
         }
         return src;
@@ -255,7 +251,7 @@ public class StringUtil {
      * @return
      */
     public static String replaceContent(String content, String from, String to, boolean isIssRegularExpression) {
-        if (!StringUtil.isNull(from) && !StringUtil.isNull(to)) {
+        if (!StringUtil.isEmpty(from) && !StringUtil.isEmpty(to)) {
             if (isIssRegularExpression) {
                 content = content.replaceAll(from, to);
             } else {
@@ -273,9 +269,9 @@ public class StringUtil {
      * @return
      */
     public static String getTablePrefix(String tablePrefix) {
-        if (!StringUtil.isNull(Environment.tablePrefix)) {
+        if (!StringUtil.isEmpty(Environment.tablePrefix)) {
             tablePrefix = Environment.tablePrefix;
-        } else if (StringUtil.isNull(tablePrefix)) {
+        } else if (StringUtil.isEmpty(tablePrefix)) {
             tablePrefix = "";
         }
         return tablePrefix;

@@ -111,10 +111,10 @@ public class AHrefParser {
                 if (ahref.get(href) == null && href != null) {
                     if (compByRegex == true) {/* 通过正则比较 */
                         boolean isMatch = false;
-                        if (!StringUtil.isNull(urlMustInclude)) {
+                        if (!StringUtil.isEmpty(urlMustInclude)) {
                             isMatch = must.matcher(href).find();/* 必须包括的字符串的正则，是否符合当前URL */
                             if (isMatch == true) {
-                                if (!StringUtil.isNull(urlMustNotInclude)) {
+                                if (!StringUtil.isEmpty(urlMustNotInclude)) {
                                     isMatch = mustnot.matcher(urlMustNotInclude).find();
                                     if (!isMatch) {
                                         ret.add(newAHrefElement(ahrefNode));
@@ -124,7 +124,7 @@ public class AHrefParser {
                                 }
                             }
                         } else {
-                            if (!StringUtil.isNull(urlMustNotInclude)) {
+                            if (!StringUtil.isEmpty(urlMustNotInclude)) {
                                 isMatch = mustnot.matcher(urlMustNotInclude).find();
                                 if (!isMatch) {
                                     ret.add(newAHrefElement(ahrefNode));
@@ -134,9 +134,9 @@ public class AHrefParser {
                             }
                         }
                     } else {/* 通过是否含字符串进行比较 */
-                        if (!StringUtil.isNull(urlMustInclude)) {
+                        if (!StringUtil.isEmpty(urlMustInclude)) {
                             if (href.indexOf(urlMustInclude) >= 0) {
-                                if (!StringUtil.isNull(urlMustNotInclude)) {
+                                if (!StringUtil.isEmpty(urlMustNotInclude)) {
                                     if (notIncludeMustNotIncludeCheck(href, urlMustNotInclude)) {
                                         ret.add(newAHrefElement(ahrefNode));
                                     }
@@ -145,7 +145,7 @@ public class AHrefParser {
                                 }
                             }
                         } else {
-                            if (!StringUtil.isNull(urlMustNotInclude)) {
+                            if (!StringUtil.isEmpty(urlMustNotInclude)) {
                                 if (notIncludeMustNotIncludeCheck(href, urlMustNotInclude)) {
                                     ret.add(newAHrefElement(ahrefNode));
                                 }

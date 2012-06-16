@@ -1,5 +1,7 @@
 package it.renren.spilder.util.other.php2html;
 
+import it.renren.spilder.util.FileUtil;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -45,6 +47,11 @@ public class Php2Html {
         end = System.currentTimeMillis();
         System.out.println("fileNum:" + fileNum);
         System.out.println("Cost Time:" + (end - start));
+        start = System.currentTimeMillis();
+        end = System.currentTimeMillis();
+        System.out.println("fileNum:" + fileNum);
+        System.out.println("Cost Time:" + (end - start));
+        phps2html(basePath);
         try {
             write2File(result, htmlPageFile);
         } catch (IOException e) {
@@ -61,19 +68,12 @@ public class Php2Html {
      * @return
      */
     private static void php2phps(String path) {
-        File filePath = new File(path);
-        File[] files = filePath.listFiles();
-        if (files != null && files.length > 0) {
-            for (File file : files) {
-                if (file.isFile() && file.getName().endsWith(".php")) {
-                    file.renameTo(new File(file.getAbsolutePath() + "s"));
-                } else if (file.isFile() && file.getName().endsWith(".inc")) {
-                    file.renameTo(new File(file.getAbsolutePath() + ".phps"));
-                } else {
-                    php2phps(file.getAbsolutePath());
-                }
-            }
-        }
+        FileUtil.renameFilesInDir(path, ".php", ".php.phps", Boolean.TRUE);
+        FileUtil.renameFilesInDir(path, ".inc", ".inc.phps", Boolean.TRUE);
+    }
+
+    private static void phps2html(String path) {
+        FileUtil.renameFilesInDir(path, ".phps", ".html", Boolean.TRUE);
     }
 
     private static String file2HTMLPageList(String path, String blankString) throws IOException {

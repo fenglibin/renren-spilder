@@ -49,7 +49,7 @@ public class TranslatorUtil {
         String content = "";
         for (int i = 0; i < contentArray.length; i++) {
             String tmp = contentArray[i];
-            if (!StringUtil.isNull(tmp)) {
+            if (!StringUtil.isEmpty(tmp)) {
                 content += Translate.translate(contentArray[i], from, to);
                 if (lineSeperator && i < contentArray.length - 1) {
                     content += "\n";
