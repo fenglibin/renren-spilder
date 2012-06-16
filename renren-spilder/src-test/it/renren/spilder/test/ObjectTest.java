@@ -1,4 +1,4 @@
-package test;
+package it.renren.spilder.test;
 
 public class ObjectTest {
 

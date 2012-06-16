@@ -1,4 +1,4 @@
-package test;
+package it.renren.spilder.test;
 
 import it.renren.spilder.dao.ArctinyDAO;
 import it.renren.spilder.dataobject.ArctinyDO;

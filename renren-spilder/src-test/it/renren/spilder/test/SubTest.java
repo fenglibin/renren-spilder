@@ -1,4 +1,4 @@
-package test;
+package it.renren.spilder.test;
 
 import bsh.EvalError;
 import it.renren.spilder.util.BshUtil;

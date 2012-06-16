@@ -1,4 +1,4 @@
-package test;
+package it.renren.spilder.test;
 
 import java.io.File;
 import java.io.FileInputStream;

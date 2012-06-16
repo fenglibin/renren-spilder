@@ -1,4 +1,4 @@
-package test;
+package it.renren.spilder.test;
 
 import it.renren.spilder.util.BshUtil;
 import it.renren.spilder.util.StringUtil;
