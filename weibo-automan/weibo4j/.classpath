@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>excluding=""
 	<classpathentry excluding="sinaweibo/|sinaWeiboApi/|examples/|tool/|timer/|spilder/|*/**/.svn/**|.svn/**" kind="src" path="src"/>
-	<classpathentry kind="src" path="src/examples"/>
-	<classpathentry kind="src" path="src/tool"/>
-	<classpathentry kind="src" path="src/timer"/>
-	<classpathentry kind="src" path="src/spilder"/>
-	<classpathentry kind="src" path="src/sinaWeiboApi"/>
+	<classpathentry excluding="|*/**/.svn/**|.svn/" kind="src" path="src/examples"/>
+	<classpathentry excluding="*/**/.svn/**|.svn/**" kind="src" path="src/tool"/>
+	<classpathentry excluding="*/**/.svn/**|.svn/**" kind="src" path="src/timer"/>
+	<classpathentry excluding="*/**/.svn/**|.svn/**" kind="src" path="src/spilder"/>
+	<classpathentry excluding="*/**/.svn/**|.svn/**" kind="src" path="src/sinaWeiboApi"/>
 	<classpathentry kind="lib" path="lib/commons-codec.jar"/>
 	<classpathentry kind="lib" path="lib/commons-httpclient-3.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar"/>
