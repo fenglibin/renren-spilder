@@ -27,7 +27,7 @@
 			<ref local="scheduledJob" />
 		</property>
 		<property name="cronExpression">
-			<value>0 0 9,18 * * ?</value>
+			<value>0 0 11,16,23 * * ?</value>
 		</property>
 	</bean>
 	<!-- 配置定时任务（结束） -->
