@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry excluding="sinaweibo/|sinaWeiboApi/|examples/|tool/|timer/|spilder/" kind="src" path="src"/>
+<classpath>excluding=""
+	<classpathentry excluding="sinaweibo/|sinaWeiboApi/|examples/|tool/|timer/|spilder/|*/**/.svn/**|.svn/**" kind="src" path="src"/>
 	<classpathentry kind="src" path="src/examples"/>
 	<classpathentry kind="src" path="src/tool"/>
 	<classpathentry kind="src" path="src/timer"/>
