@@ -246,7 +246,7 @@ public class FileUtil {
      * @param content
      * @throws Exception
      */
-    public static void writeFile(String filePath, String content) throws Exception {
+    public static void writeFile(String filePath, String content) throws IOException {
         File file = new File(filePath);
         FileWriter fw = new FileWriter(file);
         fw.write(content);
@@ -476,51 +476,139 @@ public class FileUtil {
     }
 
     /**
-     * 对给定的目录里面的文件进行重命名,不进行目录的递归处理
+     * 对给定的目录里面的文件进行重命名,不进行目录的递归处理.默认保留原文件的扩展名，只是在后面增加新的目标扩展名
      * 
-     * @param srcPath
-     * @param srcExt
-     * @param desExt
+     * @param srcPath 待处理的目录
+     * @param srcExt 需要处理的文件类型的扩展名，可以为空，此时会对待处理目录srcPath下面的所有文件进行重命名；如果不为空，则只处理这里指定的扩展名；扩展名需要带上点"."，如".php";<br>
+     * @param desExt 目标扩展名，扩展名需要带上点"."，如".php";<br>
      */
     public static void renameFilesInDir(String srcPath, String srcExt, String desExt) {
-
-        renameFilesInDir(srcPath, srcExt, desExt, Boolean.FALSE);
+        renameFilesInDir(srcPath, srcExt, desExt, Boolean.TRUE);
     }
 
     /**
-     * 对给定的目录里面的文件进行重命名，并通过参数includeChildDir指定是否要递归子目录。如果指定了递归，则输出目录会保持和原目录一样的目录结构。
+     * 对给定的目录里面的文件进行重命名,不进行目录的递归处理.
      * 
-     * @param srcPath
-     * @param srcExt
-     * @param desPath
-     * @param desExt
-     * @param includeChildDir
+     * @param srcPath 待处理的目录
+     * @param srcExt 需要处理的文件类型的扩展名，可以为空，此时会对待处理目录srcPath下面的所有文件进行重命名；如果不为空，则只处理这里指定的扩展名；扩展名需要带上点"."，如".php";<br>
+     * @param desExt 目标扩展名，扩展名需要带上点"."，如".php";<br>
+     * @param keepOldExt 是否保留原文件的扩展名，只是在后面增加新的目标扩展名
      */
-    public static void renameFilesInDir(String srcPath, String srcExt, String desExt, Boolean includeChildDir) {
+    public static void renameFilesInDir(String srcPath, String srcExt, String desExt, boolean keepOldExt) {
+
+        renameFilesInDir(srcPath, srcExt, desExt, Boolean.FALSE, Boolean.TRUE);
+    }
+
+    /**
+     * 对给定的目录里面的文件进行重命名，并通过参数includeChildDir指定是否要递归子目录，通过参数keepOldExt指定是否保留原文件的扩展名。
+     * 
+     * @param srcPath 待处理的目录
+     * @param srcExt 需要处理的文件类型的扩展名，可以为空，此时会对待处理目录srcPath下面的所有文件进行重命名；如果不为空，则只处理这里指定的扩展名；扩展名需要带上点"."，如".php";<br>
+     * @param desExt 目标扩展名，扩展名需要带上点"."，如".php";<br>
+     * @param includeChildDir 是否处理子目录中的文件
+     * @param keepOldExt 是否保留原文件的扩展名，只是在后面增加新的目标扩展名
+     */
+    public static void renameFilesInDir(String srcPath, String srcExt, String desExt, Boolean includeChildDir,
+                                        boolean keepOldExt) {
         File filePath = new File(srcPath);
         File[] files = filePath.listFiles();
         if (files != null && files.length > 0) {
             for (File file : files) {
                 if (file.isFile()) {
-                    rename(file, srcExt, desExt);
+                    rename(file, srcExt, desExt, keepOldExt);
                 } else if (includeChildDir) {
-                    renameFilesInDir(file.getAbsolutePath(), srcExt, desExt, includeChildDir);
+                    renameFilesInDir(file.getAbsolutePath(), srcExt, desExt, includeChildDir, keepOldExt);
                 }
             }
         }
     }
 
     /**
-     * 将文件重命名并输出到目标文件名
+     * 对给定的目录里面的文件进行重命名,不进行目录的递归处理。默认保留原文件的扩展名，只是在后面增加新的目标扩展名
+     * 
+     * @param srcPath 待处理的目录
+     * @param srcExts 需要处理的文件类型的扩展名，可以为空，此时会对待处理目录srcPath下面的所有文件进行重命名；如果不为空，则只处理这里指定的扩展名；扩展名需要带上点"."，如".php";<br>
+     * @param desExt 目标扩展名，扩展名需要带上点"."，如".php";<br>
+     * @param keepOldExt 是否保留原文件的扩展名，只是在后面增加新的目标扩展名
+     */
+    public static void renameFilesInDir(String srcPath, String[] srcExts, String desExt) {
+        renameFilesInDir(srcPath, srcExts, desExt, Boolean.TRUE);
+    }
+
+    /**
+     * 对给定的目录里面的文件进行重命名,不进行目录的递归处理。
+     * 
+     * @param srcPath 待处理的目录
+     * @param srcExts 需要处理的文件类型的扩展名，可以为空，此时会对待处理目录srcPath下面的所有文件进行重命名；如果不为空，则只处理这里指定的扩展名；扩展名需要带上点"."，如".php";<br>
+     * @param desExt 目标扩展名，扩展名需要带上点"."，如".php";<br>
+     * @param keepOldExt 是否保留原文件的扩展名，只是在后面增加新的目标扩展名
+     */
+    public static void renameFilesInDir(String srcPath, String[] srcExts, String desExt, boolean keepOldExt) {
+        renameFilesInDir(srcPath, srcExts, desExt, Boolean.FALSE, Boolean.TRUE);
+    }
+
+    /**
+     * 对给定的目录里面的文件进行重命名,根据传入参数includeChildDir的值判定是否进行目录的递归处理。
+     * 
+     * @param srcPath 待处理的目录
+     * @param srcExts 需要处理的文件类型的扩展名，可以为空，此时会对待处理目录srcPath下面的所有文件进行重命名；如果不为空，则只处理这里指定的扩展名；扩展名需要带上点"."，如".php";<br>
+     * @param desExt 目标扩展名，扩展名需要带上点"."，如".php";<br>
+     * @param keepOldExt 是否保留原文件的扩展名，只是在后面增加新的目标扩展名
+     */
+    public static void renameFilesInDir(String srcPath, String[] srcExts, String desExt, Boolean includeChildDir,
+                                        boolean keepOldExt) {
+        File filePath = new File(srcPath);
+        File[] files = filePath.listFiles();
+        if (files != null && files.length > 0) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    boolean doRename = Boolean.FALSE;
+                    String srcExt = null;
+                    if (srcExts != null && srcExts.length > 0) {
+                        for (String tSrcExt : srcExts) {
+                            if (file.getName().endsWith(tSrcExt)) {
+                                srcExt = tSrcExt;
+                                doRename = Boolean.TRUE;
+                                break;
+                            }
+                        }
+                    } else {
+                        doRename = Boolean.TRUE;
+                    }
+                    if (doRename) {
+                        rename(file, srcExt, desExt, keepOldExt);
+                    }
+                } else if (includeChildDir) {
+                    renameFilesInDir(file.getAbsolutePath(), srcExts, desExt, includeChildDir, keepOldExt);
+                }
+            }
+        }
+    }
+
+    /**
+     * 将文件重命名并输出到目标文件名，默认保留原文件的扩展名，只是在后面增加新的目标扩展名
+     * 
+     * @param file 原文件路径名
+     * @param srcExt 原文件扩展名，扩展名需要带上点"."，如".php";<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个如果不为空，则表示只针扩展名为此的进行重命名，否则不对给定的文件进行判断，都进行重命名
+     * @param desExt 目标扩展名，扩展名需要带上点"."，如".phps";<br>
+     * @param keepOldExt 是否保留原文件的扩展名，只是在后面增加新的目标扩展名
+     */
+    public static void rename(String file, String srcExt, String desExt) {
+        rename(file, srcExt, desExt, Boolean.TRUE);
+    }
+
+    /**
+     * 将文件重命名并输出到目标文件名，默认保留原文件的扩展名，只是在后面增加新的目标扩展名
      * 
      * @param file 原文件路径名
      * @param srcExt 原文件扩展名，扩展名需要带上点"."，如".php";<br>
      * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个如果不为空，则表示只针扩展名为此的进行重命名，否则不对给定的文件进行判断，都进行重命名
      * @param desExt 目标扩展名，扩展名需要带上点"."，如".phps";<br>
      */
-    public static void rename(String file, String srcExt, String desExt) {
+    public static void rename(String file, String srcExt, String desExt, boolean keepOldExt) {
         File sourceFile = new File(file);
-        rename(sourceFile, srcExt, desExt);
+        rename(sourceFile, srcExt, desExt, keepOldExt);
     }
 
     /**
@@ -530,21 +618,42 @@ public class FileUtil {
      * @param srcExt 原文件扩展名，扩展名需要带上点"."，如".php";<br>
      * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个如果不为空，则表示只针扩展名为此的进行重命名，否则不对给定的文件进行判断，都进行重命名
      * @param desExt 目标扩展名，扩展名需要带上点"."，如".phps";<br>
+     * @param keepOldExt 是否保留原文件的扩展名，只是在后面增加新的目标扩展名
      */
-    public static void rename(File sourceFile, String srcExt, String desExt) {
-        if (sourceFile == null) {
+    public static void rename(File file, String srcExt, String desExt) {
+        rename(file, srcExt, desExt, Boolean.TRUE);
+    }
+
+    /**
+     * 将文件重命名并输出到目标文件名
+     * 
+     * @param file 原文件
+     * @param srcExt 原文件扩展名，扩展名需要带上点"."，如".php";<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个如果不为空，则表示只针扩展名为此的进行重命名，否则不对给定的文件进行判断，都进行重命名
+     * @param desExt 目标扩展名，扩展名需要带上点"."，如".phps";<br>
+     * @param keepOldExt 是否保留原文件的扩展名，只是在后面增加新的目标扩展名
+     */
+    public static void rename(File file, String srcExt, String desExt, boolean keepOldExt) {
+        if (file == null) {
             throw new RuntimeException("Source file is null.");
         }
-        if (!sourceFile.exists()) {
-            throw new RuntimeException("Source file does not exists:" + sourceFile.getAbsolutePath());
+        if (!file.exists()) {
+            throw new RuntimeException("Source file does not exists:" + file.getAbsolutePath());
         }
-        if (!StringUtil.isEmpty(srcExt) && !sourceFile.getName().endsWith(srcExt)) {
+        if (!StringUtil.isEmpty(srcExt) && !file.getName().endsWith(srcExt)) {
             return;
         }
         if (!desExt.startsWith(".")) {
             return;
         }
-        sourceFile.renameTo(new File(replaceFileExt(sourceFile.getAbsolutePath(), desExt)));
+
+        // 这种做法是在不去掉原文件扩展名，只是在后面补充新的扩展名
+        if (keepOldExt) {
+            file.renameTo(new File(file.getAbsolutePath() + desExt));
+        } else {
+            // 这种做法是替换原扩展名，使用新的扩展名
+            file.renameTo(new File(replaceFileExt(file.getAbsolutePath(), desExt)));
+        }
     }
 
     /**

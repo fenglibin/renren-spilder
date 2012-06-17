@@ -110,6 +110,9 @@
 			<Value>
 				<![CDATA[true]]>
 			</Value>
+			<Display>
+				<![CDATA[<font color=#CCCCCC>CNBLOGS</font>]]>
+			</Display>
 		</AddUrl>
 	</Child>
 </Rules>

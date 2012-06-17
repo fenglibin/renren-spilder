@@ -249,7 +249,7 @@ public class TaskExecuter extends Thread {
         String childUrl = detail.getUrl();
         try {
             String childBody = HttpClientUtil.getGetResponseWithHttpClient(childUrl, childPageConfig.getCharset());
-            String childContent = getChildContent(childBody, childPageConfig);
+            String childContent = getChildContent(childBody, childPageConfig, parentPageConfig);
             detail.setContent(childContent);
             handleContent(childPageConfig, detail);
 
@@ -320,7 +320,7 @@ public class TaskExecuter extends Thread {
                     childUrl = detail.getUrl();
                 }
                 String childBody = HttpClientUtil.getGetResponseWithHttpClient(childUrl, childPageConfig.getCharset());
-                String childContent = getChildContent(childBody, childPageConfig);
+                String childContent = getChildContent(childBody, childPageConfig, parentPageConfig);
                 if (currentSeparatePage > 1) {// 支持分页采集
                     detail.setContent(detail.getContent() + Constants.DEDE_SEPARATE_PAGE_STRING + childContent);
                 } else {
@@ -459,8 +459,11 @@ public class TaskExecuter extends Thread {
      * @param childPageConfig
      * @return
      * @throws RuntimeException
+     * @throws ParserException
      */
-    private static String getChildContent(String childBody, ChildPage childPageConfig) throws RuntimeException {
+    private static String getChildContent(String childBody, ChildPage childPageConfig, ParentPage parentPageConfig)
+                                                                                                                   throws RuntimeException,
+                                                                                                                   ParserException {
         String childContent = "";
         int startSize = childPageConfig.getContent().getStartList().size();
         for (int i = 0; i < startSize; i++) {
@@ -477,8 +480,9 @@ public class TaskExecuter extends Thread {
                 }
             }
         }
-        /** 去掉script标签 */
-        childContent = StringUtil.removeScriptAndHrefTags(childContent);
+        /** 去掉script标签 和所有超连接 */
+        childContent = StringUtil.removeScript(childContent);
+        childContent = UrlUtil.replaceHref2GoUrl(childContent, parentPageConfig.getCharset());
         childContent = StringUtil.replaceContent(childContent, childPageConfig.getContent().getFrom(),
                                                  childPageConfig.getContent().getTo(),
                                                  childPageConfig.getContent().isIssRegularExpression());
@@ -537,10 +541,10 @@ public class TaskExecuter extends Thread {
             && !StringUtil.isEmpty(childPageConfig.getReplys().getEnd())) {// 判断是否有获取回复的配置
             if (!StringUtil.isEmpty(childPageConfig.getReplys().getReply().getStart())
                 && !StringUtil.isEmpty(childPageConfig.getReplys().getReply().getEnd())) {/*
-                                                                                          * 配置了子回复节点，就根据子回复节点的配置来处理，
-                                                                                          * 主配置用于截取帶有所有回復內容的部份
-                                                                                          * ，而取出每一個回復則在子配置中
-                                                                                          */
+                                                                                           * 配置了子回复节点，就根据子回复节点的配置来处理，
+                                                                                           * 主配置用于截取帶有所有回復內容的部份
+                                                                                           * ，而取出每一個回復則在子配置中
+                                                                                           */
                 childBody = StringUtil.subString(childBody, childPageConfig.getReplys().getStart(),
                                                  childPageConfig.getReplys().getEnd());
                 childBody = StringUtil.replaceContent(childBody, childPageConfig.getReplys().getFrom(),

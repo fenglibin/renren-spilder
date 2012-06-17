@@ -92,14 +92,37 @@ public class StringUtil {
         return htmlSource.replaceAll("\\<.*?>", "");
     }
 
+    // /**
+    // * 去掉script
+    // *
+    // * @param htmlSource
+    // * @return
+    // */
+    // public static String removeScript(String htmlSource) {
+    // htmlSource = htmlSource.replaceAll("<script.*</script>", "");
+    // return htmlSource;
+    // }
+
     /**
-     * 去掉script
+     * 去掉script及其中的内容
      * 
      * @param htmlSource
      * @return
      */
     public static String removeScript(String htmlSource) {
-        return htmlSource.replaceAll("\\<script.*?/script>", "");
+        htmlSource = htmlSource.replaceAll("<script.*</script>", "");
+        int start = -1;
+        int end = -1;
+        String temp = null;
+        String endScript = "</script>";
+        while ((start = htmlSource.indexOf("<script")) >= 0) {
+            end = htmlSource.indexOf(endScript);
+            if (end > -1 && end > start) {
+                temp = htmlSource.substring(start, end + endScript.length());
+                htmlSource = htmlSource.replace(temp, "");
+            }
+        }
+        return htmlSource;
     }
 
     /**

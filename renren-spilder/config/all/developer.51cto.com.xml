@@ -158,6 +158,9 @@
 			<Value>
 				<![CDATA[true]]>
 			</Value>
+			<Display>
+				<![CDATA[<font color=#CCCCCC>51CTO</font>]]>
+			</Display>
 		</AddUrl>
 	</Child>
 </Rules>

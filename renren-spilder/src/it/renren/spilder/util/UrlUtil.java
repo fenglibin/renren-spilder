@@ -26,7 +26,8 @@ import org.htmlparser.util.ParserException;
  */
 public class UrlUtil {
 
-    private static Log4j log4j = new Log4j(UrlUtil.class.getName());
+    private static Log4j  log4j  = new Log4j(UrlUtil.class.getName());
+    private static String GO_URL = "http://go.renren.it/";
 
     public static String getContentByURL(String urlStr) throws IOException {
         return getContentByURL(urlStr, null);
@@ -246,6 +247,25 @@ public class UrlUtil {
                 String urlAbsolute = UrlUtil.makeUrl(childUrl, url);
                 childContent = childContent.replace(url, urlAbsolute);
             }
+        }
+        return childContent;
+    }
+
+    /**
+     * 将内容中所有的超连接，修改为go.renren.it的后接参数，然后通过APACHE跳转，减少外链；<br>
+     * 如原来的超连接是：http://www.abc.com/1.html，修改后为：http://go.renren.it/www.abc.com/1.html.
+     * 
+     * @param childContent
+     * @param charset
+     * @return
+     * @throws ParserException
+     */
+    public static String replaceHref2GoUrl(String childContent, String charset) throws ParserException {
+        List<AHrefElement> childLinks = AHrefParser.ahrefParser(childContent, null, null, charset, Boolean.FALSE);
+        for (AHrefElement href : childLinks) {
+            String url = href.getHref();
+            String goUrl = GO_URL + url;
+            childContent = childContent.replace(url, goUrl);
         }
         return childContent;
     }

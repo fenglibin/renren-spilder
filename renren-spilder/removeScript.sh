@@ -1,0 +1,2 @@
+java -Xmn170m -Xms256m -Xmx512m -cp renren.it_spilder.jar it.renren.spilder.util.wash.RemoveScriptTags tablePrefix=renren pageSize=100
+#java -Xmn170m -Xms256m -Xmx512m -cp renren.it_spilder.jar it.renren.spilder.util.wash.RemoveScriptTags tablePrefix=fanti_ pageSize=100

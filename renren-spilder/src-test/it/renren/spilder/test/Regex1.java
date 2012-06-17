@@ -106,4 +106,14 @@ public class Regex1 extends TestCase {
         str = StringUtil.removeHreflink(str);
         assertEquals(str, "aabbccdd51cto");
     }
+
+    public void testNot() {
+        String str = "jump.html?www.it";
+        String regEx = "(?!jump)";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        boolean result = m.find();
+        assertFalse(result);
+
+    }
 }

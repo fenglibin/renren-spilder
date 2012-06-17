@@ -3,6 +3,7 @@
 
 <sqlMap namespace="Addonarticle">
 	<typeAlias alias="TA-ADDONARTICLE" type="it.renren.spilder.dataobject.AddonarticleDO"/>
+	<typeAlias alias="PAGE" type="it.renren.spilder.dataobject.Page"/>
 	<resultMap id="RM-ADDONARTICLE" class="TA-ADDONARTICLE">
 		<result property="aid"          javaType="java.lang.Integer"  		jdbcType="NUMERIC"    	column="aid" />
 		<result property="typeid"       javaType="java.lang.Integer"  		jdbcType="NUMERIC"    	column="typeid" />
@@ -21,7 +22,13 @@
 	<select id="SELECT_BODY_BY_AID" resultMap="RM-ADDONARTICLE" parameterClass="TA-ADDONARTICLE">
 		select aid,body,typeid from $tablePrefix$addonarticle where aid=#aid#
 	</select>
+	<select id="SELECT_BY_PAGESIZE" resultMap="RM-ADDONARTICLE" parameterClass="PAGE">
+		select aid,body,typeid from $tablePrefix$addonarticle limit #start#,#pageSize#
+	</select>
 	<update id="UPDATE_BODY_BY_AID" parameterClass="TA-ADDONARTICLE">
 		update $tablePrefix$addonarticle set body=#body# where aid=#aid#
 	</update>
+	<select id="GET_TOTAL_RECORDS" resultClass="java.lang.Integer" parameterClass="TA-ADDONARTICLE">
+		select count(1) from $tablePrefix$addonarticle
+	</select>
 </sqlMap>

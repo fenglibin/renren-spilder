@@ -4,7 +4,6 @@ import it.renren.spilder.util.FileUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -23,13 +22,14 @@ import java.util.List;
  */
 public class Php2Html {
 
-    private static int          fileNum      = 0;
-    private static final String basePath     = "E:/bruce/soft/xampp/htdocs/dede";
-    private static final String baseURL      = "http://localhost/dede";
-    private static final String outPath      = "E:/bruce/temp";
-    private static final String htmlHead     = "<html><head><title>test</title></head><body>";
-    private static final String htmlEnd      = "</body></html>";
-    private static final String htmlPageFile = "result.html";
+    private static int          fileNum           = 0;
+    private static final String basePath          = "E:/bruce/soft/xampp/htdocs/dede";
+    private static final String baseURL           = "http://localhost/dede";
+    private static final String outPath           = "E:/bruce/temp";
+    private static final String htmlHead          = "<html><head><title>test</title></head><body>";
+    private static final String htmlEnd           = "</body></html>";
+    private static final String htmlPageFile      = "result.html";
+    private static final String FOUR_BLANK_STRING = "&nbsp;&nbsp;&nbsp;&nbsp;";
 
     /**
      * @param args
@@ -41,9 +41,9 @@ public class Php2Html {
         php2phps(basePath);
         long end = System.currentTimeMillis();
         System.out.println("Cost Time:" + (end - start));
-        String blankString = "";
+        String blankString = FOUR_BLANK_STRING;
         start = System.currentTimeMillis();
-        String result = file2HTMLPageList(basePath, blankString);
+        String result = file2HTMLPage(basePath, blankString);
         end = System.currentTimeMillis();
         System.out.println("fileNum:" + fileNum);
         System.out.println("Cost Time:" + (end - start));
@@ -51,9 +51,9 @@ public class Php2Html {
         end = System.currentTimeMillis();
         System.out.println("fileNum:" + fileNum);
         System.out.println("Cost Time:" + (end - start));
-        phps2html(basePath);
+        phps2html(outPath);
         try {
-            write2File(result, htmlPageFile);
+            FileUtil.writeFile(htmlPageFile, result);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -68,21 +68,28 @@ public class Php2Html {
      * @return
      */
     private static void php2phps(String path) {
-        FileUtil.renameFilesInDir(path, ".php", ".php.phps", Boolean.TRUE);
-        FileUtil.renameFilesInDir(path, ".inc", ".inc.phps", Boolean.TRUE);
+        FileUtil.renameFilesInDir(path, new String[] { ".php", ".inc" }, ".phps", Boolean.TRUE);
     }
 
     private static void phps2html(String path) {
-        FileUtil.renameFilesInDir(path, ".phps", ".html", Boolean.TRUE);
+        FileUtil.renameFilesInDir(path, ".phps", ".html", Boolean.TRUE, Boolean.FALSE);
     }
 
-    private static String file2HTMLPageList(String path, String blankString) throws IOException {
-        StringBuilder result = listFiles(path, blankString);
+    private static String file2HTMLPage(String path, String blankString) throws IOException {
+        StringBuilder result = listFiles2HTML(path, blankString);
         result.insert(0, htmlHead).append(htmlEnd);
         return result.toString();
     }
 
-    private static StringBuilder listFiles(String path, String blankString) throws IOException {
+    /**
+     * 将给定路径下面的".phps"，文件名全部列成一个HTML串,并加上超链接
+     * 
+     * @param path
+     * @param blankString
+     * @return
+     * @throws IOException
+     */
+    private static StringBuilder listFiles2HTML(String path, String blankString) throws IOException {
         StringBuilder sb = new StringBuilder("");
         File filePath = new File(path);
         File[] files = filePath.listFiles();
@@ -99,8 +106,8 @@ public class Php2Html {
                 fileNum++;
             }
             for (File file : dirList) {
-                sb.append(blankString).append(file.getName()).append("<br>");
-                sb.append(listFiles(file.getPath(), blankString + "&nbsp;&nbsp;"));
+                sb.append(blankString).append("-").append(file.getName()).append("<br>");
+                sb.append(listFiles2HTML(file.getPath(), blankString + FOUR_BLANK_STRING));
             }
         }
         return sb;
@@ -127,7 +134,7 @@ public class Php2Html {
     }
 
     /**
-     * read content from given url
+     * 根据给的URL读取内容
      * 
      * @param url
      * @return
@@ -146,29 +153,33 @@ public class Php2Html {
         return sb.toString();
     }
 
+    /**
+     * 根据当前URL，将获取到的内容输出到指定的目录，并保持原来的层次结果
+     * 
+     * @param url
+     * @throws Exception
+     */
     private static void write(String url) throws IOException {
         String path = url.replace(baseURL, "");
         String content = readUrlContents(url);
         content = htmlHead + content + htmlEnd;
         String outFile = outPath + path;
         makeDir(outFile);
-        write2File(content, outFile);
+        FileUtil.writeFile(outFile, content);
     }
 
-    private static void makeDir(String path) {
-        path = path.replace("\\", "/");
-        String[] pathArray = path.split("/");
-        path = path.replace(pathArray[pathArray.length - 1], "");
-        File file = new File(path);
-        if (!file.exists()) {
-            file.mkdirs();
+    /**
+     * 根据给定的文件，先获取其所在的文件夹路径，然后再根据文件夹所在路径创建文件夹，将会创建所有需要的文件夹
+     * 
+     * @param file 文件路径
+     */
+    private static void makeDir(String file) {
+        file = file.replace("\\", "/");
+        String[] pathArray = file.split("/");
+        file = file.replace(pathArray[pathArray.length - 1], "");
+        File dir = new File(file);
+        if (!dir.exists()) {
+            dir.mkdirs();
         }
-    }
-
-    public static void write2File(String content, String filePath) throws IOException {
-        FileWriter fw = new FileWriter(filePath);
-        fw.write(content);
-        fw.flush();
-        fw.close();
     }
 }
