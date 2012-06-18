@@ -5,6 +5,8 @@ import it.renren.spilder.main.Environment;
 import it.renren.spilder.main.config.ChildPage;
 import it.renren.spilder.main.config.ParentPage;
 import it.renren.spilder.main.detail.ChildPageDetail;
+import it.renren.spilder.util.StringUtil;
+import it.renren.spilder.util.UrlUtil;
 
 public abstract class Task {
 
@@ -60,4 +62,24 @@ public abstract class Task {
      * @param url
      */
     public abstract void saveDownUrl(String url);
+
+    /**
+     * ²¹³äÄÚÈÝÀ´Ô´URL
+     * 
+     * @param childPageConfig
+     * @param detail
+     * @param childContent
+     * @return
+     */
+    protected String addSourceUrl(ChildPage childPageConfig, ChildPageDetail detail, String childContent) {
+        if (childPageConfig.isAddUrl()) {
+            String displayText = childPageConfig.getAddUrlDisplayString();
+            if (StringUtil.isEmpty(displayText)) {
+                displayText = detail.getUrl();
+            }
+            childContent = childContent + "<br>From£º<a href=\"" + UrlUtil.GO_URL + detail.getUrl()
+                           + "\" target=\"_blank\">" + displayText + "</a>";
+        }
+        return childContent;
+    }
 }

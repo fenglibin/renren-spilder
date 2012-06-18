@@ -26,9 +26,9 @@ import org.htmlparser.util.ParserException;
  */
 public class UrlUtil {
 
-    private static Log4j  log4j           = new Log4j(UrlUtil.class.getName());
-    private static String GO_URL          = "http://go.renren.it/";
-    public static String  DEFAULT_CHARSET = "GBK";
+    private static Log4j log4j           = new Log4j(UrlUtil.class.getName());
+    public static String GO_URL          = "http://go.renren.it/";
+    public static String DEFAULT_CHARSET = "GBK";
 
     public static String getContentByURL(String urlStr) throws IOException {
         return getContentByURL(urlStr, null);

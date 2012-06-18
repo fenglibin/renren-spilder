@@ -16,7 +16,6 @@ import it.renren.spilder.main.config.ParentPage;
 import it.renren.spilder.main.detail.ChildPageDetail;
 import it.renren.spilder.type.AutoDetectTypes;
 import it.renren.spilder.util.FontUtil;
-import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.log.Log4j;
 
 public class WriteData2FanDB extends Task {
@@ -62,11 +61,9 @@ public class WriteData2FanDB extends Task {
             archivesDO.setId(arctinyDO.getId());
             archivesDO.setTypeid(typeid);
             archivesDO.setTitle(jian2fan(detailClone.getTitle().length() > 100 ? detailClone.getTitle().substring(0, 99) : detailClone.getTitle()));
-            archivesDO.setKeywords(jian2fan(detailClone.getKeywords().length() > 30 ? detailClone.getKeywords().substring(
-                                                                                                                          0,
+            archivesDO.setKeywords(jian2fan(detailClone.getKeywords().length() > 30 ? detailClone.getKeywords().substring(0,
                                                                                                                           29) : detailClone.getKeywords()));
-            archivesDO.setDescription(jian2fan(detailClone.getDescription().length() > 255 ? detailClone.getDescription().substring(
-                                                                                                                                    0,
+            archivesDO.setDescription(jian2fan(detailClone.getDescription().length() > 255 ? detailClone.getDescription().substring(0,
                                                                                                                                     254) : detailClone.getDescription()));
             archivesDO.setClick((int) (1000 * Math.random()));
             archivesDO.setWriter(jian2fan(detailClone.getAuthor()));
@@ -80,10 +77,10 @@ public class WriteData2FanDB extends Task {
 
             String content = detailClone.getContent();
             if (detailClone.isPicArticle()) {
-                content = content.replace(parentPageConfig.getImageDescUrl(), Constants.RenRen_URL
-                                                                              + parentPageConfig.getImageDescUrl());
+                content = content.replace(parentPageConfig.getImageDescUrl(),
+                                          Constants.RenRen_URL + parentPageConfig.getImageDescUrl());
             }
-            content = getContent(childPageConfig, detailClone, content);
+            content = addSourceUrl(childPageConfig, detailClone, content);
             AddonarticleDO addonarticleDO = new AddonarticleDO();
             addonarticleDO.setAid(arctinyDO.getId());
             addonarticleDO.setTypeid(typeid);
@@ -105,18 +102,6 @@ public class WriteData2FanDB extends Task {
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e);
         }
-    }
-
-    private String getContent(ChildPage childPageConfig, ChildPageDetail detail, String childContent) {
-        if (childPageConfig.isAddUrl()) {
-            String displayText = childPageConfig.getAddUrlDisplayString();
-            if (StringUtil.isEmpty(displayText)) {
-                displayText = detail.getUrl();
-            }
-            childContent = childContent + "<br>From£º<a href=\"" + detail.getUrl() + "\" target=\"_blank\">"
-                           + displayText + "</a>";
-        }
-        return childContent;
     }
 
     private String jian2fan(String string) throws Exception {

@@ -480,8 +480,9 @@ public class TaskExecuter extends Thread {
                 }
             }
         }
-        /** 去掉script标签 和所有超连接 */
+        /** 去掉script标签 */
         childContent = StringUtil.removeScript(childContent);
+        /** 将内容中的URL全部替换为GO URL的方式 **/
         childContent = UrlUtil.replaceHref2GoUrl(childContent, parentPageConfig.getCharset());
         childContent = StringUtil.replaceContent(childContent, childPageConfig.getContent().getFrom(),
                                                  childPageConfig.getContent().getTo(),

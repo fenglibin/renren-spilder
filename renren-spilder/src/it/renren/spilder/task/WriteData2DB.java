@@ -62,8 +62,7 @@ public class WriteData2DB extends Task {
             archivesDO.setTypeid(typeid);
             archivesDO.setTitle(detailClone.getTitle().length() > 100 ? detailClone.getTitle().substring(0, 99) : detailClone.getTitle());
             archivesDO.setKeywords(detailClone.getKeywords().length() > 30 ? detailClone.getKeywords().substring(0, 29) : detailClone.getKeywords());
-            archivesDO.setDescription(detailClone.getDescription().length() > 255 ? detailClone.getDescription().substring(
-                                                                                                                           0,
+            archivesDO.setDescription(detailClone.getDescription().length() > 255 ? detailClone.getDescription().substring(0,
                                                                                                                            254) : detailClone.getDescription());
             archivesDO.setClick((int) (1000 * Math.random()));
             archivesDO.setWriter(detailClone.getAuthor());
@@ -81,7 +80,7 @@ public class WriteData2DB extends Task {
             AddonarticleDO addonarticleDO = new AddonarticleDO();
             addonarticleDO.setAid(arctinyDO.getId());
             addonarticleDO.setTypeid(typeid);
-            addonarticleDO.setBody(getContent(childPageConfig, detail, detailClone.getContent()));
+            addonarticleDO.setBody(addSourceUrl(childPageConfig, detail, detailClone.getContent()));
             addonarticleDAO.insertAddonarticle(addonarticleDO);
             /** 对回复的处理 */
             if (detailClone.getReplys().size() > 0) {
@@ -98,18 +97,6 @@ public class WriteData2DB extends Task {
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e);
         }
-    }
-
-    private String getContent(ChildPage childPageConfig, ChildPageDetail detail, String childContent) {
-        if (childPageConfig.isAddUrl()) {
-            String displayText = childPageConfig.getAddUrlDisplayString();
-            if (StringUtil.isEmpty(displayText)) {
-                displayText = detail.getUrl();
-            }
-            childContent = childContent + "<br>From：<a href=\"" + detail.getUrl() + "\" target=\"_blank\">"
-                           + displayText + "</a>";
-        }
-        return childContent;
     }
 
     /**
