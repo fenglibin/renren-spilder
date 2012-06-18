@@ -6,6 +6,7 @@ import it.renren.spilder.parser.AHrefElement;
 import it.renren.spilder.parser.AHrefParser;
 import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.UrlUtil;
+import it.renren.spilder.util.log.Log4j;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -24,6 +25,7 @@ public class RemoveScriptTagsAddMakeGoUrl extends WashBase {
     private static int    pageSize    = 100;
     private static String FROM        = "From£º";
     private static String charset     = "gbk";
+    private static Log4j  log4j       = new Log4j(RemoveScriptTagsAddMakeGoUrl.class.getName());
 
     /**
      * @param args
@@ -51,6 +53,7 @@ public class RemoveScriptTagsAddMakeGoUrl extends WashBase {
         int start = getStart();
         String body = null;
         while (start <= total) {
+            log4j.logError("total:" + total + ",start:" + start);
             addonarticleDOList = addonarticleDAO.selectByPagesize(start, getPageSize());
             for (AddonarticleDO addonarticleDO : addonarticleDOList) {
                 body = null;

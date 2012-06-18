@@ -23,9 +23,9 @@ import java.util.List;
 public class Php2Html {
 
     private static int          fileNum           = 0;
-    private static final String basePath          = "E:/bruce/soft/xampp/htdocs/dede";
+    private static final String basePath          = "F:/soft/ProcDev/xampp/htdocs/dede";
     private static final String baseURL           = "http://localhost/dede";
-    private static final String outPath           = "E:/bruce/temp";
+    private static final String outPath           = "F:/soft/ProcDev/xampp/dedeout";
     private static final String htmlHead          = "<html><head><title>test</title></head><body>";
     private static final String htmlEnd           = "</body></html>";
     private static final String htmlPageFile      = "result.html";
