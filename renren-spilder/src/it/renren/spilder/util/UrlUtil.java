@@ -26,8 +26,9 @@ import org.htmlparser.util.ParserException;
  */
 public class UrlUtil {
 
-    private static Log4j  log4j  = new Log4j(UrlUtil.class.getName());
-    private static String GO_URL = "http://go.renren.it/";
+    private static Log4j  log4j           = new Log4j(UrlUtil.class.getName());
+    private static String GO_URL          = "http://go.renren.it/";
+    public static String  DEFAULT_CHARSET = "GBK";
 
     public static String getContentByURL(String urlStr) throws IOException {
         return getContentByURL(urlStr, null);
@@ -260,14 +261,61 @@ public class UrlUtil {
      * @return
      * @throws ParserException
      */
+    public static String replaceHref2GoUrl(String childContent) throws ParserException {
+        return replaceHref2GoUrl(childContent, DEFAULT_CHARSET);
+    }
+
+    /**
+     * 将内容中所有的超连接，修改为go.renren.it的后接参数，然后通过APACHE跳转，减少外链；<br>
+     * 如原来的超连接是：http://www.abc.com/1.html，修改后为：http://go.renren.it/www.abc.com/1.html.
+     * 
+     * @param childContent
+     * @param charset
+     * @return
+     * @throws ParserException
+     */
     public static String replaceHref2GoUrl(String childContent, String charset) throws ParserException {
         List<AHrefElement> childLinks = AHrefParser.ahrefParser(childContent, null, null, charset, Boolean.FALSE);
         for (AHrefElement href : childLinks) {
+            String goUrl = GO_URL;
             String url = href.getHref();
-            String goUrl = GO_URL + url;
-            childContent = childContent.replace(url, goUrl);
+            if (!checkIsRenrenUrl(url)) {
+                goUrl += removeProtocol(url);
+                childContent = childContent.replace(url, goUrl);
+            }
         }
         return childContent;
+    }
+
+    /**
+     * 判断当前给定的URL是否renren.it的网站的URL
+     * 
+     * @param url
+     * @return
+     */
+    public static boolean checkIsRenrenUrl(String url) {
+        if (url.indexOf("renren.it") > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 移除协议头
+     * 
+     * @param url
+     * @return
+     */
+    public static String removeProtocol(String url) {
+        if (StringUtil.isEmpty(url)) {
+            return url;
+        }
+        if (url.indexOf("://") < 0) {
+            return url;
+        }
+        int index = url.indexOf("://") + 3;
+        url = url.substring(index);
+        return url;
     }
 
     public static void main(String[] args) {

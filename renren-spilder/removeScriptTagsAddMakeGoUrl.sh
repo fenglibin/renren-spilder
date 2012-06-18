@@ -1,0 +1,2 @@
+java -Xmn84m -Xms128m -Xmx256m -cp renren.it_spilder.jar it.renren.spilder.util.wash.RemoveScriptTagsAddMakeGoUrl tablePrefix=renren charset=gbk
+java -Xmn84m -Xms128m -Xmx256m -cp renren.it_spilder.jar it.renren.spilder.util.wash.RemoveScriptTagsAddMakeGoUrl tablePrefix=fanti_ charset=utf8

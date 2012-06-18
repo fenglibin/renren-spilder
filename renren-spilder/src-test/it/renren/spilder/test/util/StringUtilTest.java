@@ -1,6 +1,13 @@
 package it.renren.spilder.test.util;
 
+import it.renren.spilder.parser.AHrefElement;
+import it.renren.spilder.parser.AHrefParser;
+import it.renren.spilder.util.HttpClientUtil;
 import it.renren.spilder.util.StringUtil;
+import it.renren.spilder.util.UrlUtil;
+
+import java.util.List;
+
 import junit.framework.TestCase;
 
 import org.junit.Test;
@@ -28,4 +35,56 @@ public class StringUtilTest extends TestCase {
         assertEquals(str, "www.abc.com/1.html");
     }
 
+    @Test
+    public void testRemoveProtocol() {
+        String str = "http://www.abc.com/1.html";
+        str = UrlUtil.removeProtocol(str);
+        assertEquals(str, "www.abc.com/1.html");
+
+        str = "https://www.abc.com/1.html";
+        str = UrlUtil.removeProtocol(str);
+        assertEquals(str, "www.abc.com/1.html");
+    }
+
+    @Test
+    public void testChangeFromLinkText() {
+        String url = "http://www.renren.it/a/bianchengyuyan/flex/2011/1121/109809.html";
+        String encode = "gbk";
+
+        url = "http://renren.it/a/bianchengyuyan/xml/2012/0606/168099.html";
+        encode = "utf8";
+
+        String from = "From£º";
+        try {
+            String str = HttpClientUtil.getGetResponseWithHttpClient(url, encode);
+            if (StringUtil.checkExistOnlyOnce(str, from)) {
+                int index = str.indexOf(from);
+                String strTemp = str.substring(index);
+                List<AHrefElement> childLinks = AHrefParser.ahrefParser(strTemp, null, null, UrlUtil.DEFAULT_CHARSET,
+                                                                        Boolean.FALSE);
+                String strTemp2 = strTemp;
+                for (AHrefElement href : childLinks) {
+                    strTemp2 = strTemp2.replace(href.getHrefText() + "<", "<font color=#CCCCCC>Network</font><");
+                    break;
+                }
+                str = str.replace(strTemp, strTemp2);
+            }
+            System.out.println(str);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+    }
+
+    @Test
+    public void testCheckExistOnlyOnce() {
+        String find = "From£º";
+        String str = "hello baby,I love you baby,hehe," + find + ",you are right";
+        Boolean b = StringUtil.checkExistOnlyOnce(str, find);
+        assertTrue(b);
+
+        str = "hello baby,I love " + find + " you baby,hehe," + find + ",you are right";
+        b = StringUtil.checkExistOnlyOnce(str, find);
+        assertFalse(b);
+    }
 }

@@ -300,6 +300,31 @@ public class StringUtil {
         return tablePrefix;
     }
 
+    /**
+     * 检查被检查的字符串(find)在原字符串(source)中是不是只出现了一次
+     * 
+     * @param source 原字符串
+     * @param find 被检查的字符串
+     * @return
+     */
+    public static boolean checkExistOnlyOnce(String source, String find) {
+        if (StringUtil.isEmpty(source) || StringUtil.isEmpty(find)) {
+            return false;
+        }
+        int indexOf = source.indexOf(find);
+        if (indexOf < 0) {
+            return false;
+        }
+        int lastIndexOf = source.lastIndexOf(find);
+        if (lastIndexOf < 0) {
+            return false;
+        }
+        if (indexOf == lastIndexOf) {
+            return true;
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         String htmlSource = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'><html xmlns='http://www.w3.org/1999/xhtml'><head><meta http-equiv='Content-Type' content='text/html; charset=gb2312' /><title>例子：把字符串时间转换为timestamp_人人IT网</title><meta name='keywords' content='转换,时间,字符串,例子,array,t' /><meta name='description' content='? $strtime = 2000-02-12 16:20:35; $array = explode(-,$strtime); $year = $array[0]; $month = $array[1]; $array = explode(:,$array[2]); $minute = $array[1]; $second = $array[2]; $array = explode( ,$array[0]); $day = $array[0]; $hour = $array[' /><link href='/templets/default/style/dedecms.css' rel='stylesheet' media='screen' type='text/css' /><link rel='stylesheet' href='/templets/default/style/dedecms_skins_0.css' type='text/css' id='cssfile' /><style>";
         htmlSource = removeHtmlTags(htmlSource);
