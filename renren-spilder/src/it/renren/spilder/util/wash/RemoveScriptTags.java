@@ -25,6 +25,7 @@ public class RemoveScriptTags extends WashBase {
     public static void main(String[] args) throws SQLException {
         initArgs(args);
         removeScript();
+        release();
     }
 
     private static void removeScript() throws SQLException {

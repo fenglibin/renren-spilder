@@ -1,0 +1,2 @@
+java -Xmn130m -Xms256m -Xmx400m -cp renren.it_spilder.jar it.renren.spilder.util.wash.ReadContentFromHtml2DB tablePrefix=renren charset=gbk basePath=/home/fenglibin/www/www.renren.it/a
+java -Xmn130m -Xms256m -Xmx400m -cp renren.it_spilder.jar it.renren.spilder.util.wash.ReadContentFromHtml2DB tablePrefix=fanti_ charset=utf8 basePath=/home/fenglibin/www/www.stackdoc.com/a

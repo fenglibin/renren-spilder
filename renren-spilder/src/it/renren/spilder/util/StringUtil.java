@@ -6,6 +6,8 @@ import it.renren.spilder.util.log.Log4j;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.htmlparser.util.ParserException;
+
 public class StringUtil {
 
     private static Log4j log4j = new Log4j(StringUtil.class.getName());
@@ -24,6 +26,33 @@ public class StringUtil {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 字符串截取
+     * 
+     * @param childContent
+     * @param startList
+     * @param endList
+     * @return
+     * @throws RuntimeException
+     * @throws ParserException
+     */
+    public static String subString(String childContent, List<String> startList, List<String> endList) {
+        int startSize = startList.size();
+        for (int i = 0; i < startSize; i++) {
+            try {
+                childContent = StringUtil.subString(childContent, startList.get(i), endList.get(i));
+                break;
+            } catch (Exception e) {
+                if (i + 1 == startSize) {
+                    throw new RuntimeException(e);
+                } else {
+                    log4j.logDebug("第 " + (i + 1) + " 次获取文章内容出错！");
+                }
+            }
+        }
+        return childContent;
     }
 
     /**

@@ -116,4 +116,13 @@ public class Regex1 extends TestCase {
         assertFalse(result);
 
     }
+
+    public void test11() {
+        String str = "93292.html";
+        String regEx = "^[0-9]*\\.html";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        boolean result = m.find();
+        assertTrue(result);
+    }
 }

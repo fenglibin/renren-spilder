@@ -25,4 +25,8 @@ public abstract class WashBase {
             }
         }
     }
+
+    public static void release() {
+        ctx.close();
+    }
 }

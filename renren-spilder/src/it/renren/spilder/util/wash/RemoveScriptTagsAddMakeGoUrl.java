@@ -35,6 +35,7 @@ public class RemoveScriptTagsAddMakeGoUrl extends WashBase {
     public static void main(String[] args) throws SQLException, ParserException {
         initArgs(args);
         removeScript();
+        release();
     }
 
     private static void removeScript() throws SQLException, ParserException {

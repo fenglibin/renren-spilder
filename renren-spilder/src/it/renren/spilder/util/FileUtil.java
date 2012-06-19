@@ -131,6 +131,15 @@ public class FileUtil {
         return filename;
     }
 
+    public static String getFileNameWithoutExt(String filename) {
+        String ext = getFileExtensation(filename);
+        if (!StringUtil.isEmpty(ext)) {
+            ext = "." + ext;
+            filename = filename.replace(ext, "");
+        }
+        return filename;
+    }
+
     /**
      * 返回文件的扩展名，如果没有扩展名的，则返回空字符串""
      * 
