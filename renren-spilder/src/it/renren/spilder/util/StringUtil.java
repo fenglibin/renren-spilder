@@ -109,7 +109,7 @@ public class StringUtil {
      * @param htmlSource
      * @return
      */
-    public static String removeScript(String htmlSource) {
+    public static String removeScriptByLoopFind(String htmlSource) {
         htmlSource = htmlSource.replaceAll("<script.*</script>", "");
         int start = -1;
         int end = -1;
@@ -117,11 +117,27 @@ public class StringUtil {
         String endScript = "</script>";
         while ((start = htmlSource.indexOf("<script")) >= 0) {
             end = htmlSource.indexOf(endScript);
-            if (end > -1 && end > start) {
+            if (end < 0) {
+                break;
+            }
+            if (start < end) {
                 temp = htmlSource.substring(start, end + endScript.length());
                 htmlSource = htmlSource.replace(temp, "");
+            } else if (start >= end) {
+                break;
             }
         }
+        return htmlSource;
+    }
+
+    /**
+     * 去掉script及其中的内容
+     * 
+     * @param htmlSource
+     * @return
+     */
+    public static String removeScript(String htmlSource) {
+        htmlSource = htmlSource.replaceAll("<script([\\s\\S]*?)</script>", "");
         return htmlSource;
     }
 

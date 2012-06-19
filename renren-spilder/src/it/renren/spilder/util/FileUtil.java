@@ -31,7 +31,7 @@ public class FileUtil {
 
     private static Log4j       log4j          = new Log4j(FileUtil.class.getName());
     private static PrintWriter appendWriter;
-    private static String      defaultCharset = "GBK";
+    public static String       defaultCharset = "GBK";
 
     public static synchronized void downloadFileByUrl(String srcUrl, String filePath) {
         downloadFileByUrl(srcUrl, filePath, null);

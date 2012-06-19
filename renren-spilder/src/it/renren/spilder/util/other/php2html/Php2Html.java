@@ -22,20 +22,21 @@ import java.util.List;
  */
 public class Php2Html {
 
-    private static int          fileNum           = 0;
-    private static final String basePath          = "F:/soft/ProcDev/xampp/htdocs/dede";
-    private static final String baseURL           = "http://localhost/dede";
-    private static final String outPath           = "F:/soft/ProcDev/xampp/dedeout";
-    private static final String htmlHead          = "<html><head><title>test</title></head><body>";
-    private static final String htmlEnd           = "</body></html>";
-    private static final String htmlPageFile      = "result.html";
-    private static final String FOUR_BLANK_STRING = "&nbsp;&nbsp;&nbsp;&nbsp;";
+    private static int          fileNum              = 0;
+    private static final String basePath             = "F:/soft/ProcDev/xampp/htdocs/dede";
+    private static final String baseURL              = "http://localhost";
+    private static final String outPath              = "F:/soft/ProcDev/xampp/dedeout";
+    private static final String htmlPageFile         = outPath + "/index.html";
+    private static final String FOUR_BLANK_STRING    = "&nbsp;&nbsp;&nbsp;&nbsp;";
+    private static final String LIST_PAGE_HTML_MODEL = "/it/renren/spilder/util/other/php2html/phpHtmlModel.html";
+    private static String       modelContent;
 
     /**
      * @param args
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
+        modelContent = FileUtil.readFromClassPath(LIST_PAGE_HTML_MODEL, "UTF-8");
         // TODO Auto-generated method stub
         long start = System.currentTimeMillis();
         php2phps(basePath);
@@ -68,7 +69,7 @@ public class Php2Html {
      * @return
      */
     private static void php2phps(String path) {
-        FileUtil.renameFilesInDir(path, new String[] { ".php", ".inc" }, ".phps", Boolean.TRUE);
+        FileUtil.renameFilesInDir(path, new String[] { ".php", ".inc" }, ".phps", Boolean.TRUE, Boolean.TRUE);
     }
 
     private static void phps2html(String path) {
@@ -77,8 +78,7 @@ public class Php2Html {
 
     private static String file2HTMLPage(String path, String blankString) throws IOException {
         StringBuilder result = listFiles2HTML(path, blankString);
-        result.insert(0, htmlHead).append(htmlEnd);
-        return result.toString();
+        return modelContent.replace("${content}", result.toString());
     }
 
     /**
@@ -162,7 +162,7 @@ public class Php2Html {
     private static void write(String url) throws IOException {
         String path = url.replace(baseURL, "");
         String content = readUrlContents(url);
-        content = htmlHead + content + htmlEnd;
+        content = modelContent.replace("${content}", content);
         String outFile = outPath + path;
         makeDir(outFile);
         FileUtil.writeFile(outFile, content);
