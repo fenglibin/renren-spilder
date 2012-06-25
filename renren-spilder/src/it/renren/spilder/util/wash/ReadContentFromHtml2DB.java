@@ -40,6 +40,7 @@ public class ReadContentFromHtml2DB extends WashBase {
     private static boolean         isCheckFile        = Boolean.FALSE;
     private static List<String>    startList          = new ArrayList<String>();
     private static List<String>    endList            = new ArrayList<String>();
+    private static StringBuilder   undealArticleIds                 = new StringBuilder("");
 
     /**
      * @param args
@@ -63,6 +64,7 @@ public class ReadContentFromHtml2DB extends WashBase {
         try {
             readContent2DB(getBasePath());
         } finally {
+            FileUtil.writeFile(tablePrefix + ".log", undealArticleIds.toString());
             release();
         }
     }
@@ -106,13 +108,20 @@ public class ReadContentFromHtml2DB extends WashBase {
     }
 
     private static void dealFile(File file) throws IOException, ParserException {
+        boolean ok = Boolean.TRUE;
+        int id = Integer.parseInt(FileUtil.getFileNameWithoutExt(file.getName()));
         String content = FileUtil.getFileContent(file, getCharset());
         try {
             content = StringUtil.subString(content, startList, endList);
         } catch (Exception e) {
-            throw new RuntimeException("this file does not include seperator:" + file.getAbsolutePath());
+            ok = Boolean.FALSE;
+            if (getIsCheckFile()) {
+                throw new RuntimeException("this file does not include seperator:" + file.getAbsolutePath());
+            } else {
+                undealArticleIds.append(id).append(",");
+            }
         }
-        if (!getIsCheckFile()) {
+        if (ok && !getIsCheckFile()) {
             if (content.indexOf("<script") > 0) {
                 content = StringUtil.removeScript(content);
             }
@@ -120,7 +129,6 @@ public class ReadContentFromHtml2DB extends WashBase {
             content = changeFromLinkText(content);
             content = content.replace("</script>", "");
 
-            int id = Integer.parseInt(FileUtil.getFileNameWithoutExt(file.getName()));
             log4j.logError("id:" + id);
             AddonarticleDO addonarticleDO = new AddonarticleDO();
             addonarticleDO.setAid(id);
