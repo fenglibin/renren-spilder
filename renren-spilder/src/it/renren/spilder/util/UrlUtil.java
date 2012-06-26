@@ -148,7 +148,7 @@ public class UrlUtil {
                 content = content.replace(imageSrc, imageDes);
                 if (savedImage.length() > Constants.K) {// 只有大于1K的图片存在的时候，才将这张图片作为封面，并认为这是一个带图的文章
                     if (firstImage) {// 第一张图片，此处生成缩略图
-                        String litPicName = getLitPicName(imageSrc, imageSaveLocation, imageName);
+                        String litPicName = getLitPicName(imageSaveLocation, imageName);
                         if (!StringUtil.isEmpty(litPicName)) {
                             detail.setPicArticle(true);
                             detail.setLitpicAddress(imageDescUrl + litPicName);
@@ -168,13 +168,12 @@ public class UrlUtil {
     /**
      * 保存缩略图，并返回缩略图的文件名。如果传入的图片文件名没有扩展名，则不保存缩略图，以空字符串""返回
      * 
-     * @param imageSrc
      * @param imageSaveLocation
      * @param imageName
      * @return
      * @throws IOException
      */
-    private static String getLitPicName(String imageSrc, String imageSaveLocation, String imageName) throws IOException {
+    public static String getLitPicName(String imageSaveLocation, String imageName) throws IOException {
         String litPicName = "";
         String ext = FileUtil.getFileExtensation(imageName);
         if (StringUtil.isEmpty(ext)) {
