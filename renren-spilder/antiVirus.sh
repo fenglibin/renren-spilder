@@ -1,0 +1,2 @@
+java -Xmn80m -Xms128m -Xmx256m -cp renren.it_spilder.jar it.renren.spilder.util.web.antivirus.AntiVirus checkLocation=/home/fenglibin/www/www.renren.it saveFile=/home/fenglibin/antivaris/www.renren.it.init.txt badFileLocation=/home/fenglibin/antivaris/badFileLocation fileType=.php
+java -Xmn80m -Xms128m -Xmx256m -cp renren.it_spilder.jar it.renren.spilder.util.web.antivirus.AntiVirus checkLocation=/home/fenglibin/www/www.stackdoc.com saveFile=/home/fenglibin/antivaris/www.stackdoc.com.init.txt badFileLocation=/home/fenglibin/antivaris/badFileLocation fileType=.php
