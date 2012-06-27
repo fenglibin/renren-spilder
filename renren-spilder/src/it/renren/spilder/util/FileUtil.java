@@ -485,6 +485,50 @@ public class FileUtil {
     }
 
     /**
+     * 将文件读入的list中返回，每个element包含一行内容
+     * 
+     * @param filePath
+     * @return
+     * @throws IOException
+     */
+    public static List<String> readFile2List(String filePath) throws IOException {
+        FileReader fr = new FileReader(filePath);
+        return readFile2List(fr);
+    }
+
+    /**
+     * 将文件读入的list中返回，每个element包含一行内容
+     * 
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    public static List<String> readFile2List(File file) throws IOException {
+        FileReader fr = new FileReader(file);
+        return readFile2List(fr);
+    }
+
+    /**
+     * 将文件读入的list中返回，每个element包含一行内容
+     * 
+     * @param fr
+     * @return
+     * @throws IOException
+     */
+    public static List<String> readFile2List(InputStreamReader fr) throws IOException {
+        List<String> fileList = new ArrayList<String>();
+        BufferedReader br = new BufferedReader(fr);
+        String line = br.readLine();
+        while (!StringUtil.isEmpty(line)) {
+            fileList.add(line);
+            line = br.readLine();
+        }
+        br.close();
+        fr.close();
+        return fileList;
+    }
+
+    /**
      * 对给定的目录里面的文件进行重命名,不进行目录的递归处理.默认保留原文件的扩展名，只是在后面增加新的目标扩展名
      * 
      * @param srcPath 待处理的目录
