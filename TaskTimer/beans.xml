@@ -17,17 +17,26 @@
 		<property name="targetObject" ref="runCommand" />
 		<property name="targetMethod" value="start" />
 	</bean>
-	<!--bean id="jobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
-		<property name="jobDetail" ref="scheduledJob" />
-		<property name="startDelay" value="43200000" />
-		<property name="repeatInterval" value="43200000" />
-	</bean-->
 	<bean id="jobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail">
 			<ref local="scheduledJob" />
 		</property>
 		<property name="cronExpression">
 			<value>0 0 11,16,23 * * ?</value>
+		</property>
+	</bean>
+	
+	<bean id="scheduledJobAntiVirus"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="antiVirus" />
+		<property name="targetMethod" value="start" />
+	</bean>
+	<bean id="jobTriggerAntiVirus" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref local="scheduledJobAntiVirus" />
+		</property>
+		<property name="cronExpression">
+			<value>*/10 * * * * ?</value>
 		</property>
 	</bean>
 	<!-- 配置定时任务（结束） -->
@@ -39,6 +48,7 @@
 		<property name="triggers">
 			<list>
 				<ref bean="jobTrigger" />
+				<ref bean="jobTriggerAntiVirus"/>
 			</list>
 		</property>
 		<property name="autoStartup" value="true" />
@@ -48,5 +58,8 @@
 	<!--定时任务-->
 	<bean id="runCommand" class="it.renren.timer.job.RunCommand">
 		<property name="command" value="/home/fenglibin/timetask/startSpilder.sh"></property>
+	</bean>
+	<bean id="antiVirus" class="it.renren.timer.job.RunCommand">
+		<property name="command" value="/home/fenglibin/timetask/antiVirus.sh"></property>
 	</bean>
 </beans>
