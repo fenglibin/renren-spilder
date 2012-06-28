@@ -19,21 +19,26 @@ import java.util.Map;
  */
 public class AntiVirus extends WashBase {
 
+    // 指定检查文件的路径
     private static String              checkLocation   = "d:/test/checkLocation";
     // 保存初使化文件信息的文件
     private static String              saveFile        = "d:/test/saveFile.txt";
     // 是否初使化
-    private static boolean             init            = true;
+    private static boolean             init            = false;
     // 可疑文件存放路径
     private static String              badFileLocation = "d:/test/badFileLocation";
     // 文件列表
     private static List<String>        filesList       = new ArrayList<String>();
     private static Map<String, String> filesMap        = new HashMap<String, String>();
     private static final String        seperateChar    = ":";
+    // 处理的文件类型，可以是多个，其中以冒号":"分隔
     private static String              fileType        = ".php";
     private static List<String>        fileTypeList    = new ArrayList<String>();
+    // 不处理的文件夹名称，可以是多个，其中以冒号":"分隔
     private static String              notCheckDir     = "a:my:w3school";
     private static List<String>        notCheckDirList = new ArrayList<String>();
+    // 删除重新检查时新的文件
+    private static boolean             isDealNewFile   = false;
 
     /**
      * @param args
@@ -41,6 +46,7 @@ public class AntiVirus extends WashBase {
      */
     public static void main(String[] args) throws Exception {
         initArgs(args);
+        init();
         if (!init) {
             filesList = FileUtil.readFile2List(saveFile);
             for (String value : filesList) {
@@ -48,7 +54,6 @@ public class AntiVirus extends WashBase {
                 filesMap.put(key, value);
             }
         }
-        init();
         analysis(checkLocation);
         if (init) {
             writeInit();
@@ -63,20 +68,26 @@ public class AntiVirus extends WashBase {
             List<File> fileList = getFileList(files);
             List<File> dirList = getDirList(files);
             for (File file : fileList) {
-                String fileInfo = file.getName() + seperateChar + file.length() + seperateChar + file.lastModified();
+                String _path = file.getAbsolutePath();
+                _path = _path.replace("\\", "/");
+                _path = _path.replace(checkLocation, "");
+                String fileInfo = _path + seperateChar + file.length() + seperateChar + file.lastModified();
                 if (init) {
                     filesList.add(fileInfo);
                 } else {
-                    String storedFileInfo = filesMap.get(file.getName());
+                    String storedFileInfo = filesMap.get(_path);
                     if (storedFileInfo != null) {// 存在这个文件
                         if (!fileInfo.equals(storedFileInfo)) {
                             System.out.println("changed file:" + file.getAbsolutePath());
                             FileUtil.copy(file, badFileLocation + File.separator + file.getName() + ".changed");
                         }
                     } else {// 不存在这个文件
-                        System.out.println("new file:" + file.getAbsolutePath());
+                        System.out.println("new file:" + file.getAbsolutePath() + ". fileInfo:" + fileInfo
+                                           + ".storedFileInfo:" + storedFileInfo);
                         FileUtil.copy(file, badFileLocation + File.separator + file.getName() + ".new");
-                        file.delete();
+                        if (isDealNewFile) {
+                            file.delete();
+                        }
                     }
                 }
             }
@@ -190,6 +201,12 @@ public class AntiVirus extends WashBase {
         for (String str : strs) {
             notCheckDirList.add(str);
         }
+
+        value = System.getProperty("isDealNewFile");
+        if (!StringUtil.isEmpty(value)) {
+            isDealNewFile = Boolean.parseBoolean(value);
+        }
+
     }
 
 }

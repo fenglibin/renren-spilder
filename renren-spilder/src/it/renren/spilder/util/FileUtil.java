@@ -40,7 +40,9 @@ public class FileUtil {
     public static synchronized void downloadFileByUrl(String srcUrl, String fileSavePath, String newName) {
         org.apache.commons.httpclient.HttpClient httpclient = HttpClientUtil.getHttpClient();
         List<Header> headers = new ArrayList<Header>();
-        headers.add(new Header("User-Agent", "Mozilla/3.0 (compatible; MSIE 6.0; Windows NT 6.1)"));
+        headers.add(new Header(
+                               "User-Agent",
+                               "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.8 (KHTML, like Gecko; Google Web Preview) Chrome/19.0.1084.36 Safari/536.8"));
         httpclient.getHostConfiguration().getParams().setParameter("http.default-headers", headers);
         GetMethod get = new GetMethod(srcUrl);
         FileOutputStream out = null;
@@ -729,6 +731,6 @@ public class FileUtil {
         // String filename = getFileName(url);
         // log4j.logDebug(filename);
 
-        downloadFileByUrl("http://img1.51cto.com/attachment/201010/200231826.jpg", "/home/fenglibin/tmp/img/", null);
+        downloadFileByUrl("http://img1.51cto.com/attachment/201205/093202648.jpg", "d:/test/", null);
     }
 }
