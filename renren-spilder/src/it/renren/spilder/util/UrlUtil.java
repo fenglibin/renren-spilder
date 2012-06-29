@@ -136,23 +136,31 @@ public class UrlUtil {
             String imageUrl = makeUrl(url, imageSrc);
             /* 获取远程文件到本地指定目录并保存，如果因为某张图片处理错误，那忽略该错误 */
             try {
+                boolean imageSaveResult = true;
                 File savedImage = new File(imageSaveLocation + imageName);
                 if (!savedImage.exists()) {
-                    FileUtil.downloadFileByUrl(imageUrl, imageSaveLocation, imageName);
-                    if (!StringUtil.isEmpty(Environment.waterImageLocation)) {// 需要增加水印
+                    imageSaveResult = FileUtil.downloadFileByUrl(imageUrl, imageSaveLocation, imageName);
+                    if (imageSaveResult && !StringUtil.isEmpty(Environment.waterImageLocation)) {// 需要增加水印
                         ImageUtil.addWaterMark(imageSaveLocation + imageName, Environment.waterImageLocation,
                                                ImageUtil.WaterImageLocation.LEFT_FOOT, 1);
                     }
                 }
                 /* 替换原始图片的路径 */
                 content = content.replace(imageSrc, imageDes);
-                if (savedImage.length() > Constants.K) {// 只有大于1K的图片存在的时候，才将这张图片作为封面，并认为这是一个带图的文章
+                if (savedImage.length() > Constants.K * 5) {// 只有大于5K的图片存在的时候，才将这张图片作为封面，并认为这是一个带图的文章
                     if (firstImage) {// 第一张图片，此处生成缩略图
                         String litPicName = getLitPicName(imageSaveLocation, imageName);
                         if (!StringUtil.isEmpty(litPicName)) {
                             detail.setPicArticle(true);
                             detail.setLitpicAddress(imageDescUrl + litPicName);
                             firstImage = false;
+                        }
+                        // 保存生存失败缩略图到文件中
+                        if (!imageSaveResult) {
+                            FileUtil.writeFileAppend(Constants.notGenLitImagesUrlSaveFile, imageSaveLocation
+                                                                                           + imageName + "=="
+                                                                                           + imageSaveLocation
+                                                                                           + litPicName);
                         }
                     }
                 }

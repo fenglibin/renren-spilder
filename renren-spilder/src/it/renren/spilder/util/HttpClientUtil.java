@@ -4,20 +4,19 @@ import it.renren.spilder.main.Environment;
 import it.renren.spilder.util.log.Log4j;
 
 import java.io.BufferedReader;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.Header;
 
 /**
  * @author steven
@@ -52,7 +51,9 @@ public class HttpClientUtil {
     public static HttpClient getHttpClient() {
         HttpClient client = new HttpClient(manager);
         List<Header> headers = new ArrayList<Header>();
-        headers.add(new Header("User-Agent", "Mozilla/3.0 (compatible; MSIE 6.0; Windows NT 6.1)"));
+        headers.add(new Header(
+                               "User-Agent",
+                               "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.8 (KHTML, like Gecko; Google Web Preview) Chrome/19.0.1084.36 Safari/536.8"));
         client.getHostConfiguration().getParams().setParameter("http.default-headers", headers);
         if (initialed) {
             HttpClientUtil.SetPara();
@@ -266,8 +267,7 @@ public class HttpClientUtil {
     public static void main(String[] arg) throws HttpException, IOException {
         String url = "http://weibo.pp.cc/time/index.php?mod=content&action=list&account=2363930463&tid=0&page=2";
         String encode = "utf-8";
-        String content = getGetResponseWithHttpClient(
-                                                      url,
+        String content = getGetResponseWithHttpClient(url,
                                                       encode,
                                                       false,
                                                       "__utma=56876395.1779520664.1317621310.1317621310.1317621310.1; __utmc=56876395; __utmz=56876395.1317621310.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); j2rZ_2132_auth=e05agqeNrR0PxhhSMLXFRQMWPdI%2Behd%2F5T9wbObLrl8gVl%2B9osb1s83idVVoY2i8jGzwxxdEKd0KAeKfGo%2FUlVHqLYA06u%2FDmqdGMl8o5Dy06kzcaFdnXYo");

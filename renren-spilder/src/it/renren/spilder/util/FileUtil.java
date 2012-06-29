@@ -2,6 +2,7 @@ package it.renren.spilder.util;
 
 import it.renren.spilder.main.Constants;
 import it.renren.spilder.util.log.Log4j;
+import it.renren.spilder.util.wash.WashBase;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -33,11 +34,22 @@ public class FileUtil {
     private static PrintWriter appendWriter;
     public static String       defaultCharset = "GBK";
 
-    public static synchronized void downloadFileByUrl(String srcUrl, String filePath) {
-        downloadFileByUrl(srcUrl, filePath, null);
+    public static synchronized boolean downloadFileByUrl(String srcUrl, String filePath) throws IOException {
+        return downloadFileByUrl(srcUrl, filePath, null);
     }
 
-    public static synchronized void downloadFileByUrl(String srcUrl, String fileSavePath, String newName) {
+    /**
+     * 根据图片URL获取图片，并返回获取的结果true 或者false
+     * 
+     * @param srcUrl
+     * @param fileSavePath
+     * @param newName
+     * @return
+     * @throws IOException
+     */
+    public static synchronized boolean downloadFileByUrl(String srcUrl, String fileSavePath, String newName)
+                                                                                                            throws IOException {
+        boolean result = true;
         org.apache.commons.httpclient.HttpClient httpclient = HttpClientUtil.getHttpClient();
         List<Header> headers = new ArrayList<Header>();
         headers.add(new Header(
@@ -61,8 +73,12 @@ public class FileUtil {
                 out.write(tmp, 0, l);
             }
         } catch (HttpException e) {
+            result = false;
+            writeFileAppend(Constants.notGetImagesUrlSaveFile, srcUrl + "===" + fileSavePath);
             log4j.logError(e);
         } catch (IOException e) {
+            result = false;
+            writeFileAppend(Constants.notGetImagesUrlSaveFile, srcUrl + "===" + fileSavePath);
             log4j.logError(e);
         } finally {
             if (out != null) {
@@ -74,6 +90,7 @@ public class FileUtil {
                 }
             }
         }
+        return result;
         // log4j.logDebug("保存文件:"+srcUrl+" 到 "+fileSavePath+",文件名为:"+fileName);
     }
 
@@ -726,11 +743,19 @@ public class FileUtil {
         return file;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // String url = "www.163.com/a/b.jpg?noscript";
         // String filename = getFileName(url);
         // log4j.logDebug(filename);
-
-        downloadFileByUrl("http://img1.51cto.com/attachment/201205/093202648.jpg", "d:/test/", null);
+        String url = "http://img1.51cto.com/attachment/201205/093202648.jpg";
+        String savePath = "d:/test/";
+        WashBase.initArgs(args);
+        if (!StringUtil.isEmpty(System.getProperty("url"))) {
+            url = System.getProperty("url");
+        }
+        if (!StringUtil.isEmpty(System.getProperty("savePath"))) {
+            url = System.getProperty("savePath");
+        }
+        downloadFileByUrl(url, savePath, null);
     }
 }
