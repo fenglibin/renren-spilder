@@ -73,6 +73,7 @@
 				<Value>true</Value>
 			</IsCompByRegex>
 		</UrlFilter>
+		<DealOnePage>false</DealOnePage>
 	</MainUrl>
 	<Child>
 		<Charset desc="±àÂë">
@@ -109,6 +110,9 @@
 			<Value>
 				<![CDATA[true]]>
 			</Value>
+			<Display>
+				<![CDATA[<font color=#CCCCCC>CNBLOGS</font>]]>
+			</Display>
 		</AddUrl>
 	</Child>
 </Rules>

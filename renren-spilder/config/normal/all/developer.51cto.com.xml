@@ -55,7 +55,8 @@
 		</UrlFilter>		
 		<OneUrlSleepTime>
 			<Value>60000</Value>
-    </OneUrlSleepTime>
+		</OneUrlSleepTime>
+		<DealOnePage>false</DealOnePage>
 	</MainUrl>
 	<Child>
 		<Charset desc="±àÂë">
@@ -157,6 +158,9 @@
 			<Value>
 				<![CDATA[true]]>
 			</Value>
+			<Display>
+				<![CDATA[<font color=#CCCCCC>51CTO</font>]]>
+			</Display>
 		</AddUrl>
 	</Child>
 </Rules>
