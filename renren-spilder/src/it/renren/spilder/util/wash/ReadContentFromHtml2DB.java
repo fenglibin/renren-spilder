@@ -40,7 +40,6 @@ public class ReadContentFromHtml2DB extends WashBase {
     private static boolean         isCheckFile        = Boolean.FALSE;
     private static List<String>    startList          = new ArrayList<String>();
     private static List<String>    endList            = new ArrayList<String>();
-    private static StringBuilder   undealArticleIds                 = new StringBuilder("");
 
     /**
      * @param args
@@ -64,9 +63,9 @@ public class ReadContentFromHtml2DB extends WashBase {
         try {
             readContent2DB(getBasePath());
         } finally {
-            FileUtil.writeFile(tablePrefix + ".log", undealArticleIds.toString());
             release();
         }
+
     }
 
     private static String changeFromLinkText(String content) throws ParserException {
@@ -115,11 +114,7 @@ public class ReadContentFromHtml2DB extends WashBase {
             content = StringUtil.subString(content, startList, endList);
         } catch (Exception e) {
             ok = Boolean.FALSE;
-            if (getIsCheckFile()) {
-                throw new RuntimeException("this file does not include seperator:" + file.getAbsolutePath());
-            } else {
-                undealArticleIds.append(id).append(",");
-            }
+            FileUtil.writeFileAppend(basePath + "/checkResult.log", file.getAbsolutePath());
         }
         if (ok && !getIsCheckFile()) {
             if (content.indexOf("<script") > 0) {
@@ -129,7 +124,6 @@ public class ReadContentFromHtml2DB extends WashBase {
             content = changeFromLinkText(content);
             content = content.replace("</script>", "");
 
-            log4j.logError("id:" + id);
             AddonarticleDO addonarticleDO = new AddonarticleDO();
             addonarticleDO.setAid(id);
             addonarticleDO.setBody(content);

@@ -145,6 +145,7 @@ public class UrlUtil {
                                                ImageUtil.WaterImageLocation.LEFT_FOOT, 1);
                     }
                 }
+
                 /* 替换原始图片的路径 */
                 content = content.replace(imageSrc, imageDes);
                 if (savedImage.length() > Constants.K * 5) {// 只有大于5K的图片存在的时候，才将这张图片作为封面，并认为这是一个带图的文章
@@ -155,15 +156,9 @@ public class UrlUtil {
                             detail.setLitpicAddress(imageDescUrl + litPicName);
                             firstImage = false;
                         }
-                        // 保存生存失败缩略图到文件中
-                        if (!imageSaveResult) {
-                            FileUtil.writeFileAppend(Constants.notGenLitImagesUrlSaveFile, imageSaveLocation
-                                                                                           + imageName + "=="
-                                                                                           + imageSaveLocation
-                                                                                           + litPicName);
-                        }
                     }
                 }
+
             } catch (Exception e) {/* 如果对拼装的图片地址处理发生异常，那再尝试对其原地址进行获取 */
                 FileUtil.downloadFileByUrl(imageSrc, imageSaveLocation, imageName);
                 /* 替换原始图片的路径 */

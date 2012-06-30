@@ -779,4 +779,69 @@ public class ImageUtil {
             }
         }
     }
+
+    /**
+     * 通过读取文件并获取其width及height的方式，来判断判断当前文件是否图片，这是一种非常简单的方式。
+     * 
+     * @param imagePath
+     * @return
+     */
+    public static boolean isImage(String imagePath) {
+        if (StringUtil.isEmpty(imagePath)) {
+            return false;
+        }
+        File image = new File(imagePath);
+        return isImage(image);
+    }
+
+    /**
+     * 通过读取文件并获取其width及height的方式，来判断判断当前文件是否图片，这是一种非常简单的方式。
+     * 
+     * @param imageFile
+     * @return
+     */
+    public static boolean isImage(File imageFile) {
+        if (!imageFile.exists()) {
+            return false;
+        }
+        Image img = null;
+        try {
+            img = ImageIO.read(imageFile);
+            if (img == null || img.getWidth(null) <= 0 || img.getHeight(null) <= 0) {
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        } finally {
+            img = null;
+        }
+    }
+
+    public static String bytesToHexString(byte[] src) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (src == null || src.length <= 0) {
+            return null;
+        }
+        for (int i = 0; i < src.length; i++) {
+            int v = src[i] & 0xFF;
+            String hv = Integer.toHexString(v);
+            if (hv.length() < 2) {
+                stringBuilder.append(0);
+            }
+            stringBuilder.append(hv);
+        }
+        return stringBuilder.toString();
+    }
+
+    public static void main(String[] args) throws IOException {
+        String imagePath = "D:/test/b385243e-3cc8-39a3-86b7-62dc62e780e8.jpg";
+        imagePath = "D:/test/test.bmp";
+        // System.out.println(isImage(imagePath));
+        File image = new File(imagePath);
+        InputStream is = new FileInputStream(image);
+        byte[] bt = new byte[3];
+        is.read(bt);
+        System.out.println(bytesToHexString(bt));
+    }
 }

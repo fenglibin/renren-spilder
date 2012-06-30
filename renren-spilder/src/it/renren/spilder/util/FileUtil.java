@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.methods.GetMethod;
 
@@ -51,17 +50,15 @@ public class FileUtil {
                                                                                                             throws IOException {
         boolean result = true;
         org.apache.commons.httpclient.HttpClient httpclient = HttpClientUtil.getHttpClient();
-        List<Header> headers = new ArrayList<Header>();
-        headers.add(new Header(
-                               "User-Agent",
-                               "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.8 (KHTML, like Gecko; Google Web Preview) Chrome/19.0.1084.36 Safari/536.8"));
-        httpclient.getHostConfiguration().getParams().setParameter("http.default-headers", headers);
+        httpclient.getHostConfiguration().getParams().setParameter("http.default-headers",
+                                                                   HttpClientUtil.getHttpDefaultHeader());
         GetMethod get = new GetMethod(srcUrl);
         FileOutputStream out = null;
         String fileName = null;
+        File wdFile = null;
         try {
             fileName = newName == null ? getFileName(srcUrl) : newName;
-            File wdFile = new File(fileSavePath + fileName);
+            wdFile = new File(fileSavePath + fileName);
             out = new FileOutputStream(wdFile);
 
             httpclient.executeMethod(get);
@@ -74,11 +71,9 @@ public class FileUtil {
             }
         } catch (HttpException e) {
             result = false;
-            writeFileAppend(Constants.notGetImagesUrlSaveFile, srcUrl + "===" + fileSavePath);
             log4j.logError(e);
         } catch (IOException e) {
             result = false;
-            writeFileAppend(Constants.notGetImagesUrlSaveFile, srcUrl + "===" + fileSavePath);
             log4j.logError(e);
         } finally {
             if (out != null) {
@@ -89,9 +84,13 @@ public class FileUtil {
                     log4j.logError(e);
                 }
             }
+            if (!result) {
+                StringUtil.writeGetImageToFile(srcUrl, fileSavePath, fileName);
+            } else if (!ImageUtil.isImage(wdFile)) {
+                StringUtil.writeGetImageToFile(srcUrl, fileSavePath, fileName);
+            }
         }
         return result;
-        // log4j.logDebug("保存文件:"+srcUrl+" 到 "+fileSavePath+",文件名为:"+fileName);
     }
 
     public static void getUrlFile(String srcUrl, String filePath) throws IOException {
@@ -105,7 +104,7 @@ public class FileUtil {
                 log4j.logError(e1);
             }
         }
-        httpURLConnection.setReadTimeout(5000);// 设置超时时间为20秒
+        httpURLConnection.setReadTimeout(20000);// 设置超时时间为20秒
         String urlFileName = url.getFile(); // 取得在服务器上的路径及文件名
         urlFileName = GetFileName(urlFileName); // 取得文件名
         BufferedInputStream bis = new BufferedInputStream(httpURLConnection.getInputStream());
@@ -747,14 +746,14 @@ public class FileUtil {
         // String url = "www.163.com/a/b.jpg?noscript";
         // String filename = getFileName(url);
         // log4j.logDebug(filename);
-        String url = "http://img1.51cto.com/attachment/201205/093202648.jpg";
+        String url = "http://dl.iteye.com/upload/attachment/0070/1064/fe8c9ba8-49fe-3281-86ed-82dbe5817466.jpeg";
         String savePath = "d:/test/";
         WashBase.initArgs(args);
         if (!StringUtil.isEmpty(System.getProperty("url"))) {
             url = System.getProperty("url");
         }
         if (!StringUtil.isEmpty(System.getProperty("savePath"))) {
-            url = System.getProperty("savePath");
+            savePath = System.getProperty("savePath");
         }
         downloadFileByUrl(url, savePath, null);
     }

@@ -48,13 +48,28 @@ public class HttpClientUtil {
         initialed = true;
     }
 
-    public static HttpClient getHttpClient() {
-        HttpClient client = new HttpClient(manager);
+    /**
+     * ·µ»ØÄ¬ÈÏµÄHttp Client Header
+     */
+    public static List<Header> getHttpDefaultHeader() {
         List<Header> headers = new ArrayList<Header>();
+        headers.add(new Header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"));
+        headers.add(new Header("Accept-Charset", "GBK,utf-8;q=0.7,*;q=0.3"));
+        headers.add(new Header("Accept-Encoding", "gzip,deflate,sdch"));
+        headers.add(new Header("Accept-Language", "zh-CN,zh;q=0.8"));
+        headers.add(new Header("Cache-Contro", "max-age=0"));
+        headers.add(new Header("Connection", "keep-alive"));
+        headers.add(new Header("Cookie", ""));
+        headers.add(new Header("Referer:", "http://www.google.com"));
         headers.add(new Header(
                                "User-Agent",
                                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.8 (KHTML, like Gecko; Google Web Preview) Chrome/19.0.1084.36 Safari/536.8"));
-        client.getHostConfiguration().getParams().setParameter("http.default-headers", headers);
+        return headers;
+    }
+
+    public static HttpClient getHttpClient() {
+        HttpClient client = new HttpClient(manager);
+        client.getHostConfiguration().getParams().setParameter("http.default-headers", getHttpDefaultHeader());
         if (initialed) {
             HttpClientUtil.SetPara();
         }

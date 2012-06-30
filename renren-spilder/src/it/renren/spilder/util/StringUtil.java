@@ -1,8 +1,10 @@
 package it.renren.spilder.util;
 
+import it.renren.spilder.main.Constants;
 import it.renren.spilder.main.Environment;
 import it.renren.spilder.util.log.Log4j;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -368,6 +370,18 @@ public class StringUtil {
             return true;
         }
         return false;
+    }
+
+    public static void writeGetImageToFile(String srcUrl, String fileSavePath, String fileName) throws IOException {
+        String date = DateUtil.getNow("yyyy-MM-dd");
+        String err = "#" + srcUrl + "===" + fileSavePath + "\n";
+        err += "rm -f " + fileName + "\n";
+        err += "wget " + srcUrl + "\n";
+        err += "cd /home/fenglibin/mysoft\n";
+        err += "java -Xmn130m -Xms256m -Xmx400m -cp renren.it_spilder.jar it.renren.spilder.util.wash.GenLitImage savePath=/home/fenglibin/www/img.renren.it/"
+               + date + "/ filename=" + fileName + "\n";
+        err += "cd -\n";
+        FileUtil.writeFileAppend(Constants.notGetImagesUrlSaveFile, err);
     }
 
     public static void main(String[] args) {
