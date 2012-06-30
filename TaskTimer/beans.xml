@@ -22,7 +22,7 @@
 			<ref local="scheduledJob" />
 		</property>
 		<property name="cronExpression">
-			<value>0 0 11,16,23 * * ?</value>
+			<value>0 59 11,17,23 * * ?</value>
 		</property>
 	</bean>
 	
@@ -36,7 +36,7 @@
 			<ref local="scheduledJobAntiVirus" />
 		</property>
 		<property name="cronExpression">
-			<value>*/10 * * * * ?</value>
+			<value>1 */10 * * * ?</value>
 		</property>
 	</bean>
 	<!-- 配置定时任务（结束） -->
