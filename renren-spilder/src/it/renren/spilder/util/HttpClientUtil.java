@@ -60,7 +60,7 @@ public class HttpClientUtil {
         headers.add(new Header("Cache-Contro", "max-age=0"));
         headers.add(new Header("Connection", "keep-alive"));
         headers.add(new Header("Cookie", ""));
-        headers.add(new Header("Referer:", "http://www.google.com"));
+        headers.add(new Header("Referer", "http://www.google.com"));
         headers.add(new Header(
                                "User-Agent",
                                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.8 (KHTML, like Gecko; Google Web Preview) Chrome/19.0.1084.36 Safari/536.8"));

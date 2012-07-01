@@ -27,7 +27,7 @@ import org.htmlparser.util.ParserException;
 public class SiteSpilder extends WashBase {
 
     private static String encode  = "gbk";
-    private static String url     = "http://www.csdn.net";
+    private static String url     = "http://www.open-open.com";
     private static String outPath = "d:/outpath";
 
     /**

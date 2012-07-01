@@ -26,9 +26,10 @@ import org.htmlparser.util.ParserException;
  */
 public class UrlUtil {
 
-    private static Log4j log4j           = new Log4j(UrlUtil.class.getName());
-    public static String GO_URL          = "http://go.renren.it/";
-    public static String DEFAULT_CHARSET = "GBK";
+    private static Log4j       log4j           = new Log4j(UrlUtil.class.getName());
+    public static final String GO_URL_NO_HTTP  = "go.renren.it";
+    public static final String GO_URL          = "http://" + GO_URL_NO_HTTP + "/";
+    public static String       DEFAULT_CHARSET = "GBK";
 
     public static String getContentByURL(String urlStr) throws IOException {
         return getContentByURL(urlStr, null);
@@ -133,7 +134,7 @@ public class UrlUtil {
             String imageDes = imageDescUrl + imageName;
             /* 将获取到的内容以文件的形式写到本地 */
             /* 根据当前文件所在服务器，以及图片URL，获取其远程服务器的绝对地址 */
-            String imageUrl = makeUrl(url, imageSrc);
+            String imageUrl = makeImageUrl(url, imageSrc);
             /* 获取远程文件到本地指定目录并保存，如果因为某张图片处理错误，那忽略该错误 */
             try {
                 boolean imageSaveResult = true;
@@ -148,7 +149,11 @@ public class UrlUtil {
 
                 /* 替换原始图片的路径 */
                 content = content.replace(imageSrc, imageDes);
-                if (savedImage.length() > Constants.K * 5) {// 只有大于5K的图片存在的时候，才将这张图片作为封面，并认为这是一个带图的文章
+
+                if (imageSaveResult) {// 确保图片是本地存在的
+                    savedImage = new File(imageSaveLocation + imageName);
+                }
+                if (savedImage.length() > (Constants.K * 5)) {// 只有大于5K的图片存在的时候，才将这张图片作为封面，并认为这是一个带图的文章
                     if (firstImage) {// 第一张图片，此处生成缩略图
                         String litPicName = getLitPicName(imageSaveLocation, imageName);
                         if (!StringUtil.isEmpty(litPicName)) {
@@ -190,6 +195,14 @@ public class UrlUtil {
                                       Constants.LIT_PIC_MAX_WIDTH_OR_HEIGHT);
         }
         return litPicName;
+    }
+
+    private static String makeImageUrl(String url, String fileUrl) {
+        url = makeUrl(url, fileUrl);
+        if (url.indexOf(GO_URL_NO_HTTP) > 0) {
+            url = url.replace(GO_URL_NO_HTTP + "/", "");
+        }
+        return url;
     }
 
     /**

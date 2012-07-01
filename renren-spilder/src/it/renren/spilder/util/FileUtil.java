@@ -84,9 +84,8 @@ public class FileUtil {
                     log4j.logError(e);
                 }
             }
-            if (!result) {
-                StringUtil.writeGetImageToFile(srcUrl, fileSavePath, fileName);
-            } else if (!ImageUtil.isImage(wdFile)) {
+            if (!ImageUtil.isImage(wdFile)) {
+                result = false;
                 StringUtil.writeGetImageToFile(srcUrl, fileSavePath, fileName);
             }
         }
