@@ -22,6 +22,8 @@ import org.apache.commons.httpclient.HttpException;
 import org.htmlparser.util.ParserException;
 
 /**
+ * 一个非常简单的爬整站的爬虫
+ * 
  * @author libinfeng
  */
 public class SiteSpilder extends WashBase {

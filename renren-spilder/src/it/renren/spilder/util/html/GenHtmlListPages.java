@@ -76,6 +76,13 @@ public class GenHtmlListPages {
         } catch (Exception e) {
             title = htmlFile.getName();
         }
+        if (StringUtil.isEmpty(title)) {
+            try {
+                title = StringUtil.subString(html, "<title>", "</title>");
+            } catch (Exception e) {
+                title = htmlFile.getName();
+            }
+        }
         return title;
     }
 
