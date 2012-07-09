@@ -8,6 +8,7 @@ import it.renren.spilder.dataobject.ArchivesDO;
 import it.renren.spilder.dataobject.ArctinyDO;
 import it.renren.spilder.main.Constants;
 import it.renren.spilder.util.FontUtil;
+import it.renren.spilder.util.StringUtil;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -31,12 +32,14 @@ public class Simple2Fanti extends WashBase {
         if (args.length < 1 || args.length > 2) {
             return;
         }
-        int startId = Integer.parseInt(args[0]);
+        initArgs(args);
+        int startId = Integer.parseInt(System.getProperty("startId"));
         int endId = -1;
-        if (args.length == 2) {
-            endId = Integer.parseInt(args[1]);
+        if (!StringUtil.isEmpty(System.getProperty("endId"))) {
+            endId = Integer.parseInt(System.getProperty("endId"));
         }
         if (endId > -1 && startId > endId) {
+            System.out.println("endId:" + endId + " is smaller than startId:" + startId);
             return;
         }
         tran(startId, endId);
@@ -45,13 +48,13 @@ public class Simple2Fanti extends WashBase {
 
     private static void tran(int startId, int endId) throws SQLException {
         AddonarticleDAO addonarticleDAO = (AddonarticleDAO) ctx.getBean("addonarticleDAO");
-        DataSource dataSource = (DataSource) ctx.getBean("dataSourceFanti");
+        DataSource dataSource = (DataSource) ctx.getBean("dataSource");
         ArctinyDAO arctinyDAOFanti = (ArctinyDAO) ctx.getBean("arctinyDAOFanti");
         ArchivesDAO archivesDAOFanti = (ArchivesDAO) ctx.getBean("archivesDAOFanti");
         AddonarticleDAO addonarticleDAOFanti = (AddonarticleDAO) ctx.getBean("addonarticleDAOFanti");
         Connection conn = dataSource.getConnection();
         Statement st = conn.createStatement();
-        String sql = "select * from fanti_archives where id>=" + startId;
+        String sql = "select * from renrenarchives where id>=" + startId;
         if (endId > -1) {
             sql += " and id<=" + endId;
         }
@@ -86,7 +89,7 @@ public class Simple2Fanti extends WashBase {
             archivesDAOFanti.insertArchives(archivesDO);
 
             /* 查出简体内容 */
-            AddonarticleDO addonarticleDO = addonarticleDAO.selectBodyByAid(arctinyDO.getId());
+            AddonarticleDO addonarticleDO = addonarticleDAO.selectBodyByAid(rs.getInt("id"));
             String content = addonarticleDO.getBody();
             content = content.replace("/uploads/allimg/", Constants.RenRen_URL + "/uploads/allimg/");
             AddonarticleDO addonarticleDOFanti = new AddonarticleDO();

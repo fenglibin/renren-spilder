@@ -837,6 +837,7 @@ public class ImageUtil {
     public static void main(String[] args) throws IOException {
         String imagePath = "D:/test/b385243e-3cc8-39a3-86b7-62dc62e780e8.jpg";
         imagePath = "D:/test/test.bmp";
+        imagePath = "c:/favicon.png";
         // System.out.println(isImage(imagePath));
         File image = new File(imagePath);
         InputStream is = new FileInputStream(image);
