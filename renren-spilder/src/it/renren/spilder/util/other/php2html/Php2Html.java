@@ -23,9 +23,9 @@ import java.util.List;
 public class Php2Html {
 
     private static int          fileNum              = 0;
-    private static final String basePath             = "F:/soft/ProcDev/xampp/htdocs/dede";
+    private static final String basePath             = "F:/soft/ProcDev/xampp/htdocs/www";
     private static final String baseURL              = "http://localhost";
-    private static final String outPath              = "F:/soft/ProcDev/xampp/dedeout";
+    private static final String outPath              = "F:/soft/ProcDev/xampp/wwwout";
     private static final String htmlPageFile         = outPath + "/index.html";
     private static final String FOUR_BLANK_STRING    = "&nbsp;&nbsp;&nbsp;&nbsp;";
     private static final String LIST_PAGE_HTML_MODEL = "/it/renren/spilder/util/other/php2html/phpHtmlModel.html";
@@ -54,6 +54,8 @@ public class Php2Html {
         System.out.println("Cost Time:" + (end - start));
         phps2html(outPath);
         try {
+            result = result.replace(baseURL + "/", "");
+            result = result.replace(".phps", ".html");
             FileUtil.writeFile(htmlPageFile, result);
         } catch (IOException e) {
             // TODO Auto-generated catch block

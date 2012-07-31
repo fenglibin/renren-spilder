@@ -242,6 +242,7 @@ public class Main {
             param.setFileName("config/blog.oschina.net.xml");
             param.setFileName("config/moandroid.com.xml");
             param.setFileName("config/normal/headnews/rule_sina_tech_headnews.xml");
+            param.setFileName("config/normal/headnews/cnbeta_index.xml");
             // Environment.isImageSite = Boolean.TRUE;
             // Environment.isSaveImage2CurrentHtmlFileTileNameDir = Boolean.TRUE;
             // ÎÄ¼þ¼Ð²âÊÔ

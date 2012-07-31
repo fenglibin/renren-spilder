@@ -162,27 +162,31 @@ public class TaskExecuter extends Thread {
             }
             int failedLinks = 0;
             for (AHrefElement link : childLinksList) {
-                ChildPageDetail detail = new ChildPageDetail();
-                String childUrl = link.getHref();
-                childUrl = UrlUtil.makeUrl(listPageUrl, childUrl);
-                log4j.logDebug("当前处理的URL：" + childUrl);
-                // 检查当前URL是否已经处理过了，这里要检查所有任务是否都处理过，如果都处理过了就不用进行后面的处理了，否则还要继续 begin
-                boolean isContinue = Boolean.FALSE;
-                for (Task task : taskList) {
-                    if (!task.isDealed(childUrl)) {
-                        isContinue = Boolean.TRUE;
-                        break;
-                    }
-                }
-                if (!isContinue) {
-                    continue;
-                }
                 // 检查当前URL是否已经处理过了，这里要检查所有任务是否都处理过，如果都处理过了就不用进行后面的处理了，否则还要继续 end
                 if (isBreak) {
                     break;
                 }
                 if (Environment.checkConfigFile) {
                     isBreak = Boolean.TRUE;
+                }
+                ChildPageDetail detail = new ChildPageDetail();
+                String childUrl = link.getHref();
+                childUrl = UrlUtil.makeUrl(listPageUrl, childUrl);
+                log4j.logDebug("当前处理的URL：" + childUrl);
+                // 检查当前URL是否已经处理过了，这里要检查所有任务是否都处理过，如果都处理过了就不用进行后面的处理了，否则还要继续 begin
+                boolean isContinue = Boolean.FALSE;
+                if (!Environment.checkConfigFile) {
+                    for (Task task : taskList) {
+                        if (!task.isDealed(childUrl)) {
+                            isContinue = Boolean.TRUE;
+                            break;
+                        }
+                    }
+                } else {
+                    isContinue = true;
+                }
+                if (!isContinue) {
+                    continue;
                 }
                 detail.setUrl(childUrl);
                 String blogHomeUrl = analysisBlogHomeUrl(parentPageConfig.getBlogType(), childUrl);

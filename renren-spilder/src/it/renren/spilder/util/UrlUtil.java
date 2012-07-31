@@ -216,12 +216,15 @@ public class UrlUtil {
         String hostUrl = getHost(url);
         if (fileUrl.indexOf("://") > 0) {// ¾ø¶ÔµØÖ·
             return fileUrl;
-        } else if (!fileUrl.startsWith("/")) {
-            String filename = FileUtil.getFileName(url);
-            fileUrl = url.replace(filename, fileUrl);
-        } else if (fileUrl.startsWith("/")) {
+        }
+        if (fileUrl.startsWith("/")) {
             if (hostUrl.endsWith("/")) {
                 hostUrl = hostUrl.substring(0, hostUrl.length() - 2);
+            }
+            fileUrl = hostUrl + fileUrl;
+        } else {
+            if (!hostUrl.endsWith("/")) {
+                hostUrl = hostUrl + "/";
             }
             fileUrl = hostUrl + fileUrl;
         }
