@@ -27,7 +27,7 @@ import org.htmlparser.util.ParserException;
 public class UrlUtil {
 
     private static Log4j       log4j           = new Log4j(UrlUtil.class.getName());
-    public static final String GO_URL_NO_HTTP  = "go.renren.it";
+    public static final String GO_URL_NO_HTTP  = "go.rritw.com";
     public static final String GO_URL          = "http://" + GO_URL_NO_HTTP + "/";
     public static String       DEFAULT_CHARSET = "GBK";
 

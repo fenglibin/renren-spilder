@@ -76,10 +76,6 @@ public class WriteData2FanDB extends Task {
             archivesDAOFanti.insertArchives(archivesDO);
 
             String content = detailClone.getContent();
-            if (detailClone.isPicArticle()) {
-                content = content.replace(parentPageConfig.getImageDescUrl(),
-                                          Constants.RenRen_URL + parentPageConfig.getImageDescUrl());
-            }
             content = addSourceUrl(childPageConfig, detailClone, content);
             AddonarticleDO addonarticleDO = new AddonarticleDO();
             addonarticleDO.setAid(arctinyDO.getId());

@@ -79,6 +79,10 @@
 				<Value><![CDATA[</div>
 <div class="it_left_bianji">]]></Value>
 			</End>
+			<SeparatePage>
+				<MaxPages>20</MaxPages>
+				<UrlSuffix>.html</UrlSuffix>
+			</SeparatePage>
 		</Content>
 		<AddUrl desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false">
 			<Value>

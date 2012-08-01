@@ -77,8 +77,8 @@ public abstract class Task {
             if (StringUtil.isEmpty(displayText)) {
                 displayText = detail.getUrl();
             }
-            childContent = childContent + "<br>From£º<a href=\"" + UrlUtil.GO_URL + detail.getUrl()
-                           + "\" target=\"_blank\">" + displayText + "</a>";
+            childContent = childContent + "<br><font color='#CCCCCC'>From:<a href=\"" + UrlUtil.GO_URL
+                           + detail.getUrl() + "\" target=\"_blank\">" + displayText + "</a></font>";
         }
         return childContent;
     }
