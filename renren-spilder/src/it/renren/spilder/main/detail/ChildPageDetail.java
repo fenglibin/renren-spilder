@@ -15,7 +15,7 @@ public class ChildPageDetail {
     /* 文章来源 */
     private String       source        = "Internet";
     /* 文章内容 */
-    private String       content;
+    private String       content       = "";
     /* 当前文章获取的URL地址 */
     private String       url;
     /* 是否包括有图片 */
