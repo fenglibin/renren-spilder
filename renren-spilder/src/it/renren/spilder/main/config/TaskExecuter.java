@@ -2,7 +2,10 @@ package it.renren.spilder.main.config;
 
 import it.renren.spilder.filter.BodyFilter;
 import it.renren.spilder.filter.Filter;
+import it.renren.spilder.filter.ISeparatePage;
+import it.renren.spilder.filter.MainBodyFilter;
 import it.renren.spilder.filter.TitleFilter;
+import it.renren.spilder.filter.UnderLineSeparatePage;
 import it.renren.spilder.main.Constants;
 import it.renren.spilder.main.Environment;
 import it.renren.spilder.main.detail.ChildPageDetail;
@@ -11,6 +14,7 @@ import it.renren.spilder.parser.AHrefParser;
 import it.renren.spilder.parser.MetaParser;
 import it.renren.spilder.task.Task;
 import it.renren.spilder.task.handler.Handler;
+import it.renren.spilder.util.FileUtil;
 import it.renren.spilder.util.HttpClientUtil;
 import it.renren.spilder.util.JDomUtil;
 import it.renren.spilder.util.StringUtil;
@@ -23,7 +27,6 @@ import java.util.List;
 
 import org.htmlparser.util.ParserException;
 import org.jdom.Document;
-import org.jdom.Element;
 
 public class TaskExecuter extends Thread {
 
@@ -129,7 +132,7 @@ public class TaskExecuter extends Thread {
                 throw new RuntimeException(e);
             }
             try {
-                mainContent = getMainContent(mainContent, parentPageConfig);
+                mainContent = getMainContent(parentPageConfig, childPageConfig, mainContent);
             } catch (Exception e) {
                 log4j.logError("从 url:" + listPageUrl + "中截取得需要的内容发生异常！配置文件为：" + configFile);
                 if (Environment.isOutputHtmlContentWhenErrorHappend) {
@@ -175,7 +178,7 @@ public class TaskExecuter extends Thread {
                 }
                 detail.setUrl(childUrl);
                 if (childPageConfig.isKeepFileName()) {
-                    detail.setFileName(getUrlName(childUrl));
+                    detail.setFileName(FileUtil.getFileName(childUrl));
                 }
                 if (!Environment.checkConfigFile && !parentPageConfig.isOnlyImage()) {
                     if (isDealed(childUrl)) {
@@ -238,12 +241,7 @@ public class TaskExecuter extends Thread {
         for (int currentSeparatePage = 1; currentSeparatePage <= childPageConfig.getContent().getSeparatePageMaxPages(); currentSeparatePage++) {
             try {
                 String childUrl = "";
-                if (currentSeparatePage > 1) {
-                    childUrl = getSeparatePageUrl(detail.getUrl(), currentSeparatePage,
-                                                  childPageConfig.getContent().getSeparatePageUrlSuffix());
-                } else {
-                    childUrl = detail.getUrl();
-                }
+                childUrl = getSeparatePageUrl(detail.getUrl(), currentSeparatePage);
                 String htmlContent = HttpClientUtil.getGetResponseWithHttpClient(childUrl, childPageConfig.getCharset());
                 String htmlBody = getBody(parentPageConfig, childPageConfig, htmlContent);
                 if (currentSeparatePage > 1) {// 支持分页采集
@@ -378,19 +376,6 @@ public class TaskExecuter extends Thread {
         }
     }
 
-    private static String getUrlName(String url) {
-        try {
-            String[] str = url.split("/");
-            url = str[str.length - 1];
-            str = url.split("\\.");
-            url = str[0];
-        } catch (Exception e) {
-            log4j.logError("根据URL获取名称发生异常。", e);
-            url = "";
-        }
-        return url;
-    }
-
     /**
      * 获取文章列表的内容
      * 
@@ -399,25 +384,10 @@ public class TaskExecuter extends Thread {
      * @return
      * @throws RuntimeException
      */
-    private static String getMainContent(String mainContent, ParentPage parentPageConfig) throws RuntimeException {
-        String content = "";
-        int startSize = parentPageConfig.getContent().getStartList().size();
-        for (int i = 0; i < startSize; i++) {
-            try {
-                content = StringUtil.subString(mainContent,
-                                               ((Element) parentPageConfig.getContent().getStartList().get(i)).getText(),
-                                               ((Element) parentPageConfig.getContent().getEndList().get(i)).getText());
-                break;
-            } catch (Exception e) {
-                if (i + 1 == startSize) {
-                    throw new RuntimeException(e);
-                } else {
-                    log4j.logDebug("第 " + (i + 1) + " 次获取文章内容出错！");
-                }
-            }
-        }
-
-        return content;
+    private static String getMainContent(ParentPage parentPageConfig, ChildPage childPageConfig, String mainContent)
+                                                                                                                    throws Exception {
+        Filter filter = new MainBodyFilter();
+        return filter.filterContent(parentPageConfig, childPageConfig, mainContent);
     }
 
     /**
@@ -466,35 +436,9 @@ public class TaskExecuter extends Thread {
         return replysList;
     }
 
-    /**
-     * 根据当前的博客类型，以及当前博客的一个URL地址，获取当前博客的主页地址
-     * 
-     * @param blogType 博客类型，目前1表示类CSDN的博客，博客不是独立的域名；2表示类ITEYE的博客，博客有独立的域名
-     * @param childUrl 当前博客的一个URL
-     * @return 当前博客的主页地址
-     */
-    private static String analysisBlogHomeUrl(int blogType, String childUrl) {
-        String blogHomeUrl = "";
-        if (blogType > 0) {
-            if (blogType == 1) {
-                String host = UrlUtil.getHost(childUrl);
-                childUrl = childUrl.replace(host, "");
-                String user = StringUtil.subStringSmart(childUrl, Constants.URL_SEPARATOR, Constants.URL_SEPARATOR);
-                blogHomeUrl = host + Constants.URL_SEPARATOR + user;
-            } else if (blogType == 2) {
-                blogHomeUrl = UrlUtil.getHost(childUrl);
-            }
-        }
-        return blogHomeUrl;
-    }
-
-    private static String getSeparatePageUrl(String mainUrl, int currentSeparatePage, String suffix) {
-        String childUrl = "";
-        String urlHead = StringUtil.substringBeforeLastWithSeparator(mainUrl, Constants.URL_SEPARATOR);
-        String pageUrlName = StringUtil.subStringFromLastStart(mainUrl, Constants.URL_SEPARATOR, suffix);
-        String param = StringUtil.subStringFromLastStart(mainUrl, suffix, null);
-        childUrl = urlHead + pageUrlName + Constants.SEPARATE_PAGE_SEPARATOR + currentSeparatePage + suffix + param;
-        return childUrl;
+    private static String getSeparatePageUrl(String mainUrl, int currentSeparatePage) {
+        ISeparatePage page = new UnderLineSeparatePage();
+        return page.getSeparatePageUrl(mainUrl, currentSeparatePage);
     }
 
     public List<Task> getTaskList() {
@@ -515,14 +459,6 @@ public class TaskExecuter extends Thread {
 
     public void setOneFileSleepTime(long oneFileSleepTime) {
         this.oneFileSleepTime = oneFileSleepTime;
-    }
-
-    public static void main(String[] args) {
-        String url = "http://java.dzone.com/articles/cdi-aop.htm";
-        url = getUrlName(url);
-        System.out.println(url);
-        url = "http://java.dzone.com/articles/cdi-aop.htm";
-        System.out.println(analysisBlogHomeUrl(1, url));
     }
 
 }

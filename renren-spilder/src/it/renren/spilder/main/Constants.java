@@ -54,7 +54,7 @@ public class Constants {
     // 点常量
     public static final String DOT                                  = ".";
     // 默认没有分页，只有一页常量
-    public static final String SeparatePageMaxPages                 = "1";
+    public static final int    DEFAULT_SEPERATE_PAGE                = 1;
     // DEDE的分页符
     public static final String DEDE_SEPARATE_PAGE_STRING            = "<br>#p#副标题#e#<br>";
     // 缩略图的最大宽度或高度

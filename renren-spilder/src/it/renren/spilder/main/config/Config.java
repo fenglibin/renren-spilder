@@ -1,7 +1,6 @@
 package it.renren.spilder.main.config;
 
 import it.renren.spilder.main.Constants;
-import it.renren.spilder.main.Environment;
 import it.renren.spilder.util.JDomUtil;
 import it.renren.spilder.util.StringUtil;
 
@@ -96,9 +95,9 @@ public class Config {
         childPageConfig.getContent().setHandler(JDomUtil.getValueByXpath(ruleXml, "/Rules/Child/Content/Handler/Value") == null ? "" : JDomUtil.getValueByXpath(ruleXml,
                                                                                                                                                                 "/Rules/Child/Content/Handler/Value"));
 
-        childPageConfig.getContent().setSeparatePageMaxPages(Integer.parseInt(JDomUtil.getValueByXpath(ruleXml,
-                                                                                                       "/Rules/Child/Content/SeparatePage/MaxPages") == null ? Constants.SeparatePageMaxPages : JDomUtil.getValueByXpath(ruleXml,
-                                                                                                                                                                                                                         "/Rules/Child/Content/SeparatePage/MaxPages")));
+        childPageConfig.getContent().setSeparatePageMaxPages(JDomUtil.getValueByXpath(ruleXml,
+                                                                                      "/Rules/Child/Content/SeparatePage/MaxPages") == null ? Constants.DEFAULT_SEPERATE_PAGE : Integer.parseInt(JDomUtil.getValueByXpath(ruleXml,
+                                                                                                                                                                                                                          "/Rules/Child/Content/SeparatePage/MaxPages")));
         childPageConfig.getContent().setSeparatePageUrlSuffix(JDomUtil.getValueByXpath(ruleXml,
                                                                                        "/Rules/Child/Content/SeparatePage/UrlSuffix") == null ? "" : JDomUtil.getValueByXpath(ruleXml,
                                                                                                                                                                               "/Rules/Child/Content/SeparatePage/UrlSuffix"));
