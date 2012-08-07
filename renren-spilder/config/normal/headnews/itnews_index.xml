@@ -75,6 +75,16 @@
 
                   </span>]]></Value>
 			</Start>
+			<Start>
+				<Value><![CDATA[</script></div>     
+
+                  </span>]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[</div>
+
+ <div class="ipages">]]></Value>
+			</End>
 			<End>
 				<Value><![CDATA[</div>
 <div class="it_left_bianji">]]></Value>
