@@ -6,7 +6,6 @@ import it.renren.spilder.dao.ArctinyDAO;
 import it.renren.spilder.dataobject.AddonarticleDO;
 import it.renren.spilder.dataobject.ArchivesDO;
 import it.renren.spilder.dataobject.ArctinyDO;
-import it.renren.spilder.main.Constants;
 import it.renren.spilder.util.FontUtil;
 import it.renren.spilder.util.StringUtil;
 
@@ -91,7 +90,6 @@ public class Simple2Fanti extends WashBase {
             /* 查出简体内容 */
             AddonarticleDO addonarticleDO = addonarticleDAO.selectBodyByAid(rs.getInt("id"));
             String content = addonarticleDO.getBody();
-            content = content.replace("/uploads/allimg/", Constants.RenRen_URL + "/uploads/allimg/");
             AddonarticleDO addonarticleDOFanti = new AddonarticleDO();
             addonarticleDOFanti.setAid(arctinyDO.getId());
             addonarticleDOFanti.setTypeid(typeId);

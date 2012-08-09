@@ -10,7 +10,6 @@ import it.renren.spilder.dataobject.ArchivesDO;
 import it.renren.spilder.dataobject.ArctinyDO;
 import it.renren.spilder.dataobject.DownurlDO;
 import it.renren.spilder.dataobject.FeedbackDO;
-import it.renren.spilder.main.Constants;
 import it.renren.spilder.main.config.ChildPage;
 import it.renren.spilder.main.config.ParentPage;
 import it.renren.spilder.main.detail.ChildPageDetail;
@@ -53,9 +52,6 @@ public class WriteData2FanDB extends Task {
             String flag = getFlag(parentPageConfig, detailClone);
 
             String litpic = detailClone.getLitpicAddress();// Àı¬‘Õºµÿ÷∑
-            if (!litpic.equals("")) {
-                litpic = Constants.RenRen_URL + litpic;
-            }
 
             ArchivesDO archivesDO = new ArchivesDO();
             archivesDO.setId(arctinyDO.getId());
