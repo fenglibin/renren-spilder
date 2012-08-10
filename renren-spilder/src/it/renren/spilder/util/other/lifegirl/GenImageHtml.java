@@ -118,7 +118,7 @@ public class GenImageHtml {
                 File[] subListFiles = dir.listFiles();
                 int i = 1;
                 for (File oneFile : subListFiles) {
-                    if (FileUtil.isImageUsualFile(oneFile.getName())) {// 取第一个图片文件
+                    if (FileUtil.isImageUsualFileByExt(oneFile.getName())) {// 取第一个图片文件
                         BufferedImage src = ImageUtil.InputImage(oneFile.getAbsolutePath());
                         int height = src.getHeight();
                         int width = src.getWidth();
@@ -203,7 +203,7 @@ public class GenImageHtml {
                 File[] subListFiles = dir.listFiles();
                 String imageNameStrngs = "";
                 for (File oneFile : subListFiles) {
-                    if (FileUtil.isImageUsualFile(oneFile.getName())) {// 取第一个图片文件
+                    if (FileUtil.isImageUsualFileByExt(oneFile.getName())) {// 取第一个图片文件
                         imageNameStrngs += oneFile.getName();
                         imageNameStrngs += ",";
                     }

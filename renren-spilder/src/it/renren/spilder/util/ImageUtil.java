@@ -615,7 +615,7 @@ public class ImageUtil {
                     changeDirImagesSize(file.getAbsolutePath(),
                                         file.getAbsolutePath().replace(srcImageDir, descImageDir), maxSize, type);
                 }
-            } else if (FileUtil.isImageUsualFile(file.getName())) {// 只处理常见的图片文件
+            } else if (FileUtil.isImageUsualFileByExt(file.getName())) {// 只处理常见的图片文件
                 if (type == 0) {
                     changeImageSizeWithMaxWidth(srcImageDir + File.separator + file.getName(),
                                                 descImageDir + File.separator + file.getName(), maxSize);
@@ -648,7 +648,7 @@ public class ImageUtil {
                 if (file.listFiles().length > 0) {
                     changeImageSizeBySmallBetweenWidthHeight(file.getAbsolutePath(), maxWidth, maxHeight);
                 }
-            } else if (FileUtil.isImageUsualFile(file.getName())) {// 只处理常见的图片文件
+            } else if (FileUtil.isImageUsualFileByExt(file.getName())) {// 只处理常见的图片文件
                 changeImageSizeBySmallBetweenWidthHeightForOneFile(file, maxWidth, maxHeight);
             }
         }
@@ -681,7 +681,7 @@ public class ImageUtil {
      */
     public static void changeImageSizeBySmallBetweenWidthHeightForOneFile(File file, int maxWidth, int maxHeight)
                                                                                                                  throws IOException {
-        if (FileUtil.isImageUsualFile(file.getName())) {// 只处理常见的图片文件
+        if (FileUtil.isImageUsualFileByExt(file.getName())) {// 只处理常见的图片文件
             BufferedImage srcImg = InputImage(file);
             if (null != srcImg) {
                 int width = srcImg.getWidth(); // 得到源图宽
@@ -770,7 +770,7 @@ public class ImageUtil {
                     cutDirImagesSize(file.getAbsolutePath(), file.getAbsolutePath().replace(srcImageDir, descImageDir),
                                      reduceSize, type);
                 }
-            } else if (FileUtil.isImageUsualFile(file.getName())) {// 只处理常见的图片文件
+            } else if (FileUtil.isImageUsualFileByExt(file.getName())) {// 只处理常见的图片文件
                 if (type == 0) {
                     ImageUtil.reduceImageWidth(file, reduceSize, descImageDir + File.separator + file.getName());
                 } else if (type == 1) {

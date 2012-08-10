@@ -1,20 +1,20 @@
-package it.renren.spilder.util.html;
+package it.renren.spilder.util.file;
 
 import it.renren.spilder.util.FileUtil;
+import it.renren.spilder.util.ImageUtil;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 替换指定目录下面及其子目录下面文件中的图片地址
+ * 删除指定路径下，扩展名为指定格式(jpg、png、gif、bmp)的几种图片文件，但实际上却不是图片的文件
  * 
  * @author fenglibin 2012-6-15 下午08:45:21
  */
-public class ReplaceImageUrlInHtmlFiles {
+public class DeleteNotImageFiles {
 
-    private static String basePath = "/home/fenglibin/www/www.stackdoc.com/a";
-    private static String charset  = "utf-8";
+    private static String basePath = "/home/fenglibin/www/img.renren.it/";
 
     /**
      * @param args
@@ -34,24 +34,31 @@ public class ReplaceImageUrlInHtmlFiles {
                 System.setProperty(keyValue[0], value);
             }
         }
-        genHtmlList(getBasePath());
+        check(getBasePath());
     }
 
-    private static void genHtmlList(String path) throws Exception {
+    /**
+     * 删除指定路径下，扩展名为指定格式(jpg、png、gif、bmp)的几种图片文件，但实际上却不是图片的文件
+     * 
+     * @param path
+     * @throws Exception
+     */
+    private static void check(String path) throws Exception {
         File filePath = new File(path);
         File[] files = filePath.listFiles();
         if (files != null && files.length > 0) {
             List<File> fileList = getFileList(files);
             List<File> dirList = getDirList(files);
             for (File file : fileList) {
-                String content = FileUtil.getFileContent(file.getAbsolutePath(), getCharset());
-                content = content.replace("http://www.renren.it/uploads/allimg", "/uploads/allimg");
-                FileUtil.writeFile(file.getAbsolutePath(), content, getCharset());
+                if (!ImageUtil.isImage(file)) {
+                    System.out.println("delete" + file.getAbsolutePath());
+                    file.delete();
+                }
             }
             fileList.clear();
             fileList = null;
             for (File file : dirList) {
-                genHtmlList(file.getPath());
+                check(file.getPath());
             }
         }
     }
@@ -65,7 +72,7 @@ public class ReplaceImageUrlInHtmlFiles {
     private static List<File> getFileList(File[] files) {
         List<File> fileList = new ArrayList<File>();
         for (File file : files) {
-            if (file.isFile() && file.getName().endsWith(".html") && !file.getName().startsWith("list")) {
+            if (FileUtil.isImageUsualFileByExt(file.getName())) {
                 fileList.add(file);
             }
         }
@@ -93,12 +100,5 @@ public class ReplaceImageUrlInHtmlFiles {
             basePath = System.getProperty("basePath");
         }
         return basePath;
-    }
-
-    private static String getCharset() {
-        if (System.getProperty("charset") != null) {
-            charset = System.getProperty("charset");
-        }
-        return charset;
     }
 }

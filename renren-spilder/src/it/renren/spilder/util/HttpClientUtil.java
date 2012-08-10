@@ -55,7 +55,9 @@ public class HttpClientUtil {
         List<Header> headers = new ArrayList<Header>();
         headers.add(new Header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"));
         headers.add(new Header("Accept-Charset", "GBK,utf-8;q=0.7,*;q=0.3"));
-        headers.add(new Header("Accept-Encoding", "gzip,deflate,sdch"));
+        // headers.add(new Header("Accept-Encoding", "gzip,deflate,sdch"));
+        // 如果支持gzip，那么就要对获取的内容进行判断是否是gzip格式，否则会出错
+        headers.add(new Header("Accept-Encoding", "deflate,sdch"));
         headers.add(new Header("Accept-Language", "zh-CN,zh;q=0.8"));
         headers.add(new Header("Cache-Contro", "max-age=0"));
         headers.add(new Header("Connection", "keep-alive"));

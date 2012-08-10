@@ -375,6 +375,7 @@ public class StringUtil {
     public static void writeGetImageToFile(String srcUrl, String fileSavePath, String fileName) throws IOException {
         String date = DateUtil.getNow("yyyy-MM-dd");
         String err = "#" + srcUrl + "===" + fileSavePath + "===" + DateUtil.getNow(null) + "\n";
+        err += "cd " + fileSavePath + "\n";
         err += "rm -f " + fileName + "\n";
         err += "wget " + srcUrl + "\n";
         err += "cd /home/fenglibin/mysoft\n";

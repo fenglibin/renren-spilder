@@ -127,7 +127,7 @@ public class UrlUtil {
             /* 获取文件名，没有路径 */
             String imageName = FileUtil.getFileName(imageSrc);
             /* 是否常用图片文件格式检查 */
-            if (!FileUtil.isImageUsualFile(imageName)) {
+            if (!FileUtil.isImageUsualFileByExt(imageName)) {
                 continue;
             }
             /* 组装当前下载图片存放的路径 */

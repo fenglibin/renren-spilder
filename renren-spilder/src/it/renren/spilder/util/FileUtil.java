@@ -399,12 +399,12 @@ public class FileUtil {
     }
 
     /**
-     * 根据传入的文件名，确定是否常用的图片文件：jpg、png、gif、bmp，是则返回true，否则返回false
+     * 根据传入的文件名的扩展名，确定是否常用的图片文件：jpg、png、gif、bmp，是则返回true，否则返回false
      * 
      * @param fileName
      * @return
      */
-    public static boolean isImageUsualFile(String fileName) {
+    public static boolean isImageUsualFileByExt(String fileName) {
         boolean is = Boolean.FALSE;
         String extName = getFileExtensation(fileName);
         if (!StringUtil.isEmpty(extName)) {

@@ -60,7 +60,7 @@ public class GenImageHtmls {
                     if (subDir.isDirectory() && subDir.listFiles().length > 0) {
                         File[] subListFiles = subDir.listFiles();
                         for (File oneFile : subListFiles) {
-                            if (FileUtil.isImageUsualFile(oneFile.getName())) {// 取第一个图片文件
+                            if (FileUtil.isImageUsualFileByExt(oneFile.getName())) {// 取第一个图片文件
                                 BufferedImage src = ImageUtil.InputImage(oneFile.getAbsolutePath());
                                 int height = src.getHeight();
                                 if (height >= 556) {
