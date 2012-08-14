@@ -140,7 +140,7 @@ public class UrlUtil {
                 boolean imageSaveResult = true;
                 File savedImage = new File(imageSaveLocation + imageName);
                 if (!savedImage.exists()) {
-                    imageSaveResult = FileUtil.downloadFileByUrl(imageUrl, imageSaveLocation, imageName);
+                    imageSaveResult = FileUtil.downloadFile(imageUrl, imageSaveLocation, imageName);
                     if (imageSaveResult && !StringUtil.isEmpty(Environment.waterImageLocation)) {// 需要增加水印
                         ImageUtil.addWaterMark(imageSaveLocation + imageName, Environment.waterImageLocation,
                                                ImageUtil.WaterImageLocation.LEFT_FOOT, 1);
@@ -165,7 +165,7 @@ public class UrlUtil {
                 }
 
             } catch (Exception e) {/* 如果对拼装的图片地址处理发生异常，那再尝试对其原地址进行获取 */
-                FileUtil.downloadFileByUrl(imageSrc, imageSaveLocation, imageName);
+                FileUtil.downloadFile(imageSrc, imageSaveLocation, imageName);
                 /* 替换原始图片的路径 */
                 content = content.replace(imageSrc, imageDes);
             }

@@ -4,10 +4,8 @@ import it.renren.spilder.main.Constants;
 import it.renren.spilder.util.log.Log4j;
 import it.renren.spilder.util.wash.WashBase;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,11 +16,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -33,12 +28,20 @@ public class FileUtil {
     private static PrintWriter appendWriter;
     public static String       defaultCharset = "GBK";
 
-    public static synchronized boolean downloadFileByUrl(String srcUrl, String filePath) throws IOException {
-        return downloadFileByUrl(srcUrl, filePath, null);
+    /**
+     * 根据URL获取文件，并返回获取的结果true 或者false
+     * 
+     * @param srcUrl
+     * @param fileSavePath
+     * @return
+     * @throws IOException
+     */
+    public static synchronized boolean downloadFile(String srcUrl, String filePath) throws IOException {
+        return downloadFile(srcUrl, filePath, null);
     }
 
     /**
-     * 根据图片URL获取图片，并返回获取的结果true 或者false
+     * 根据URL获取文件，并返回获取的结果true 或者false
      * 
      * @param srcUrl
      * @param fileSavePath
@@ -46,8 +49,8 @@ public class FileUtil {
      * @return
      * @throws IOException
      */
-    public static synchronized boolean downloadFileByUrl(String srcUrl, String fileSavePath, String newName)
-                                                                                                            throws IOException {
+    public static synchronized boolean downloadFile(String srcUrl, String fileSavePath, String newName)
+                                                                                                       throws IOException {
         boolean result = true;
         org.apache.commons.httpclient.HttpClient httpclient = HttpClientUtil.getHttpClient();
         httpclient.getHostConfiguration().getParams().setParameter("http.default-headers",
@@ -92,52 +95,12 @@ public class FileUtil {
         return result;
     }
 
-    public static void getUrlFile(String srcUrl, String filePath) throws IOException {
-        URL url = new URL(srcUrl);
-        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-        long urlFileLength = httpURLConnection.getContentLength();
-        if (urlFileLength == -1) {// 如果没有取到文件长度，再取
-            try {
-                urlFileLength = Long.parseLong(httpURLConnection.getHeaderField("Content-Length"));
-            } catch (Exception e1) {
-                log4j.logError(e1);
-            }
-        }
-        httpURLConnection.setReadTimeout(20000);// 设置超时时间为20秒
-        String urlFileName = url.getFile(); // 取得在服务器上的路径及文件名
-        urlFileName = GetFileName(urlFileName); // 取得文件名
-        BufferedInputStream bis = new BufferedInputStream(httpURLConnection.getInputStream());
-        DataOutputStream dos = null;
-        FileOutputStream fos = null;
-        File wdFile = new File(filePath + urlFileName);
-        fos = new FileOutputStream(wdFile);
-        dos = new DataOutputStream(fos);
-        byte[] bt = new byte[10240];// 缓冲区
-        int len = 0;
-        while ((len = bis.read(bt)) > 0) {
-            dos.write(bt, 0, len);// 写文件
-        }
-        dos.close();
-        fos.close();
-        bis.close();
-        httpURLConnection.disconnect();
-    }
-
     /**
-     * 取得要下载的文件名
+     * 根据URL获取文件名
      * 
      * @param file 网络文件名及路径
      * @return 文件名及扩展名
      */
-    private static String GetFileName(String file) {
-        StringTokenizer st = new StringTokenizer(file, "/");
-        while (st.hasMoreTokens()) {
-            file = st.nextToken();
-        }
-        return file;
-    }
-
-    /* 根据URL获取文件名 */
     public static String getFileName(String imageSrc) {
         String filename = "";
         String[] array = imageSrc.split("\\/");
@@ -754,6 +717,6 @@ public class FileUtil {
         if (!StringUtil.isEmpty(System.getProperty("savePath"))) {
             savePath = System.getProperty("savePath");
         }
-        downloadFileByUrl(url, savePath, null);
+        downloadFile(url, savePath, null);
     }
 }

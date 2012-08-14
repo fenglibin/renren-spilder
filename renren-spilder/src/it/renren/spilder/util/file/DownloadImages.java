@@ -45,7 +45,7 @@ public class DownloadImages extends WashBase {
             @SuppressWarnings("unchecked")
             List<Element> litImages = doc.getRootElement().getChild("Images").getChildren("LitImage");
             for (Element e : images) {
-                FileUtil.downloadFileByUrl(e.getText(), storePath);
+                FileUtil.downloadFile(e.getText(), storePath);
             }
             for (Element e : litImages) {
                 String imageName = FileUtil.getFileName(e.getText());

@@ -33,7 +33,7 @@ public class GetImagesNotSavedSuccessfully {
                 try {
                     String imageName = FileUtil.getFileName(line);
                     if (!new File(path + imageName).exists()) {
-                        FileUtil.downloadFileByUrl(line, path);
+                        FileUtil.downloadFile(line, path);
                         UrlUtil.getLitPicName(path, imageName);
                     }
                 } catch (Exception e) {

@@ -6,7 +6,6 @@ import it.renren.spilder.main.config.ChildPage;
 import it.renren.spilder.main.config.ParentPage;
 import it.renren.spilder.main.detail.ChildPageDetail;
 import it.renren.spilder.util.StringUtil;
-import it.renren.spilder.util.UrlUtil;
 
 public abstract class Task {
 
@@ -77,8 +76,8 @@ public abstract class Task {
             if (StringUtil.isEmpty(displayText)) {
                 displayText = detail.getUrl();
             }
-            childContent = childContent + "<br><font color='#CCCCCC'>From:<a href=\"" + UrlUtil.GO_URL
-                           + detail.getUrl() + "\" target=\"_blank\">" + displayText + "</a></font>";
+            childContent = childContent + "<br>From:<a href=\"" + detail.getUrl()
+                           + "\" target=\"_blank\" rel=\"external nofollow\">" + displayText + "</a>";
         }
         return childContent;
     }
