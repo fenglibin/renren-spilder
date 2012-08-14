@@ -312,6 +312,18 @@ public class StringUtil {
     }
 
     /**
+     * 内容替换
+     * 
+     * @param content
+     * @param from
+     * @param to
+     * @return
+     */
+    public static String replaceContent(String content, String from, String to) {
+        return replaceContent(content, from, to, Boolean.FALSE);
+    }
+
+    /**
      * 对文章内容进行特殊处理，如文章内容替换，或者也通过实现的HANDLER处理，Handler需要实现接口{@link it.renren.spilder.task.handler.Handler Handler}
      * 
      * @param content
@@ -321,13 +333,56 @@ public class StringUtil {
      * @return
      */
     public static String replaceContent(String content, String from, String to, boolean isIssRegularExpression) {
-        if (!StringUtil.isEmpty(from) && !StringUtil.isEmpty(to)) {
-            if (isIssRegularExpression) {
-                content = content.replaceAll(from, to);
-            } else {
-                content = content.replace(from, to);
+        List<String> fromList = new ArrayList<String>();
+        List<String> toList = new ArrayList<String>();
+        fromList.add(from);
+        toList.add(to);
+        return replaceContent(content, fromList, toList, isIssRegularExpression);
+    }
+
+    /**
+     * 内容替换，根据列表的内容进行进行替换，替换字符列表与被替换字符串列表的数量要相同
+     * 
+     * @param content
+     * @param fromList
+     * @param toList
+     * @return
+     */
+    public static String replaceContent(String content, List<String> fromList, List<String> toList) {
+        return replaceContent(content, fromList, toList, Boolean.FALSE);
+    }
+
+    /**
+     * 内容替换，根据列表的内容进行进行替换，替换字符列表与被替换字符串列表的数量要相同。可根据指定的参数进行是否正则替换
+     * 
+     * @param content
+     * @param fromList
+     * @param toList
+     * @param isIssRegularExpression
+     * @return
+     */
+    public static String replaceContent(String content, List<String> fromList, List<String> toList,
+                                        boolean isIssRegularExpression) {
+        if (fromList == null || fromList.size() == 0 || toList == null || toList.size() == 0) {
+            return content;
+        }
+        if (fromList.size() != toList.size()) {
+            throw new RuntimeException("The sourceList size must be the same as the descList.");
+        }
+        int index = 0;
+        for (String from : fromList) {
+            String to = toList.get(index);
+            if (content.indexOf(from) >= 0) {
+                if (!StringUtil.isEmpty(from) && !StringUtil.isEmpty(to)) {
+                    if (isIssRegularExpression) {
+                        content = content.replaceAll(from, to);
+                    } else {
+                        content = content.replace(from, to);
+                    }
+                }
             }
         }
+
         return content;
     }
 

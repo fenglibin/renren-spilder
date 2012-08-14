@@ -704,6 +704,307 @@ public class FileUtil {
         return file;
     }
 
+    /**
+     * 返回所有文件列表
+     * 
+     * @param files
+     * @return
+     */
+    public static List<File> getFileList(File[] files) {
+        List<File> fileList = new ArrayList<File>();
+        for (File file : files) {
+            if (file.isFile()) {
+                fileList.add(file);
+            }
+        }
+        return fileList;
+    }
+
+    /**
+     * 返回所有目录列表
+     * 
+     * @param files
+     * @return
+     */
+    public static List<File> getDirList(File[] files) {
+        List<File> dirList = new ArrayList<File>();
+        for (File file : files) {
+            if (file.isDirectory()) {
+                dirList.add(file);
+            }
+        }
+        return dirList;
+    }
+
+    /**
+     * 在指定的目录下，对文件进行内容替换，可以指定对指定文件类型进行替换，也可以指定是否进行递归
+     * 
+     * @param source 源字符，即被替换的字符串
+     * @param desc 目标字符串，替换源字符串的字符串
+     * @param dir 待替换文件所在目录
+     * @param isRecursive 是否对待替换目录下面的子目录进行替换
+     * @param isReg 是否是正则替换
+     * @param charset 文件编码
+     */
+    public static void replaceContentInDir(String source, String desc, String dir, boolean isRecursive, boolean isReg,
+                                           String charset) throws IOException {
+        replaceContentInDir(source, desc, dir, null, isRecursive, isReg, charset);
+    }
+
+    /**
+     * 在指定的目录下，对文件进行内容替换，可以指定对指定文件类型进行替换，也可以指定是否进行递归
+     * 
+     * @param source 源字符，即被替换的字符串
+     * @param desc 目标字符串，替换源字符串的字符串
+     * @param dir 待替换文件所在目录
+     * @param fileType 文件类型扩展名列表List
+     * @param isReg 是否是正则替换
+     * @param charset 文件编码
+     */
+    public static void replaceContentInDir(String source, String desc, String dir, List<String> fileType,
+                                           boolean isReg, String charset) throws IOException {
+        replaceContentInDir(source, desc, dir, fileType, Boolean.FALSE, isReg, charset);
+    }
+
+    /**
+     * 在指定的目录下，对文件进行内容替换，可以指定对指定文件类型进行替换，也可以指定是否进行递归
+     * 
+     * @param source 源字符，即被替换的字符串
+     * @param desc 目标字符串，替换源字符串的字符串
+     * @param dir 待替换文件所在目录
+     * @param fileType 文件类型扩展名列表List
+     * @param isRecursive 是否对待替换目录下面的子目录进行替换
+     * @param charset 文件编码
+     */
+    public static void replaceContentInDir_(String source, String desc, String dir, List<String> fileType,
+                                            boolean isRecursive, String charset) throws IOException {
+        replaceContentInDir(source, desc, dir, fileType, isRecursive, Boolean.FALSE, charset);
+    }
+
+    /**
+     * 在指定的目录下，对文件进行内容替换，可以指定对指定文件类型进行替换，也可以指定是否进行递归
+     * 
+     * @param source 源字符，即被替换的字符串
+     * @param desc 目标字符串，替换源字符串的字符串
+     * @param dir 待替换文件所在目录
+     * @param fileType 文件类型扩展名列表List
+     * @param isRecursive 是否对待替换目录下面的子目录进行替换
+     * @param isReg 是否是正则替换
+     */
+    public static void replaceContentInDir(String source, String desc, String dir, List<String> fileType,
+                                           boolean isRecursive, boolean isReg) throws IOException {
+        replaceContentInDir(source, desc, dir, fileType, isRecursive, isReg, defaultCharset);
+    }
+
+    /**
+     * 在指定的目录下，对文件进行内容替换，可以指定对指定文件类型进行替换，也可以指定是否进行递归
+     * 
+     * @param source 源字符，即被替换的字符串
+     * @param desc 目标字符串，替换源字符串的字符串
+     * @param dir 待替换文件所在目录
+     * @param isReg 是否是正则替换
+     * @param charset 文件编码
+     */
+    public static void replaceContentInDir(String source, String desc, String dir, boolean isReg, String charset)
+                                                                                                                 throws IOException {
+        replaceContentInDir(source, desc, dir, null, Boolean.FALSE, isReg, charset);
+    }
+
+    /**
+     * 在指定的目录下，对文件进行内容替换，可以指定对指定文件类型进行替换，也可以指定是否进行递归
+     * 
+     * @param source 源字符，即被替换的字符串
+     * @param desc 目标字符串，替换源字符串的字符串
+     * @param dir 待替换文件所在目录
+     * @param fileType 文件类型扩展名列表List
+     * @param charset 文件编码
+     */
+    public static void replaceContentInDir(String source, String desc, String dir, List<String> fileType, String charset)
+                                                                                                                         throws IOException {
+        replaceContentInDir(source, desc, dir, fileType, Boolean.FALSE, Boolean.FALSE, charset);
+    }
+
+    /**
+     * 在指定的目录下，对文件进行内容替换，可以指定对指定文件类型进行替换，也可以指定是否进行递归
+     * 
+     * @param source 源字符，即被替换的字符串
+     * @param desc 目标字符串，替换源字符串的字符串
+     * @param dir 待替换文件所在目录
+     * @param fileType 文件类型扩展名列表List
+     * @param isRecursive 是否对待替换目录下面的子目录进行替换
+     */
+    public static void replaceContentInDir(String source, String desc, String dir, List<String> fileType,
+                                           boolean isRecursive) throws IOException {
+        replaceContentInDir(source, desc, dir, fileType, isRecursive, Boolean.FALSE, defaultCharset);
+    }
+
+    /**
+     * 在指定的目录下，对文件进行内容替换，可以指定对指定文件类型进行替换，也可以指定是否进行递归
+     * 
+     * @param source 源字符，即被替换的字符串
+     * @param desc 目标字符串，替换源字符串的字符串
+     * @param dir 待替换文件所在目录
+     * @param isRecursive 是否对待替换目录下面的子目录进行替换
+     * @param charset 文件编码
+     */
+    public static void replaceContentInDir_(String source, String desc, String dir, boolean isRecursive, String charset)
+                                                                                                                        throws IOException {
+        replaceContentInDir(source, desc, dir, null, isRecursive, Boolean.FALSE, charset);
+    }
+
+    /**
+     * 在指定的目录下，对文件进行内容替换，可以指定对指定文件类型进行替换，也可以指定是否进行递归
+     * 
+     * @param source 源字符，即被替换的字符串
+     * @param desc 目标字符串，替换源字符串的字符串
+     * @param dir 待替换文件所在目录
+     * @param isRecursive 是否对待替换目录下面的子目录进行替换
+     * @param isReg 是否是正则替换
+     */
+    public static void replaceContentInDir(String source, String desc, String dir, boolean isRecursive, boolean isReg)
+                                                                                                                      throws IOException {
+        replaceContentInDir(source, desc, dir, null, isRecursive, isReg, defaultCharset);
+    }
+
+    /**
+     * 在指定的目录下，对文件进行内容替换，可以指定对指定文件类型进行替换，也可以指定是否进行递归
+     * 
+     * @param source 源字符，即被替换的字符串
+     * @param desc 目标字符串，替换源字符串的字符串
+     * @param dir 待替换文件所在目录
+     * @param fileType 文件类型扩展名列表List
+     * @param isReg 是否是正则替换
+     */
+    public static void replaceContentInDir_(String source, String desc, String dir, List<String> fileType, boolean isReg)
+                                                                                                                         throws IOException {
+        replaceContentInDir(source, desc, dir, fileType, Boolean.FALSE, isReg, defaultCharset);
+    }
+
+    /**
+     * 在指定的目录下，对文件进行内容替换，可以指定对指定文件类型进行替换，也可以指定是否进行递归
+     * 
+     * @param source 源字符，即被替换的字符串
+     * @param desc 目标字符串，替换源字符串的字符串
+     * @param dir 待替换文件所在目录
+     * @param charset 文件编码
+     */
+    public static void replaceContentInDir(String source, String desc, String dir, String charset) throws IOException {
+        replaceContentInDir(source, desc, dir, null, Boolean.FALSE, Boolean.FALSE, charset);
+    }
+
+    /**
+     * 在指定的目录下，对文件进行内容替换，可以指定对指定文件类型进行替换，也可以指定是否进行递归
+     * 
+     * @param source 源字符，即被替换的字符串
+     * @param desc 目标字符串，替换源字符串的字符串
+     * @param dir 待替换文件所在目录
+     * @param isReg 是否是正则替换
+     */
+    public static void replaceContentInDir(String source, String desc, String dir, boolean isReg) throws IOException {
+        replaceContentInDir(source, desc, dir, null, Boolean.FALSE, isReg, defaultCharset);
+    }
+
+    /**
+     * 在指定的目录下，对文件进行内容替换，可以指定对指定文件类型进行替换，也可以指定是否进行递归
+     * 
+     * @param source 源字符，即被替换的字符串
+     * @param desc 目标字符串，替换源字符串的字符串
+     * @param dir 待替换文件所在目录
+     * @param fileType 文件类型扩展名列表List
+     */
+    public static void replaceContentInDir(String source, String desc, String dir, List<String> fileType)
+                                                                                                         throws IOException {
+        replaceContentInDir(source, desc, dir, fileType, Boolean.FALSE, Boolean.FALSE, defaultCharset);
+    }
+
+    /**
+     * 在指定的目录下，对文件进行内容替换，可以指定对指定文件类型进行替换，也可以指定是否进行递归
+     * 
+     * @param source 源字符，即被替换的字符串
+     * @param desc 目标字符串，替换源字符串的字符串
+     * @param dir 待替换文件所在目录
+     */
+    public static void replaceContentInDir(String source, String desc, String dir) throws IOException {
+        replaceContentInDir(source, desc, dir, null, Boolean.FALSE, Boolean.FALSE, defaultCharset);
+    }
+
+    /**
+     * 在指定的目录下，对文件进行内容替换，可以指定对指定文件类型进行替换，也可以指定是否进行递归
+     * 
+     * @param source 源字符，即被替换的字符串
+     * @param desc 目标字符串，替换源字符串的字符串
+     * @param dir 待替换文件所在目
+     * @param fileType 文件类型扩展名列表List
+     * @param isRecursive 是否对待替换目录下面的子目录进行替换
+     * @param isReg 是否是正则替换
+     * @param charset 文件编码
+     */
+    public static void replaceContentInDir(String source, String desc, String dir, List<String> fileType,
+                                           boolean isRecursive, boolean isReg, String charset) throws IOException {
+        List<String> sourceList = new ArrayList<String>();
+        List<String> descList = new ArrayList<String>();
+        sourceList.add(source);
+        descList.add(desc);
+        replaceContentInDir(sourceList, descList, dir, fileType, isRecursive, isReg, charset);
+    }
+
+    /**
+     * 在指定的目录下，对文件进行内容替换，可以指定对指定文件类型进行替换，也可以指定是否进行递归
+     * 
+     * @param sourceList 源字符，即被替换的字符串
+     * @param descList 目标字符串，替换源字符串的字符串
+     * @param dir 待替换文件所在目
+     * @param fileType 文件类型扩展名列表List
+     * @param isRecursive 是否对待替换目录下面的子目录进行替换
+     * @param isReg 是否是正则替换
+     * @param charset 文件编码
+     */
+    public static void replaceContentInDir(List<String> sourceList, List<String> descList, String dir,
+                                           List<String> fileType, boolean isRecursive, boolean isReg, String charset)
+                                                                                                                     throws IOException {
+        File dirFile = new File(dir);
+        if (!dirFile.exists()) {
+            throw new RuntimeException("The directory:" + dir + " not exist.");
+        }
+        if (sourceList == null || sourceList.size() == 0 || descList == null || descList.size() == 0) {
+            return;
+        }
+        if (sourceList.size() != descList.size()) {
+            throw new RuntimeException("The sourceList size must be the same as the descList.");
+        }
+        if (StringUtil.isEmpty(charset)) {
+            throw new RuntimeException("Must give the file charset.");
+        }
+        File[] files = dirFile.listFiles();
+        List<File> fileList = getFileList(files);
+        List<File> dirList = getDirList(files);
+        for (File file : fileList) {
+            String ext = getFileExtensation(file.getName());
+            if (fileType != null && fileType.size() > 0 && !fileType.contains(ext)) {
+                continue;
+            }
+            String content = getFileContent(file.getAbsolutePath(), charset);
+            boolean doReplace = Boolean.FALSE;
+            // 判断是否需要替换
+            for (String source : sourceList) {
+                if (content.indexOf(source) >= 0) {
+                    doReplace = Boolean.TRUE;
+                    break;
+                }
+            }
+            if (doReplace) {
+                content = StringUtil.replaceContent(content, sourceList, descList);
+                System.out.println("Replaced content in:" + file.getAbsolutePath());
+                FileUtil.writeFile(file.getAbsolutePath(), content, charset);
+            }
+        }
+        if (isRecursive) {
+            for (File _dir : dirList) {
+                replaceContentInDir(sourceList, descList, _dir.getAbsolutePath(), fileType, isRecursive, isReg, charset);
+            }
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         // String url = "www.163.com/a/b.jpg?noscript";
         // String filename = getFileName(url);
