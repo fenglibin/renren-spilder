@@ -39,6 +39,21 @@
 			<value>1 */10 * * * ?</value>
 		</property>
 	</bean>
+	
+	<bean id="scheduledJobTaobao"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="getTaobaoDiscountData" />
+		<property name="targetMethod" value="start" />
+	</bean>
+	<bean id="jobTriggerTaobao" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref local="scheduledJobTaobao" />
+		</property>
+		<property name="cronExpression">
+			<!-- 每天6点执行执行 -->
+			<value>0 0 7 * * ?</value>
+		</property>
+	</bean>
 	<!-- 配置定时任务（结束） -->
 
 	
@@ -49,6 +64,7 @@
 			<list>
 				<ref bean="jobTrigger" />
 				<ref bean="jobTriggerAntiVirus"/>
+				<ref bean="jobTriggerTaobao"/>
 			</list>
 		</property>
 		<property name="autoStartup" value="true" />
@@ -61,5 +77,9 @@
 	</bean>
 	<bean id="antiVirus" class="it.renren.timer.job.RunCommand">
 		<property name="command" value="/home/fenglibin/timetask/antiVirus.sh"></property>
+	</bean>
+	<!-- 获取淘宝折扣数据 -->
+	<bean id="getTaobaoDiscountData" class="net.fanli7.core.SearchDiscount">
+		<property name="outpath" value="/home/fenglibin/www/www.fanli7.net/jingxuan"></property>
 	</bean>
 </beans>

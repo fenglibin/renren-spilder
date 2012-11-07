@@ -8,5 +8,8 @@
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/sourceforge.spring-2.5.5.jar"/>
 	<classpathentry kind="lib" path="lib/quartz-all-1.7.3.jar"/>
+	<classpathentry kind="lib" path="lib/taobao-sdk-java-online_standard-20121103-source.jar"/>
+	<classpathentry kind="lib" path="lib/taobao-sdk-java-online_standard-20121103.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.13-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

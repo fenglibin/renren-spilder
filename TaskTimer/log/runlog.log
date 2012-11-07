@@ -2,3 +2,31 @@
 Server Started:Tue Jun 05 21:46:39 CST 2012
 [WARN] 2012-06-05 21:53:21,421 [it.renren.timer.core.Main]  Message:
 Server Started:Tue Jun 05 21:53:21 CST 2012
+[ERROR] 2012-11-04 14:48:13,859 [net.fanli7.core.SearchDiscount]  Message:
+Error happend for generating taobao discount data.
+java.io.FileNotFoundException: taobao_discount_keywords.htm (系统找不到指定的文件。)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(FileInputStream.java:106)
+	at java.io.FileInputStream.<init>(FileInputStream.java:66)
+	at it.renren.timer.util.FileUtil.read(FileUtil.java:163)
+	at net.fanli7.core.SearchDiscount.readKeywords(SearchDiscount.java:117)
+	at net.fanli7.core.SearchDiscount.start(SearchDiscount.java:46)
+	at net.fanli7.core.SearchDiscount.main(SearchDiscount.java:152)
+[ERROR] 2012-11-04 17:45:48,953 [net.fanli7.core.SearchDiscount]  Message:
+Error happend for generating taobao discount data.
+java.io.FileNotFoundException: taobao_discount_keywords2.txt (系统找不到指定的文件。)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(FileInputStream.java:106)
+	at java.io.FileInputStream.<init>(FileInputStream.java:66)
+	at it.renren.timer.util.FileUtil.read(FileUtil.java:163)
+	at net.fanli7.core.SearchDiscount.readKeywords(SearchDiscount.java:117)
+	at net.fanli7.core.SearchDiscount.start(SearchDiscount.java:46)
+	at net.fanli7.core.SearchDiscount.main(SearchDiscount.java:152)
+[ERROR] 2012-11-06 19:58:24,750 [sdk.comm.err]  Message:
+2012-11-06 19:58:24^_^taobao.taobaoke.items.coupon.get^_^21232911^_^168.12.4.236^_^Windows XP^_^top-sdk-java-20121103^_^http://gw.api.taobao.com/router/rest?sign=6914D65F896834932606480F622AFE3E&timestamp=2012-11-06+19%3A58%3A04&v=2.0&app_key=21232911&method=taobao.taobaoke.items.coupon.get&sign_method=hmac&partner_id=top-sdk-java-20121103&format=json^_^HTTP_ERROR_200^_^Read timed out
+[ERROR] 2012-11-06 20:00:24,593 [sdk.comm.err]  Message:
+2012-11-06 20:00:24^_^taobao.taobaoke.items.coupon.get^_^21232911^_^168.12.4.236^_^Windows XP^_^top-sdk-java-20121103^_^http://gw.api.taobao.com/router/rest?sign=E990E067D2648089ED301413FC47A308&timestamp=2012-11-06+20%3A00%3A03&v=2.0&app_key=21232911&method=taobao.taobaoke.items.coupon.get&sign_method=hmac&partner_id=top-sdk-java-20121103&format=json^_^HTTP_ERROR_200^_^Read timed out
+[ERROR] 2012-11-06 20:01:52,984 [sdk.comm.err]  Message:
+2012-11-06 20:01:52^_^taobao.taobaoke.items.coupon.get^_^21232911^_^168.12.4.236^_^Windows XP^_^top-sdk-java-20121103^_^http://gw.api.taobao.com/router/rest?sign=487DED51764CCC2CCFD614DFFD2A36A6&timestamp=2012-11-06+20%3A01%3A33&v=2.0&app_key=21232911&method=taobao.taobaoke.items.coupon.get&sign_method=hmac&partner_id=top-sdk-java-20121103&format=json^_^HTTP_ERROR_200^_^Read timed out
+[ERROR] 2012-11-06 20:04:23,437 [sdk.comm.err]  Message:
+2012-11-06 20:04:23^_^taobao.taobaoke.items.coupon.get^_^21232911^_^168.12.4.236^_^Windows XP^_^top-sdk-java-20121103^_^http://gw.api.taobao.com/router/rest?sign=B248B099337917AD282893A7216B0D8F&timestamp=2012-11-06+20%3A04%3A04&v=2.0&app_key=21232911&method=taobao.taobaoke.items.coupon.get&sign_method=hmac&partner_id=top-sdk-java-20121103&format=json^_^HTTP_ERROR_200^_^Read timed out
