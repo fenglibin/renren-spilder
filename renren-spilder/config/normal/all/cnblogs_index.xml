@@ -93,6 +93,12 @@
 			<Start>
 				<Value><![CDATA[<div id="cnblogs_post_body">]]></Value>
 			</Start>
+			<Start>
+				<Value><![CDATA[<div id="cnblogs_post_body">]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[</div><div id="MySignature"></div>]]></Value>
+			</End>
 			<End>
 				<Value><![CDATA[</div>
 <script type="text/javascript">]]></Value>

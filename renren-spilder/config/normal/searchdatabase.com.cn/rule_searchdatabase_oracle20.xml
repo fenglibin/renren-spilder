@@ -103,6 +103,12 @@
 			<Start>
 				<Value><![CDATA[<span id="ArticleContent">]]></Value>
 			</Start>
+			<Start>
+				<Value><![CDATA[<div id="doc_show">]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[<span class="anniu"></span>]]></Value>
+			</End>
 			<End>
 				<Value><![CDATA[<span class="anniu"></span>]]></Value>
 			</End>

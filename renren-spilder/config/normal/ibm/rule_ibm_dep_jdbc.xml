@@ -31,14 +31,10 @@
 		</DesArticleId>
 		<MainRange desc="ÄÚÈİ·¶Î§">
 			<Start>
-				<Value><![CDATA[</thead>
-	
-		<tbody>
-		<tr>]]></Value>
+				<Value><![CDATA[<html]]></Value>
 			</Start>
 			<End>
-				<Value><![CDATA[<div class="ibm-rule"><hr /></div>
-	<p class="ibm-table-navigation">]]></Value>
+				<Value><![CDATA[</html>]]></Value>
 			</End>
 		</MainRange>
 		<Charset desc="±àÂë">
@@ -62,7 +58,7 @@
 		<UrlFilter url="urlÉ¸Ñ¡">
 			<MustInclude desc="urlÖĞ±ØĞë°üÀ¨µÄ×Ö·û´®">
 				<Value>
-					<![CDATA[]]>
+					<![CDATA[.html]]>
 				</Value>
 			</MustInclude>
 			<MustNotInclude desc="urlÖĞ²»ÄÜ¹»°üÀ¨µÄ×Ö·û´®">
@@ -106,8 +102,20 @@
 		</Title>
 		<Content desc="ÄÚÈİ">
 			<Start>
-				<Value><![CDATA[<!-- MAIN_COLUMN_CONTENT_BEGIN -->]]></Value>
+				<Value><![CDATA[<!-- type=section -->]]></Value>
 			</Start>
+			<Start>
+				<Value><![CDATA[<!-- MAIN_COLUMN_CONTENT_BEGIN -->]]></Value>
+			</Start>			
+			<Start>
+				<Value><![CDATA[<!-- MAIN_COLUMN_CONTAINER_BEGIN -->]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[<!-- CMA ID]]></Value>
+			</End>		
+			<End>
+				<Value><![CDATA[<!-- MAIN_COLUMN_CONTENT_END -->]]></Value>
+			</End>
 			<End>
 				<Value><![CDATA[<p><a name="resources"><span class="atitle">]]></Value>
 			</End>
@@ -128,6 +136,10 @@
 					</Value>
 				</To>
 			</Replace>
+			<SeparatePage>
+				<MaxPages>20</MaxPages>
+				<SeparatePageClass>it.renren.spilder.filter.seperatepage.IBMSeparatePage</SeparatePageClass>
+			</SeparatePage>
 		</Content>
 	</Child>
 </Rules>

@@ -92,6 +92,12 @@
 				<Value><![CDATA[<div class="showContent">]]></Value>
 			</Start>
 			<Start>
+				<Value><![CDATA[<div class="showContent">]]></Value>
+			</Start>
+			<Start>
+				<Value><![CDATA[<div class="showContent">]]></Value>
+			</Start>
+			<Start>
 				<Value><![CDATA[            <!--正文 begin-->]]></Value>
 			</Start>
 			<Start>
@@ -104,6 +110,12 @@
 		</div>
 		<div>]]></Value>
 			</Start>
+			<End>
+				<Value><![CDATA[</div>]]></Value>
+			</End>
+			<End>
+				<Value><![CDATA[</div><!--正文 end-->]]></Value>
+			</End>
 			<End>
 				<Value><![CDATA[<p>本文出自]]></Value>
 			</End>
@@ -121,7 +133,7 @@
 
 			</div>
 		<br><br>]]></Value>
-			</End>			
+			</End>
 			
 		</Content>
 		<AddUrl desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false">

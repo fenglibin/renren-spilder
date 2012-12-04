@@ -31,14 +31,10 @@
 		</DesArticleId>
 		<MainRange desc="内容范围">
 			<Start>
-				<Value><![CDATA[</thead>
-	
-		<tbody>
-		<tr>]]></Value>
+				<Value><![CDATA[<html]]></Value>
 			</Start>
 			<End>
-				<Value><![CDATA[<div class="ibm-rule"><hr /></div>
-	<p class="ibm-table-navigation">]]></Value>
+				<Value><![CDATA[</html>]]></Value>
 			</End>
 		</MainRange>
 		<Charset desc="编码">
@@ -62,7 +58,7 @@
 		<UrlFilter url="url筛选">
 			<MustInclude desc="url中必须包括的字符串">
 				<Value>
-					<![CDATA[]]>
+					<![CDATA[.html]]>
 				</Value>
 			</MustInclude>
 			<MustNotInclude desc="url中不能够包括的字符串">
@@ -106,16 +102,22 @@
 		</Title>
 		<Content desc="内容">
 			<Start>
-				<Value><![CDATA[<!-- MAIN_COLUMN_CONTENT_BEGIN -->]]></Value>
+				<Value><![CDATA[<!-- type=section -->]]></Value>
 			</Start>
-			<End>
-				<Value><![CDATA[<p><a name="resources"><span class="atitle">]]></Value>
-			</End>
+			<Start>
+				<Value><![CDATA[<!-- MAIN_COLUMN_CONTENT_BEGIN -->]]></Value>
+			</Start>			
 			<Start>
 				<Value><![CDATA[<!-- MAIN_COLUMN_CONTAINER_BEGIN -->]]></Value>
 			</Start>
 			<End>
+				<Value><![CDATA[<!-- CMA ID]]></Value>
+			</End>		
+			<End>
 				<Value><![CDATA[<!-- MAIN_COLUMN_CONTENT_END -->]]></Value>
+			</End>
+			<End>
+				<Value><![CDATA[<p><a name="resources"><span class="atitle">]]></Value>
 			</End>
 			<Replace desc="替换内容">
 				<IsRegularExpression desc="是否正则表达式">
@@ -134,6 +136,10 @@
 					</Value>
 				</To>
 			</Replace>
+			<SeparatePage>
+				<MaxPages>20</MaxPages>
+				<SeparatePageClass>it.renren.spilder.filter.seperatepage.IBMSeparatePage</SeparatePageClass>
+			</SeparatePage>
 		</Content>
 	</Child>
 </Rules>

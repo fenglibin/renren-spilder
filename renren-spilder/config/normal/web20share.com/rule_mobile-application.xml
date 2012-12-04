@@ -84,8 +84,14 @@
 		</Title>
 		<Content desc="内容">
 			<Start>
+				<Value><![CDATA[<!-- 将此标记放在您希望显示like按钮的位置 -->]]></Value>
+			</Start>
+			<Start>
 				<Value><![CDATA[</iframe>]]></Value>
 			</Start>
+			<End>
+				<Value><![CDATA[<div class="wumii-hook">]]></Value>
+			</End>
 			<End>
 				<Value><![CDATA[<div class="wumii-hook">]]></Value>
 			</End>

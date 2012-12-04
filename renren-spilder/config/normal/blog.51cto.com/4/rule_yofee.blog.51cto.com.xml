@@ -92,6 +92,12 @@
 				<Value><![CDATA[<div class="showContent">]]></Value>
 			</Start>
 			<Start>
+				<Value><![CDATA[<div class="showContent">]]></Value>
+			</Start>
+			<Start>
+				<Value><![CDATA[<div class="showContent">]]></Value>
+			</Start>
+			<Start>
 				<Value><![CDATA[            <!--正文 begin-->]]></Value>
 			</Start>
 			<Start>
@@ -104,6 +110,12 @@
 		</div>
 		<div>]]></Value>
 			</Start>
+			<End>
+				<Value><![CDATA[</div>]]></Value>
+			</End>
+			<End>
+				<Value><![CDATA[</div><!--正文 end-->]]></Value>
+			</End>
 			<End>
 				<Value><![CDATA[<p>本文出自]]></Value>
 			</End>

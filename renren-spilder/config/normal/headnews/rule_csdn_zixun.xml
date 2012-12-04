@@ -107,12 +107,18 @@
 		</Title>
 		<Content desc="ÄÚÈÝ">
 			<Start>
+				<Value><![CDATA[<div id="article_content" class="article_content">]]></Value>
+			</Start>
+			<Start>
 				<Value><![CDATA[</span></p>
 <p class="p1">]]></Value>
 			</Start>
 			<Start>
 				<Value><![CDATA[<div class="article_content">]]></Value>
 			</Start>
+			<End>
+				<Value><![CDATA[</div>]]></Value>
+			</End>
 			<End>
 				<Value><![CDATA[</div>
 <div class="share_buttons" id="sharePanel"></div>]]></Value>
