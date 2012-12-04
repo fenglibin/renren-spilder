@@ -95,11 +95,11 @@ public class AHrefParser {
         nodeList = myParser.parse(lastFilter);
         Node[] nodes = nodeList.toNodeArray();
         Pattern must = null;
-        if (urlMustInclude != null) {
+        if (!StringUtil.isEmpty(urlMustInclude) && compByRegex) {
             must = Pattern.compile(urlMustInclude);
         }
         Pattern mustnot = null;
-        if (urlMustNotInclude != null) {
+        if (!StringUtil.isEmpty(urlMustNotInclude) && compByRegex) {
             mustnot = Pattern.compile(urlMustNotInclude);
         }
         for (int i = 0; i < nodes.length; i++) {

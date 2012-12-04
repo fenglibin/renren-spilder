@@ -240,8 +240,9 @@
 				</Reply>
 			</Replys>
 			<SeparatePage>
-				<MaxPages desc="给当前URL指定最大的页面，适用于分页采集，没有必要去获取最大页数，给一个最大页数，过了就不要了，或者不到就异常退出">20</maxPages>
+				<MaxPages desc="给当前URL指定最大的页面，适用于分页采集，没有必要去获取最大页数，给一个最大页数，过了就不要了，或者不到就异常退出">20</MaxPages >
 				<UrlSuffix desc="当前URL的后缀，这是用来把当前的URL给替换掉，用于生成获取时，生成新的URL；规则是把URL的这里配置的值先去掉，再加上分页号，再加这里配置的值给加上就是分页页面的URL了">.html</UrlSuffix>
+				<SeparatePageClass>it.renren.spilder.filter.seperatepage.IBMSeparatePage</SeparatePageClass>
 			</SeparatePage>
 		</Content>
 		<AddUrl desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false.Display表示当前链接显示的文字，如果没有Display则直接显示URL">

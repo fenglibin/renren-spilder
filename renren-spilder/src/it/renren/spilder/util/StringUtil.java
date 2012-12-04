@@ -372,6 +372,10 @@ public class StringUtil {
         int index = 0;
         for (String from : fromList) {
             String to = toList.get(index);
+            index++;
+            if (from == null || "".equals(from) || to == null || "".equals(to)) {
+                continue;
+            }
             if (content.indexOf(from) >= 0) {
                 if (!StringUtil.isEmpty(from) && !StringUtil.isEmpty(to)) {
                     if (isIssRegularExpression) {
@@ -437,7 +441,11 @@ public class StringUtil {
         err += "java -Xmn130m -Xms256m -Xmx400m -cp renren.it_spilder.jar it.renren.spilder.util.wash.GenLitImage savePath=/home/fenglibin/www/img.renren.it/"
                + date + "/ filename=" + fileName + "\n";
         err += "cd -\n";
-        FileUtil.writeFileAppend(Constants.notGetImagesUrlSaveFile, err);
+        try {
+            FileUtil.writeFileAppend(Constants.notGetImagesUrlSaveFile, err);
+        } catch (Exception e) {
+            log4j.logError("srcUrl:" + srcUrl + ",fileSavePath:" + fileSavePath, e);
+        }
     }
 
     public static void main(String[] args) {

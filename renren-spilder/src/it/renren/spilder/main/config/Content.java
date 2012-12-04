@@ -11,6 +11,8 @@ public class Content extends ContentRangeWithReplace {
     private int    minLength;
     private int    separatePageMaxPages;
     private String separatePageUrlSuffix;
+    // 分于处理分页的类，默认使用：it.renren.spilder.filter.seperatepage.UnderLineSeparatePage
+    private String separatePageClass;
 
     public List getEndList() {
         return endList;
@@ -66,6 +68,14 @@ public class Content extends ContentRangeWithReplace {
 
     public void setSeparatePageUrlSuffix(String separatePageUrlSuffix) {
         this.separatePageUrlSuffix = separatePageUrlSuffix;
+    }
+
+    public String getSeparatePageClass() {
+        return separatePageClass;
+    }
+
+    public void setSeparatePageClass(String separatePageClass) {
+        this.separatePageClass = separatePageClass;
     }
 
 }

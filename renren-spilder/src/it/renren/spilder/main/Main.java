@@ -243,6 +243,7 @@ public class Main {
             param.setFileName("config/moandroid.com.xml");
             param.setFileName("config/normal/headnews/rule_sina_tech_headnews.xml");
             param.setFileName("config/normal/headnews/itnews_index.xml");
+            param.setFileName("config/normal/jz123.cn/yejie.xml");
             // Environment.isImageSite = Boolean.TRUE;
             // Environment.isSaveImage2CurrentHtmlFileTileNameDir = Boolean.TRUE;
             // ÎÄ¼þ¼Ð²âÊÔ

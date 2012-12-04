@@ -100,12 +100,18 @@ public class FileUtilTest extends TestCase {
         String charset = "utf-8";
         List<String> fileType = new ArrayList<String>();
         fileType.add("sql");
-        List<String> contentList = FileUtil.readFile2List("fanli.rritw.com.tables.txt");
+        List<String> contentList = FileUtil.readFile2List("E:\\bruce\\p\\replace.txt");
+        List<String> sourceList = new ArrayList<String>();
+        List<String> descList = new ArrayList<String>();
         for (String content : contentList) {
             String[] contentArray = content.split("\\|");
-            source = "fanli_" + contentArray[0].trim();
-            desc = "fanli_" + contentArray[1].trim();
-            FileUtil.replaceContentInDir(source, desc, dir, fileType, Boolean.FALSE, Boolean.FALSE, charset);
+            source = "`fanli_" + contentArray[0].trim() + "`";
+            sourceList.add(source);
+            desc = "`fanli_" + contentArray[1].trim() + "`";
+            descList.add(desc);
+            System.out.println("source:" + source + ", desc:" + desc);
+
         }
+        FileUtil.replaceContentInDir(sourceList, descList, dir, fileType, Boolean.FALSE, Boolean.FALSE, charset);
     }
 }

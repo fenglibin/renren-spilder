@@ -101,6 +101,9 @@ public class Config {
         childPageConfig.getContent().setSeparatePageUrlSuffix(JDomUtil.getValueByXpath(ruleXml,
                                                                                        "/Rules/Child/Content/SeparatePage/UrlSuffix") == null ? "" : JDomUtil.getValueByXpath(ruleXml,
                                                                                                                                                                               "/Rules/Child/Content/SeparatePage/UrlSuffix"));
+        childPageConfig.getContent().setSeparatePageClass(JDomUtil.getValueByXpath(ruleXml,
+                                                                                   "/Rules/Child/Content/SeparatePage/SeparatePageClass") == null ? "it.renren.spilder.filter.seperatepage.UnderLineSeparatePage" : JDomUtil.getValueByXpath(ruleXml,
+                                                                                                                                                                                                                                             "/Rules/Child/Content/SeparatePage/SeparatePageClass"));
         /** 如果存在着对回复节点的处理 */
         if (JDomUtil.getValueByXpath(ruleXml, "/Rules/Child/Content/Replys/Start/Value") != null) {
             childPageConfig.getReplys().setStart(StringUtil.returnBlankIfNull(JDomUtil.getValueByXpath(ruleXml,

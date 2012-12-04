@@ -2,10 +2,9 @@ package it.renren.spilder.main.config;
 
 import it.renren.spilder.filter.BodyFilter;
 import it.renren.spilder.filter.Filter;
-import it.renren.spilder.filter.ISeparatePage;
 import it.renren.spilder.filter.MainBodyFilter;
 import it.renren.spilder.filter.TitleFilter;
-import it.renren.spilder.filter.UnderLineSeparatePage;
+import it.renren.spilder.filter.seperatepage.ISeparatePage;
 import it.renren.spilder.main.Constants;
 import it.renren.spilder.main.Environment;
 import it.renren.spilder.main.detail.ChildPageDetail;
@@ -241,7 +240,7 @@ public class TaskExecuter extends Thread {
         for (int currentSeparatePage = 1; currentSeparatePage <= childPageConfig.getContent().getSeparatePageMaxPages(); currentSeparatePage++) {
             try {
                 String childUrl = "";
-                childUrl = getSeparatePageUrl(detail.getUrl(), currentSeparatePage);
+                childUrl = getSeparatePageUrl(detail.getUrl(), currentSeparatePage, childPageConfig);
                 String htmlContent = HttpClientUtil.getGetResponseWithHttpClient(childUrl, childPageConfig.getCharset());
                 String htmlBody = getBody(parentPageConfig, childPageConfig, htmlContent);
                 if (currentSeparatePage > 1) {// 支持分页采集
@@ -288,7 +287,7 @@ public class TaskExecuter extends Thread {
                     break;
                 } else {
                     isPageAnalysisOk = false;
-                    log4j.logError("处理该URL时发生异常:" + detail.getUrl(), e);
+                    log4j.logError("处理该URL时发生异常:" + detail.getUrl() + ",配置文件:" + configFile, e);
                 }
             }
         }
@@ -306,7 +305,7 @@ public class TaskExecuter extends Thread {
                 detail.setDealResult(Boolean.TRUE);
             }
         } catch (Exception e) {
-            log4j.logError("处理该URL时发生异常:" + detail.getUrl(), e);
+            log4j.logError("处理该URL时发生异常:" + detail.getUrl() + ",配置文件:" + configFile, e);
         }
     }
 
@@ -436,8 +435,22 @@ public class TaskExecuter extends Thread {
         return replysList;
     }
 
-    private static String getSeparatePageUrl(String mainUrl, int currentSeparatePage) {
-        ISeparatePage page = new UnderLineSeparatePage();
+    /**
+     * 获取分页的URL
+     * 
+     * @param mainUrl
+     * @param currentSeparatePage
+     * @param childPageConfig
+     * @return
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws ClassNotFoundException
+     */
+    private static String getSeparatePageUrl(String mainUrl, int currentSeparatePage, ChildPage childPageConfig)
+                                                                                                                throws InstantiationException,
+                                                                                                                IllegalAccessException,
+                                                                                                                ClassNotFoundException {
+        ISeparatePage page = (ISeparatePage) Class.forName(childPageConfig.getContent().getSeparatePageClass()).newInstance();
         return page.getSeparatePageUrl(mainUrl, currentSeparatePage);
     }
 

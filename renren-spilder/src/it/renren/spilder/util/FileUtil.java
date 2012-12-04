@@ -74,17 +74,17 @@ public class FileUtil {
             }
         } catch (HttpException e) {
             result = false;
-            log4j.logError(e);
+            log4j.logError("srcUrl:" + srcUrl + ",fileSavePath:" + fileSavePath, e);
         } catch (IOException e) {
             result = false;
-            log4j.logError(e);
+            log4j.logError("srcUrl:" + srcUrl + ",fileSavePath:" + fileSavePath, e);
         } finally {
             if (out != null) {
                 try {
                     out.flush();
                     out.close();
                 } catch (IOException e) {
-                    log4j.logError(e);
+                    log4j.logError("srcUrl:" + srcUrl + ",fileSavePath:" + fileSavePath, e);
                 }
             }
             if (!ImageUtil.isImage(wdFile)) {
@@ -498,10 +498,11 @@ public class FileUtil {
     public static List<String> readFile2List(InputStreamReader fr) throws IOException {
         List<String> fileList = new ArrayList<String>();
         BufferedReader br = new BufferedReader(fr);
-        String line = br.readLine();
-        while (!StringUtil.isEmpty(line)) {
-            fileList.add(line);
-            line = br.readLine();
+        String line = null;
+        while ((line = br.readLine()) != null) {
+            if (!StringUtil.isEmpty(line)) {
+                fileList.add(line);
+            }
         }
         br.close();
         fr.close();
