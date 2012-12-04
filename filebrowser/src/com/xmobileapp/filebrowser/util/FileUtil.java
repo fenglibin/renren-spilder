@@ -1,8 +1,8 @@
 package com.xmobileapp.filebrowser.util;
 
 /**
- * 作者：人人IT网<br>
- * Site: www.renren.it
+ * 作者：冯立彬<br>
+ * Site: www.fenglibin.com
  */
 import java.io.BufferedReader;
 import java.io.File;

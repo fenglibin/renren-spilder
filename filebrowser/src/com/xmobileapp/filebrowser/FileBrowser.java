@@ -11,8 +11,8 @@
  * License. <br>
  */
 /**
- * Modify：人人IT网<br>
- * Site: www.renren.it
+ * Modify：冯立彬<br>
+ * Site: www.fenglibin.com
  */
 package com.xmobileapp.filebrowser;
 
@@ -126,8 +126,6 @@ public class FileBrowser extends ListActivity {
                         break;
                 }
             }
-        } else {
-
         }
         Collections.sort(this.directoryEntries);
 
