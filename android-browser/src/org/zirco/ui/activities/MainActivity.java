@@ -98,6 +98,13 @@ import android.widget.ViewFlipper;
 /**
  * The application main activity.
  */
+/**
+ * 除非特别声明，本站文章均为冯立彬原创编译<br />
+ * 欢迎任何形式的转载，但请务必注明出处，尊重他人的劳动就是尊重自己<br />
+ * 转载文章请注明：文章转载自：<strong>冯立彬的博客</strong> (<a href="http://www.fenglibin.com">http://www.fenglibin.com</a>)<br />
+ * 本文标题：<?php wp_title(); ?><br />
+ * 本文地址：
+ */
 public class MainActivity extends Activity implements IToolbarsContainer, OnTouchListener, IDownloadEventsListener {
 
     public static MainActivity               INSTANCE                        = null;
@@ -105,12 +112,12 @@ public class MainActivity extends Activity implements IToolbarsContainer, OnTouc
     private static final int                 FLIP_PIXEL_THRESHOLD            = 200;
     private static final int                 FLIP_TIME_THRESHOLD             = 400;
 
-    private static final int                 MENU_ADD_BOOKMARK               = Menu.FIRST;           /* 底部五个菜单之一：添加到书签 */
-    private static final int                 MENU_SHOW_BOOKMARKS             = Menu.FIRST + 1;
-    private static final int                 MENU_SHOW_DOWNLOADS             = Menu.FIRST + 2;
-    private static final int                 MENU_PREFERENCES                = Menu.FIRST + 3;
-    private static final int                 MENU_EXIT                       = Menu.FIRST + 4;
-    private static final int                 MENU_SHOW_ADDRESS_BAR           = Menu.FIRST + 5;       /* 显示地址栏 */
+    private static final int                 MENU_ADD_BOOKMARK               = Menu.FIRST;           /* 底部六个菜单之一：添加到书签 */
+    private static final int                 MENU_SHOW_BOOKMARKS             = Menu.FIRST + 1;       /* 底部六个菜单之一：书签 */
+    private static final int                 MENU_SHOW_DOWNLOADS             = Menu.FIRST + 2;       /* 底部六个菜单之一：显示下载 */
+    private static final int                 MENU_PREFERENCES                = Menu.FIRST + 3;       /* 底部六个菜单之一：配置 */
+    private static final int                 MENU_EXIT                       = Menu.FIRST + 4;       /* 底部六个菜单之一：退出 */
+    private static final int                 MENU_SHOW_ADDRESS_BAR           = Menu.FIRST + 5;       /* 底部六个菜单之一：显示地址栏 */
 
     private static final int                 CONTEXT_MENU_OPEN               = Menu.FIRST + 10;
     private static final int                 CONTEXT_MENU_OPEN_IN_NEW_TAB    = Menu.FIRST + 11;
