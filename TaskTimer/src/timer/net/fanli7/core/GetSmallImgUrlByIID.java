@@ -65,7 +65,7 @@ public class GetSmallImgUrlByIID {
         if (list.size() > 0) {
             for (String iids : list) {
                 try {
-                    TaobaoClient client = new DefaultTaobaoClient(Constants.URL, Constants.APP_KEY, Constants.SECRET);
+                    TaobaoClient client = new DefaultTaobaoClient(Constants.TAOBAO_URL, Constants.TAOBAO_APP_KEY, Constants.TAOBAO_SECRET);
                     TaobaokeItemsDetailGetRequest req = new TaobaokeItemsDetailGetRequest();
                     req.setFields("pic_url,num_iid");
                     req.setNumIids(iids);

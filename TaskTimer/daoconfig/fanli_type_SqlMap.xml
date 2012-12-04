@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="fanli_type" >
+  <resultMap id="BaseResultMap" class="net.fanli7.dataobject.FanliType" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="addtime" property="addtime" jdbcType="INTEGER" />
+    <result column="sys" property="sys" jdbcType="BIT" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="net.fanli7.dataobject.FanliType" >
+    select id, pid, title, sort, tag, addtime, sys
+    from fanli_type
+    where id = #id:INTEGER#
+  </select>
+  <select id="selectMalls" resultMap="BaseResultMap" >
+    select id, pid, title, sort, tag, addtime, sys
+    from fanli_type
+    where tag='mall'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="net.fanli7.dataobject.FanliType" >
+    delete from fanli_type
+    where id = #id:INTEGER#
+  </delete>
+  <insert id="insert" parameterClass="net.fanli7.dataobject.FanliType" >
+    insert into fanli_type (id, pid, title, sort, tag, addtime, sys)
+    values (#id:INTEGER#, #pid:INTEGER#, #title:VARCHAR#, #sort:INTEGER#, #tag:VARCHAR#,
+      #addtime:INTEGER#, #sys:BIT#)
+  </insert>
+  <insert id="insertSelective" parameterClass="net.fanli7.dataobject.FanliType" >
+    insert into fanli_type
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="pid" >
+        pid
+      </isNotNull>
+      <isNotNull prepend="," property="title" >
+        title
+      </isNotNull>
+      <isNotNull prepend="," property="sort" >
+        sort
+      </isNotNull>
+      <isNotNull prepend="," property="tag" >
+        tag
+      </isNotNull>
+      <isNotNull prepend="," property="addtime" >
+        addtime
+      </isNotNull>
+      <isNotNull prepend="," property="sys" >
+        sys
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        #id:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="pid" >
+        #pid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="title" >
+        #title:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="sort" >
+        #sort:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="tag" >
+        #tag:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="addtime" >
+        #addtime:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="sys" >
+        #sys:BIT#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="net.fanli7.dataobject.FanliType" >
+    update fanli_type
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="pid" >
+        pid = #pid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="title" >
+        title = #title:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="sort" >
+        sort = #sort:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="tag" >
+        tag = #tag:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="addtime" >
+        addtime = #addtime:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="sys" >
+        sys = #sys:BIT#
+      </isNotNull>
+    </dynamic>
+    where id = #id:INTEGER#
+  </update>
+  <update id="updateByPrimaryKey" parameterClass="net.fanli7.dataobject.FanliType" >
+    update fanli_type
+    set pid = #pid:INTEGER#,
+      title = #title:VARCHAR#,
+      sort = #sort:INTEGER#,
+      tag = #tag:VARCHAR#,
+      addtime = #addtime:INTEGER#,
+      sys = #sys:BIT#
+    where id = #id:INTEGER#
+  </update>
+</sqlMap>

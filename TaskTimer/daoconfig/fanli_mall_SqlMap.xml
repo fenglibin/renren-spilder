@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="fanli_mall" >
+  <resultMap id="BaseResultMap" class="net.fanli7.dataobject.FanliMall" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="pinyin" property="pinyin" jdbcType="VARCHAR" />
+    <result column="merchant" property="merchant" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="cid" property="cid" jdbcType="INTEGER" />
+    <result column="fan" property="fan" jdbcType="VARCHAR" />
+    <result column="des" property="des" jdbcType="VARCHAR" />
+    <result column="addtime" property="addtime" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="yiqifaurl" property="yiqifaurl" jdbcType="VARCHAR" />
+    <result column="lm" property="lm" jdbcType="TINYINT" />
+    <result column="edate" property="edate" jdbcType="BIGINT" />
+    <result column="renzheng" property="renzheng" jdbcType="BIT" />
+    <result column="api_url" property="apiUrl" jdbcType="VARCHAR" />
+    <result column="api_rule" property="apiRule" jdbcType="VARCHAR" />
+    <result column="api_city" property="apiCity" jdbcType="VARCHAR" />
+    <result column="duomaiid" property="duomaiid" jdbcType="INTEGER" />
+    <result column="yiqifaid" property="yiqifaid" jdbcType="INTEGER" />
+    <result column="chanetid" property="chanetid" jdbcType="INTEGER" />
+    <result column="chanet_draftid" property="chanetDraftid" jdbcType="INTEGER" />
+    <result column="chaneturl" property="chaneturl" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="BIT" />
+    <result column="merchantId" property="merchantid" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="DOUBLE" />
+    <result column="pjnum" property="pjnum" jdbcType="INTEGER" />
+    <result column="fuwu" property="fuwu" jdbcType="VARCHAR" />
+    <result column="weiyiid" property="weiyiid" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" class="net.fanli7.dataobject.FanliMall" extends="fanli_mall.BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterClass="net.fanli7.dataobject.FanliMall" >
+    select id, title, pinyin, merchant, url, img, cid, fan, des, addtime, sort, yiqifaurl, lm,
+      edate, renzheng, api_url, api_rule, api_city, duomaiid, yiqifaid, chanetid, chanet_draftid,
+      chaneturl, type, merchantId, score, pjnum, fuwu, weiyiid, content
+    from fanli_mall
+    where id = #id:INTEGER#
+  </select>
+  <select id="selectByTitle" resultMap="BaseResultMap" parameterClass="net.fanli7.dataobject.FanliMall" >
+    select id, title, pinyin, merchant, url, img, cid, fan, des, addtime, sort, yiqifaurl, lm,
+      edate, renzheng, api_url, api_rule, api_city, duomaiid, yiqifaid, chanetid, chanet_draftid,
+      chaneturl, type, merchantId, score, pjnum, fuwu, weiyiid
+    from fanli_mall
+    where title = #title:VARCHAR#
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, title, pinyin, merchant, url, img, cid, fan, des, addtime, sort, yiqifaurl, lm,
+      edate, renzheng, api_url, api_rule, api_city, duomaiid, yiqifaid, chanetid, chanet_draftid,
+      chaneturl, type, merchantId, score, pjnum, fuwu, weiyiid
+    from fanli_mall
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="net.fanli7.dataobject.FanliMall" >
+    delete from fanli_mall
+    where id = #id:INTEGER#
+  </delete>
+  <insert id="insert" parameterClass="net.fanli7.dataobject.FanliMall" >
+    insert into fanli_mall (id, title, pinyin, merchant, url, img, cid, fan, des, addtime, sort,
+      yiqifaurl, lm, edate, renzheng, api_url, api_rule, api_city, duomaiid, yiqifaid, chanetid,
+      chanet_draftid, chaneturl, type, merchantId, score, pjnum, fuwu, weiyiid, content)
+    values (#id:INTEGER#, #title:VARCHAR#, #pinyin:VARCHAR#, #merchant:VARCHAR#, #url:VARCHAR#,
+      #img:VARCHAR#, #cid:INTEGER#, #fan:VARCHAR#, #des:VARCHAR#, unix_timestamp(now()), #sort:INTEGER#,
+      #yiqifaurl:VARCHAR#, #lm:TINYINT#, unix_timestamp(now()), #renzheng:BIT#, #apiUrl:VARCHAR#,
+      #apiRule:VARCHAR#, #apiCity:VARCHAR#, #duomaiid:INTEGER#, #yiqifaid:INTEGER#,
+      #chanetid:INTEGER#, #chanetDraftid:INTEGER#, #chaneturl:VARCHAR#, #type:BIT#,
+      #merchantid:INTEGER#, #score:DOUBLE#, #pjnum:INTEGER#, #fuwu:VARCHAR#, #weiyiid:VARCHAR#,
+      #content:LONGVARCHAR#)
+  </insert>
+  <insert id="insertSelective" parameterClass="net.fanli7.dataobject.FanliMall" >
+    insert into fanli_mall
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="title" >
+        title
+      </isNotNull>
+      <isNotNull prepend="," property="pinyin" >
+        pinyin
+      </isNotNull>
+      <isNotNull prepend="," property="merchant" >
+        merchant
+      </isNotNull>
+      <isNotNull prepend="," property="url" >
+        url
+      </isNotNull>
+      <isNotNull prepend="," property="img" >
+        img
+      </isNotNull>
+      <isNotNull prepend="," property="cid" >
+        cid
+      </isNotNull>
+      <isNotNull prepend="," property="fan" >
+        fan
+      </isNotNull>
+      <isNotNull prepend="," property="des" >
+        des
+      </isNotNull>
+      <isNotNull prepend="," property="addtime" >
+        addtime
+      </isNotNull>
+      <isNotNull prepend="," property="sort" >
+        sort
+      </isNotNull>
+      <isNotNull prepend="," property="yiqifaurl" >
+        yiqifaurl
+      </isNotNull>
+      <isNotNull prepend="," property="lm" >
+        lm
+      </isNotNull>
+      <isNotNull prepend="," property="edate" >
+        edate
+      </isNotNull>
+      <isNotNull prepend="," property="renzheng" >
+        renzheng
+      </isNotNull>
+      <isNotNull prepend="," property="apiUrl" >
+        api_url
+      </isNotNull>
+      <isNotNull prepend="," property="apiRule" >
+        api_rule
+      </isNotNull>
+      <isNotNull prepend="," property="apiCity" >
+        api_city
+      </isNotNull>
+      <isNotNull prepend="," property="duomaiid" >
+        duomaiid
+      </isNotNull>
+      <isNotNull prepend="," property="yiqifaid" >
+        yiqifaid
+      </isNotNull>
+      <isNotNull prepend="," property="chanetid" >
+        chanetid
+      </isNotNull>
+      <isNotNull prepend="," property="chanetDraftid" >
+        chanet_draftid
+      </isNotNull>
+      <isNotNull prepend="," property="chaneturl" >
+        chaneturl
+      </isNotNull>
+      <isNotNull prepend="," property="type" >
+        type
+      </isNotNull>
+      <isNotNull prepend="," property="merchantid" >
+        merchantId
+      </isNotNull>
+      <isNotNull prepend="," property="score" >
+        score
+      </isNotNull>
+      <isNotNull prepend="," property="pjnum" >
+        pjnum
+      </isNotNull>
+      <isNotNull prepend="," property="fuwu" >
+        fuwu
+      </isNotNull>
+      <isNotNull prepend="," property="weiyiid" >
+        weiyiid
+      </isNotNull>
+      <isNotNull prepend="," property="content" >
+        content
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        #id:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="title" >
+        #title:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="pinyin" >
+        #pinyin:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="merchant" >
+        #merchant:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="url" >
+        #url:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="img" >
+        #img:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="cid" >
+        #cid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="fan" >
+        #fan:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="des" >
+        #des:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="addtime" >
+        #addtime:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="sort" >
+        #sort:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="yiqifaurl" >
+        #yiqifaurl:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="lm" >
+        #lm:TINYINT#
+      </isNotNull>
+      <isNotNull prepend="," property="edate" >
+        #edate:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="renzheng" >
+        #renzheng:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="apiUrl" >
+        #apiUrl:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="apiRule" >
+        #apiRule:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="apiCity" >
+        #apiCity:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="duomaiid" >
+        #duomaiid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="yiqifaid" >
+        #yiqifaid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="chanetid" >
+        #chanetid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="chanetDraftid" >
+        #chanetDraftid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="chaneturl" >
+        #chaneturl:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="type" >
+        #type:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="merchantid" >
+        #merchantid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="score" >
+        #score:DOUBLE#
+      </isNotNull>
+      <isNotNull prepend="," property="pjnum" >
+        #pjnum:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="fuwu" >
+        #fuwu:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="weiyiid" >
+        #weiyiid:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="content" >
+        #content:LONGVARCHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="net.fanli7.dataobject.FanliMall" >
+    update fanli_mall
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="title" >
+        title = #title:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="pinyin" >
+        pinyin = #pinyin:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="merchant" >
+        merchant = #merchant:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="url" >
+        url = #url:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="img" >
+        img = #img:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="cid" >
+        cid = #cid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="fan" >
+        fan = #fan:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="des" >
+        des = #des:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="addtime" >
+        addtime = #addtime:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="sort" >
+        sort = #sort:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="yiqifaurl" >
+        yiqifaurl = #yiqifaurl:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="lm" >
+        lm = #lm:TINYINT#
+      </isNotNull>
+      <isNotNull prepend="," property="edate" >
+        edate = #edate:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="renzheng" >
+        renzheng = #renzheng:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="apiUrl" >
+        api_url = #apiUrl:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="apiRule" >
+        api_rule = #apiRule:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="apiCity" >
+        api_city = #apiCity:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="duomaiid" >
+        duomaiid = #duomaiid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="yiqifaid" >
+        yiqifaid = #yiqifaid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="chanetid" >
+        chanetid = #chanetid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="chanetDraftid" >
+        chanet_draftid = #chanetDraftid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="chaneturl" >
+        chaneturl = #chaneturl:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="type" >
+        type = #type:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="merchantid" >
+        merchantId = #merchantid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="score" >
+        score = #score:DOUBLE#
+      </isNotNull>
+      <isNotNull prepend="," property="pjnum" >
+        pjnum = #pjnum:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="fuwu" >
+        fuwu = #fuwu:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="weiyiid" >
+        weiyiid = #weiyiid:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="content" >
+        content = #content:LONGVARCHAR#
+      </isNotNull>
+    </dynamic>
+    where id = #id:INTEGER#
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterClass="net.fanli7.dataobject.FanliMall" >
+    update fanli_mall
+    set title = #title:VARCHAR#,
+      pinyin = #pinyin:VARCHAR#,
+      merchant = #merchant:VARCHAR#,
+      url = #url:VARCHAR#,
+      img = #img:VARCHAR#,
+      cid = #cid:INTEGER#,
+      fan = #fan:VARCHAR#,
+      des = #des:VARCHAR#,
+      addtime = #addtime:INTEGER#,
+      sort = #sort:INTEGER#,
+      yiqifaurl = #yiqifaurl:VARCHAR#,
+      lm = #lm:TINYINT#,
+      edate = #edate:BIGINT#,
+      renzheng = #renzheng:BIT#,
+      api_url = #apiUrl:VARCHAR#,
+      api_rule = #apiRule:VARCHAR#,
+      api_city = #apiCity:VARCHAR#,
+      duomaiid = #duomaiid:INTEGER#,
+      yiqifaid = #yiqifaid:INTEGER#,
+      chanetid = #chanetid:INTEGER#,
+      chanet_draftid = #chanetDraftid:INTEGER#,
+      chaneturl = #chaneturl:VARCHAR#,
+      type = #type:BIT#,
+      merchantId = #merchantid:INTEGER#,
+      score = #score:DOUBLE#,
+      pjnum = #pjnum:INTEGER#,
+      fuwu = #fuwu:VARCHAR#,
+      weiyiid = #weiyiid:VARCHAR#,
+      content = #content:LONGVARCHAR#
+    where id = #id:INTEGER#
+  </update>
+  <update id="updateByPrimaryKey" parameterClass="net.fanli7.dataobject.FanliMall" >
+    update fanli_mall
+    set title = #title:VARCHAR#,
+      pinyin = #pinyin:VARCHAR#,
+      merchant = #merchant:VARCHAR#,
+      url = #url:VARCHAR#,
+      img = #img:VARCHAR#,
+      cid = #cid:INTEGER#,
+      fan = #fan:VARCHAR#,
+      des = #des:VARCHAR#,
+      addtime = #addtime:INTEGER#,
+      sort = #sort:INTEGER#,
+      yiqifaurl = #yiqifaurl:VARCHAR#,
+      lm = #lm:TINYINT#,
+      edate = #edate:BIGINT#,
+      renzheng = #renzheng:BIT#,
+      api_url = #apiUrl:VARCHAR#,
+      api_rule = #apiRule:VARCHAR#,
+      api_city = #apiCity:VARCHAR#,
+      duomaiid = #duomaiid:INTEGER#,
+      yiqifaid = #yiqifaid:INTEGER#,
+      chanetid = #chanetid:INTEGER#,
+      chanet_draftid = #chanetDraftid:INTEGER#,
+      chaneturl = #chaneturl:VARCHAR#,
+      type = #type:BIT#,
+      merchantId = #merchantid:INTEGER#,
+      score = #score:DOUBLE#,
+      pjnum = #pjnum:INTEGER#,
+      fuwu = #fuwu:VARCHAR#,
+      weiyiid = #weiyiid:VARCHAR#
+    where id = #id:INTEGER#
+  </update>
+</sqlMap>

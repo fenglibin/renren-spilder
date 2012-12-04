@@ -50,8 +50,23 @@
 			<ref local="scheduledJobTaobao" />
 		</property>
 		<property name="cronExpression">
-			<!-- 每天6点执行执行 -->
+			<!-- 每天7点执行执行 -->
 			<value>0 0 7 * * ?</value>
+		</property>
+	</bean>
+
+	<bean id="scheduledJobTaobao2"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="getTaobaoDiscountData2" />
+		<property name="targetMethod" value="start" />
+	</bean>
+	<bean id="jobTriggerTaobao2" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref local="scheduledJobTaobao2" />
+		</property>
+		<property name="cronExpression">
+			<!-- 每天7点执行执行 -->
+			<value>0 10 7 * * ?</value>
 		</property>
 	</bean>
 	<!-- 配置定时任务（结束） -->
@@ -65,6 +80,7 @@
 				<ref bean="jobTrigger" />
 				<ref bean="jobTriggerAntiVirus"/>
 				<ref bean="jobTriggerTaobao"/>
+				<ref bean="jobTriggerTaobao2"/>
 			</list>
 		</property>
 		<property name="autoStartup" value="true" />
@@ -81,5 +97,48 @@
 	<!-- 获取淘宝折扣数据 -->
 	<bean id="getTaobaoDiscountData" class="net.fanli7.core.SearchDiscount">
 		<property name="outpath" value="/home/fenglibin/www/www.fanli7.net/jingxuan"></property>
+	</bean>
+	<bean id="getTaobaoDiscountData2" class="net.fanli7.core.SearchDiscount">
+		<property name="outpath" value="/home/fenglibin/www/www.fanli7.net/jingxuan/morethan50"></property>
+		<property name="TAOBAO_DISCOUNT_KEYWORDS" value="taobao_discount_keywords2.txt"></property>
+		<property name="startCommissionRate" value="5000"></property>
+		<property name="endCommissionRate" value="7000"></property>
+	</bean>
+	
+	<!-- For yiqifa -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+	        destroy-method="close">
+	        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	        <property name="url" value="jdbc:mysql://127.0.0.1:3306/fanli7_v8?characterEncoding=utf8" />
+	        <property name="username" value="fanli" />
+	        <property name="password" value="fanli" />
+	</bean>
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>daoconfig/sqlmap.xml</value>
+		</property>
+		<property name="sqlMapClientProperties">
+			<map>
+				<entry key="baseurl">
+					<bean class="net.fanli7.spring.support.GetResourceAsURL">
+						<property name="location" value="daoconfig/sqlmap.xml" />
+						<property name="parent" value="true" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+	<!-- 简体对象定义（开始） -->
+	<bean id="fanliMallDAO" class="net.fanli7.dao.ibatis.IbatisFanliMallDAO" />
+	<bean id="fanliTypeDAO" class="net.fanli7.dao.ibatis.IbatisFanliTypeDAO" />
+	<bean id="getDataFromYiqifa" class="net.fanli7.core.GetDataFromYiqifa">
+		<property name="fanliMallDAO" ref="fanliMallDAO"></property>
+		<property name="fanliTypeDAO" ref="fanliTypeDAO"></property>
+	</bean>
+	<bean id="getTuanDataFromYiqifa" class="net.fanli7.core.GetTuanDataFromYiqifa">
+		<property name="fanliMallDAO" ref="fanliMallDAO"></property>
 	</bean>
 </beans>

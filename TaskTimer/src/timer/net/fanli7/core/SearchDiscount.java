@@ -34,7 +34,7 @@ public class SearchDiscount {
     private String        TAOBAO_DISCOUNT_MODEL    = "taobao_discount_model.htm";
     private String        TAOBAO_DISCOUNT_KEYWORDS = "taobao_discount_keywords.txt";
     private String        outpath                  = "/home/fenglibin/www/www.fanli7.net/jingxuan";
-    private long          smallCommissionRate      = 500L;
+    private long          smallCommissionRate      = 2000L;
     private long          startCommissionRate      = 3000L;
     private long          endCommissionRate        = 6000L;
 
@@ -57,15 +57,15 @@ public class SearchDiscount {
                 model = model.replace("${GOODS_DATE}", date);
                 model = model.replace("${GOODS_TYPE_NAME}", zhongwen);
                 List<TaobaokeItem> items = getTaobaokeItem(zhongwen, startCommissionRate, endCommissionRate);
+                if (items == null) {
+                    items = getTaobaokeItem(zhongwen, smallCommissionRate, endCommissionRate);
+                }
                 if (items != null) {
-                    if (items.size() < 10) {
-                        items = getTaobaokeItem(zhongwen, smallCommissionRate, endCommissionRate);
-                    }
                     if (items != null) {
                         for (TaobaokeItem item : items) {
                             String goods = goods_model;
                             goods = goods.replace("${GOODS_IID}", "" + item.getNumIid());
-                            goods = goods.replace("${IMAGE_URL}", item.getPicUrl());
+                            goods = goods.replace("${IMAGE_URL}", item.getPicUrl() + "_100x100.jpg");
                             goods = goods.replace("${GOODS_TITLE}", item.getTitle());
                             goods = goods.replace("${SHOP_KEEPER}", item.getNick());
                             goods = goods.replace("${SHOP_KEEPER_ENCODE}", "" + URLEncoder.encode(item.getNick()));
@@ -110,10 +110,10 @@ public class SearchDiscount {
         DecimalFormat df = new DecimalFormat("###.00");
         if (!StringUtil.isNull(couponPrice)) {
             return String.valueOf(df.format(Double.parseDouble(couponPrice) * Double.parseDouble(commissionRate)
-                                            * Constants.FANXIANBI / 10000));
+                                            * Constants.TAOBAO_FANXIANBI / 10000));
         } else {
             return String.valueOf(df.format(Double.parseDouble(price) * Double.parseDouble(commissionRate)
-                                            * Constants.FANXIANBI / 10000));
+                                            * Constants.TAOBAO_FANXIANBI / 10000));
         }
     }
 
@@ -133,10 +133,10 @@ public class SearchDiscount {
         // 调用淘宝客API：taobao.taobaoke.items.coupon.get 查询淘客折扣商品
         List<TaobaokeItem> items = null;
         try {
-            TaobaoClient client = new DefaultTaobaoClient(Constants.URL, Constants.APP_KEY, Constants.SECRET);
+            TaobaoClient client = new DefaultTaobaoClient(Constants.TAOBAO_URL, Constants.TAOBAO_APP_KEY, Constants.TAOBAO_SECRET);
             TaobaokeItemsCouponGetRequest req = new TaobaokeItemsCouponGetRequest();
             req.setKeyword(keyword);
-            req.setFields(Constants.FIELDS);
+            req.setFields(Constants.TAOBAO_FIELDS);
             req.setPageNo(1L);
             req.setPageSize(100L);
             req.setStartCredit("1diamond");
@@ -155,15 +155,59 @@ public class SearchDiscount {
         this.outpath = outpath;
     }
 
+    public void setTAOBAO_DISCOUNT_KEYWORDS(String tAOBAO_DISCOUNT_KEYWORDS) {
+        if (!StringUtil.isNull(tAOBAO_DISCOUNT_KEYWORDS)) {
+            TAOBAO_DISCOUNT_KEYWORDS = tAOBAO_DISCOUNT_KEYWORDS;
+        }
+    }
+
+    public void setStartCommissionRate(long startCommissionRate) {
+        if (startCommissionRate > 0) {
+            this.startCommissionRate = startCommissionRate;
+        }
+    }
+
+    public void setEndCommissionRate(long endCommissionRate) {
+        if (startCommissionRate > 0) {
+            this.endCommissionRate = endCommissionRate;
+        }
+    }
+
+    public static void initArgs(String[] args) {
+        if (args.length > 0) {
+            for (int i = 0; i < args.length; i++) {
+                String arg = args[i];
+                String[] keyValue = arg.split("=");
+                String value = "";
+                if (keyValue.length == 1) {
+                    value = "";
+                } else {
+                    value = keyValue[1];
+                }
+                System.setProperty(keyValue[0], value);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         SearchDiscount test = new SearchDiscount();
-        if (args.length == 1) {
-            test.TAOBAO_DISCOUNT_KEYWORDS = args[0];
+        initArgs(args);
+        if (!StringUtil.isNull(System.getProperty("outpath"))) {
+            test.outpath = System.getProperty("outpath");
         }
-        if (args.length == 2) {
-            test.TAOBAO_DISCOUNT_KEYWORDS = args[0];
-            test.startCommissionRate = Long.parseLong(args[1]);
+        if (!StringUtil.isNull(System.getProperty("keywords"))) {
+            test.TAOBAO_DISCOUNT_KEYWORDS = System.getProperty("keywords");
         }
+        if (!StringUtil.isNull(System.getProperty("startCommissionRate"))) {
+            test.startCommissionRate = Long.parseLong(System.getProperty("startCommissionRate"));
+        }
+        if (!StringUtil.isNull(System.getProperty("endCommissionRate"))) {
+            test.endCommissionRate = Long.parseLong(System.getProperty("endCommissionRate"));
+        }
+        // test.outpath = "output";
+        // test.TAOBAO_DISCOUNT_KEYWORDS = "taobao_discount_keywords2.txt";
+        // test.startCommissionRate = 5000L;
+        // test.endCommissionRate = 7000L;
         test.start();
     }
 
