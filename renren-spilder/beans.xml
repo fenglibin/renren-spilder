@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="GB2312"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans default-autowire="byName">
+	<bean id="configBean" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+	    <property name="location"> 
+	        <value>database.properties</value> 
+	    </property> 
+    </bean> 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 	        destroy-method="close">
 	        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-	        <property name="url" value="url" />
-	        <property name="username" value="username" />
-	        <property name="password" value="password" />
+	        <property name="url" value="${it.simple.connection.url}" />
+	        <property name="username" value="${it.simple.connection.username}" />
+	        <property name="password" value="${it.simple.connection.password}" />
 	</bean>
 	<bean id="dataSourceFanti" class="org.apache.commons.dbcp.BasicDataSource"
 	        destroy-method="close">
 	        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-	        <property name="url" value="url" />
-	        <property name="username" value="username" />
-	        <property name="password" value="password" />
+	        <property name="url" value="${it.traditional.connection.url}" />
+	        <property name="username" value="${it.traditional.connection.username}" />
+	        <property name="password" value="${it.traditional.connection.password}" />
 	</bean>
 	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
 		<property name="configLocation">
@@ -71,7 +76,7 @@
 			<ref local="dataSource" />
 		</property>
 		<property name="tablePrefix">
-			<value>renren</value>
+			<value>${it.simple.table.prefix}</value>
 		</property>
 	</bean>
 	<bean id="archivesDAO" class="it.renren.spilder.dao.ibatis.IbatisArchivesDAO">
@@ -79,7 +84,7 @@
 			<ref local="dataSource" />
 		</property>
 		<property name="tablePrefix">
-			<value>renren</value>
+			<value>${it.simple.table.prefix}</value>
 		</property>
 	</bean>
 	<bean id="addonarticleDAO" class="it.renren.spilder.dao.ibatis.IbatisAddonarticleDAO">
@@ -87,7 +92,7 @@
 			<ref local="dataSource" />
 		</property>
 		<property name="tablePrefix">
-			<value>renren</value>
+			<value>${it.simple.table.prefix}</value>
 		</property>
 	</bean>
 	<bean id="downurlDAO" class="it.renren.spilder.dao.ibatis.IbatisDownurlDAO">
@@ -100,7 +105,7 @@
 			<ref local="dataSource" />
 		</property>
 		<property name="tablePrefix">
-			<value>renren</value>
+			<value>${it.simple.table.prefix}</value>
 		</property>
 	</bean>
 	<bean id="feedbackDAO" class="it.renren.spilder.dao.ibatis.IbatisFeedbackDAO">
@@ -108,7 +113,7 @@
 			<ref local="dataSource" />
 		</property>
 		<property name="tablePrefix">
-			<value>renren</value>
+			<value>${it.simple.table.prefix}</value>
 		</property>
 	</bean>
 	<!-- 简体对象定义（开始） -->
@@ -119,7 +124,7 @@
 			<ref local="dataSourceFanti" />
 		</property>
 		<property name="tablePrefix">
-			<value>fanti_</value>
+			<value>${it.traditional.table.prefix}</value>
 		</property>
 		<property name="sqlMapClient" ref="sqlMapClientFanti">
 		</property>
@@ -129,7 +134,7 @@
 			<ref local="dataSourceFanti" />
 		</property>
 		<property name="tablePrefix">
-			<value>fanti_</value>
+			<value>${it.traditional.table.prefix}</value>
 		</property>
 		<property name="sqlMapClient" ref="sqlMapClientFanti">
 		</property>
@@ -142,7 +147,7 @@
 			<ref local="dataSourceFanti" />
 		</property>
 		<property name="tablePrefix">
-			<value>fanti_</value>
+			<value>${it.traditional.table.prefix}</value>
 		</property>
 		<property name="sqlMapClient" ref="sqlMapClientFanti">
 		</property>
@@ -159,7 +164,7 @@
 			<ref local="dataSourceFanti" />
 		</property>
 		<property name="tablePrefix">
-			<value>fanti_</value>
+			<value>${it.traditional.table.prefix}</value>
 		</property>
 		<property name="sqlMapClient" ref="sqlMapClientFanti">
 		</property>
@@ -169,7 +174,7 @@
 			<ref local="dataSourceFanti" />
 		</property>
 		<property name="tablePrefix">
-			<value>fanti_</value>
+			<value>${it.traditional.table.prefix}</value>
 		</property>
 		<property name="sqlMapClient" ref="sqlMapClientFanti">
 		</property>
