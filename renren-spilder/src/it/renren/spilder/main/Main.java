@@ -35,6 +35,9 @@ import it.renren.spilder.util.log.Log4j;
 
 import java.io.File;
 
+import org.apache.commons.httpclient.contrib.ssl.EasySSLProtocolSocketFactory;
+import org.apache.commons.httpclient.protocol.Protocol;
+import org.apache.commons.httpclient.protocol.ProtocolSocketFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -229,6 +232,20 @@ public class Main {
 
     public static void main(String[] args) {
         log4j.logDebug("log4jdebuug");
+
+        {
+            // This is for ssl request
+            EasySSLProtocolSocketFactory easySSL = null;
+            try {
+                easySSL = new EasySSLProtocolSocketFactory();
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Protocol easyhttps = new Protocol("https", (ProtocolSocketFactory) easySSL, 443);
+            Protocol.registerProtocol("https", easyhttps);
+        }
+
         Main main = new Main();
         Main.Param param = main.new Param();
         param = main.initParameters(args);

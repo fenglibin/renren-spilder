@@ -1,4 +1,4 @@
-package it.renren.spilder.filter;
+package it.renren.spilder.filter.seperatepage;
 
 public interface ISeparatePage {
 

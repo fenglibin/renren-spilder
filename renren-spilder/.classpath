@@ -32,5 +32,6 @@
 	<classpathentry kind="lib" path="lib/junit-4.7.jar"/>
 	<classpathentry kind="lib" path="lib/junit-dep-4.7.jar"/>
 	<classpathentry kind="lib" path="lib/fastjson-1.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-httpclient-contrib.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

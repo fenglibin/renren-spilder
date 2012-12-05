@@ -1,4 +1,4 @@
-package it.renren.spilder.filter;
+package it.renren.spilder.filter.seperatepage;
 
 import it.renren.spilder.main.Constants;
 import it.renren.spilder.util.FileUtil;
