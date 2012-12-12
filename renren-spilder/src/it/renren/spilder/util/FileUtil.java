@@ -372,7 +372,8 @@ public class FileUtil {
         String extName = getFileExtensation(fileName);
         if (!StringUtil.isEmpty(extName)) {
             extName = extName.toLowerCase();
-            if (extName.equals("jpg") || extName.equals("png") || extName.equals("gif") || extName.equals("bmp")) {
+            if (extName.equals("jpg") || extName.equals("jpeg") || extName.equals("png") || extName.equals("gif")
+                || extName.equals("bmp")) {
                 is = Boolean.TRUE;
             }
         }

@@ -40,6 +40,8 @@ public class ImageUtil {
         BufferedImage srcImage = null;
         FileInputStream in = new FileInputStream(srcImg);
         srcImage = javax.imageio.ImageIO.read(in);
+        in.close();
+        in = null;
         return srcImage;
     }
 
@@ -241,6 +243,11 @@ public class ImageUtil {
         // 根据图片尺寸压缩比得到新图的尺寸
         newImg.getGraphics().drawImage(src.getScaledInstance(new_w, new_h, Image.SCALE_SMOOTH), 0, 0, null);
 
+        if (src != null) {
+            src.flush();
+            src = null;
+        }
+
         // 调用方法输出图片文件
         OutImage(outImg, newImg);
     }
@@ -264,7 +271,10 @@ public class ImageUtil {
             ImageIO.write(newImg, outImg.substring(outImg.lastIndexOf(".") + 1), new File(outImg));
         } finally {
             outImg = null;
-            newImg = null;
+            if (newImg != null) {
+                newImg.flush();
+                newImg = null;
+            }
         }
     }
 
@@ -286,11 +296,11 @@ public class ImageUtil {
      * @param srcFile
      * @param width
      * @param height
-     * @param descFile
+     * @param destFile
      * @throws IOException
      */
-    public static void cutImgFile(String srcFile, int width, int height, String descFile) throws IOException {
-        cutImgFile(new File(srcFile), 0, 0, width, height, descFile);
+    public static void cutImgFile(String srcFile, int width, int height, String destFile) throws IOException {
+        cutImgFile(new File(srcFile), 0, 0, width, height, destFile);
     }
 
     /**
@@ -311,11 +321,11 @@ public class ImageUtil {
      * @param file
      * @param width
      * @param height
-     * @param descFile
+     * @param destFile
      * @throws IOException
      */
-    public static void cutImgFile(File file, int width, int height, String descFile) throws IOException {
-        cutImgFile(file, 0, 0, width, height, descFile);
+    public static void cutImgFile(File file, int width, int height, String destFile) throws IOException {
+        cutImgFile(file, 0, 0, width, height, destFile);
     }
 
     /**
@@ -326,10 +336,10 @@ public class ImageUtil {
      * @param y 开始剪切的y坐标
      * @param width 目标图片的宽度
      * @param height 目标图片的高度
-     * @param descFile 目标输出文件，如果为空，则直接覆盖原文件
+     * @param destFile 目标输出文件，如果为空，则直接覆盖原文件
      * @throws IOException
      */
-    public static void cutImgFile(File file, int x, int y, int width, int height, String descFile) throws IOException {
+    public static void cutImgFile(File file, int x, int y, int width, int height, String destFile) throws IOException {
         String endName = file.getName();
         endName = endName.substring(endName.lastIndexOf(".") + 1);
         Iterator<ImageReader> readers = ImageIO.getImageReadersByFormatName(endName);
@@ -341,15 +351,20 @@ public class ImageUtil {
         Rectangle rect = new Rectangle(x, y, width, height);
         param.setSourceRegion(rect);
         BufferedImage bi = reader.read(0, param);
-        if (descFile == null) {
-            descFile = file.getAbsolutePath();
+        if (destFile == null) {
+            destFile = file.getAbsolutePath();
         }
-        ImageOutputStream out = ImageIO.createImageOutputStream(new FileOutputStream(descFile));
+        ImageOutputStream out = ImageIO.createImageOutputStream(new FileOutputStream(destFile));
         ImageIO.write(bi, endName, out);
+        reader = null;
         out.close();
         iis.close();
         is.close();
         bi.flush();
+        out = null;
+        iis = null;
+        is = null;
+        bi = null;
     }
 
     /**
@@ -370,18 +385,21 @@ public class ImageUtil {
      * 
      * @param file
      * @param reduceHeight 待减少的高度值
-     * @param descFile 减少后生成的目标文件
+     * @param destFile 减少后生成的目标文件
      * @throws IOException
      */
-    public static void reduceImageHeight(File file, int reduceHeight, String descFile) throws IOException {
+    public static void reduceImageHeight(File file, int reduceHeight, String destFile) throws IOException {
         BufferedImage src = InputImage(file.getAbsolutePath());
         int width = src.getWidth();
         int height = src.getHeight();
-        src = null;
+        if (src != null) {
+            src.flush();
+            src = null;
+        }
         if (reduceHeight >= height) {
             return;
         }
-        cutImgFile(file, width, height - reduceHeight, descFile);
+        cutImgFile(file, width, height - reduceHeight, destFile);
     }
 
     /**
@@ -402,18 +420,21 @@ public class ImageUtil {
      * 
      * @param file
      * @param reduceWeight 待减少的宽度值
-     * @param descFile 减少后生成的目标文件
+     * @param destFile 减少后生成的目标文件
      * @throws IOException
      */
-    public static void reduceImageWidth(File file, int reduceWeight, String descFile) throws IOException {
+    public static void reduceImageWidth(File file, int reduceWeight, String destFile) throws IOException {
         BufferedImage src = InputImage(file.getAbsolutePath());
         int width = src.getWidth();
         int height = src.getHeight();
-        src = null;
+        if (src != null) {
+            src.flush();
+            src = null;
+        }
         if (reduceWeight >= width) {
             return;
         }
-        cutImgFile(file, width - reduceWeight, height, descFile);
+        cutImgFile(file, width - reduceWeight, height, destFile);
     }
 
     /**
@@ -436,15 +457,18 @@ public class ImageUtil {
      * @param file
      * @param reduceWeight 待减少的高度值
      * @param reduceHeight 待减少的宽度值
-     * @param descFile 减少后生成的目标文件
+     * @param destFile 减少后生成的目标文件
      * @throws IOException
      */
-    public static void reduceImageWidth(File file, int reduceWeight, int reduceHeight, String descFile)
+    public static void reduceImageWidth(File file, int reduceWeight, int reduceHeight, String destFile)
                                                                                                        throws IOException {
         BufferedImage src = InputImage(file.getAbsolutePath());
         int width = src.getWidth();
         int height = src.getHeight();
-        src = null;
+        if (src != null) {
+            src.flush();
+            src = null;
+        }
         if (reduceWeight >= width) {
             reduceWeight = 0;
         }
@@ -468,6 +492,20 @@ public class ImageUtil {
      */
     public final static void addWaterMark(String srcImg, String waterImg, WaterImageLocation location, float alpha)
                                                                                                                    throws IOException {
+        addWaterMark(srcImg, waterImg, location, alpha, null);
+    }
+
+    /**
+     * 根据指定水印位置，在原图上增加水印
+     * 
+     * @param srcImg 源图片
+     * @param waterImg 水印图片
+     * @param location 水印位置，现在只支持左下角
+     * @param alpha 透明度(0.0 -- 1.0, 0.0为完全透明，1.0为完全不透明)
+     * @throws IOException
+     */
+    public final static void addWaterMark(String srcImg, String waterImg, WaterImageLocation location, float alpha,
+                                          String destImg) throws IOException {
         int x = 0, y = 0;
         // 得到图片
         BufferedImage src = InputImage(srcImg);
@@ -476,9 +514,15 @@ public class ImageUtil {
             y = src.getHeight() - water.getHeight();
             y = y < 0 ? 0 : y;
         }
-        water = null;
-        src = null;
-        addWaterMark(srcImg, waterImg, x, y, alpha);
+        if (water != null) {
+            water.flush();
+            water = null;
+        }
+        if (src != null) {
+            src.flush();
+            src = null;
+        }
+        addWaterMark(srcImg, waterImg, x, y, alpha, destImg);
     }
 
     /**
@@ -492,10 +536,30 @@ public class ImageUtil {
      * @throws IOException
      */
     public final static void addWaterMark(String srcImg, String waterImg, int x, int y, float alpha) throws IOException {
-        // 加载目标图片
-        File file = new File(srcImg);
+        addWaterMark(srcImg, waterImg, x, y, alpha, null);
+    }
+
+    /**
+     * 添加图片水印
+     * 
+     * @param srcImg 源图片路径，如：C:\\kutuku.jpg
+     * @param waterImg 水印图片路径，如：C:\\kutuku.png
+     * @param x 水印图片距离目标图片左侧的偏移量，如果x<0, 则在正中间
+     * @param y 水印图片距离目标图片上侧的偏移量，如果y<0, 则在正中间
+     * @param alpha 透明度(0.0 -- 1.0, 0.0为完全透明，1.0为完全不透明)
+     * @param destImg 目标图片路径，如：C:\\kutuku.jpg
+     * @throws IOException
+     */
+    public final static void addWaterMark(String srcImg, String waterImg, int x, int y, float alpha, String destImg)
+                                                                                                                    throws IOException {
+        // 加载源图片
+        File srcFile = new File(srcImg);
+        File destFile = new File(srcImg);
+        if (destImg != null) {
+            destFile = new File(destImg);
+        }
         String ext = srcImg.substring(srcImg.lastIndexOf(".") + 1);
-        Image image = ImageIO.read(file);
+        Image image = ImageIO.read(srcFile);
         int width = image.getWidth(null);
         int height = image.getHeight(null);
 
@@ -531,7 +595,21 @@ public class ImageUtil {
         g.dispose();
 
         // 保存目标图片。
-        ImageIO.write(bufferedImage, ext, file);
+        ImageIO.write(bufferedImage, ext, destFile);
+        if (waterImage != null) {
+            waterImage.flush();
+            waterImage = null;
+        }
+        if (bufferedImage != null) {
+            bufferedImage.flush();
+            bufferedImage = null;
+        }
+        if (image != null) {
+            image.flush();
+            image = null;
+        }
+        srcFile = null;
+        destFile = null;
     }
 
     /**
