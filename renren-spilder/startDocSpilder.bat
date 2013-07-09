@@ -1,0 +1,1 @@
+java -jar -Xmn16m -Xms64m -Xmx128m renren.it_spilder.jar -dconfig/doc_config -springdocBeans.xml -referer=http://www.360doc.com

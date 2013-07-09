@@ -122,6 +122,9 @@ public class UrlUtil {
         boolean firstImage = true;
         for (ImageElement image : imageElements) {
             String imageSrc = image.getSrc();
+            if (StringUtil.isEmpty(imageSrc)) {
+                continue;
+            }
             /* 将图片URL中的中文编码进行还原 */
             imageSrc = URLDecoder.decode(imageSrc, childPageConfig.getCharset());
             /* 获取文件名，没有路径 */

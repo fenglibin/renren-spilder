@@ -50,8 +50,10 @@ public class HttpClientUtil {
 
     /**
      * 返回默认的Http Client Header
+     * 
+     * @throws IOException
      */
-    public static List<Header> getHttpDefaultHeader() {
+    public static List<Header> getHttpDefaultHeader() throws IOException {
         List<Header> headers = new ArrayList<Header>();
         headers.add(new Header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"));
         headers.add(new Header("Accept-Charset", "GBK,utf-8;q=0.7,*;q=0.3"));
@@ -61,15 +63,21 @@ public class HttpClientUtil {
         headers.add(new Header("Accept-Language", "zh-CN,zh;q=0.8"));
         headers.add(new Header("Cache-Contro", "max-age=0"));
         headers.add(new Header("Connection", "keep-alive"));
-        headers.add(new Header("Cookie", ""));
-        headers.add(new Header("Referer", "http://www.google.com"));
+        String cookie = null;
+        if (!StringUtil.isEmpty(Environment.cookFile)) {
+            cookie = FileUtil.getFileContent(Environment.cookFile);
+        }
+        if (!StringUtil.isEmpty(cookie)) {
+            headers.add(new Header("Cookie", cookie));
+        }
+        headers.add(new Header("Referer", Environment.referer));
         headers.add(new Header(
                                "User-Agent",
                                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.8 (KHTML, like Gecko; Google Web Preview) Chrome/19.0.1084.36 Safari/536.8"));
         return headers;
     }
 
-    public static HttpClient getHttpClient() {
+    public static HttpClient getHttpClient(String referer) throws IOException {
         HttpClient client = new HttpClient(manager);
         client.getHostConfiguration().getParams().setParameter("http.default-headers", getHttpDefaultHeader());
         if (initialed) {
@@ -97,7 +105,6 @@ public class HttpClientUtil {
         String cookie = null;
         if (!StringUtil.isEmpty(Environment.cookFile)) {
             cookie = FileUtil.getFileContent(Environment.cookFile);
-
         }
         return getGetResponseWithHttpClient(url, encode, byProxy, cookie);
     }
@@ -126,19 +133,7 @@ public class HttpClientUtil {
             }
             // 设置代理结束
         }
-
-        List<Header> headers = new ArrayList<Header>();
-        headers.add(new Header("User-Agent",
-                               "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.854.0 Safari/535.2"));
-        headers.add(new Header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"));
-        headers.add(new Header("Accept-Charset", "GBK,utf-8;q=0.7,*;q=0.3"));
-        headers.add(new Header("Accept-Language", "zh-CN,zh;q=0.8"));
-        headers.add(new Header("Cache-Control", "max-age=3600"));
-        headers.add(new Header("Connection", "keep-alive"));
-        if (!StringUtil.isEmpty(cookie)) {
-            headers.add(new Header("Cookie", cookie));
-        }
-        client.getHostConfiguration().getParams().setParameter("http.default-headers", headers);
+        client.getHostConfiguration().getParams().setParameter("http.default-headers", getHttpDefaultHeader());
         if (initialed) {
             HttpClientUtil.SetPara();
         }

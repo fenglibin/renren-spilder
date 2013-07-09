@@ -1,2 +1,1 @@
-set classpath=renren.it_spilder.jar;%classpath%
-java it.renren.spilder.util.WashBeforeContent 11
+java -jar -Xmn16m -Xms64m -Xmx128m renren.it_spilder.jar -dconfig/baidu

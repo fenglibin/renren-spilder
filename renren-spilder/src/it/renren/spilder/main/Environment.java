@@ -24,4 +24,6 @@ public class Environment {
     public static String  waterImageLocation                     = null;
     // 存放cook内容的文件
     public static String  cookFile                               = null;
+    // 获取资源时的referer
+    public static String  referer                                = "http://www.google.com.hk";
 }

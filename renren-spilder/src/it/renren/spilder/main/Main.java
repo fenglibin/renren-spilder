@@ -72,6 +72,8 @@ public class Main {
         private String  loopSleepTime    = "";
         // Spring的配置文件路径
         private String  springConfigFile;
+        //
+        private String  referer          = null;
 
         public boolean isFile() {
             return isFile;
@@ -175,6 +177,10 @@ public class Main {
             Environment.cookFile = cookFile;
         }
 
+        public void setReferer(String referer) {
+            Environment.referer = referer;
+        }
+
     }
 
     /**
@@ -224,6 +230,8 @@ public class Main {
                 param.setWaterImageLocation(value.replace("-waterImageLocation=", "").replace("-waterImageLocation", ""));
             } else if (value.startsWith("-cookFile")) {// 设置cookie存放的文件，因为cookie内容比较多，就不传到参数里了，直接放到文件文件中读取
                 param.setCookFile(value.replace("-cookFile=", "").replace("-cookFile", ""));
+            } else if (value.startsWith("-referer")) {
+                param.setReferer(value.replace("-referer=", "").replace("-referer", ""));
             }
 
         }
@@ -261,6 +269,9 @@ public class Main {
             param.setFileName("config/normal/headnews/rule_sina_tech_headnews.xml");
             param.setFileName("config/normal/headnews/itnews_index.xml");
             param.setFileName("config/normal/jz123.cn/yejie.xml");
+            param.setFileName("config/baidu/baike.xml");
+            param.setFileName("config/doc_config/360doc.com.xml");
+            Environment.cookFile = "cookie.txt";
             // Environment.isImageSite = Boolean.TRUE;
             // Environment.isSaveImage2CurrentHtmlFileTileNameDir = Boolean.TRUE;
             // 文件夹测试
@@ -268,7 +279,7 @@ public class Main {
             // param.setDirectoryName("config/headnews");
             // param.setDealOnePage(true);
 
-            param.setSpringConfigFile("beans.xml");
+            param.setSpringConfigFile("docBeans.xml");
             param.setCheckConfigFile(Boolean.TRUE);
 
             // param.setUseProxyTrue();
