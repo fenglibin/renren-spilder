@@ -26,6 +26,20 @@
 		</property>
 	</bean>
 	
+	<bean id="startDocSpilderJob"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="startDocSpilder" />
+		<property name="targetMethod" value="start" />
+	</bean>
+	<bean id="startDocSpilderJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref local="startDocSpilderJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 59 9,15,21 * * ?</value>
+		</property>
+	</bean>
+		
 	<bean id="scheduledJobAntiVirus"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="antiVirus" />
@@ -78,6 +92,7 @@
 		<property name="triggers">
 			<list>
 				<ref bean="jobTrigger" />
+				<ref bean="startDocSpilderJobTrigger"/>
 				<ref bean="jobTriggerAntiVirus"/>
 				<ref bean="jobTriggerTaobao"/>
 				<ref bean="jobTriggerTaobao2"/>
@@ -90,6 +105,9 @@
 	<!--定时任务-->
 	<bean id="runCommand" class="it.renren.timer.job.RunCommand">
 		<property name="command" value="/home/fenglibin/timetask/startSpilder.sh"></property>
+	</bean>
+	<bean id="startDocSpilder" class="it.renren.timer.job.RunCommand">
+		<property name="command" value="/home/fenglibin/mysoft/startDocSpilder.sh"></property>
 	</bean>
 	<bean id="antiVirus" class="it.renren.timer.job.RunCommand">
 		<property name="command" value="/home/fenglibin/timetask/antiVirus.sh"></property>
