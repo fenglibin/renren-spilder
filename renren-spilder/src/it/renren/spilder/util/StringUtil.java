@@ -432,14 +432,13 @@ public class StringUtil {
     }
 
     public static void writeGetImageToFile(String srcUrl, String fileSavePath, String fileName) throws IOException {
-        String date = DateUtil.getNow("yyyy-MM-dd");
         String err = "#" + srcUrl + "===" + fileSavePath + "===" + DateUtil.getNow(null) + "\n";
         err += "cd " + fileSavePath + "\n";
         err += "rm -f " + fileName + "\n";
         err += "wget " + srcUrl + "\n";
         err += "cd /home/fenglibin/mysoft\n";
-        err += "java -Xmn130m -Xms256m -Xmx400m -cp renren.it_spilder.jar it.renren.spilder.util.wash.GenLitImage savePath=/home/fenglibin/www/img.renren.it/"
-               + date + "/ filename=" + fileName + "\n";
+        err += "java -Xmn130m -Xms256m -Xmx400m -cp renren.it_spilder.jar it.renren.spilder.util.wash.GenLitImage savePath="
+               + fileSavePath + "/ filename=" + fileName + "\n";
         err += "cd -\n";
         try {
             FileUtil.writeFileAppend(Constants.notGetImagesUrlSaveFile, err);
