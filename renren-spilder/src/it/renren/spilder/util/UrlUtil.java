@@ -14,9 +14,12 @@ import it.renren.spilder.util.log.Log4j;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
+import java.util.Set;
 
 import org.htmlparser.util.ParserException;
 
@@ -262,7 +265,7 @@ public class UrlUtil {
      */
     public static String replaceRelativePath2AbsolutePate(String childUrl, String childContent, String charset)
                                                                                                                throws ParserException {
-        List<AHrefElement> childLinks = AHrefParser.ahrefParser(childContent, null, null, charset, Boolean.FALSE);
+        Set<AHrefElement> childLinks = AHrefParser.ahrefParser(childContent, null, null, charset, Boolean.FALSE);
         for (AHrefElement href : childLinks) {
             String url = href.getHref();
             if (!url.startsWith("http")) {
@@ -296,7 +299,7 @@ public class UrlUtil {
      * @throws ParserException
      */
     public static String replaceHref2GoUrl(String childContent, String charset) throws ParserException {
-        List<AHrefElement> childLinks = AHrefParser.ahrefParser(childContent, null, null, charset, Boolean.FALSE);
+        Set<AHrefElement> childLinks = AHrefParser.ahrefParser(childContent, null, null, charset, Boolean.FALSE);
         for (AHrefElement href : childLinks) {
             String goUrl = GO_URL;
             String url = href.getHref();
@@ -337,6 +340,40 @@ public class UrlUtil {
         int index = url.indexOf("://") + 3;
         url = url.substring(index);
         return url;
+    }
+
+    /**
+     * 处理URL中的特殊字符，如将空格替换为%20等、将中文进行转码等操作:<br>
+     * 1. + URL 中+号表示空格 %2B <br>
+     * 2. 空格 URL中的空格可以用+号或者编码 %20<br>
+     * 3. / 分隔目录和子目录 %2F<br>
+     * 4. ? 分隔实际的 URL 和参数 %3F<br>
+     * 5. % 指定特殊字符 %25<br>
+     * 6. # 表示书签 %23<br>
+     * 7. & URL 中指定的参数间的分隔符 %26<br>
+     * 8. = URL 中指定参数的值 %3D <br>
+     * 
+     * @param url
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    public static String prettyUrl(String url) throws UnsupportedEncodingException {
+        if (StringUtil.isEmpty(url)) {
+            return url;
+        }
+        // 处理空格
+        url = url.replace(" ", "%20");
+        // 处理中文
+        StringBuffer utf8Str = new StringBuffer();
+        char[] charArray = url.toCharArray();
+        for (int i = 0; i < charArray.length; i++) {
+            if ((charArray[i] >= 0x4e00) && (charArray[i] <= 0x9fbb)) {
+                utf8Str.append(URLEncoder.encode(String.valueOf(charArray[i]), "utf-8"));
+            } else {
+                utf8Str.append(charArray[i]);
+            }
+        }
+        return utf8Str.toString();
     }
 
     public static void main(String[] args) {

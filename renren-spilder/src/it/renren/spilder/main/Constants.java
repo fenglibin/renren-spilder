@@ -65,4 +65,12 @@ public class Constants {
     public static final String SEPARATE_PAGE_SEPARATOR              = "_";
     // 未成功获取图片的URL保存文件
     public static final String notGetImagesUrlSaveFile              = "/home/fenglibin/mysoft/notGetImagesUrlSaveFile.txt";
+
+    public static final String EMPTY_STRING                         = "";
+    public static final String BLANK_STRING                         = "";
+
+    public static class HttpHeader {
+
+        public static final String CONTENT_ENCODING = "Content-Encoding";
+    }
 }

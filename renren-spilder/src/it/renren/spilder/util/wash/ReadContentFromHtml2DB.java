@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,7 +73,7 @@ public class ReadContentFromHtml2DB extends WashBase {
         if (StringUtil.checkExistOnlyOnce(content, FROM)) {
             int index = content.indexOf(FROM);
             String strTemp = content.substring(index);
-            List<AHrefElement> childLinks = AHrefParser.ahrefParser(strTemp, null, null, getCharset(), Boolean.FALSE);
+            Set<AHrefElement> childLinks = AHrefParser.ahrefParser(strTemp, null, null, getCharset(), Boolean.FALSE);
             String strTemp2 = strTemp;
             for (AHrefElement href : childLinks) {
                 if (href.getHrefText().indexOf("CCCCCC") < 0) {

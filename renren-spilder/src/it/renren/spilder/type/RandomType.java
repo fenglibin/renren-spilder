@@ -6,15 +6,16 @@ import it.renren.spilder.util.StringUtil;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
-public class AutoDetectTypes implements Type {
+public class RandomType implements Type {
 
     /* 用于存放分类的MAP，程序会在初使化的时候将其初使化，到这里调用方法的时候已经有值了 */
     private static Map<Integer, String> typesMapData = null;
     TypesMap                            typesMap;
 
     /**
-     * 自动检测当前文章为什么分类，如果不能够检测出则返回默认的分类
+     * 自动检测当前文章为什么分类，如果不能够检测出则返回随机分类
      * 
      * @param parentPageConfig
      * @param detail
@@ -22,9 +23,6 @@ public class AutoDetectTypes implements Type {
      */
     public int getType(ParentPage parentPageConfig, ChildPageDetail detail) {
         int type = -1;
-        if (StringUtil.isEmpty(parentPageConfig.getAutoDetectTypeMapClass())) {
-            return Integer.parseInt(parentPageConfig.getDesArticleId());
-        }
         if (typesMapData == null) {
             typesMapData = typesMap.getTypesMap();
         }
@@ -52,8 +50,15 @@ public class AutoDetectTypes implements Type {
                 }
             }
         }
-        if (type == -1) {
-            type = Integer.parseInt(parentPageConfig.getDesArticleId());
+
+        int rondom = (int) (Math.random() * typesMapData.size());
+        int index = 0;
+        for (Entry<Integer, String> entry : typesMapData.entrySet()) {
+            if (rondom == index) {
+                type = entry.getKey();
+                break;
+            }
+            index++;
         }
         return type;
     }

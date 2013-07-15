@@ -1,17 +1,17 @@
 package it.renren.spilder.util.other;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
-import org.apache.commons.httpclient.HttpException;
-
 import it.renren.spilder.parser.AHrefElement;
 import it.renren.spilder.parser.AHrefParser;
 import it.renren.spilder.util.FileUtil;
 import it.renren.spilder.util.HttpClientUtil;
 import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.log.Log4j;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Set;
+
+import org.apache.commons.httpclient.HttpException;
 
 /**
  * 根据CSDN博客专家页面，生成配置文件
@@ -36,7 +36,7 @@ public class MakeCNBlogs {
         content = StringUtil.subString(content, "<table align=\"center\" width=\"90%\">", "</table>");
         try {
             String modelContent = FileUtil.getFileContent(modXmlFile);
-            List<AHrefElement> childLinks = AHrefParser.ahrefParser(content, "", "rss.aspx", "utf-8", false);
+            Set<AHrefElement> childLinks = AHrefParser.ahrefParser(content, "", "rss.aspx", "utf-8", false);
             String pages = "1";
             for (AHrefElement link : childLinks) {
                 try {
@@ -46,7 +46,7 @@ public class MakeCNBlogs {
                     if (new File(thisfilename).exists()) {
                         continue;
                     } else {
-                        // 默认最多10页，不去获取具体的用户有多少页了                        
+                        // 默认最多10页，不去获取具体的用户有多少页了
                         // // 去掉下面的注释就可以获取详细的页数
                         // content = HttpClientUtil.getGetResponseWithHttpClient(childUrl + "default.html?page=1",
                         // "utf-8");

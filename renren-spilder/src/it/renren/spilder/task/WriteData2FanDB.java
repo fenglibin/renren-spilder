@@ -13,7 +13,7 @@ import it.renren.spilder.dataobject.FeedbackDO;
 import it.renren.spilder.main.config.ChildPage;
 import it.renren.spilder.main.config.ParentPage;
 import it.renren.spilder.main.detail.ChildPageDetail;
-import it.renren.spilder.type.AutoDetectTypes;
+import it.renren.spilder.type.Type;
 import it.renren.spilder.util.FontUtil;
 import it.renren.spilder.util.log.Log4j;
 
@@ -25,7 +25,7 @@ public class WriteData2FanDB extends Task {
     ArchivesDAO          archivesDAOFanti;
     AddonarticleDAO      addonarticleDAOFanti;
     DownurlDAO           downurlDAOFanti;
-    AutoDetectTypes      autoDetectTypes;
+    Type                 type;
     FeedbackDAO          feedbackDAOFanti;
 
     public void doTask(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail) throws Exception {
@@ -38,7 +38,7 @@ public class WriteData2FanDB extends Task {
             ChildPageDetail detailClone = detail.clone();
             dealedArticleNum++;
             log4j.logDebug("开始保存:" + detailClone.getUrl());
-            int typeid = autoDetectTypes.detectType(parentPageConfig, detailClone);
+            int typeid = type.getType(parentPageConfig, detailClone);
             ArctinyDO arctinyDO = new ArctinyDO();
 
             int tempTypeId = (int) (Math.random() * 1000) + 9999;/* 临时ID，主要用于获取当前插入的自增ID */
@@ -146,8 +146,8 @@ public class WriteData2FanDB extends Task {
         this.downurlDAOFanti = downurlDAOFanti;
     }
 
-    public void setAutoDetectTypes(AutoDetectTypes autoDetectTypes) {
-        this.autoDetectTypes = autoDetectTypes;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public void setFeedbackDAOFanti(FeedbackDAO feedbackDAOFanti) {

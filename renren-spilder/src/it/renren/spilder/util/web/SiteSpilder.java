@@ -15,8 +15,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.httpclient.HttpException;
 import org.htmlparser.util.ParserException;
@@ -48,7 +48,7 @@ public class SiteSpilder extends WashBase {
         // System.out.println("currentPageUrl:"+currentPageUrl);
         String content = HttpClientUtil.getGetResponseWithHttpClient(currentPageUrl, getEncode());
         // write(currentPageUrl, content);
-        List<AHrefElement> childLinksList = AHrefParser.ahrefParser(content, getEncode());
+        Set<AHrefElement> childLinksList = AHrefParser.ahrefParser(content, getEncode());
         childLinksList = getAbsoluteChildUrlList(currentPageUrl, childLinksList);
         // System.out.println("childUrls:");
         for (AHrefElement link : childLinksList) {
@@ -62,8 +62,8 @@ public class SiteSpilder extends WashBase {
      * @param childLinksList
      * @return
      */
-    private static List<AHrefElement> getAbsoluteChildUrlList(String currentPageUrl, List<AHrefElement> childLinksList) {
-        List<AHrefElement> element = new ArrayList<AHrefElement>();
+    private static Set<AHrefElement> getAbsoluteChildUrlList(String currentPageUrl, Set<AHrefElement> childLinksList) {
+        Set<AHrefElement> element = new HashSet<AHrefElement>();
         for (AHrefElement link : childLinksList) {
             String childUrl = link.getHref();
             childUrl = UrlUtil.makeUrl(currentPageUrl, childUrl);

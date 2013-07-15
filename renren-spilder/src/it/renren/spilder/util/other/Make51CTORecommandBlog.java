@@ -1,16 +1,16 @@
 package it.renren.spilder.util.other;
 
-import java.io.IOException;
-import java.util.List;
-
-import org.apache.commons.httpclient.HttpException;
-
 import it.renren.spilder.parser.AHrefElement;
 import it.renren.spilder.parser.AHrefParser;
 import it.renren.spilder.util.FileUtil;
 import it.renren.spilder.util.HttpClientUtil;
 import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.log.Log4j;
+
+import java.io.IOException;
+import java.util.Set;
+
+import org.apache.commons.httpclient.HttpException;
 
 /**
  * 根据CSDN博客专家页面，生成配置文件
@@ -23,8 +23,8 @@ public class Make51CTORecommandBlog {
 
     /**
      * @param args
-     * @throws IOException 
-     * @throws HttpException 
+     * @throws IOException
+     * @throws HttpException
      */
     public static void main(String[] args) throws HttpException, IOException {
         // TODO Auto-generated method stub
@@ -42,7 +42,7 @@ public class Make51CTORecommandBlog {
                                            "</table>");
             try {
                 String modelContent = FileUtil.getFileContent(modXmlFile);
-                List<AHrefElement> childLinks = AHrefParser.ahrefParser(content, "", "", charset, false);
+                Set<AHrefElement> childLinks = AHrefParser.ahrefParser(content, "", "", charset, false);
                 String pages = "1";
                 String uid = "";
                 for (AHrefElement link : childLinks) {

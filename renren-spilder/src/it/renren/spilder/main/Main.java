@@ -260,7 +260,7 @@ public class Main {
         if (args.length == 0) {
             args = new String[1];
             // 文件测试
-            param.setFile(true);
+            // param.setFile(true);
             param.setFileName("config/google.org.cn/rule_google.org.cn_wordpressblog.xml");
             param.setFileName("config/www.blogjava.net/model.xml");
             param.setFileName("config/developer.51cto.com.xml");
@@ -270,13 +270,19 @@ public class Main {
             param.setFileName("config/normal/headnews/itnews_index.xml");
             param.setFileName("config/normal/jz123.cn/yejie.xml");
             param.setFileName("config/baidu/baike.xml");
-            param.setFileName("config/doc_config/360doc.com.xml");
-            Environment.cookFile = "cookie.txt";
+            param.setFileName("config/doc_config/aisixiang.com.xml");
+            param.setFileName("config/doc_config/1/blogbus.com.xml");
+            param.setFileName("config/normal/blog.51cto.com/3/rule_didda.blog.51cto.com.xml");
+            param.setFileName("config/normal/ibm/rule_ibm_dep_was.xml");
+            param.setFileName("config/normal/csdn/rule_csdn_blog_all.xml");
+
+            // Environment.cookFile = "cookie.txt";
             // Environment.isImageSite = Boolean.TRUE;
             // Environment.isSaveImage2CurrentHtmlFileTileNameDir = Boolean.TRUE;
             // 文件夹测试
-            // param.setDirectory(true);
-            // param.setDirectoryName("config/headnews");
+            param.setDirectory(true);
+            param.setDirectoryName("config/normal/csdn");
+            param.setDirectoryName("config/doc_config");
             // param.setDealOnePage(true);
 
             param.setSpringConfigFile("docBeans.xml");
@@ -318,11 +324,12 @@ public class Main {
             Thread thread = new Thread(taskExecuter);
             thread.start();
         } else if (param.isDirectory()) {
-            if (param.getOneFileSleepTime().equals("") && param.getLoopSleepTime().equals("")) {
+            if (StringUtil.isEmpty(param.getOneFileSleepTime()) && StringUtil.isEmpty(param.getLoopSleepTime())) {
                 saveFromConfigDir(param.getDirectoryName());
-            } else if (!param.getOneFileSleepTime().equals("") && param.getLoopSleepTime().equals("")) {
+            } else if (!StringUtil.isEmpty(param.getOneFileSleepTime()) && StringUtil.isEmpty(param.getLoopSleepTime())) {
                 saveFromConfigDir(param.getDirectoryName(), Long.parseLong(param.getOneFileSleepTime()));
-            } else if (!param.getOneFileSleepTime().equals("") && !param.getLoopSleepTime().equals("")) {
+            } else if (!StringUtil.isEmpty(param.getOneFileSleepTime())
+                       && !StringUtil.isEmpty(param.getLoopSleepTime())) {
                 saveFromConfigDir(param.getDirectoryName(), Long.parseLong(param.getOneFileSleepTime()),
                                   Long.parseLong(param.getLoopSleepTime()));
             }

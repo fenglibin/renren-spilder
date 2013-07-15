@@ -22,7 +22,9 @@ import it.renren.spilder.util.log.Log4j;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.htmlparser.util.ParserException;
 import org.jdom.Document;
@@ -69,7 +71,9 @@ public class TaskExecuter extends Thread {
                 try {
                     log4j.logDebug("当前处理的文件:" + file.getAbsolutePath());
                     saveFromConfigFile(file.getAbsolutePath());
-                    Thread.sleep(oneFileSleepTime);
+                    if (!Environment.checkConfigFile) {
+                        Thread.sleep(oneFileSleepTime);
+                    }
                 } catch (Exception e) {
                     log4j.logError("Current File :" + file.getAbsolutePath() + " Deal Error!!!", e);
                 }
@@ -98,6 +102,20 @@ public class TaskExecuter extends Thread {
             ruleXml = null;
         }
 
+    }
+
+    /**
+     * 组成标准的URL
+     * 
+     * @param pageUrl
+     * @param childLinks
+     */
+    private void makeStadardUrl(String pageUrl, Set<AHrefElement> childLinks) {
+        for (AHrefElement link : childLinks) {
+            String childUrl = link.getHref();
+            childUrl = UrlUtil.makeUrl(pageUrl, childUrl);
+            link.setHref(childUrl);
+        }
     }
 
     /**
@@ -139,15 +157,18 @@ public class TaskExecuter extends Thread {
                 }
                 throw new RuntimeException(e);
             }
-            List<AHrefElement> childLinksList = AHrefParser.ahrefParser(mainContent,
-                                                                        parentPageConfig.getUrlFilter().getMustInclude(),
-                                                                        parentPageConfig.getUrlFilter().getMustNotInclude(),
-                                                                        parentPageConfig.getCharset(),
-                                                                        parentPageConfig.getUrlFilter().isCompByRegex());
+            Set<AHrefElement> childLinksList = AHrefParser.ahrefParser(mainContent,
+                                                                       parentPageConfig.getUrlFilter().getMustInclude(),
+                                                                       parentPageConfig.getUrlFilter().getMustNotInclude(),
+                                                                       parentPageConfig.getCharset(),
+                                                                       parentPageConfig.getUrlFilter().isCompByRegex());
             if (childLinksList.size() == 0) {
                 log4j.logWarn("从页面中没有分析出需要的子URL，请检查匹配的表达式。");
+            } else {
+                makeStadardUrl(listPageUrl, childLinksList);
             }
             int failedLinks = 0;
+            Set<AHrefElement> childLinksLists = new HashSet<AHrefElement>();
             for (AHrefElement link : childLinksList) {
                 // 检查当前URL是否已经处理过了，这里要检查所有任务是否都处理过，如果都处理过了就不用进行后面的处理了，否则还要继续 end
                 if (isBreak) {
@@ -158,7 +179,62 @@ public class TaskExecuter extends Thread {
                 }
                 ChildPageDetail detail = new ChildPageDetail();
                 String childUrl = link.getHref();
-                childUrl = UrlUtil.makeUrl(listPageUrl, childUrl);
+                log4j.logDebug("当前处理的URL：" + childUrl);
+                // 检查当前URL是否已经处理过了，这里要检查所有任务是否都处理过，如果都处理过了就不用进行后面的处理了，否则还要继续 begin
+                boolean isContinue = Boolean.FALSE;
+                if (!Environment.checkConfigFile) {
+                    for (Task task : taskList) {
+                        if (!task.isDealed(childUrl)) {
+                            isContinue = Boolean.TRUE;
+                            break;
+                        }
+                    }
+                } else {
+                    isContinue = true;
+                }
+                if (!isContinue) {
+                    continue;
+                }
+                detail.setUrl(childUrl);
+                if (childPageConfig.isKeepFileName()) {
+                    detail.setFileName(FileUtil.getFileName(childUrl));
+                }
+                if (!Environment.checkConfigFile && !parentPageConfig.isOnlyImage()) {
+                    if (isDealed(childUrl)) {
+                        log4j.logDebug("当前URL " + childUrl + " 已经有处理，不需要再次处理。");
+                        continue;
+                    }
+                }
+                Set<AHrefElement> childLinks = dealPage(parentPageConfig, childPageConfig, configFile, detail);
+                makeStadardUrl(detail.getUrl(), childLinks);
+                childLinksLists.addAll(childLinks);
+                if (!detail.isDealResult()) {
+                    failedLinks++;
+                    if (failedLinks >= Constants.ONE_CONFIG_FILE_MAX_FAILED_TIMES && isDealOnePage(parentPageConfig)) {
+                        isBreak = Boolean.TRUE;
+                    }
+                }
+                detail = null;
+                if (!Environment.checkConfigFile) {
+                    if (parentPageConfig.getOneUrlSleepTime() == 0) {
+                        Thread.sleep(Constants.One_Url_Default_Sleep_Time);/* 默认休息10秒钟一篇文章 */
+                    } else {
+                        Thread.sleep(parentPageConfig.getOneUrlSleepTime()
+                                     + (long) (Math.random() * Constants.One_Url_Default_Sleep_Time));
+                    }
+                }
+            }
+            // 处理子页面分析出的URL
+            for (AHrefElement link : childLinksLists) {
+                // 检查当前URL是否已经处理过了，这里要检查所有任务是否都处理过，如果都处理过了就不用进行后面的处理了，否则还要继续 end
+                if (isBreak) {
+                    break;
+                }
+                if (Environment.checkConfigFile) {
+                    isBreak = Boolean.TRUE;
+                }
+                ChildPageDetail detail = new ChildPageDetail();
+                String childUrl = link.getHref();
                 log4j.logDebug("当前处理的URL：" + childUrl);
                 // 检查当前URL是否已经处理过了，这里要检查所有任务是否都处理过，如果都处理过了就不用进行后面的处理了，否则还要继续 begin
                 boolean isContinue = Boolean.FALSE;
@@ -227,21 +303,31 @@ public class TaskExecuter extends Thread {
     }
 
     /**
-     * 分页与分页的，一起处理
+     * 分页与分页的，一起处理。并且返回当前页面中符合配置标准的URL
      * 
      * @param parentPageConfig
      * @param childPageConfig
      * @param configFile
      * @param detail
      */
-    private void dealPage(ParentPage parentPageConfig, ChildPage childPageConfig, String configFile,
-                          ChildPageDetail detail) {
+    private Set<AHrefElement> dealPage(ParentPage parentPageConfig, ChildPage childPageConfig, String configFile,
+                                       ChildPageDetail detail) {
         boolean isPageAnalysisOk = Boolean.TRUE;
+        // 用于存储从子页面中获取的符合要求的URL
+        Set<AHrefElement> childLinksLists = new HashSet<AHrefElement>();
         for (int currentSeparatePage = 1; currentSeparatePage <= childPageConfig.getContent().getSeparatePageMaxPages(); currentSeparatePage++) {
             try {
                 String childUrl = "";
                 childUrl = getSeparatePageUrl(detail.getUrl(), currentSeparatePage, childPageConfig);
                 String htmlContent = HttpClientUtil.getGetResponseWithHttpClient(childUrl, childPageConfig.getCharset());
+
+                Set<AHrefElement> childLinksList = AHrefParser.ahrefParser(htmlContent,
+                                                                           parentPageConfig.getUrlFilter().getMustInclude(),
+                                                                           parentPageConfig.getUrlFilter().getMustNotInclude(),
+                                                                           parentPageConfig.getCharset(),
+                                                                           parentPageConfig.getUrlFilter().isCompByRegex());
+                childLinksLists.addAll(childLinksList);
+
                 String htmlBody = getBody(parentPageConfig, childPageConfig, htmlContent);
                 if (currentSeparatePage > 1) {// 支持分页采集
                     detail.setContent(detail.getContent() + Constants.DEDE_SEPARATE_PAGE_STRING + htmlBody);
@@ -307,6 +393,7 @@ public class TaskExecuter extends Thread {
         } catch (Exception e) {
             log4j.logError("处理该URL时发生异常:" + detail.getUrl() + ",配置文件:" + configFile, e);
         }
+        return childLinksLists;
     }
 
     /**

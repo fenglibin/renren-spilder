@@ -15,16 +15,16 @@ public class StringUtil {
     private static Log4j log4j = new Log4j(StringUtil.class.getName());
 
     public static String blankString(int num) {
-        String str = "";
+        String str = Constants.EMPTY_STRING;
         while (num > 0) {
-            str += " ";
+            str += Constants.BLANK_STRING;
             num--;
         }
         return str;
     }
 
     public static boolean isEmpty(String str) {
-        if (str == null || "".equals(str.trim())) {
+        if (str == null || Constants.EMPTY_STRING.equals(str.trim())) {
             return true;
         }
         return false;

@@ -24,6 +24,6 @@ public class Environment {
     public static String  waterImageLocation                     = null;
     // 存放cook内容的文件
     public static String  cookFile                               = null;
-    // 获取资源时的referer
+    // 获取资源时的referer. 如果外界传入的值是"ImageUrl"，就用当前图片的地址做为refer
     public static String  referer                                = "http://www.google.com.hk";
 }

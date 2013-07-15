@@ -1,16 +1,16 @@
 package it.renren.spilder.util.other;
 
-import java.io.IOException;
-import java.util.List;
-
-import org.apache.commons.httpclient.HttpException;
-
 import it.renren.spilder.parser.AHrefElement;
 import it.renren.spilder.parser.AHrefParser;
 import it.renren.spilder.util.FileUtil;
 import it.renren.spilder.util.HttpClientUtil;
 import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.log.Log4j;
+
+import java.io.IOException;
+import java.util.Set;
+
+import org.apache.commons.httpclient.HttpException;
 
 /**
  * 根据IQ888.COM的QIUSHI页面(http://www.iq888.com/qiushi/choushi.htm)，根据关键字，生成所有配置文件
@@ -23,8 +23,8 @@ public class MakeIQ888QiuShi {
 
     /**
      * @param args
-     * @throws IOException 
-     * @throws HttpException 
+     * @throws IOException
+     * @throws HttpException
      */
     public static void main(String[] args) throws HttpException, IOException {
         // TODO Auto-generated method stub
@@ -39,7 +39,7 @@ public class MakeIQ888QiuShi {
                                        "</div>");
         try {
             String modelContent = FileUtil.getFileContent(modXmlFile);
-            List<AHrefElement> childLinks = AHrefParser.ahrefParser(content, "", "", charset, false);
+            Set<AHrefElement> childLinks = AHrefParser.ahrefParser(content, "", "", charset, false);
             int index = 1;
             for (AHrefElement link : childLinks) {
                 try {

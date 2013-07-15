@@ -5,10 +5,12 @@ import it.renren.spilder.util.log.Log4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
 
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
@@ -53,24 +55,28 @@ public class HttpClientUtil {
      * 
      * @throws IOException
      */
-    public static List<Header> getHttpDefaultHeader() throws IOException {
+    public static List<Header> getHttpDefaultHeader(String referer) throws IOException {
         List<Header> headers = new ArrayList<Header>();
         headers.add(new Header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"));
         headers.add(new Header("Accept-Charset", "GBK,utf-8;q=0.7,*;q=0.3"));
         // headers.add(new Header("Accept-Encoding", "gzip,deflate,sdch"));
         // 如果支持gzip，那么就要对获取的内容进行判断是否是gzip格式，否则会出错
-        headers.add(new Header("Accept-Encoding", "deflate,sdch"));
+        headers.add(new Header("Accept-Encoding", "gzip,deflate,sdch"));
         headers.add(new Header("Accept-Language", "zh-CN,zh;q=0.8"));
         headers.add(new Header("Cache-Contro", "max-age=0"));
         headers.add(new Header("Connection", "keep-alive"));
         String cookie = null;
         if (!StringUtil.isEmpty(Environment.cookFile)) {
             cookie = FileUtil.getFileContent(Environment.cookFile);
+            if (!StringUtil.isEmpty(cookie)) {
+                headers.add(new Header("Cookie", cookie));
+            }
         }
-        if (!StringUtil.isEmpty(cookie)) {
-            headers.add(new Header("Cookie", cookie));
+        if (StringUtil.isEmpty(Environment.referer)) {
+            headers.add(new Header("Referer", referer));
+        } else {
+            headers.add(new Header("Referer", Environment.referer));
         }
-        headers.add(new Header("Referer", Environment.referer));
         headers.add(new Header(
                                "User-Agent",
                                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.8 (KHTML, like Gecko; Google Web Preview) Chrome/19.0.1084.36 Safari/536.8"));
@@ -79,7 +85,7 @@ public class HttpClientUtil {
 
     public static HttpClient getHttpClient(String referer) throws IOException {
         HttpClient client = new HttpClient(manager);
-        client.getHostConfiguration().getParams().setParameter("http.default-headers", getHttpDefaultHeader());
+        client.getHostConfiguration().getParams().setParameter("http.default-headers", getHttpDefaultHeader(referer));
         if (initialed) {
             HttpClientUtil.SetPara();
         }
@@ -133,11 +139,11 @@ public class HttpClientUtil {
             }
             // 设置代理结束
         }
-        client.getHostConfiguration().getParams().setParameter("http.default-headers", getHttpDefaultHeader());
+        client.getHostConfiguration().getParams().setParameter("http.default-headers", getHttpDefaultHeader(url));
         if (initialed) {
             HttpClientUtil.SetPara();
         }
-        GetMethod get = new GetMethod(url);
+        GetMethod get = new GetMethod(UrlUtil.prettyUrl(url));
         get.setFollowRedirects(true);
 
         String result = null;
@@ -146,11 +152,17 @@ public class HttpClientUtil {
         try {
 
             client.executeMethod(get);
+            String contentEncoding = get.getResponseHeader(it.renren.spilder.main.Constants.HttpHeader.CONTENT_ENCODING).getValue();
+            InputStream inputStream = null;
+            if (contentEncoding.equalsIgnoreCase("gzip")) {
+                inputStream = new GZIPInputStream(get.getResponseBodyAsStream());
+            } else {
+                inputStream = get.getResponseBodyAsStream();
+            }
 
             // 在目标页面情况未知的条件下，不推荐使用getResponseBodyAsString()方法
             // String strGetResponseBody = post.getResponseBodyAsString();
-            BufferedReader in = new BufferedReader(new InputStreamReader(get.getResponseBodyAsStream(),
-                                                                         get.getResponseCharSet()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(inputStream, get.getResponseCharSet()));
 
             String inputLine = null;
 

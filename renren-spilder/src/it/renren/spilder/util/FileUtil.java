@@ -1,7 +1,6 @@
 package it.renren.spilder.util;
 
 import it.renren.spilder.main.Constants;
-import it.renren.spilder.main.Environment;
 import it.renren.spilder.util.log.Log4j;
 import it.renren.spilder.util.wash.WashBase;
 
@@ -53,8 +52,8 @@ public class FileUtil {
     public static synchronized boolean downloadFile(String srcUrl, String fileSavePath, String newName)
                                                                                                        throws IOException {
         boolean result = true;
-        org.apache.commons.httpclient.HttpClient httpclient = HttpClientUtil.getHttpClient(Environment.referer);
-        GetMethod get = new GetMethod(srcUrl);
+        org.apache.commons.httpclient.HttpClient httpclient = HttpClientUtil.getHttpClient(srcUrl);
+        GetMethod get = new GetMethod(UrlUtil.prettyUrl(srcUrl));
         FileOutputStream out = null;
         String fileName = null;
         File wdFile = null;

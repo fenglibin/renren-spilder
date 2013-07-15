@@ -13,7 +13,7 @@ import it.renren.spilder.dataobject.FeedbackDO;
 import it.renren.spilder.main.config.ChildPage;
 import it.renren.spilder.main.config.ParentPage;
 import it.renren.spilder.main.detail.ChildPageDetail;
-import it.renren.spilder.type.AutoDetectTypes;
+import it.renren.spilder.type.Type;
 import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.google.TranslatorUtil;
 import it.renren.spilder.util.log.Log4j;
@@ -26,7 +26,7 @@ public class WriteData2DB extends Task {
     ArchivesDAO          archivesDAO;
     AddonarticleDAO      addonarticleDAO;
 
-    AutoDetectTypes      autoDetectTypes;
+    Type                 type;
     FeedbackDAO          feedbackDAO;
     DownurlDAO           downurlDAO;
 
@@ -41,7 +41,7 @@ public class WriteData2DB extends Task {
             translate(parentPageConfig, detailClone);
             dealedArticleNum++;
             log4j.logDebug("¿ªÊ¼±£´æ:" + detailClone.getUrl());
-            int typeid = autoDetectTypes.detectType(parentPageConfig, detailClone);
+            int typeid = type.getType(parentPageConfig, detailClone);
             ArctinyDO arctinyDO = new ArctinyDO();
 
             arctinyDO.setTypeid(typeid);
@@ -147,8 +147,8 @@ public class WriteData2DB extends Task {
         this.downurlDAO = downurlDAO;
     }
 
-    public void setAutoDetectTypes(AutoDetectTypes autoDetectTypes) {
-        this.autoDetectTypes = autoDetectTypes;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public void setFeedbackDAO(FeedbackDAO feedbackDAO) {
