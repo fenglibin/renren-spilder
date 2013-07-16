@@ -3,7 +3,7 @@
 	<MainUrl>
 		<Values desc="链接的列表地址，Value中的列表地址可以是多条，以逗号分开">
 			<Value desc="当前主页面的Url地址">
-				<![CDATA[http://www.360doc.com/]]>
+				<![CDATA[http://www.aisixiang.com/,http://www.aisixiang.com/academic/faxue.html,http://www.aisixiang.com/academic/jingjixue.html,http://www.aisixiang.com/academic/zhengzhixue.html,http://www.aisixiang.com/academic/guojiguanxi.html,http://www.aisixiang.com/academic/shehuixue.html,http://www.aisixiang.com/academic/xinwenxue.html,http://www.aisixiang.com/academic/jiaoyuxue.html,http://www.aisixiang.com/academic/wenxue.html,http://www.aisixiang.com/academic/lishixue.html,http://www.aisixiang.com/academic/zhexue.html,http://www.aisixiang.com/thinktank/,http://www.aisixiang.com/penclub/,http://www.aisixiang.com/zhuanti/,http://www.aisixiang.com/toplist/]]>
 			</Value>
 		</Values>
 		<DesArticleId>
@@ -22,7 +22,7 @@
 		</MainRange>
 		<Charset desc="编码">
 			<Value>
-				<![CDATA[UTF-8]]>
+				<![CDATA[gbk]]>
 			</Value>
 		</Charset>
 		<ImageDescUrl desc="将原内容中的图片地址替换、用户保存图片的相对路径">
@@ -41,7 +41,7 @@
 		<UrlFilter url="url筛选">
 			<MustInclude desc="url中必须包括的字符串">
 				<Value>
-					<![CDATA[/content/]]>
+					<![CDATA[/data/([0-9])*\\.html$]]>
 				</Value>
 			</MustInclude>
 			<MustNotInclude desc="url中不能够包括的字符串">
@@ -50,7 +50,7 @@
 				</Value>
 			</MustNotInclude>
 			<IsCompByRegex desc="必须包括与不能够包括这两项，与URL的比较是否通过正则规则进行比较,值只可以是true及false">
-				<Value>false</Value>
+				<Value>true</Value>
 			</IsCompByRegex>
 		</UrlFilter>
 		<!--OneUrlSleepTime>
@@ -60,25 +60,40 @@
 	<Child>
 		<Charset desc="编码">
 			<Value>
-				<![CDATA[UTF-8]]>
+				<![CDATA[gbk]]>
 			</Value>
 		</Charset>
 		<Title desc="标题">
 			<Start>
-				<Value><![CDATA[<td class="biaoti">]]></Value>
+				<Value><![CDATA[<title>]]></Value>
 			</Start>
 			<End>
-				<Value><![CDATA[</td>]]></Value>
+				<Value><![CDATA[_]]></Value>
 			</End>
 		</Title>
 		<Content desc="内容">
 			<Start>
-				<Value><![CDATA[<tbody><tr><td width="670px">]]></Value>
+				<Value><![CDATA[<div class="ad300 fr"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-1438196535746084";
+/* detail1 */
+google_ad_slot = "0765114561";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>]]></Value>
 			</Start>
 			<End>
-				<Value><![CDATA[</td></tr></tbody></table>
-                                                        <div id="viewerPlaceHolder" style="width: 717px; height: 700px; display: none;">]]></Value>
+				<Value><![CDATA[<p align="right">]]></Value>
 			</End>
 		</Content>
+		<AddUrl desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false">
+			<Value>
+				<![CDATA[true]]>
+			</Value>
+		</AddUrl>
 	</Child>
 </Rules>
