@@ -3,7 +3,7 @@
 <beans default-autowire="byName">
 	<bean id="configBean" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
 	    <property name="location"> 
-	        <value>database.properties</value> 
+	        <value>xiaoshuoDatabase.properties</value> 
 	    </property> 
     </bean> 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
@@ -60,10 +60,8 @@
 		<property name="taskList">
 			<list>
 				<bean class="it.renren.spilder.task.WriteData2DB">
-					<property name="type" ref="autoDetectTypes" />
 				</bean>
 				<bean class="it.renren.spilder.task.WriteData2FanDB">
-					<property name="type" ref="autoDetectTypes" />
 				</bean>
 			</list>
 		</property>
@@ -71,7 +69,6 @@
 	<bean id="typesMap" class="it.renren.spilder.type.DedecmsTypesMap">
 	</bean>
 	<bean id="autoDetectTypes" class="it.renren.spilder.type.AutoDetectTypes"></bean>
-	<bean id="randomType" class="it.renren.spilder.type.RandomType"></bean>
 		
 	<!-- 简体对象定义（开始） -->
 	<bean id="arctinyDAO" class="it.renren.spilder.dao.ibatis.IbatisArctinyDAO">
@@ -88,6 +85,9 @@
 		</property>
 		<property name="tablePrefix">
 			<value>${it.simple.table.prefix}</value>
+		</property>
+		<property name="dedecmsVersion">
+			<value>5.7</value>
 		</property>
 	</bean>
 	<bean id="addonarticleDAO" class="it.renren.spilder.dao.ibatis.IbatisAddonarticleDAO">

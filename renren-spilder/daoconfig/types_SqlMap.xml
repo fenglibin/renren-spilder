@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="types">
+  <resultMap class="it.renren.spilder.xiaoshuo.dataobject.Types" id="BaseResultMap">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="ename" jdbcType="VARCHAR" property="ename" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  <insert id="insert" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Types">
+    insert into types (id, name, ename, description)
+    values (#id:INTEGER#, #name:VARCHAR#, #ename:VARCHAR#, #description:VARCHAR#)
+  </insert>
+  <insert id="insertSelective" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Types">
+    insert into types
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="id">
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="name">
+        name
+      </isNotNull>
+      <isNotNull prepend="," property="ename">
+        ename
+      </isNotNull>
+      <isNotNull prepend="," property="description">
+        description
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="id">
+        #id:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="name">
+        #name:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="ename">
+        #ename:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="description">
+        #description:VARCHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <resultMap class="it.renren.xiaoshuo.dataobject.Types" id="BaseResultMap">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="ename" jdbcType="VARCHAR" property="ename" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  <insert id="insert" parameterClass="it.renren.xiaoshuo.dataobject.Types">
+    insert into types (id, name, ename, description)
+    values (#id:INTEGER#, #name:VARCHAR#, #ename:VARCHAR#, #description:VARCHAR#)
+  </insert>
+  <insert id="insertSelective" parameterClass="it.renren.xiaoshuo.dataobject.Types">
+    insert into types
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="id">
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="name">
+        name
+      </isNotNull>
+      <isNotNull prepend="," property="ename">
+        ename
+      </isNotNull>
+      <isNotNull prepend="," property="description">
+        description
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="id">
+        #id:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="name">
+        #name:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="ename">
+        #ename:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="description">
+        #description:VARCHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <resultMap class="it.renren.xiaoshuo.dataobject.Types" id="BaseResultMap">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="ename" jdbcType="VARCHAR" property="ename" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  <insert id="insert" parameterClass="it.renren.xiaoshuo.dataobject.Types">
+    insert into types (id, name, ename, description)
+    values (#id:INTEGER#, #name:VARCHAR#, #ename:VARCHAR#, #description:VARCHAR#)
+  </insert>
+  <insert id="insertSelective" parameterClass="it.renren.xiaoshuo.dataobject.Types">
+    insert into types
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="id">
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="name">
+        name
+      </isNotNull>
+      <isNotNull prepend="," property="ename">
+        ename
+      </isNotNull>
+      <isNotNull prepend="," property="description">
+        description
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="id">
+        #id:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="name">
+        #name:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="ename">
+        #ename:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="description">
+        #description:VARCHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+</sqlMap>

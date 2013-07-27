@@ -30,6 +30,7 @@
 		<property name="taskList">
 			<list>
 				<bean class="it.renren.spilder.task.WriteData2DB">
+					<property name="type" ref="autoDetectTypes" />
 				</bean>
 			</list>
 		</property>

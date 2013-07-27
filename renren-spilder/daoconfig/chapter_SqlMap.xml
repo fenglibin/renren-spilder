@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="chapter">
+  <resultMap class="it.renren.spilder.xiaoshuo.dataobject.Chapter" id="BaseResultMap">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+  </resultMap>
+  <resultMap class="it.renren.spilder.xiaoshuo.dataobject.Chapter" extends="chapter.BaseResultMap" id="ResultMapWithBLOBs">
+    <result column="context" jdbcType="LONGVARCHAR" property="context" />
+  </resultMap>
+  <insert id="insert" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Chapter">
+    insert into chapter (id, book_id, title, context)
+    values (#id:INTEGER#, #bookId:INTEGER#, #title:VARCHAR#, #context:LONGVARCHAR#)
+  </insert>
+  <insert id="insertSelective" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Chapter">
+    insert into chapter
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="id">
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="bookId">
+        book_id
+      </isNotNull>
+      <isNotNull prepend="," property="title">
+        title
+      </isNotNull>
+      <isNotNull prepend="," property="context">
+        context
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="id">
+        #id:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="bookId">
+        #bookId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="title">
+        #title:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="context">
+        #context:LONGVARCHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <resultMap class="it.renren.xiaoshuo.dataobject.Chapter" id="BaseResultMap">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+  </resultMap>
+  <resultMap class="it.renren.xiaoshuo.dataobject.Chapter" extends="chapter.BaseResultMap" id="ResultMapWithBLOBs">
+    <result column="context" jdbcType="LONGVARCHAR" property="context" />
+  </resultMap>
+  <insert id="insert" parameterClass="it.renren.xiaoshuo.dataobject.Chapter">
+    insert into chapter (id, book_id, title, context)
+    values (#id:INTEGER#, #bookId:INTEGER#, #title:VARCHAR#, #context:LONGVARCHAR#)
+  </insert>
+  <insert id="insertSelective" parameterClass="it.renren.xiaoshuo.dataobject.Chapter">
+    insert into chapter
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="id">
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="bookId">
+        book_id
+      </isNotNull>
+      <isNotNull prepend="," property="title">
+        title
+      </isNotNull>
+      <isNotNull prepend="," property="context">
+        context
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="id">
+        #id:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="bookId">
+        #bookId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="title">
+        #title:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="context">
+        #context:LONGVARCHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <resultMap class="it.renren.xiaoshuo.dataobject.Chapter" id="BaseResultMap">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+  </resultMap>
+  <resultMap class="it.renren.xiaoshuo.dataobject.Chapter" extends="chapter.BaseResultMap" id="ResultMapWithBLOBs">
+    <result column="context" jdbcType="LONGVARCHAR" property="context" />
+  </resultMap>
+  <insert id="insert" parameterClass="it.renren.xiaoshuo.dataobject.Chapter">
+    insert into chapter (id, book_id, title, context)
+    values (#id:INTEGER#, #bookId:INTEGER#, #title:VARCHAR#, #context:LONGVARCHAR#)
+  </insert>
+  <insert id="insertSelective" parameterClass="it.renren.xiaoshuo.dataobject.Chapter">
+    insert into chapter
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="id">
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="bookId">
+        book_id
+      </isNotNull>
+      <isNotNull prepend="," property="title">
+        title
+      </isNotNull>
+      <isNotNull prepend="," property="context">
+        context
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="id">
+        #id:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="bookId">
+        #bookId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="title">
+        #title:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="context">
+        #context:LONGVARCHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+</sqlMap>

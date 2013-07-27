@@ -125,4 +125,58 @@ public class Regex1 extends TestCase {
         boolean result = m.find();
         assertTrue(result);
     }
+
+    public void test12() {
+        String str = "http://www.aisixiang.com/data/65676.html";
+        String regEx = "/data/([0-9])*\\.html$";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        boolean result = m.find();
+        assertTrue(result);
+
+        str = "/data/65676.html";
+        p = Pattern.compile(regEx);
+        m = p.matcher(str);
+        result = m.find();
+        assertTrue(result);
+    }
+
+    public void test13() {
+        String str = "/812410/269181";
+        String regEx = "/([0-9])*/([0-9])*$";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        boolean result = m.find();
+        assertTrue(result);
+    }
+
+    public void test14() {
+        String str = "/sejie/2013071220252.html";
+        String regEx = "/([a-z])*/([0-9])*\\.html$";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        boolean result = m.find();
+        assertTrue(result);
+
+        str = "http://pindao.blogbus.com/sejie/2013071220252.html";
+        p = Pattern.compile(regEx);
+        m = p.matcher(str);
+        result = m.find();
+        assertTrue(result);
+    }
+
+    public void test15() {
+        String str = "/s/blog_61d634ba0101f9f2.html?tj=1";
+        String regEx = "/s/blog_(.+)\\.html";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        boolean result = m.find();
+        assertTrue(result);
+
+        str = "http://blog.sina.com.cn/s/blog_cefb98b40101bnra.html?tj=1";
+        p = Pattern.compile(regEx);
+        m = p.matcher(str);
+        result = m.find();
+        assertTrue(result);
+    }
 }

@@ -282,7 +282,7 @@ public class Main {
             // ÎÄ¼þ¼Ð²âÊÔ
             param.setDirectory(true);
             param.setDirectoryName("config/normal/csdn");
-            param.setDirectoryName("config/doc_config");
+            param.setDirectoryName("config/doc_config/3");
             // param.setDealOnePage(true);
 
             param.setSpringConfigFile("docBeans.xml");

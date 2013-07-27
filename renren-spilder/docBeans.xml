@@ -60,8 +60,10 @@
 		<property name="taskList">
 			<list>
 				<bean class="it.renren.spilder.task.WriteData2DB">
+					<property name="type" ref="randomType" />
 				</bean>
 				<bean class="it.renren.spilder.task.WriteData2FanDB">
+					<property name="type" ref="randomType" />
 				</bean>
 			</list>
 		</property>
@@ -69,6 +71,7 @@
 	<bean id="typesMap" class="it.renren.spilder.type.DedecmsTypesMap">
 	</bean>
 	<bean id="autoDetectTypes" class="it.renren.spilder.type.AutoDetectTypes"></bean>
+	<bean id="randomType" class="it.renren.spilder.type.RandomType"></bean>
 		
 	<!-- 简体对象定义（开始） -->
 	<bean id="arctinyDAO" class="it.renren.spilder.dao.ibatis.IbatisArctinyDAO">
