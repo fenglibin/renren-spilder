@@ -69,7 +69,7 @@
 			</MustInclude>
 			<MustNotInclude desc="url中不能够包括的字符串">
 				<Value>
-					<![CDATA[]]>
+					<![CDATA[?pgv_ref]]>
 				</Value>
 			</MustNotInclude>
 		</UrlFilter>
