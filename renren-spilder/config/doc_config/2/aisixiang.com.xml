@@ -41,7 +41,7 @@
 		<UrlFilter url="url筛选">
 			<MustInclude desc="url中必须包括的字符串">
 				<Value>
-					<![CDATA[/data/([0-9])*\\.html$]]>
+					<![CDATA[/data/([0-9])*\.html$]]>
 				</Value>
 			</MustInclude>
 			<MustNotInclude desc="url中不能够包括的字符串">

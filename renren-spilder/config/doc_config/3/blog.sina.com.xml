@@ -3,15 +3,9 @@
 	<MainUrl>
 		<Values desc="链接的列表地址，Value中的列表地址可以是多条，以逗号分开">
 			<Value desc="当前主页面的Url地址">
-				<![CDATA[http://pindao.blogbus.com/fengshang/,http://pindao.blogbus.com/xingzhe/,http://pindao.blogbus.com/sejie/,http://pindao.blogbus.com/shenghuo/,http://log.blogbus.com/]]>
+				<![CDATA[http://blog.sina.com.cn/,http://blog.sina.com.cn/lm/ent/,http://blog.sina.com.cn/lm/sports/,http://blog.sina.com.cn/lm/history/,http://blog.sina.com.cn/lm/eladies/,http://blog.sina.com.cn/lm/tech/,http://blog.sina.com.cn/lm/finance/,http://blog.sina.com.cn/lm/stock/,http://blog.sina.com.cn/lm/auto/,http://blog.sina.com.cn/lm/house/,http://blog.sina.com.cn/lm/edu/,http://blog.sina.com.cn/lm/games/,http://blog.sina.com.cn/lm/mil/,http://blog.sina.com.cn/lm/astro/,http://blog.sina.com.cn/lm/eatblog.html,http://jiaju.sina.com.cn/blog/,http://blog.baby.sina.com.cn/lm/baby/,http://blog.sina.com.cn/lm/health/,http://blog.sina.com.cn/lm/travel/,http://blog.sina.com.cn/lm/collection/,http://fashion.sina.com.cn/blog/,http://blog.sina.com.cn/lm/ruiblog/,http://blog.sina.com.cn/lm/pic/,http://blog.sina.com.cn/lm/search/school/]]>
 			</Value>
 		</Values>
-		<DesArticleId>
-			<Value>1</Value>
-		</DesArticleId>
-		<AutoDetect>
-			<TypeMapMakeClass>it.renren.spilder.type.DedecmsTypesMap</TypeMapMakeClass>
-		</AutoDetect>
 		<MainRange desc="内容范围">
 			<Start>
 				<Value><![CDATA[<html]]></Value>
@@ -22,7 +16,7 @@
 		</MainRange>
 		<Charset desc="编码">
 			<Value>
-				<![CDATA[UTF-8]]>
+				<![CDATA[gb2312]]>
 			</Value>
 		</Charset>
 		<ImageDescUrl desc="将原内容中的图片地址替换、用户保存图片的相对路径">
@@ -41,7 +35,7 @@
 		<UrlFilter url="url筛选">
 			<MustInclude desc="url中必须包括的字符串">
 				<Value>
-					<![CDATA[/([a-z])*/([0-9])*\.html$]]>
+					<![CDATA[/s/blog_(.+)\.html]]>
 				</Value>
 			</MustInclude>
 			<MustNotInclude desc="url中不能够包括的字符串">
@@ -53,9 +47,6 @@
 				<Value>true</Value>
 			</IsCompByRegex>
 		</UrlFilter>
-		<!--OneUrlSleepTime>
-			<Value>60000</Value>
-    </OneUrlSleepTime-->
 	</MainUrl>
 	<Child>
 		<Charset desc="编码">
@@ -65,18 +56,30 @@
 		</Charset>
 		<Title desc="标题">
 			<Start>
-				<Value><![CDATA[          <h2>]]></Value>
+				<Value><![CDATA[<title>]]></Value>
 			</Start>
 			<End>
-				<Value><![CDATA[</h2>]]></Value>
+				<Value><![CDATA[_]]></Value>
 			</End>
 		</Title>
 		<Content desc="内容">
 			<Start>
-				<Value><![CDATA[<div class="postBody">]]></Value>
+				<Value><![CDATA[<!-- 正文开始 -->]]></Value>
+			</Start>
+			<Start>
+				<Value><![CDATA[<!-- 正文开始 -->]]></Value>
+			</Start>
+			<Start>
+				<Value><![CDATA[<div class="articalContent" id="sina_keyword_ad_area2">]]></Value>
 			</Start>
 			<End>
-				<Value><![CDATA[          <div class="tag"><strong>]]></Value>
+				<Value><![CDATA[<div class="articalList borderc">]]></Value>
+			</End>
+			<End>
+				<Value><![CDATA[<!-- 正文结束 -->]]></Value>
+			</End>
+			<End>
+				<Value><![CDATA[<div class="into_bloger">]]></Value>
 			</End>
 		</Content>
 		<AddUrl desc="是否将当前文章采集页的地址加到内容的尾部，值只可以是true中或false">
