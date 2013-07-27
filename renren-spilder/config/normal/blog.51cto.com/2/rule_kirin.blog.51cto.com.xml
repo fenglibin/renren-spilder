@@ -57,12 +57,12 @@
 		<UrlFilter url="url筛选">
 			<MustInclude desc="url中必须包括的字符串">
 				<Value>
-					<![CDATA[blog.51cto.com/([0-9])*/([0-9])*$]]>
+					<![CDATA[/([0-9])*/([0-9])*$]]>
 				</Value>
 			</MustInclude>
 			<MustNotInclude desc="url中不能够包括的字符串">
 				<Value>
-					<![CDATA[]]>
+					<![CDATA[/all/]]>
 				</Value>
 			</MustNotInclude>
 			<IsCompByRegex desc="必须包括与不能够包括这两项，与URL的比较是否通过正则规则进行比较,值只可以是true及false">
@@ -111,10 +111,10 @@
 		<div>]]></Value>
 			</Start>
 			<End>
-				<Value><![CDATA[</div>]]></Value>
+				<Value><![CDATA[</div><!--正文 end-->]]></Value>
 			</End>
 			<End>
-				<Value><![CDATA[</div><!--正文 end-->]]></Value>
+				<Value><![CDATA[    		</div>]></Value>
 			</End>
 			<End>
 				<Value><![CDATA[<p>本文出自]]></Value>

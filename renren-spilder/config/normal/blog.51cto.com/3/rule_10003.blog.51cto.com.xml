@@ -108,10 +108,10 @@
 		<div>]]></Value>
 			</Start>
 			<End>
-				<Value><![CDATA[</div>]]></Value>
+				<Value><![CDATA[</div><!--正文 end-->]]></Value>
 			</End>
 			<End>
-				<Value><![CDATA[</div><!--正文 end-->]]></Value>
+				<Value><![CDATA[    		</div>]></Value>
 			</End>
 			<End>
 				<Value><![CDATA[<p>本文出自]]></Value>
