@@ -92,8 +92,7 @@ public class TaskExecuter extends Thread {
         ParentPage parentPageConfig = Config.initParentPage(ruleXml);
         ChildPage childPageConfig = Config.initChildPage(ruleXml);
         try {
-            save(ruleXml, parentPageConfig, parentPageConfig.getUrlListPages().getListPages(), childPageConfig,
-                 configFile);
+            save(ruleXml, parentPageConfig, parentPageConfig.getUrlListPages().getListPages(), childPageConfig, configFile);
         } catch (Exception e) {
             log4j.logError("根据配置文件:" + configFile + " 进行处理内容异常发生：", e);
         } finally {
@@ -102,20 +101,6 @@ public class TaskExecuter extends Thread {
             ruleXml = null;
         }
 
-    }
-
-    /**
-     * 组成标准的URL
-     * 
-     * @param pageUrl
-     * @param childLinks
-     */
-    private void makeStadardUrl(String pageUrl, Set<AHrefElement> childLinks) {
-        for (AHrefElement link : childLinks) {
-            String childUrl = link.getHref();
-            childUrl = UrlUtil.makeUrl(pageUrl, childUrl);
-            link.setHref(childUrl);
-        }
     }
 
     /**
@@ -130,15 +115,14 @@ public class TaskExecuter extends Thread {
      * @throws ParserException
      * @throws InterruptedException
      */
-    private void save(Document ruleXml, ParentPage parentPageConfig, List<String> listPages, ChildPage childPageConfig,
-                      String configFile) throws ParserException, InterruptedException {
+    private void save(Document ruleXml, ParentPage parentPageConfig, List<String> listPages, ChildPage childPageConfig, String configFile) throws ParserException, InterruptedException {
         boolean isBreak = false;
 
         for (String listPageUrl : listPages) {
             if (isBreak) {
                 break;
             }
-            String mainContent = "";
+            String mainContent = Constants.EMPTY_STRING;
             try {
                 mainContent = HttpClientUtil.getGetResponseWithHttpClient(listPageUrl, parentPageConfig.getCharset());
             } catch (Exception e) {
@@ -157,15 +141,12 @@ public class TaskExecuter extends Thread {
                 }
                 throw new RuntimeException(e);
             }
-            Set<AHrefElement> childLinksList = AHrefParser.ahrefParser(mainContent,
-                                                                       parentPageConfig.getUrlFilter().getMustInclude(),
-                                                                       parentPageConfig.getUrlFilter().getMustNotInclude(),
-                                                                       parentPageConfig.getCharset(),
-                                                                       parentPageConfig.getUrlFilter().isCompByRegex());
+            Set<AHrefElement> childLinksList = AHrefParser.ahrefParser(mainContent, parentPageConfig.getUrlFilter().getMustInclude(), parentPageConfig.getUrlFilter().getMustNotInclude(),
+                                                                       parentPageConfig.getCharset(), parentPageConfig.getUrlFilter().isCompByRegex());
             if (childLinksList.size() == 0) {
                 log4j.logWarn("从页面中没有分析出需要的子URL，请检查匹配的表达式。");
             } else {
-                makeStadardUrl(listPageUrl, childLinksList);
+                UrlUtil.makeStadardUrl(listPageUrl, childLinksList);
             }
             int failedLinks = 0;
             Set<AHrefElement> childLinksLists = new HashSet<AHrefElement>();
@@ -181,33 +162,22 @@ public class TaskExecuter extends Thread {
                 String childUrl = link.getHref();
                 log4j.logDebug("当前处理的URL：" + childUrl);
                 // 检查当前URL是否已经处理过了，这里要检查所有任务是否都处理过，如果都处理过了就不用进行后面的处理了，否则还要继续 begin
-                boolean isContinue = Boolean.FALSE;
                 if (!Environment.checkConfigFile) {
-                    for (Task task : taskList) {
-                        if (!task.isDealed(childUrl)) {
-                            isContinue = Boolean.TRUE;
-                            break;
+                    if (childPageConfig.isNeedToCheckUrlIsAlreadyOperate()) {
+                        if (isDealed(childUrl)) {
+                            continue;
                         }
                     }
-                } else {
-                    isContinue = true;
-                }
-                if (!isContinue) {
-                    continue;
                 }
                 detail.setUrl(childUrl);
                 if (childPageConfig.isKeepFileName()) {
                     detail.setFileName(FileUtil.getFileName(childUrl));
                 }
-                if (!Environment.checkConfigFile && !parentPageConfig.isOnlyImage()) {
-                    if (isDealed(childUrl)) {
-                        log4j.logDebug("当前URL " + childUrl + " 已经有处理，不需要再次处理。");
-                        continue;
-                    }
-                }
                 Set<AHrefElement> childLinks = dealPage(parentPageConfig, childPageConfig, configFile, detail);
-                makeStadardUrl(detail.getUrl(), childLinks);
-                childLinksLists.addAll(childLinks);
+                UrlUtil.makeStadardUrl(detail.getUrl(), childLinks);
+                if (childPageConfig.isExpandUrl()) {
+                    childLinksLists.addAll(childLinks);
+                }
                 if (!detail.isDealResult()) {
                     failedLinks++;
                     if (failedLinks >= Constants.ONE_CONFIG_FILE_MAX_FAILED_TIMES && isDealOnePage(parentPageConfig)) {
@@ -219,8 +189,7 @@ public class TaskExecuter extends Thread {
                     if (parentPageConfig.getOneUrlSleepTime() == 0) {
                         Thread.sleep(Constants.One_Url_Default_Sleep_Time);/* 默认休息10秒钟一篇文章 */
                     } else {
-                        Thread.sleep(parentPageConfig.getOneUrlSleepTime()
-                                     + (long) (Math.random() * Constants.One_Url_Default_Sleep_Time));
+                        Thread.sleep(parentPageConfig.getOneUrlSleepTime() + (long) (Math.random() * Constants.One_Url_Default_Sleep_Time));
                     }
                 }
             }
@@ -273,8 +242,7 @@ public class TaskExecuter extends Thread {
                     if (parentPageConfig.getOneUrlSleepTime() == 0) {
                         Thread.sleep(Constants.One_Url_Default_Sleep_Time);/* 默认休息10秒钟一篇文章 */
                     } else {
-                        Thread.sleep(parentPageConfig.getOneUrlSleepTime()
-                                     + (long) (Math.random() * Constants.One_Url_Default_Sleep_Time));
+                        Thread.sleep(parentPageConfig.getOneUrlSleepTime() + (long) (Math.random() * Constants.One_Url_Default_Sleep_Time));
                     }
                 }
             }
@@ -310,8 +278,7 @@ public class TaskExecuter extends Thread {
      * @param configFile
      * @param detail
      */
-    private Set<AHrefElement> dealPage(ParentPage parentPageConfig, ChildPage childPageConfig, String configFile,
-                                       ChildPageDetail detail) {
+    private Set<AHrefElement> dealPage(ParentPage parentPageConfig, ChildPage childPageConfig, String configFile, ChildPageDetail detail) {
         boolean isPageAnalysisOk = Boolean.TRUE;
         // 用于存储从子页面中获取的符合要求的URL
         Set<AHrefElement> childLinksLists = new HashSet<AHrefElement>();
@@ -321,17 +288,16 @@ public class TaskExecuter extends Thread {
                 childUrl = getSeparatePageUrl(detail.getUrl(), currentSeparatePage, childPageConfig);
                 String htmlContent = HttpClientUtil.getGetResponseWithHttpClient(childUrl, childPageConfig.getCharset());
 
-                Set<AHrefElement> childLinksList = AHrefParser.ahrefParser(htmlContent,
-                                                                           parentPageConfig.getUrlFilter().getMustInclude(),
-                                                                           parentPageConfig.getUrlFilter().getMustNotInclude(),
-                                                                           parentPageConfig.getCharset(),
-                                                                           parentPageConfig.getUrlFilter().isCompByRegex());
+                Set<AHrefElement> childLinksList = AHrefParser.ahrefParser(htmlContent, parentPageConfig.getUrlFilter().getMustInclude(), parentPageConfig.getUrlFilter().getMustNotInclude(),
+                                                                           parentPageConfig.getCharset(), parentPageConfig.getUrlFilter().isCompByRegex());
                 childLinksLists.addAll(childLinksList);
 
+                htmlContent = UrlUtil.replaceRelativeUrl2AbsoluteUrl(childUrl, htmlContent, childPageConfig.getCharset());
                 String htmlBody = getBody(parentPageConfig, childPageConfig, htmlContent);
                 if (currentSeparatePage > 1) {// 支持分页采集
                     detail.setContent(detail.getContent() + Constants.DEDE_SEPARATE_PAGE_STRING + htmlBody);
                 } else {
+                    detail.setOriginalContent(htmlContent);
                     detail.setContent(htmlBody);
                 }
                 if (currentSeparatePage == 1) {// 只有第一页才获取标题、关键字、描述，后面的分页就不需要获取了，直接使用第一页获取的就可
@@ -340,16 +306,14 @@ public class TaskExecuter extends Thread {
                         break;
                     }
                     detail.setTitle(htmlTitle);
-                    String keywords = MetaParser.getMetaContent(htmlContent, childPageConfig.getCharset(),
-                                                                Constants.META_KEYWORDS);
-                    if (keywords.equals("")) {/* 如果没有关键字，就取文章的标题为关键字 */
+                    String keywords = MetaParser.getMetaContent(htmlContent, childPageConfig.getCharset(), Constants.META_KEYWORDS);
+                    if (Constants.EMPTY_STRING.equals(keywords)) {/* 如果没有关键字，就取文章的标题为关键字 */
                         keywords = htmlTitle;
                     }
                     detail.setKeywords(keywords);
 
                     String childContentWithoutHtmlTagTrim = StringUtil.removeHtmlTags(htmlBody).trim();
-                    if (StringUtil.isEmpty(htmlBody)
-                        || childContentWithoutHtmlTagTrim.length() < parentPageConfig.getContent().getMinLength()) {
+                    if (StringUtil.isEmpty(htmlBody) || childContentWithoutHtmlTagTrim.length() < parentPageConfig.getContent().getMinLength()) {
                         throw new RuntimeException("当前获取到内容长度小于：" + parentPageConfig.getContent().getMinLength());
                     }
                     if (childContentWithoutHtmlTagTrim.length() > Constants.CONTENT_LEAST_LENGTH) {// 加这个逻辑判断的原因是因为有些时候要获取的内容本身就是小于100的，如只获取页面中的电子邮件。通过通过上面的文章内容长度的检查，那说明当前内容是合法的
@@ -422,8 +386,7 @@ public class TaskExecuter extends Thread {
      * @return
      * @throws Exception
      */
-    private static String getTitle(ParentPage parentPageConfig, ChildPage childPageConfig, String htmlContent)
-                                                                                                              throws Exception {
+    private static String getTitle(ParentPage parentPageConfig, ChildPage childPageConfig, String htmlContent) throws Exception {
         Filter titleFilter = new TitleFilter();
         return titleFilter.filterContent(parentPageConfig, childPageConfig, htmlContent);
     }
@@ -437,8 +400,7 @@ public class TaskExecuter extends Thread {
      * @return
      * @throws Exception
      */
-    private static String getBody(ParentPage parentPageConfig, ChildPage childPageConfig, String htmlContent)
-                                                                                                             throws Exception {
+    private static String getBody(ParentPage parentPageConfig, ChildPage childPageConfig, String htmlContent) throws Exception {
         Filter titleFilter = new BodyFilter();
         return titleFilter.filterContent(parentPageConfig, childPageConfig, htmlContent);
     }
@@ -452,9 +414,7 @@ public class TaskExecuter extends Thread {
      * @throws IllegalAccessException
      * @throws ClassNotFoundException
      */
-    private static void handleContent(ChildPage childPageConfig, ChildPageDetail detail) throws InstantiationException,
-                                                                                        IllegalAccessException,
-                                                                                        ClassNotFoundException {
+    private static void handleContent(ChildPage childPageConfig, ChildPageDetail detail) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
         /* 文章内容通过HANDLER特殊处理 */
         if (!StringUtil.isEmpty(childPageConfig.getContent().getHandler())) {
             Handler handler = (Handler) Class.forName(childPageConfig.getContent().getHandler()).newInstance();
@@ -470,8 +430,7 @@ public class TaskExecuter extends Thread {
      * @return
      * @throws RuntimeException
      */
-    private static String getMainContent(ParentPage parentPageConfig, ChildPage childPageConfig, String mainContent)
-                                                                                                                    throws Exception {
+    private static String getMainContent(ParentPage parentPageConfig, ChildPage childPageConfig, String mainContent) throws Exception {
         Filter filter = new MainBodyFilter();
         return filter.filterContent(parentPageConfig, childPageConfig, mainContent);
     }
@@ -487,32 +446,26 @@ public class TaskExecuter extends Thread {
     private static List<String> getReplyList(String childBody, ChildPage childPageConfig) throws RuntimeException {
         List<String> replysList = new ArrayList<String>();
 
-        if (!StringUtil.isEmpty(childPageConfig.getReplys().getStart())
-            && !StringUtil.isEmpty(childPageConfig.getReplys().getEnd())) {// 判断是否有获取回复的配置
-            if (!StringUtil.isEmpty(childPageConfig.getReplys().getReply().getStart())
-                && !StringUtil.isEmpty(childPageConfig.getReplys().getReply().getEnd())) {/*
-                                                                                           * 配置了子回复节点，就根据子回复节点的配置来处理，
-                                                                                           * 主配置用于截取帶有所有回復內容的部份
-                                                                                           * ，而取出每一個回復則在子配置中
-                                                                                           */
-                childBody = StringUtil.subString(childBody, childPageConfig.getReplys().getStart(),
-                                                 childPageConfig.getReplys().getEnd());
-                childBody = StringUtil.replaceContent(childBody, childPageConfig.getReplys().getFrom(),
-                                                      childPageConfig.getReplys().getTo(),
-                                                      childPageConfig.getReplys().isIssRegularExpression());
+        if (!StringUtil.isEmpty(childPageConfig.getReplys().getStart()) && !StringUtil.isEmpty(childPageConfig.getReplys().getEnd())) {// 判断是否有获取回复的配置
+            if (!StringUtil.isEmpty(childPageConfig.getReplys().getReply().getStart()) && !StringUtil.isEmpty(childPageConfig.getReplys().getReply().getEnd())) {/*
+                                                                                                                                                                  * 配置了子回复节点
+                                                                                                                                                                  * ，
+                                                                                                                                                                  * 就根据子回复节点的配置来处理
+                                                                                                                                                                  * ，
+                                                                                                                                                                  * 主配置用于截取帶有所有回復內容的部份
+                                                                                                                                                                  * ，
+                                                                                                                                                                  * 而取出每一個回復則在子配置中
+                                                                                                                                                                  */
+                childBody = StringUtil.subString(childBody, childPageConfig.getReplys().getStart(), childPageConfig.getReplys().getEnd());
+                childBody = StringUtil.replaceContent(childBody, childPageConfig.getReplys().getFrom(), childPageConfig.getReplys().getTo(), childPageConfig.getReplys().isIssRegularExpression());
                 if (!StringUtil.isEmpty(childBody)) {
-                    replysList = StringUtil.getListFromStart2End(childBody,
-                                                                 childPageConfig.getReplys().getReply().getStart(),
-                                                                 childPageConfig.getReplys().getReply().getEnd(),
+                    replysList = StringUtil.getListFromStart2End(childBody, childPageConfig.getReplys().getReply().getStart(), childPageConfig.getReplys().getReply().getEnd(),
                                                                  childPageConfig.getReplys().isFirstMainContent());
                 }
             } else {/* 只配置了主配置，那就根据主配置获取回复内容 */
                 if (!StringUtil.isEmpty(childBody)) {
-                    childBody = StringUtil.replaceContent(childBody, childPageConfig.getReplys().getFrom(),
-                                                          childPageConfig.getReplys().getTo(),
-                                                          childPageConfig.getReplys().isIssRegularExpression());
-                    replysList = StringUtil.getListFromStart2End(childBody, childPageConfig.getReplys().getStart(),
-                                                                 childPageConfig.getReplys().getEnd(),
+                    childBody = StringUtil.replaceContent(childBody, childPageConfig.getReplys().getFrom(), childPageConfig.getReplys().getTo(), childPageConfig.getReplys().isIssRegularExpression());
+                    replysList = StringUtil.getListFromStart2End(childBody, childPageConfig.getReplys().getStart(), childPageConfig.getReplys().getEnd(),
                                                                  childPageConfig.getReplys().isFirstMainContent());
                 }
             }
@@ -533,10 +486,7 @@ public class TaskExecuter extends Thread {
      * @throws IllegalAccessException
      * @throws ClassNotFoundException
      */
-    private static String getSeparatePageUrl(String mainUrl, int currentSeparatePage, ChildPage childPageConfig)
-                                                                                                                throws InstantiationException,
-                                                                                                                IllegalAccessException,
-                                                                                                                ClassNotFoundException {
+    private static String getSeparatePageUrl(String mainUrl, int currentSeparatePage, ChildPage childPageConfig) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
         ISeparatePage page = (ISeparatePage) Class.forName(childPageConfig.getContent().getSeparatePageClass()).newInstance();
         return page.getSeparatePageUrl(mainUrl, currentSeparatePage);
     }

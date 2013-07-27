@@ -6,6 +6,9 @@ import it.renren.spilder.main.config.ChildPage;
 import it.renren.spilder.main.config.ParentPage;
 import it.renren.spilder.main.detail.ChildPageDetail;
 import it.renren.spilder.util.StringUtil;
+import it.renren.spilder.util.UrlUtil;
+
+import org.htmlparser.util.ParserException;
 
 public abstract class Task {
 
@@ -42,8 +45,7 @@ public abstract class Task {
      * @param detail 当臆每个页面的具体内容，如标题、内容体等
      * @throws Exception
      */
-    public abstract void doTask(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail)
-                                                                                                               throws Exception;
+    public abstract void doTask(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail) throws Exception;
 
     protected abstract int getDealedArticleNum();
 
@@ -69,15 +71,16 @@ public abstract class Task {
      * @param detail
      * @param childContent
      * @return
+     * @throws ParserException
      */
-    protected String addSourceUrl(ChildPage childPageConfig, ChildPageDetail detail, String childContent) {
+    protected String addSourceUrl(ChildPage childPageConfig, ChildPageDetail detail, String childContent) throws ParserException {
+        childContent = UrlUtil.replaceHref2GoUrl(childContent, childPageConfig.getCharset());
         if (childPageConfig.isAddUrl()) {
             String displayText = childPageConfig.getAddUrlDisplayString();
             if (StringUtil.isEmpty(displayText)) {
                 displayText = detail.getUrl();
             }
-            childContent = childContent + "<br>From:<a href=\"" + detail.getUrl()
-                           + "\" target=\"_blank\" rel=\"external nofollow\">" + displayText + "</a>";
+            childContent = childContent + "<br>From:<a href=\"" + detail.getUrl() + "\" target=\"_blank\" rel=\"external nofollow\">" + displayText + "</a>";
         }
         return childContent;
     }

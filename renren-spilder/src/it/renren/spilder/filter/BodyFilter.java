@@ -3,7 +3,6 @@ package it.renren.spilder.filter;
 import it.renren.spilder.main.config.ChildPage;
 import it.renren.spilder.main.config.ParentPage;
 import it.renren.spilder.util.StringUtil;
-import it.renren.spilder.util.UrlUtil;
 import it.renren.spilder.util.log.Log4j;
 
 import org.htmlparser.util.ParserException;
@@ -14,9 +13,7 @@ public class BodyFilter implements Filter {
     private static Log4j log4j = new Log4j(BodyFilter.class.getName());
 
     @Override
-    public String filterContent(ParentPage parentPageConfig, ChildPage childPageConfig, String htmlContent)
-                                                                                                           throws ParserException,
-                                                                                                           RuntimeException {
+    public String filterContent(ParentPage parentPageConfig, ChildPage childPageConfig, String htmlContent) throws ParserException, RuntimeException {
         return getChildContent(htmlContent, childPageConfig, parentPageConfig);
     }
 
@@ -29,15 +26,12 @@ public class BodyFilter implements Filter {
      * @throws RuntimeException
      * @throws ParserException
      */
-    private static String getChildContent(String childBody, ChildPage childPageConfig, ParentPage parentPageConfig)
-                                                                                                                   throws RuntimeException,
-                                                                                                                   ParserException {
+    private static String getChildContent(String childBody, ChildPage childPageConfig, ParentPage parentPageConfig) throws RuntimeException, ParserException {
         String childContent = "";
         int startSize = childPageConfig.getContent().getStartList().size();
         for (int i = 0; i < startSize; i++) {
             try {
-                childContent = StringUtil.subString(childBody,
-                                                    ((Element) childPageConfig.getContent().getStartList().get(i)).getText(),
+                childContent = StringUtil.subString(childBody, ((Element) childPageConfig.getContent().getStartList().get(i)).getText(),
                                                     ((Element) childPageConfig.getContent().getEndList().get(i)).getText());
                 break;
             } catch (Exception e) {
@@ -50,11 +44,7 @@ public class BodyFilter implements Filter {
         }
         /** 去掉script标签 */
         childContent = StringUtil.removeScript(childContent);
-        /** 将内容中的URL全部替换为GO URL的方式 **/
-        childContent = UrlUtil.replaceHref2GoUrl(childContent, parentPageConfig.getCharset());
-        childContent = StringUtil.replaceContent(childContent, childPageConfig.getContent().getFrom(),
-                                                 childPageConfig.getContent().getTo(),
-                                                 childPageConfig.getContent().isIssRegularExpression());
+        childContent = StringUtil.replaceContent(childContent, childPageConfig.getContent().getFrom(), childPageConfig.getContent().getTo(), childPageConfig.getContent().isIssRegularExpression());
         return childContent;
     }
 }

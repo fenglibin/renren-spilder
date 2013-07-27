@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="downurl" >
+  <resultMap id="BaseResultMap" class="it.renren.spilder.xiaoshuo.dataobject.Downurl" >
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="inTime" property="intime" jdbcType="DATE" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Downurl" >
+    select url, inTime
+    from downurl
+    where url = #url:VARCHAR#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Downurl" >
+    delete from downurl
+    where url = #url:VARCHAR#
+  </delete>
+  <insert id="insert" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Downurl" >
+    insert into downurl (url, inTime)
+    values (#url:VARCHAR#, #intime:DATE#)
+  </insert>
+  <insert id="insertSelective" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Downurl" >
+    insert into downurl
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="url" >
+        url
+      </isNotNull>
+      <isNotNull prepend="," property="intime" >
+        inTime
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="url" >
+        #url:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="intime" >
+        #intime:DATE#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Downurl" >
+    update downurl
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="intime" >
+        inTime = #intime:DATE#
+      </isNotNull>
+    </dynamic>
+    where url = #url:VARCHAR#
+  </update>
+  <update id="updateByPrimaryKey" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Downurl" >
+    update downurl
+    set inTime = #intime:DATE#
+    where url = #url:VARCHAR#
+  </update>
+</sqlMap>

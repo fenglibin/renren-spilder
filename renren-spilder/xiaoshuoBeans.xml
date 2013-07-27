@@ -22,13 +22,13 @@
 	</bean>
 	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
 		<property name="configLocation">
-			<value>daoconfig/sqlmap.xml</value>
+			<value>daoconfig/xiaoshuo_sqlmap.xml</value>
 		</property>
 		<property name="sqlMapClientProperties">
 			<map>
 				<entry key="baseurl">
 					<bean class="it.renren.spilder.spring.support.GetResourceAsURL">
-						<property name="location" value="daoconfig/sqlmap.xml" />
+						<property name="location" value="daoconfig/xiaoshuo_sqlmap.xml" />
 						<property name="parent" value="true" />
 					</bean>
 				</entry>
@@ -40,13 +40,13 @@
 	</bean>
 	<bean id="sqlMapClientFanti" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
 		<property name="configLocation">
-			<value>daoconfig/sqlmap.xml</value>
+			<value>daoconfig/xiaoshuo_sqlmap.xml</value>
 		</property>
 		<property name="sqlMapClientProperties">
 			<map>
 				<entry key="baseurl">
 					<bean class="it.renren.spilder.spring.support.GetResourceAsURL">
-						<property name="location" value="daoconfig/sqlmap.xml" />
+						<property name="location" value="daoconfig/xiaoshuo_sqlmap.xml" />
 						<property name="parent" value="true" />
 					</bean>
 				</entry>
@@ -59,127 +59,57 @@
 	<bean id="taskExecuter" class="it.renren.spilder.main.config.TaskExecuter" singleton="false">
 		<property name="taskList">
 			<list>
-				<bean class="it.renren.spilder.task.WriteData2DB">
-				</bean>
-				<bean class="it.renren.spilder.task.WriteData2FanDB">
+				<bean class="it.renren.spilder.xiaoshuo.task.WriteBook2DB">
 				</bean>
 			</list>
 		</property>
 	</bean>
-	<bean id="typesMap" class="it.renren.spilder.type.DedecmsTypesMap">
+	<bean id="typesMap" class="it.renren.spilder.xiaoshuo.type.BooksTypeMap">
 	</bean>
-	<bean id="autoDetectTypes" class="it.renren.spilder.type.AutoDetectTypes"></bean>
+	<bean id="booksType" class="it.renren.spilder.xiaoshuo.type.GetBooksType"></bean>
 		
 	<!-- 简体对象定义（开始） -->
-	<bean id="arctinyDAO" class="it.renren.spilder.dao.ibatis.IbatisArctinyDAO">
-		<property name="dataSource">
-			<ref local="dataSource" />
-		</property>
-		<property name="tablePrefix">
-			<value>${it.simple.table.prefix}</value>
-		</property>
-	</bean>
-	<bean id="archivesDAO" class="it.renren.spilder.dao.ibatis.IbatisArchivesDAO">
-		<property name="dataSource">
-			<ref local="dataSource" />
-		</property>
-		<property name="tablePrefix">
-			<value>${it.simple.table.prefix}</value>
-		</property>
-		<property name="dedecmsVersion">
-			<value>5.7</value>
-		</property>
-	</bean>
-	<bean id="addonarticleDAO" class="it.renren.spilder.dao.ibatis.IbatisAddonarticleDAO">
-		<property name="dataSource">
-			<ref local="dataSource" />
-		</property>
-		<property name="tablePrefix">
-			<value>${it.simple.table.prefix}</value>
-		</property>
-	</bean>
-	<bean id="downurlDAO" class="it.renren.spilder.dao.ibatis.IbatisDownurlDAO">
+	<bean id="typesDAO" class="it.renren.spilder.xiaoshuo.dao.ibatis.TypesDAOImpl">
 		<property name="dataSource">
 			<ref local="dataSource" />
 		</property>
 	</bean>
-	<bean id="arctypeDAO" class="it.renren.spilder.dao.ibatis.IbatisArctypeDAO">
+	<bean id="booksDAO" class="it.renren.spilder.xiaoshuo.dao.ibatis.BooksDAOImpl">
 		<property name="dataSource">
 			<ref local="dataSource" />
-		</property>
-		<property name="tablePrefix">
-			<value>${it.simple.table.prefix}</value>
 		</property>
 	</bean>
-	<bean id="feedbackDAO" class="it.renren.spilder.dao.ibatis.IbatisFeedbackDAO">
+	<bean id="chaptersDAO" class="it.renren.spilder.xiaoshuo.dao.ibatis.ChaptersDAOImpl">
 		<property name="dataSource">
 			<ref local="dataSource" />
 		</property>
-		<property name="tablePrefix">
-			<value>${it.simple.table.prefix}</value>
+	</bean>
+	<bean id="downurlDAO" class="it.renren.spilder.xiaoshuo.dao.ibatis.DownurlDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource" />
 		</property>
 	</bean>
 	<!-- 简体对象定义（开始） -->
 	
 	<!-- 繁体对象定义（结束） -->
-	<bean id="arctinyDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisArctinyDAO">
+	<bean id="typesDAOFanti" class="it.renren.spilder.xiaoshuo.dao.ibatis.TypesDAOImpl">
 		<property name="dataSource">
 			<ref local="dataSourceFanti" />
-		</property>
-		<property name="tablePrefix">
-			<value>${it.traditional.table.prefix}</value>
-		</property>
-		<property name="sqlMapClient" ref="sqlMapClientFanti">
 		</property>
 	</bean>
-	<bean id="archivesDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisArchivesDAO">
+	<bean id="booksDAOFanti" class="it.renren.spilder.xiaoshuo.dao.ibatis.BooksDAOImpl">
 		<property name="dataSource">
 			<ref local="dataSourceFanti" />
-		</property>
-		<property name="tablePrefix">
-			<value>${it.traditional.table.prefix}</value>
-		</property>
-		<property name="sqlMapClient" ref="sqlMapClientFanti">
-		</property>
-		<property name="dedecmsVersion">
-			<value>5.7</value>
 		</property>
 	</bean>
-	<bean id="addonarticleDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisAddonarticleDAO">
+	<bean id="chaptersDAOFanti" class="it.renren.spilder.xiaoshuo.dao.ibatis.ChaptersDAOImpl">
 		<property name="dataSource">
 			<ref local="dataSourceFanti" />
-		</property>
-		<property name="tablePrefix">
-			<value>${it.traditional.table.prefix}</value>
-		</property>
-		<property name="sqlMapClient" ref="sqlMapClientFanti">
 		</property>
 	</bean>
-	<bean id="downurlDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisDownurlDAO">
+	<bean id="downurlDAOFanti" class="it.renren.spilder.xiaoshuo.dao.ibatis.DownurlDAOImpl">
 		<property name="dataSource">
 			<ref local="dataSourceFanti" />
-		</property>
-		<property name="sqlMapClient" ref="sqlMapClientFanti">
-		</property>
-	</bean>
-	<bean id="arctypeDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisArctypeDAO">
-		<property name="dataSource">
-			<ref local="dataSourceFanti" />
-		</property>
-		<property name="tablePrefix">
-			<value>${it.traditional.table.prefix}</value>
-		</property>
-		<property name="sqlMapClient" ref="sqlMapClientFanti">
-		</property>
-	</bean>
-	<bean id="feedbackDAOFanti" class="it.renren.spilder.dao.ibatis.IbatisFeedbackDAO">
-		<property name="dataSource">
-			<ref local="dataSourceFanti" />
-		</property>
-		<property name="tablePrefix">
-			<value>${it.traditional.table.prefix}</value>
-		</property>
-		<property name="sqlMapClient" ref="sqlMapClientFanti">
 		</property>
 	</bean>
 	<!-- 繁体对象定义（结束） -->	

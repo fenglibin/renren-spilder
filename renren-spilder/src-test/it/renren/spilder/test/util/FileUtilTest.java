@@ -1,6 +1,5 @@
 package it.renren.spilder.test.util;
 
-import it.renren.spilder.main.Environment;
 import it.renren.spilder.util.FileUtil;
 import it.renren.spilder.util.HttpClientUtil;
 import it.renren.spilder.util.StringUtil;
@@ -68,9 +67,9 @@ public class FileUtilTest extends TestCase {
 
     @Test
     public void testDownloadImage() throws IOException {
-        String image = "http://img2.blogbuscdn.com/pindao/2013/6/18/f7d2986499d4813fc018d4cfbeb2d4f4.jpg";
+        String image = "http://xs321.net/1207/index.jpg";
         String saveLocation = "d:/test/";
-        Environment.referer = "http://img2.blogbuscdn.com/pindao/2013/6/18/f7d2986499d4813fc018d4cfbeb2d4f4.jpg";
+        // Environment.referer = "http://img2.blogbuscdn.com/pindao/2013/6/18/f7d2986499d4813fc018d4cfbeb2d4f4.jpg";
         FileUtil.downloadFile(image, saveLocation);
 
     }

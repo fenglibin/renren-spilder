@@ -294,7 +294,7 @@ public class StringUtil {
         }
         int index_start = -1;
         int num = 1;
-        while ((index_start = content.indexOf(start)) > 0) {
+        while ((index_start = content.indexOf(start)) >= 0) {
             content = content.substring(index_start);
             int index_end = content.indexOf(end);
             if (index_end > 0) {
@@ -361,8 +361,7 @@ public class StringUtil {
      * @param isIssRegularExpression
      * @return
      */
-    public static String replaceContent(String content, List<String> fromList, List<String> toList,
-                                        boolean isIssRegularExpression) {
+    public static String replaceContent(String content, List<String> fromList, List<String> toList, boolean isIssRegularExpression) {
         if (fromList == null || fromList.size() == 0 || toList == null || toList.size() == 0) {
             return content;
         }
@@ -437,8 +436,7 @@ public class StringUtil {
         err += "rm -f " + fileName + "\n";
         err += "wget " + srcUrl + "\n";
         err += "cd /home/fenglibin/mysoft\n";
-        err += "java -Xmn130m -Xms256m -Xmx400m -cp renren.it_spilder.jar it.renren.spilder.util.wash.GenLitImage savePath="
-               + fileSavePath + "/ filename=" + fileName + "\n";
+        err += "java -Xmn130m -Xms256m -Xmx400m -cp renren.it_spilder.jar it.renren.spilder.util.wash.GenLitImage savePath=" + fileSavePath + "/ filename=" + fileName + "\n";
         err += "cd -\n";
         try {
             FileUtil.writeFileAppend(Constants.notGetImagesUrlSaveFile, err);

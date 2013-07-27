@@ -21,6 +21,7 @@ public class ParentPage {
     private boolean    onlyImage;
     private String     imageDescUrl;
     private String     imageSaveLocation;
+    private boolean    imageRename     = false;
     private String     desArticleId;
     private int        randRecommandFrequency;
     private boolean    isSRcommand;
@@ -205,6 +206,14 @@ public class ParentPage {
 
     public void setImageSaveLocation(String imageSaveLocation) {
         this.imageSaveLocation = imageSaveLocation;
+    }
+
+    public boolean isImageRename() {
+        return imageRename;
+    }
+
+    public void setImageRename(boolean imageRename) {
+        this.imageRename = imageRename;
     }
 
     public Content getContent() {

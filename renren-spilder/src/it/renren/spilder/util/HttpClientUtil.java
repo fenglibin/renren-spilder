@@ -77,9 +77,7 @@ public class HttpClientUtil {
         } else {
             headers.add(new Header("Referer", Environment.referer));
         }
-        headers.add(new Header(
-                               "User-Agent",
-                               "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.8 (KHTML, like Gecko; Google Web Preview) Chrome/19.0.1084.36 Safari/536.8"));
+        headers.add(new Header("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.8 (KHTML, like Gecko; Google Web Preview) Chrome/19.0.1084.36 Safari/536.8"));
         return headers;
     }
 
@@ -106,8 +104,7 @@ public class HttpClientUtil {
         return getGetResponseWithHttpClient(url, encode, Environment.isUseProxy);
     }
 
-    public static String getGetResponseWithHttpClient(String url, String encode, boolean byProxy) throws HttpException,
-                                                                                                 IOException {
+    public static String getGetResponseWithHttpClient(String url, String encode, boolean byProxy) throws HttpException, IOException {
         String cookie = null;
         if (!StringUtil.isEmpty(Environment.cookFile)) {
             cookie = FileUtil.getFileContent(Environment.cookFile);
@@ -125,9 +122,7 @@ public class HttpClientUtil {
      * @throws IOException
      * @throws HttpException
      */
-    public static String getGetResponseWithHttpClient(String url, String encode, boolean byProxy, String cookie)
-                                                                                                                throws HttpException,
-                                                                                                                IOException {
+    public static String getGetResponseWithHttpClient(String url, String encode, boolean byProxy, String cookie) throws HttpException, IOException {
         HttpClient client = new HttpClient(manager);
         if (byProxy) {
             // 设置代理开始
@@ -152,9 +147,13 @@ public class HttpClientUtil {
         try {
 
             client.executeMethod(get);
-            String contentEncoding = get.getResponseHeader(it.renren.spilder.main.Constants.HttpHeader.CONTENT_ENCODING).getValue();
+            String contentEncoding = null;
+            Header header = get.getResponseHeader(it.renren.spilder.main.Constants.HttpHeader.CONTENT_ENCODING);
+            if (header != null) {
+                contentEncoding = get.getResponseHeader(it.renren.spilder.main.Constants.HttpHeader.CONTENT_ENCODING).getValue();
+            }
             InputStream inputStream = null;
-            if (contentEncoding.equalsIgnoreCase("gzip")) {
+            if (!StringUtil.isEmpty(contentEncoding) && contentEncoding.equalsIgnoreCase("gzip")) {
                 inputStream = new GZIPInputStream(get.getResponseBodyAsStream());
             } else {
                 inputStream = get.getResponseBodyAsStream();
@@ -202,8 +201,7 @@ public class HttpClientUtil {
         try {
             client.executeMethod(post);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(post.getResponseBodyAsStream(),
-                                                                         post.getResponseCharSet()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(post.getResponseBodyAsStream(), post.getResponseCharSet()));
             String inputLine = null;
 
             while ((inputLine = in.readLine()) != null) {
@@ -242,8 +240,7 @@ public class HttpClientUtil {
 
         try {
             client.executeMethod(post);
-            BufferedReader in = new BufferedReader(new InputStreamReader(post.getResponseBodyAsStream(),
-                                                                         post.getResponseCharSet()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(post.getResponseBodyAsStream(), post.getResponseCharSet()));
             String inputLine = null;
 
             while ((inputLine = in.readLine()) != null) {
@@ -266,8 +263,7 @@ public class HttpClientUtil {
         return result;
     }
 
-    private static String ConverterStringCode(String source, String srcEncode, String destEncode)
-                                                                                                 throws UnsupportedEncodingException {
+    private static String ConverterStringCode(String source, String srcEncode, String destEncode) throws UnsupportedEncodingException {
 
         return new String(source.getBytes(srcEncode), destEncode);
 

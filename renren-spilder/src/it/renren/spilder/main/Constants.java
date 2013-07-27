@@ -32,12 +32,8 @@ public class Constants {
     // 当前应用程序所在路径
     public static final String currentPath                          = new File("").getAbsolutePath() + File.separator;
     // 帮助提示信息
-    public static final String USE_AGE                              = "Usage:java -jar renren.it_spilder "
-                                                                      + "-f配置文件名|-d配置文件目录  "
-                                                                      + "[-o单个文件执行完后休息的时间(毫秒为单位) "
-                                                                      + "-l循环执行某目录暂停的时候(以毫秒为单位) "
-                                                                      + "-check(用于对配置文件的检测，不需要指定参数) "
-                                                                      + "-p(是否对配置目录 中的文件，只执行第一页，不需要指定参数)]";
+    public static final String USE_AGE                              = "Usage:java -jar renren.it_spilder " + "-f配置文件名|-d配置文件目录  " + "[-o单个文件执行完后休息的时间(毫秒为单位) " + "-l循环执行某目录暂停的时候(以毫秒为单位) "
+                                                                      + "-check(用于对配置文件的检测，不需要指定参数) " + "-p(是否对配置目录 中的文件，只执行第一页，不需要指定参数)]";
 
     public static final String CHINESE_SIMPLIFIED                   = "cn";
     public static final String CHINESE_TRADITIONAL                  = "big5";
@@ -67,7 +63,8 @@ public class Constants {
     public static final String notGetImagesUrlSaveFile              = "/home/fenglibin/mysoft/notGetImagesUrlSaveFile.txt";
 
     public static final String EMPTY_STRING                         = "";
-    public static final String BLANK_STRING                         = "";
+    public static final String BLANK_STRING                         = " ";
+    public static final String COLON                                = "\"";
 
     public static class HttpHeader {
 

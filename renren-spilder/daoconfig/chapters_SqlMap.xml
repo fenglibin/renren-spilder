@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="chapters" >
+  <resultMap id="BaseResultMap" class="it.renren.spilder.xiaoshuo.dataobject.Chapters" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="book_id" property="bookId" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="inTime" property="intime" jdbcType="DATE" />
+    <result column="isGenHtml" property="isgenhtml" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" class="it.renren.spilder.xiaoshuo.dataobject.Chapters" extends="chapters.BaseResultMap" >
+    <result column="context" property="context" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Chapters" >
+    select id, book_id, title, inTime, isGenHtml, context
+    from chapters
+    where id = #id:INTEGER#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Chapters" >
+    delete from chapters
+    where id = #id:INTEGER#
+  </delete>
+  <insert id="insert" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Chapters" >
+    insert into chapters (id, book_id, title, inTime, isGenHtml, context)
+    values (#id:INTEGER#, #bookId:INTEGER#, #title:VARCHAR#, #intime:DATE#, #isgenhtml:BIT#,
+      #context:LONGVARCHAR#)
+  </insert>
+  <insert id="insertSelective" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Chapters" >
+    insert into chapters
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="bookId" >
+        book_id
+      </isNotNull>
+      <isNotNull prepend="," property="title" >
+        title
+      </isNotNull>
+      <isNotNull prepend="," property="intime" >
+        inTime
+      </isNotNull>
+      <isNotNull prepend="," property="isgenhtml" >
+        isGenHtml
+      </isNotNull>
+      <isNotNull prepend="," property="context" >
+        context
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        #id:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="bookId" >
+        #bookId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="title" >
+        #title:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="intime" >
+        #intime:DATE#
+      </isNotNull>
+      <isNotNull prepend="," property="isgenhtml" >
+        #isgenhtml:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="context" >
+        #context:LONGVARCHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Chapters" >
+    update chapters
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="bookId" >
+        book_id = #bookId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="title" >
+        title = #title:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="intime" >
+        inTime = #intime:DATE#
+      </isNotNull>
+      <isNotNull prepend="," property="isgenhtml" >
+        isGenHtml = #isgenhtml:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="context" >
+        context = #context:LONGVARCHAR#
+      </isNotNull>
+    </dynamic>
+    where id = #id:INTEGER#
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Chapters" >
+    update chapters
+    set book_id = #bookId:INTEGER#,
+      title = #title:VARCHAR#,
+      inTime = #intime:DATE#,
+      isGenHtml = #isgenhtml:BIT#,
+      context = #context:LONGVARCHAR#
+    where id = #id:INTEGER#
+  </update>
+  <update id="updateByPrimaryKey" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Chapters" >
+    update chapters
+    set book_id = #bookId:INTEGER#,
+      title = #title:VARCHAR#,
+      inTime = #intime:DATE#,
+      isGenHtml = #isgenhtml:BIT#
+    where id = #id:INTEGER#
+  </update>
+</sqlMap>

@@ -99,8 +99,7 @@ public class UrlUtil {
      * @return
      * @throws Exception
      */
-    public static void saveImages(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail)
-                                                                                                                 throws Exception {
+    public static void saveImages(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail) throws Exception {
         // 当前图片页面所在的URL地址，或者是当前页面的主域地址；可以是"http://www.renren.it" 或 "http://www.renren.it/a/b.html"
         String url = detail.getUrl();
         // 根据URL地址获取到的内容，或者是指定部份的内容
@@ -132,10 +131,14 @@ public class UrlUtil {
             imageSrc = URLDecoder.decode(imageSrc, childPageConfig.getCharset());
             /* 获取文件名，没有路径 */
             String imageName = FileUtil.getFileName(imageSrc);
-            /* 是否常用图片文件格式检查 */
-            if (!FileUtil.isImageUsualFileByExt(imageName)) {
-                continue;
+            if (parentPageConfig.isImageRename()) {
+                String ext = FileUtil.getFileExtensation(imageName);
+                imageName = String.valueOf(System.currentTimeMillis());
+                if (!StringUtil.isEmpty(ext)) {
+                    imageName += Constants.DOT + ext;
+                }
             }
+
             /* 组装当前下载图片存放的路径 */
             String imageDes = imageDescUrl + imageName;
             /* 将获取到的内容以文件的形式写到本地 */
@@ -148,8 +151,7 @@ public class UrlUtil {
                 if (!savedImage.exists()) {
                     imageSaveResult = FileUtil.downloadFile(imageUrl, imageSaveLocation, imageName);
                     if (imageSaveResult && !StringUtil.isEmpty(Environment.waterImageLocation)) {// 需要增加水印
-                        ImageUtil.addWaterMark(imageSaveLocation + imageName, Environment.waterImageLocation,
-                                               ImageUtil.WaterImageLocation.LEFT_FOOT, 1);
+                        ImageUtil.addWaterMark(imageSaveLocation + imageName, Environment.waterImageLocation, ImageUtil.WaterImageLocation.LEFT_FOOT, 1);
                     }
                 }
 
@@ -197,8 +199,7 @@ public class UrlUtil {
         litPicName = filePrefix + "-lp" + Constants.DOT + ext;
         File savedLitImage = new File(imageSaveLocation + litPicName);
         if (!savedLitImage.exists()) {
-            ImageUtil.changeImageSize(imageSaveLocation + imageName, imageSaveLocation + litPicName,
-                                      Constants.LIT_PIC_MAX_WIDTH_OR_HEIGHT);
+            ImageUtil.changeImageSize(imageSaveLocation + imageName, imageSaveLocation + litPicName, Constants.LIT_PIC_MAX_WIDTH_OR_HEIGHT);
         }
         return litPicName;
     }
@@ -238,6 +239,20 @@ public class UrlUtil {
     }
 
     /**
+     * 组成标准的URL
+     * 
+     * @param pageUrl
+     * @param childLinks
+     */
+    public static void makeStadardUrl(String pageUrl, Set<AHrefElement> childLinks) {
+        for (AHrefElement link : childLinks) {
+            String childUrl = link.getHref();
+            childUrl = makeUrl(pageUrl, childUrl);
+            link.setHref(childUrl);
+        }
+    }
+
+    /**
      * 根据传入的url地址，获取主域地址，如传入"http://www.163.com/a/b.html"，得到的值为"http://www.163.com"
      * 
      * @param url
@@ -263,30 +278,18 @@ public class UrlUtil {
      * @return
      * @throws ParserException
      */
-    public static String replaceRelativePath2AbsolutePate(String childUrl, String childContent, String charset)
-                                                                                                               throws ParserException {
+    public static String replaceRelativeUrl2AbsoluteUrl(String childUrl, String childContent, String charset) throws ParserException {
         Set<AHrefElement> childLinks = AHrefParser.ahrefParser(childContent, null, null, charset, Boolean.FALSE);
         for (AHrefElement href : childLinks) {
             String url = href.getHref();
             if (!url.startsWith("http")) {
                 String urlAbsolute = UrlUtil.makeUrl(childUrl, url);
+                url = Constants.COLON + url + Constants.COLON;
+                urlAbsolute = Constants.COLON + urlAbsolute + Constants.COLON;
                 childContent = childContent.replace(url, urlAbsolute);
             }
         }
         return childContent;
-    }
-
-    /**
-     * 将内容中所有的超连接，修改为go.renren.it的后接参数，然后通过APACHE跳转，减少外链；<br>
-     * 如原来的超连接是：http://www.abc.com/1.html，修改后为：http://go.renren.it/www.abc.com/1.html.
-     * 
-     * @param childContent
-     * @param charset
-     * @return
-     * @throws ParserException
-     */
-    public static String replaceHref2GoUrl(String childContent) throws ParserException {
-        return replaceHref2GoUrl(childContent, DEFAULT_CHARSET);
     }
 
     /**
@@ -303,25 +306,10 @@ public class UrlUtil {
         for (AHrefElement href : childLinks) {
             String goUrl = GO_URL;
             String url = href.getHref();
-            if (!checkIsRenrenUrl(url)) {
-                goUrl += removeProtocol(url);
-                childContent = childContent.replace(url, goUrl);
-            }
+            goUrl += removeProtocol(url);
+            childContent = childContent.replace(url, goUrl);
         }
         return childContent;
-    }
-
-    /**
-     * 判断当前给定的URL是否renren.it的网站的URL
-     * 
-     * @param url
-     * @return
-     */
-    public static boolean checkIsRenrenUrl(String url) {
-        if (url.indexOf("renren.it") > 0) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -378,8 +366,7 @@ public class UrlUtil {
 
     public static void main(String[] args) {
         try {
-            log4j.logDebug(getContentByURL("http://www.ibm.com/developerworks/cn/views/java/libraryview.jsp?view_by=search&search_by=Ajax",
-                                           "gbk"));
+            log4j.logDebug(getContentByURL("http://www.ibm.com/developerworks/cn/views/java/libraryview.jsp?view_by=search&search_by=Ajax", "gbk"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             log4j.logError(e);

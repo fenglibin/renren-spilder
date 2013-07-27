@@ -49,6 +49,7 @@ public class ImageParser {
                 ImageTag imageNode = (ImageTag) anode;
                 if (imageSrc.get(imageNode.getAttribute("src")) == null) {
                     fe.setSrc(imageNode.getAttribute("src"));
+                    fe.setAlt(imageNode.getAttribute("alt"));
                     ret.add(fe);
                     imageSrc.put(imageNode.getAttribute("src"), imageNode.getAttribute("src"));
                 }

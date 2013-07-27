@@ -11,7 +11,11 @@ public class ChildPage {
     private boolean      isAddUrl;
     private String       addUrlDisplayString;
     private boolean      isKeepFileName;
-    private Replys       replys = new Replys();
+    private Replys       replys                         = new Replys();
+    // 是否处理当前页面中类似的URL，默认的值为true。值只可以是true中或false
+    private boolean      expandUrl                      = true;
+    // 是否需要检查当前页面的URL是否已经处理过来
+    private boolean      needToCheckUrlIsAlreadyOperate = true;
 
     public boolean isKeepFileName() {
         return isKeepFileName;
@@ -83,6 +87,22 @@ public class ChildPage {
 
     public Replys getReplys() {
         return replys;
+    }
+
+    public boolean isExpandUrl() {
+        return expandUrl;
+    }
+
+    public void setExpandUrl(boolean expandUrl) {
+        this.expandUrl = expandUrl;
+    }
+
+    public boolean isNeedToCheckUrlIsAlreadyOperate() {
+        return needToCheckUrlIsAlreadyOperate;
+    }
+
+    public void setNeedToCheckUrlIsAlreadyOperate(boolean needToCheckUrlIsAlreadyOperate) {
+        this.needToCheckUrlIsAlreadyOperate = needToCheckUrlIsAlreadyOperate;
     }
 
 }

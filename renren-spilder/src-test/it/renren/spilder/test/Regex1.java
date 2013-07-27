@@ -179,4 +179,19 @@ public class Regex1 extends TestCase {
         result = m.find();
         assertTrue(result);
     }
+
+    public void test16() {
+        String str = "/";
+        String regEx = "/([a-z]){1,20}$";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        boolean result = m.find();
+        assertFalse(result);
+
+        str = "/abc";
+        p = Pattern.compile(regEx);
+        m = p.matcher(str);
+        result = m.find();
+        assertTrue(result);
+    }
 }

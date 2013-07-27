@@ -11,22 +11,25 @@ public class ChildPageDetail {
     /* 描述 */
     private String       description;
     /* 作者 */
-    private String       author        = "Internet";
+    private String       author          = "Internet";
     /* 文章来源 */
-    private String       source        = "Internet";
+    private String       source          = "Internet";
     /* 文章内容 */
-    private String       content       = "";
+    private String       content         = "";
     /* 当前文章获取的URL地址 */
     private String       url;
     /* 是否包括有图片 */
     private boolean      isPicArticle;
     /* 缩略图的地址 */
-    private String       litpicAddress = "";
+    private String       litpicAddress   = "";
     /* 获取内容网页的网页文件名 */
-    private String       fileName      = "";
+    private String       fileName        = "";
 
     private List<String> replys;
     private boolean      dealResult;
+
+    // 页面的原始内容
+    private String       originalContent = "";
 
     public String getFileName() {
         return fileName;
@@ -121,6 +124,7 @@ public class ChildPageDetail {
         detail.url = url;
         detail.fileName = fileName;
         detail.replys = replys;
+        detail.originalContent = originalContent;
         return detail;
     }
 
@@ -138,6 +142,14 @@ public class ChildPageDetail {
 
     public void setDealResult(boolean dealResult) {
         this.dealResult = dealResult;
+    }
+
+    public String getOriginalContent() {
+        return originalContent;
+    }
+
+    public void setOriginalContent(String originalContent) {
+        this.originalContent = originalContent;
     }
 
     public String toString() {
