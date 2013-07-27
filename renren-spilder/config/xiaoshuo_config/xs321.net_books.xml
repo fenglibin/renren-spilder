@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="gbk"?>
+<Rules desc="新浪科技头条">
+	<MainUrl>
+		<Values desc="链接的列表地址，Value中的列表地址可以是多条，以逗号分开">
+			<Value desc="当前主页面的Url地址">
+				<![CDATA[http://xs321.net/]]>
+			</Value>
+		</Values>
+		<MainRange desc="内容范围">
+			<Start desc="URL地址开始的方">
+				<Value><![CDATA[<div class="daohan">]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[</div>]]></Value>
+			</End>
+		</MainRange>
+		<Charset desc="编码">
+			<Value>
+				<![CDATA[gb2312]]>
+			</Value>
+		</Charset>
+		<ImageDescUrl desc="将原内容中的图片地址替换、用户保存图片的相对路径">
+			<Value>
+				<![CDATA[/uploads/allimg/]]>
+			</Value>
+		</ImageDescUrl>
+		<ImageSaveLocation desc="保存图片的路径，将图片写出到硬盘上">
+			<Value>
+				<![CDATA[/home/fenglibin/www/img.renren.it/xs_images/]]>
+			</Value>
+		</ImageSaveLocation>
+		<ImageRename desc="图片文件是否重命名">
+			<Value>true</Value>
+		</ImageRename>
+		<UrlFilter url="url筛选">
+			<MustInclude desc="url中必须包括的字符串">
+				<Value>
+					<![CDATA[/([a-z]){1,20}/$]]>
+				</Value>
+			</MustInclude>
+			<MustNotInclude desc="url中不能够包括的字符串">
+				<Value>
+					<![CDATA[]]>
+				</Value>
+			</MustNotInclude>
+			<IsCompByRegex desc="必须包括与不能够包括这两项，与URL的比较是否通过正则规则进行比较,值只可以是true及false">
+				<Value>true</Value>
+			</IsCompByRegex>
+		</UrlFilter>
+	</MainUrl>
+	<Child>
+		<Charset desc="编码">
+			<Value>
+				<![CDATA[gb2312]]>
+			</Value>
+		</Charset>
+		<Title desc="标题">
+			<Start>
+				<Value><![CDATA[<title>]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[</title>]]></Value>
+			</End>
+		</Title>
+		<Content desc="内容">
+			<Start>
+				<Value><![CDATA[<table border="0" cellpadding="0" cellspacing="0" width="920" class="mhlblb">]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[</div></div></td></tr><tr><td>]]></Value>
+			</End>
+		</Content>
+		<SeparatePage>
+				<MaxPages>20</MaxPages>
+				<SeparatePageClass>it.renren.spilder.filter.seperatepage.XS321SeparatePage</SeparatePageClass>
+		</SeparatePage>
+		<ExpandUrl desc="是否处理当前页面中类似的URL，默认的值为true。值只可以是true中或false">
+			<Value>false</Value>
+		</ExpandUrl>
+		<NeedToCheckUrlIsAlreadyOperate desc="是否检查当前URL是否已经处理过来，默认的值为true。值只可以是true中或false">
+			<Value>false</Value>
+		</NeedToCheckUrlIsAlreadyOperate>
+	</Child>
+</Rules>
