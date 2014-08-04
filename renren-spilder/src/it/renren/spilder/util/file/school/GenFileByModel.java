@@ -8,7 +8,6 @@ import it.renren.spilder.util.StringUtil;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.httpclient.HttpException;
 import org.htmlparser.util.ParserException;
@@ -99,7 +98,7 @@ public class GenFileByModel {
         String contentReplace = "<div class=\"STYLE1\"><a href=\"http://bbs.chinaitlab.com\" target=\"_blank\" class=\"STYLE1\">欢迎进入Linux社区论坛，与200万技术人员互动交流  >>进入</a></div>";
         String mainContent = HttpClientUtil.getGetResponseWithHttpClient(commandUrl, charset);
         mainContent = StringUtil.subString(mainContent, mainStart, mainEnd);
-        Set<AHrefElement> childLinks = AHrefParser.ahrefParser(mainContent, charset);
+        List<AHrefElement> childLinks = AHrefParser.ahrefParser(mainContent, charset);
         for (String oneCommand : commandList) {
             System.out.println("处理的命令：" + oneCommand);
             String oneCommandFile = commandFile;
@@ -121,8 +120,7 @@ public class GenFileByModel {
 
     private static void genLiHref() {
         for (String oneCommand : commandList) {
-            System.out.println("<li><a href=\"" + oneCommand + ".html\" title=\"" + oneCommand + "\">" + oneCommand
-                               + "</a></li>");
+            System.out.println("<li><a href=\"" + oneCommand + ".html\" title=\"" + oneCommand + "\">" + oneCommand + "</a></li>");
         }
     }
 }

@@ -13,8 +13,11 @@ public class TitleFilter implements Filter {
 
     @Override
     public String filterContent(ParentPage parentPageConfig, ChildPage childPageConfig, String htmlContent) {
-        String title = StringUtil.subString(htmlContent, childPageConfig.getTitle().getStart(),
-                                            childPageConfig.getTitle().getEnd());
+        String title = null;
+        if (StringUtil.isEmpty(childPageConfig.getTitle().getStart())) {
+            return title;
+        }
+        title = StringUtil.subString(htmlContent, childPageConfig.getTitle().getStart(), childPageConfig.getTitle().getEnd());
         title = StringUtil.removeHtmlTags(title);
         title = replaceTitle(childPageConfig, title);
         return title;
@@ -22,14 +25,11 @@ public class TitleFilter implements Filter {
 
     /* ±ÍÃ‚ÃÊªª */
     private static String replaceTitle(ChildPage childPageConfig, String childTitle) {
-        if (!StringUtil.isEmpty(childPageConfig.getTitle().getFrom())
-            && !StringUtil.isEmpty(childPageConfig.getTitle().getTo())) {
+        if (!StringUtil.isEmpty(childPageConfig.getTitle().getFrom()) && !StringUtil.isEmpty(childPageConfig.getTitle().getTo())) {
             if (childPageConfig.getTitle().isIssRegularExpression()) {
-                childTitle = childTitle.replaceAll(childPageConfig.getTitle().getFrom(),
-                                                   childPageConfig.getTitle().getTo());
+                childTitle = childTitle.replaceAll(childPageConfig.getTitle().getFrom(), childPageConfig.getTitle().getTo());
             } else {
-                childTitle = childTitle.replace(childPageConfig.getTitle().getFrom(),
-                                                childPageConfig.getTitle().getTo());
+                childTitle = childTitle.replace(childPageConfig.getTitle().getFrom(), childPageConfig.getTitle().getTo());
             }
         }
         return childTitle;

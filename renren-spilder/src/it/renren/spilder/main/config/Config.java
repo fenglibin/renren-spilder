@@ -18,8 +18,9 @@ import bsh.EvalError;
  */
 public class Config {
 
-    public static ParentPage initParentPage(Document ruleXml) throws JDOMException, EvalError {
+    public static ParentPage initParentPage(Document ruleXml) throws JDOMException, EvalError, InstantiationException, IllegalAccessException, ClassNotFoundException {
         ParentPage parentPageConfig = new ParentPage();
+
         parentPageConfig.setCharset(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/Charset/Value"));
         parentPageConfig.getUrlListPages().setValues((Element) (XPath.selectSingleNode(ruleXml, "/Rules/MainUrl/Values")));
         parentPageConfig.setSaveImage(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/ImageDescUrl/IsSaveImage") == null ? true : Boolean.parseBoolean(JDomUtil.getValueByXpath(ruleXml,
@@ -32,6 +33,10 @@ public class Config {
         parentPageConfig.setImageRename(StringUtil.isEmpty(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/ImageRename/Value")) ? false : Boolean.parseBoolean(JDomUtil.getValueByXpath(ruleXml,
                                                                                                                                                                                           "/Rules/MainUrl/ImageRename/Value")));
 
+        parentPageConfig.getUrlFilter().setMustInclude(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/UrlFilter/MustInclude/Value"));
+        parentPageConfig.getUrlFilter().setMustNotInclude(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/UrlFilter/MustNotInclude/Value"));
+        parentPageConfig.getUrlFilter().setCompByRegex(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/UrlFilter/IsCompByRegex/Value") == null ? false : Boolean.parseBoolean(JDomUtil.getValueByXpath(ruleXml,
+                                                                                                                                                                                                         "/Rules/MainUrl/UrlFilter/IsCompByRegex/Value")));
         parentPageConfig.setRandRecommandFrequency(StringUtil.isEmpty(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/Recommend/Value")) ? 0 : Integer.parseInt(JDomUtil.getValueByXpath(ruleXml,
                                                                                                                                                                                            "/Rules/MainUrl/Recommend/Value")));
         parentPageConfig.setSRcommand(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/SRecommend/Value") == null ? false : Boolean.parseBoolean(JDomUtil.getValueByXpath(ruleXml,
@@ -42,10 +47,6 @@ public class Config {
         parentPageConfig.getContent().setStartList(XPath.selectNodes(ruleXml, "/Rules/MainUrl/MainRange/Start/Value"));
         parentPageConfig.getContent().setEndList(XPath.selectNodes(ruleXml, "/Rules/MainUrl/MainRange/End/Value"));
 
-        parentPageConfig.getUrlFilter().setMustInclude(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/UrlFilter/MustInclude/Value"));
-        parentPageConfig.getUrlFilter().setMustNotInclude(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/UrlFilter/MustNotInclude/Value"));
-        parentPageConfig.getUrlFilter().setCompByRegex(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/UrlFilter/IsCompByRegex/Value") == null ? false : Boolean.parseBoolean(JDomUtil.getValueByXpath(ruleXml,
-                                                                                                                                                                                                         "/Rules/MainUrl/UrlFilter/IsCompByRegex/Value")));
         parentPageConfig.setDesArticleId(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/DesArticleId/Value"));
         parentPageConfig.setAutoDetectTypeMapClass(JDomUtil.getValueByXpath(ruleXml, "/Rules/MainUrl/AutoDetect/TypeMapMakeClass") == null ? "" : JDomUtil.getValueByXpath(ruleXml,
                                                                                                                                                                            "/Rules/MainUrl/AutoDetect/TypeMapMakeClass"));

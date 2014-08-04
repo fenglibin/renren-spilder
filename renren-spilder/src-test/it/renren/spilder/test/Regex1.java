@@ -194,4 +194,19 @@ public class Regex1 extends TestCase {
         result = m.find();
         assertTrue(result);
     }
+
+    public void test17() {
+        String str = "/1216/405968/";
+        String regEx = "/([0-9]){1,10}/([0-9]){1,10}/$";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        boolean result = m.find();
+        assertTrue(result);
+
+        str = "/1216/411516/";
+        p = Pattern.compile(regEx);
+        m = p.matcher(str);
+        result = m.find();
+        assertTrue(result);
+    }
 }

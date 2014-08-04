@@ -25,6 +25,9 @@
     from books
     where spilderUrl = #spilderurl:VARCHAR#
   </select>
+  <select id="selectSpilderUrls" resultClass="java.lang.String">
+    select spilderUrl from books
+  </select>
   <delete id="deleteByPrimaryKey" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Books" >
     delete from books
     where id = #id:INTEGER#

@@ -56,7 +56,7 @@
 			<ref local="dataSourceFanti" />
 		</property>
 	</bean>	
-	<bean id="taskExecuterBooks" class="it.renren.spilder.main.config.TaskExecuter" singleton="false">
+	<bean id="taskExecuter" class="it.renren.spilder.main.config.TaskExecuter" singleton="false">
 		<property name="taskList">
 			<list>
 				<bean class="it.renren.spilder.xiaoshuo.task.WriteBook2DB">
@@ -69,7 +69,7 @@
 		<property name="urlSorter" ref="doNothingUrlSorter"/>
 	</bean>
 	
-	<bean id="taskExecuter" class="it.renren.spilder.main.config.TaskExecuter" singleton="false">
+	<bean id="taskExecuterChapter" class="it.renren.spilder.main.config.TaskExecuter" singleton="false">
 		<property name="taskList">
 			<list>
 				<bean class="it.renren.spilder.xiaoshuo.task.WriteChapter2DB">

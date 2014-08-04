@@ -6,10 +6,10 @@ import it.renren.spilder.util.UrlUtil;
 import it.renren.spilder.util.log.Log4j;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.htmlparser.Node;
@@ -39,7 +39,7 @@ public class AHrefParser {
      * @return 所有AHrefElement的对象List
      * @throws ParserException
      */
-    public static Set<AHrefElement> ahrefParser(String content, String charset) throws ParserException {
+    public static List<AHrefElement> ahrefParser(String content, String charset) throws ParserException {
         return ahrefParser(content, null, charset);
     }
 
@@ -51,8 +51,7 @@ public class AHrefParser {
      * @return 所有AHrefElement的对象List
      * @throws ParserException
      */
-    public static Set<AHrefElement> ahrefParser(String content, String urlMustInclude, String charset)
-                                                                                                      throws ParserException {
+    public static List<AHrefElement> ahrefParser(String content, String urlMustInclude, String charset) throws ParserException {
         return ahrefParser(content, urlMustInclude, null, charset);
     }
 
@@ -65,8 +64,7 @@ public class AHrefParser {
      * @return 所有AHrefElement的对象List
      * @throws ParserException
      */
-    public static Set<AHrefElement> ahrefParser(String content, String urlMustInclude, String urlMustNotInclude,
-                                                String charset) throws ParserException {
+    public static List<AHrefElement> ahrefParser(String content, String urlMustInclude, String urlMustNotInclude, String charset) throws ParserException {
         return ahrefParser(content, urlMustInclude, urlMustNotInclude, charset, false);
     }
 
@@ -81,9 +79,8 @@ public class AHrefParser {
      * @return 所有AHrefElement的对象List
      * @throws ParserException
      */
-    public static Set<AHrefElement> ahrefParser(String content, String urlMustInclude, String urlMustNotInclude,
-                                                String charset, boolean compByRegex) throws ParserException {
-        Set<AHrefElement> ret = new HashSet<AHrefElement>();
+    public static List<AHrefElement> ahrefParser(String content, String urlMustInclude, String urlMustNotInclude, String charset, boolean compByRegex) throws ParserException {
+        List<AHrefElement> ret = new ArrayList<AHrefElement>();
         Parser myParser = null;
         NodeList nodeList = null;
         myParser = Parser.createParser(content, charset);
@@ -197,7 +194,7 @@ public class AHrefParser {
     public static void main(String[] args) throws IOException, ParserException {
         String url = "http://www.searchdatabase.com.cn/articlelist-1-652-31.htm";
         String content = UrlUtil.getContentByURL(url);
-        Set<AHrefElement> list = ahrefParser(content, null, "gbk");
+        List<AHrefElement> list = ahrefParser(content, null, "gbk");
         for (AHrefElement ahref : list) {
             log4j.logDebug(ahref.getHref());
         }

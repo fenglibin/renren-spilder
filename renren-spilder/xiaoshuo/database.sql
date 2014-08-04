@@ -35,6 +35,8 @@ CREATE TABLE downurl (
   PRIMARY KEY (`url`)
 );
 
+create index spilderUrlIdx on books(spilderUrl);
+
 
 insert into types(id,name,ename,description) values(1,'玄幻小说','xhxs','玄幻小说');
 insert into types(id,name,ename,description) values(2,'穿越小说','cyxs','穿越小说');

@@ -1,22 +1,41 @@
 <?xml version="1.0" encoding="gbk"?>
 <Rules desc="新浪科技头条">
 	<MainUrl>
+		<OneUrlSleepTime>
+			<Value>-1</Value>
+		</OneUrlSleepTime>
 		<Values desc="链接的列表地址，Value中的列表地址可以是多条，以逗号分开">
 			<Value desc="当前主页面的Url地址">
-				<![CDATA[http://xs321.net/]]>
+				<![CDATA[http://www.22mt.com/xuanhuan/,http://www.22mt.com/zhongshengwenxue/,http://www.22mt.com/kehuan/,http://www.22mt.com/wangyou/,http://www.22mt.com/lishi/,http://www.22mt.com/dushi/,http://www.22mt.com/xianxia/,http://www.22mt.com/wuxia/,http://www.22mt.com/qihuan/,http://www.22mt.com/quanben/]]>
 			</Value>
+			<BatValues desc="批量增加，支持通配置符'(*)'">
+				<Value>http://www.22mt.com/xuanhuan/(*).html,http://www.22mt.com/zhongshengwenxue/(*).html,http://www.22mt.com/kehuan/(*).html,http://www.22mt.com/wangyou/(*).html,http://www.22mt.com/lishi/(*).html,http://www.22mt.com/dushi/(*).html,http://www.22mt.com/xianxia/(*).html,http://www.22mt.com/wuxia/(*).html,http://www.22mt.com/qihuan/(*).html,http://www.22mt.com/quanben/(*).html</Value>
+				<WildcastType desc="通配符的类型:1表示数字，2表示a-z的字母">
+					<Value>
+						<![CDATA[1]]>
+					</Value>
+					<Start>
+						<Value>
+							<![CDATA[2]]>
+						</Value>
+					</Start>
+					<End>
+						<Value>22,3,7,6,10,20,9,2,3,5</Value>
+					</End>
+				</WildcastType>
+			</BatValues>
 		</Values>
 		<MainRange desc="内容范围">
 			<Start desc="URL地址开始的方">
-				<Value><![CDATA[<div class="daohan">]]></Value>
+				<Value><![CDATA[<ul class="movList3_ul">]]></Value>
 			</Start>
 			<End>
-				<Value><![CDATA[</div>]]></Value>
+				<Value><![CDATA[</ul>]]></Value>
 			</End>
 		</MainRange>
 		<Charset desc="编码">
 			<Value>
-				<![CDATA[gb2312]]>
+				<![CDATA[gbk]]>
 			</Value>
 		</Charset>
 		<ImageDescUrl desc="将原内容中的图片地址替换、用户保存图片的相对路径">
@@ -46,34 +65,30 @@
 			<IsCompByRegex desc="必须包括与不能够包括这两项，与URL的比较是否通过正则规则进行比较,值只可以是true及false">
 				<Value>true</Value>
 			</IsCompByRegex>
-		</UrlFilter>
+		</UrlFilter>		
 	</MainUrl>
 	<Child>
 		<Charset desc="编码">
 			<Value>
-				<![CDATA[gb2312]]>
+				<![CDATA[gbk]]>
 			</Value>
 		</Charset>
 		<Title desc="标题">
 			<Start>
-				<Value><![CDATA[<title>]]></Value>
+				<Value><![CDATA[<h2>]]></Value>
 			</Start>
 			<End>
-				<Value><![CDATA[</title>]]></Value>
+				<Value><![CDATA[</h2>]]></Value>
 			</End>
 		</Title>
 		<Content desc="内容">
 			<Start>
-				<Value><![CDATA[<table border="0" cellpadding="0" cellspacing="0" width="920" class="mhlblb">]]></Value>
+				<Value><![CDATA[<div class="moviePic">]]></Value>
 			</Start>
 			<End>
-				<Value><![CDATA[</div></div></td></tr><tr><td>]]></Value>
+				<Value><![CDATA[<script]]></Value>
 			</End>
 		</Content>
-		<SeparatePage>
-				<MaxPages>20</MaxPages>
-				<SeparatePageClass>it.renren.spilder.filter.seperatepage.XS321SeparatePage</SeparatePageClass>
-		</SeparatePage>
 		<ExpandUrl desc="是否处理当前页面中类似的URL，默认的值为true。值只可以是true中或false">
 			<Value>false</Value>
 		</ExpandUrl>

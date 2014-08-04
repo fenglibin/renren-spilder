@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="gbk"?>
+<Rules desc="小说采集">
+	<MainUrl>
+		<OneUrlSleepTime>
+			<Value>-1</Value>
+		</OneUrlSleepTime>
+		<Values desc="链接的列表地址，Value中的列表地址可以是多条，以逗号分开">
+			<UrlFilter url="url筛选">
+				<UrlListProvider><Value>it.renren.spilder.xiaoshuo.filter.BooksUrlListProvider</Value></UrlListProvider>
+			</UrlFilter>
+		</Values>
+		<MainRange desc="内容范围">
+			<Start desc="URL地址开始的方">
+				<Value><![CDATA[<div class="book_listtext">]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[</div>]]></Value>
+			</End>
+		</MainRange>
+		<Charset desc="编码">
+			<Value>
+				<![CDATA[gbk]]>
+			</Value>
+		</Charset>
+		<ImageDescUrl desc="将原内容中的图片地址替换、用户保存图片的相对路径">
+			<Value>
+				<![CDATA[/uploads/allimg/]]>
+			</Value>
+		</ImageDescUrl>
+		<ImageSaveLocation desc="保存图片的路径，将图片写出到硬盘上">
+			<Value>
+				<![CDATA[/home/fenglibin/www/img.renren.it/xs_images/books/]]>
+			</Value>
+		</ImageSaveLocation>
+		<UrlFilter url="url筛选">
+			<MustInclude desc="url中必须包括的字符串">
+				<Value>
+					<![CDATA[/([a-z]){1,50}/([0-9]){1,20}/$]]>
+				</Value>
+			</MustInclude>
+			<MustNotInclude desc="url中不能够包括的字符串">
+				<Value>
+					<![CDATA[]]>
+				</Value>
+			</MustNotInclude>
+			<IsCompByRegex desc="必须包括与不能够包括这两项，与URL的比较是否通过正则规则进行比较,值只可以是true及false">
+				<Value>true</Value>
+			</IsCompByRegex>
+		</UrlFilter>
+		<OneUrlSleepTime>
+			<Value>1</Value>
+		</OneUrlSleepTime>
+	</MainUrl>
+	<Child>
+		<Charset desc="编码">
+			<Value>
+				<![CDATA[gbk]]>
+			</Value>
+		</Charset>
+		<Title desc="标题">
+			<Start>
+				<Value><![CDATA[<dt>]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[</dt>]]></Value>
+			</End>
+			<Replace desc="替换标题">
+				<IsRegularExpression desc="是否正则表达式，值只能够是true或false">
+					<Value>
+						<![CDATA[false]]>
+					</Value>
+				</IsRegularExpression>
+				<From desc="待替换标题部分">
+					<Value>
+						<![CDATA[/墨坛文学]]>
+					</Value>
+				</From>
+				<To desc="目标部份">
+					<Value>
+						<![CDATA[]]>
+					</Value>
+				</To>
+			</Replace>
+		</Title>
+		<Content desc="内容">
+			<Start>
+				<Value><![CDATA[<!--go-->]]></Value>
+			</Start>
+			<End>
+				<Value><![CDATA[<!--over-->]]></Value>
+			</End>
+		</Content>
+		<ExpandUrl desc="是否处理当前页面中类似的URL，默认的值为true。值只可以是true中或false">
+			<Value>false</Value>
+		</ExpandUrl>
+	</Child>
+</Rules>

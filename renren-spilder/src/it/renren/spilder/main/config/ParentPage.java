@@ -32,6 +32,7 @@ public class ParentPage {
     private int        blogType;
     private String     homeUrlAddStr;
     private String     dealOnePage;
+    private String     urlListProvider;
 
     public boolean isSRcommand() {
         return isSRcommand;
@@ -61,13 +62,13 @@ public class ParentPage {
             return listPages;
         }
 
-        public void setValues(Element values) throws EvalError {
+        public void setValues(Element values) throws EvalError, InstantiationException, IllegalAccessException, ClassNotFoundException {
             analysisLisPages(values);
         }
 
-        private void analysisLisPages(Element values) throws EvalError {
+        private void analysisLisPages(Element values) throws EvalError, InstantiationException, IllegalAccessException, ClassNotFoundException {
             Element value = values.getChild("Value");
-            if (value != null && value.getTextTrim() != "") {
+            if (value != null && value.getTextTrim() != Constants.EMPTY_STRING) {
                 String[] urls = value.getTextTrim().split(",");
                 for (String url : urls) {
                     listPages.add(url);
@@ -75,28 +76,37 @@ public class ParentPage {
             }
             Element batValues = values.getChild("BatValues");
             if (batValues != null) {
-                String batBaseUrl = batValues.getChild("Value").getTextTrim();
+                String[] urls = batValues.getChild("Value").getTextTrim().split(",");
                 String wildcastType = batValues.getChild("WildcastType").getChild("Value").getTextTrim();
-
-                if (wildcastType.equals(Constants.WILDCAST_TYPE_NUMBER)) {
-                    int start = Integer.parseInt(batValues.getChild("WildcastType").getChild("Start").getChild("Value").getTextTrim());
-                    int end = Integer.parseInt(batValues.getChild("WildcastType").getChild("End").getChild("Value").getTextTrim());
-                    for (int i = start; i <= end; i++) {
-                        listPages.add(getAddUrl(batBaseUrl, String.valueOf(i)));
-                        if (Environment.dealOnePage) {
-                            i = end;
+                int index = -1;
+                for (String batBaseUrl : urls) {
+                    index++;
+                    if (wildcastType.equals(Constants.WILDCAST_TYPE_NUMBER)) {
+                        int start = Integer.parseInt(batValues.getChild("WildcastType").getChild("Start").getChild("Value").getTextTrim());
+                        int end = 10;
+                        String[] ends = batValues.getChild("WildcastType").getChild("End").getChild("Value").getTextTrim().split(",");
+                        if (ends.length > 0) {
+                            end = Integer.parseInt(ends[index]);
+                        } else {
+                            end = Integer.parseInt(ends[0]);
                         }
-                    }
-                } else if (wildcastType.equals(Constants.WILDCAST_TYPE_STRING)) {
-                    String start = batValues.getChild("WildcastType").getChild("Start").getChild("Value").getTextTrim();
-                    int intStart = (int) start.charAt(0);
-                    String end = batValues.getChild("WildcastType").getChild("End").getChild("Value").getTextTrim();
-                    int intEnd = (int) end.charAt(0);
-                    for (int i = intStart; i <= intEnd; i++) {
-                        char c = (char) i;
-                        listPages.add(getAddUrl(batBaseUrl, String.valueOf(c)));
-                        if (Environment.dealOnePage) {
-                            i = intEnd;
+                        for (int i = start; i <= end; i++) {
+                            listPages.add(getAddUrl(batBaseUrl, String.valueOf(i)));
+                            if (Environment.dealOnePage) {
+                                i = end;
+                            }
+                        }
+                    } else if (wildcastType.equals(Constants.WILDCAST_TYPE_STRING)) {
+                        String start = batValues.getChild("WildcastType").getChild("Start").getChild("Value").getTextTrim();
+                        int intStart = (int) start.charAt(0);
+                        String end = batValues.getChild("WildcastType").getChild("End").getChild("Value").getTextTrim();
+                        int intEnd = (int) end.charAt(0);
+                        for (int i = intStart; i <= intEnd; i++) {
+                            char c = (char) i;
+                            listPages.add(getAddUrl(batBaseUrl, String.valueOf(c)));
+                            if (Environment.dealOnePage) {
+                                i = intEnd;
+                            }
                         }
                     }
                 }
@@ -114,7 +124,7 @@ public class ParentPage {
          * @throws EvalError
          */
         private String getAddUrl(String batBaseUrl, String index) throws EvalError {
-            String url = "";
+            String url = Constants.EMPTY_STRING;
             if (batBaseUrl.indexOf("((*)") > 0) {
                 String s1 = "((*)" + StringUtil.subString(batBaseUrl, "((*)", ")") + ")";
                 String s2 = s1.replace("(*)", String.valueOf(index));
@@ -122,7 +132,7 @@ public class ParentPage {
                 url = batBaseUrl.replace(s1, s2);
             } else {
                 if (Integer.parseInt(index) == 1 && batBaseUrl.indexOf("www.iteye.com") > 0) {// 对ITEYE的第一页做特殊处理，因为ITEYE的第一页不能够使用页码了，否则会被循环跳转转，这只是一个临时的解决方案，后面通过修改配置处理
-                    url = batBaseUrl.replace("?page=(*)", "");
+                    url = batBaseUrl.replace("?page=(*)", Constants.EMPTY_STRING);
                 } else {
                     url = batBaseUrl.replace("(*)", index);
                 }
@@ -166,6 +176,7 @@ public class ParentPage {
         public void setCompByRegex(boolean isCompByRegex) {
             this.isCompByRegex = isCompByRegex;
         }
+
     }
 
     public String getCharset() {
@@ -298,6 +309,14 @@ public class ParentPage {
 
     public void setDealOnePage(String dealOnePage) {
         this.dealOnePage = dealOnePage;
+    }
+
+    public String getUrlListProvider() {
+        return urlListProvider;
+    }
+
+    public void setUrlListProvider(String urlListProvider) {
+        this.urlListProvider = urlListProvider;
     }
 
 }

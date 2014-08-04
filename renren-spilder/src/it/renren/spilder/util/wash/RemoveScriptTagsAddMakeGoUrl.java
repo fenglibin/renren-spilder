@@ -10,7 +10,6 @@ import it.renren.spilder.util.log.Log4j;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Set;
 
 import org.htmlparser.util.ParserException;
 
@@ -76,7 +75,7 @@ public class RemoveScriptTagsAddMakeGoUrl extends WashBase {
         if (StringUtil.checkExistOnlyOnce(content, FROM)) {
             int index = content.indexOf(FROM);
             String strTemp = content.substring(index);
-            Set<AHrefElement> childLinks = AHrefParser.ahrefParser(strTemp, null, null, getCharset(), Boolean.FALSE);
+            List<AHrefElement> childLinks = AHrefParser.ahrefParser(strTemp, null, null, getCharset(), Boolean.FALSE);
             String strTemp2 = strTemp;
             for (AHrefElement href : childLinks) {
                 if (href.getHrefText().indexOf("CCCCCC") < 0) {

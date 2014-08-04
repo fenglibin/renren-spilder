@@ -27,8 +27,8 @@ public class GetBooksType implements Type {
         if (typesMapData == null || typesMapData.size() == 0) {
             typesMapData = typesMap.getTypesMap();
         }
-        String typeBefore = "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=gb2312\"><title>";
-        String typeEnd = " - ";
+        String typeBefore = "<p><strong>类型: </strong><span>";
+        String typeEnd = "</span></p>";
         String typeName = StringUtil.subString(detail.getOriginalContent(), typeBefore, typeEnd);
         if (!StringUtil.isEmpty(typeName)) {
             for (Entry<Integer, String> entry : typesMapData.entrySet()) {
@@ -39,15 +39,7 @@ public class GetBooksType implements Type {
             }
         }
         if (type == -1) {
-            int index = (int) Math.random() * typesMapData.size();
-            int tempIndex = 0;
-            for (Entry<Integer, String> entry : typesMapData.entrySet()) {
-                if (tempIndex == index) {
-                    type = entry.getKey();
-                    break;
-                }
-                tempIndex++;
-            }
+            type = (int) Math.random() * typesMapData.size();
         }
         return type;
     }

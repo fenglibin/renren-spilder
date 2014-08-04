@@ -6,6 +6,7 @@ import it.renren.spilder.main.config.ParentPage;
 import it.renren.spilder.main.detail.ChildPageDetail;
 import it.renren.spilder.task.Task;
 import it.renren.spilder.type.Type;
+import it.renren.spilder.util.FontUtil;
 import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.google.TranslatorUtil;
 import it.renren.spilder.util.log.Log4j;
@@ -16,14 +17,14 @@ import it.renren.spilder.xiaoshuo.dataobject.Downurl;
 
 import java.util.Date;
 
-public class WriteBook2DB extends Task {
+public class WriteBook2FanDB extends Task {
 
-    private static Log4j log4j            = new Log4j(WriteBook2DB.class.getName());
+    private static Log4j log4j            = new Log4j(WriteBook2FanDB.class.getName());
     private static int   dealedArticleNum = 0;
-    BooksDAO             booksDAO;
+    BooksDAO             booksDAOFanti;
 
     Type                 booksType;
-    DownurlDAO           downurlDAO;
+    DownurlDAO           downurlDAOFanti;
 
     public void doTask(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail) throws Exception {
         try {
@@ -49,14 +50,14 @@ public class WriteBook2DB extends Task {
             book.setImg(imgUrl);
             book.setSpilderurl(detailClone.getUrl());
             String author = StringUtil.subString(detailClone.getContent(), "<p><strong>зїеп: </strong><span>", "</span></p>");
-            book.setAuthor(author);
+            book.setAuthor(FontUtil.jian2fan(new StringBuffer(author)));
 
             String desc = StringUtil.subString(detailClone.getContent(), "<div class=\"movieIntro\">", null);
-            book.setDescription(desc);
-            book.setName(detailClone.getTitle());
+            book.setDescription(FontUtil.jian2fan(new StringBuffer(desc)));
+            book.setName(FontUtil.jian2fan(new StringBuffer(detailClone.getTitle())));
 
-            if (booksDAO.selectBySpilderUrl(book.getSpilderurl()) == null) {
-                booksDAO.insert(book);
+            if (booksDAOFanti.selectBySpilderUrl(book.getSpilderurl()) == null) {
+                booksDAOFanti.insert(book);
             }
 
             log4j.logDebug("Save OK.");
@@ -95,7 +96,7 @@ public class WriteBook2DB extends Task {
     @Override
     public boolean isDealed(String url) {
         boolean is = Boolean.FALSE;
-        DownurlDO downurlDO = downurlDAO.selectDownurl(url);
+        DownurlDO downurlDO = downurlDAOFanti.selectDownurl(url);
         if (downurlDO != null) {
             is = Boolean.TRUE;
         }
@@ -107,19 +108,19 @@ public class WriteBook2DB extends Task {
         Downurl downurlDO = new Downurl();
         downurlDO.setUrl(url);
         downurlDO.setIntime(new Date());
-        downurlDAO.insertDownurl(downurlDO);
-    }
-
-    public void setDownurlDAO(DownurlDAO downurlDAO) {
-        this.downurlDAO = downurlDAO;
+        downurlDAOFanti.insertDownurl(downurlDO);
     }
 
     public void setBooksType(Type booksType) {
         this.booksType = booksType;
     }
 
-    public void setBooksDAO(BooksDAO booksDAO) {
-        this.booksDAO = booksDAO;
+    public void setBooksDAOFanti(BooksDAO booksDAOFanti) {
+        this.booksDAOFanti = booksDAOFanti;
+    }
+
+    public void setDownurlDAOFanti(DownurlDAO downurlDAOFanti) {
+        this.downurlDAOFanti = downurlDAOFanti;
     }
 
 }

@@ -8,7 +8,7 @@ import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.log.Log4j;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 import org.apache.commons.httpclient.HttpException;
 
@@ -37,7 +37,7 @@ public class MakeCSDNExport {
         content = StringUtil.subString(content, "<div class=\"allBlogs\">", "<div class=\"clear\"></div>");
         try {
             String modelContent = FileUtil.getFileContent(modXmlFile);
-            Set<AHrefElement> childLinks = AHrefParser.ahrefParser(content, "blog", "#", "utf-8", false);
+            List<AHrefElement> childLinks = AHrefParser.ahrefParser(content, "blog", "#", "utf-8", false);
             String pages = "1";
             for (AHrefElement link : childLinks) {
                 try {

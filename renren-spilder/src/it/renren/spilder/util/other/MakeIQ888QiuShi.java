@@ -8,7 +8,7 @@ import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.log.Log4j;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 import org.apache.commons.httpclient.HttpException;
 
@@ -35,11 +35,10 @@ public class MakeIQ888QiuShi {
         String content = "";
 
         content = HttpClientUtil.getGetResponseWithHttpClient(getHtml, charset);
-        content = StringUtil.subString(content, "<div class=\"intro\" style=\"overflow: hidden; font-size:small\">",
-                                       "</div>");
+        content = StringUtil.subString(content, "<div class=\"intro\" style=\"overflow: hidden; font-size:small\">", "</div>");
         try {
             String modelContent = FileUtil.getFileContent(modXmlFile);
-            Set<AHrefElement> childLinks = AHrefParser.ahrefParser(content, "", "", charset, false);
+            List<AHrefElement> childLinks = AHrefParser.ahrefParser(content, "", "", charset, false);
             int index = 1;
             for (AHrefElement link : childLinks) {
                 try {

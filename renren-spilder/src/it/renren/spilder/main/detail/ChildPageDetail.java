@@ -1,5 +1,7 @@
 package it.renren.spilder.main.detail;
 
+import it.renren.spilder.main.Constants;
+
 import java.util.List;
 
 public class ChildPageDetail {
@@ -15,21 +17,23 @@ public class ChildPageDetail {
     /* 文章来源 */
     private String       source          = "Internet";
     /* 文章内容 */
-    private String       content         = "";
+    private String       content         = Constants.EMPTY_STRING;
     /* 当前文章获取的URL地址 */
     private String       url;
     /* 是否包括有图片 */
     private boolean      isPicArticle;
     /* 缩略图的地址 */
-    private String       litpicAddress   = "";
+    private String       litpicAddress   = Constants.EMPTY_STRING;
     /* 获取内容网页的网页文件名 */
-    private String       fileName        = "";
+    private String       fileName        = Constants.EMPTY_STRING;
 
     private List<String> replys;
     private boolean      dealResult;
 
     // 页面的原始内容
-    private String       originalContent = "";
+    private String       originalContent = Constants.EMPTY_STRING;
+    // 父页面的URL
+    private String       parentPageUrl   = Constants.EMPTY_STRING;
 
     public String getFileName() {
         return fileName;
@@ -152,18 +156,27 @@ public class ChildPageDetail {
         this.originalContent = originalContent;
     }
 
+    public String getParentPageUrl() {
+        return parentPageUrl;
+    }
+
+    public void setParentPageUrl(String parentPageUrl) {
+        this.parentPageUrl = parentPageUrl;
+    }
+
     public String toString() {
-        StringBuilder sb = new StringBuilder("");
-        sb.append("title = ").append(title).append(",");
-        sb.append("keywords = ").append(keywords).append(",");
-        sb.append("description = ").append(description).append(",");
-        sb.append("author = ").append(author).append(",");
-        sb.append("source = ").append(source).append(",");
-        sb.append("content = ").append(content).append(",");
-        sb.append("url = ").append(url).append(",");
-        sb.append("isPicArticle = ").append(isPicArticle).append(",");
-        sb.append("litpicAddress = ").append(litpicAddress).append(",");
-        sb.append("fileName = ").append(fileName);
+        StringBuilder sb = new StringBuilder();
+        sb.append("title = ").append(title).append(Constants.COMMA);
+        sb.append("keywords = ").append(keywords).append(Constants.COMMA);
+        sb.append("description = ").append(description).append(Constants.COMMA);
+        sb.append("author = ").append(author).append(Constants.COMMA);
+        sb.append("source = ").append(source).append(Constants.COMMA);
+        sb.append("content = ").append(content).append(Constants.COMMA);
+        sb.append("url = ").append(url).append(Constants.COMMA);
+        sb.append("isPicArticle = ").append(isPicArticle).append(Constants.COMMA);
+        sb.append("litpicAddress = ").append(litpicAddress).append(Constants.COMMA);
+        sb.append("fileName = ").append(fileName).append(Constants.COMMA);
+        sb.append("parentPageUrl = ").append(parentPageUrl);
         return sb.toString();
     }
 }

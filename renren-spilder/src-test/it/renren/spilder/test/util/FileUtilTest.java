@@ -67,7 +67,7 @@ public class FileUtilTest extends TestCase {
 
     @Test
     public void testDownloadImage() throws IOException {
-        String image = "http://xs321.net/1207/index.jpg";
+        String image = "http://s9.sinaimg.cn/bmiddle/4db277cbh7375e87598e8&690";
         String saveLocation = "d:/test/";
         // Environment.referer = "http://img2.blogbuscdn.com/pindao/2013/6/18/f7d2986499d4813fc018d4cfbeb2d4f4.jpg";
         FileUtil.downloadFile(image, saveLocation);

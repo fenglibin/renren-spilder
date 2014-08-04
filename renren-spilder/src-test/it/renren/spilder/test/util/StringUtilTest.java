@@ -6,7 +6,7 @@ import it.renren.spilder.util.HttpClientUtil;
 import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.UrlUtil;
 
-import java.util.Set;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -60,8 +60,7 @@ public class StringUtilTest extends TestCase {
             if (StringUtil.checkExistOnlyOnce(str, from)) {
                 int index = str.indexOf(from);
                 String strTemp = str.substring(index);
-                Set<AHrefElement> childLinks = AHrefParser.ahrefParser(strTemp, null, null, UrlUtil.DEFAULT_CHARSET,
-                                                                       Boolean.FALSE);
+                List<AHrefElement> childLinks = AHrefParser.ahrefParser(strTemp, null, null, UrlUtil.DEFAULT_CHARSET, Boolean.FALSE);
                 String strTemp2 = strTemp;
                 for (AHrefElement href : childLinks) {
                     strTemp2 = strTemp2.replace(href.getHrefText() + "<", "<font color=#CCCCCC>Network</font><");

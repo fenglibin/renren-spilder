@@ -280,13 +280,18 @@ public class Main {
             // Environment.isImageSite = Boolean.TRUE;
             // Environment.isSaveImage2CurrentHtmlFileTileNameDir = Boolean.TRUE;
             // ÎÄ¼þ¼Ð²âÊÔ
-            param.setDirectory(true);
-            param.setDirectoryName("config/normal/csdn");
-            param.setDirectoryName("config/doc_config/3");
+            // param.setDirectory(true);
+            // param.setDirectoryName("config/normal/csdn");
+            // param.setDirectoryName("config/doc_config/3");
             // param.setDealOnePage(true);
 
-            param.setSpringConfigFile("docBeans.xml");
+            // param.setSpringConfigFile("docBeans.xml");
             param.setCheckConfigFile(Boolean.TRUE);
+
+            param.setCheckConfigFile(Boolean.FALSE);
+            param.setSpringConfigFile("xiaoshuoBeans_Chapters.xml");
+            param.setFile(true);
+            param.setFileName("config/xiaoshuo_config/xs321.net_chapters.xml");
 
             // param.setUseProxyTrue();
             // param.setProxyHost("221.7.145.42:8080");
@@ -328,10 +333,8 @@ public class Main {
                 saveFromConfigDir(param.getDirectoryName());
             } else if (!StringUtil.isEmpty(param.getOneFileSleepTime()) && StringUtil.isEmpty(param.getLoopSleepTime())) {
                 saveFromConfigDir(param.getDirectoryName(), Long.parseLong(param.getOneFileSleepTime()));
-            } else if (!StringUtil.isEmpty(param.getOneFileSleepTime())
-                       && !StringUtil.isEmpty(param.getLoopSleepTime())) {
-                saveFromConfigDir(param.getDirectoryName(), Long.parseLong(param.getOneFileSleepTime()),
-                                  Long.parseLong(param.getLoopSleepTime()));
+            } else if (!StringUtil.isEmpty(param.getOneFileSleepTime()) && !StringUtil.isEmpty(param.getLoopSleepTime())) {
+                saveFromConfigDir(param.getDirectoryName(), Long.parseLong(param.getOneFileSleepTime()), Long.parseLong(param.getLoopSleepTime()));
             }
         }
     }

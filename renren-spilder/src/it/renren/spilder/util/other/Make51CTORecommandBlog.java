@@ -8,7 +8,7 @@ import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.util.log.Log4j;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 import org.apache.commons.httpclient.HttpException;
 
@@ -37,12 +37,10 @@ public class Make51CTORecommandBlog {
         String content = "";
         for (int i = 1; i <= 21; i++) {// 51CTO推荐博客，目前共21页
             content = HttpClientUtil.getGetResponseWithHttpClient(blogs_html + i, charset);
-            content = StringUtil.subString(content,
-                                           "<td colspan=\"5\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">",
-                                           "</table>");
+            content = StringUtil.subString(content, "<td colspan=\"5\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">", "</table>");
             try {
                 String modelContent = FileUtil.getFileContent(modXmlFile);
-                Set<AHrefElement> childLinks = AHrefParser.ahrefParser(content, "", "", charset, false);
+                List<AHrefElement> childLinks = AHrefParser.ahrefParser(content, "", "", charset, false);
                 String pages = "1";
                 String uid = "";
                 for (AHrefElement link : childLinks) {

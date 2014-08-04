@@ -19,7 +19,6 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
-import java.util.Set;
 
 import org.htmlparser.util.ParserException;
 
@@ -244,7 +243,7 @@ public class UrlUtil {
      * @param pageUrl
      * @param childLinks
      */
-    public static void makeStadardUrl(String pageUrl, Set<AHrefElement> childLinks) {
+    public static void makeStadardUrl(String pageUrl, List<AHrefElement> childLinks) {
         for (AHrefElement link : childLinks) {
             String childUrl = link.getHref();
             childUrl = makeUrl(pageUrl, childUrl);
@@ -279,7 +278,7 @@ public class UrlUtil {
      * @throws ParserException
      */
     public static String replaceRelativeUrl2AbsoluteUrl(String childUrl, String childContent, String charset) throws ParserException {
-        Set<AHrefElement> childLinks = AHrefParser.ahrefParser(childContent, null, null, charset, Boolean.FALSE);
+        List<AHrefElement> childLinks = AHrefParser.ahrefParser(childContent, null, null, charset, Boolean.FALSE);
         for (AHrefElement href : childLinks) {
             String url = href.getHref();
             if (!url.startsWith("http")) {
@@ -302,7 +301,7 @@ public class UrlUtil {
      * @throws ParserException
      */
     public static String replaceHref2GoUrl(String childContent, String charset) throws ParserException {
-        Set<AHrefElement> childLinks = AHrefParser.ahrefParser(childContent, null, null, charset, Boolean.FALSE);
+        List<AHrefElement> childLinks = AHrefParser.ahrefParser(childContent, null, null, charset, Boolean.FALSE);
         for (AHrefElement href : childLinks) {
             String goUrl = GO_URL;
             String url = href.getHref();

@@ -67,11 +67,15 @@
 				</bean>
 			</list>
 		</property>
+		<property name="urlListProvider" ref="urlListProvider"/>
+		<property name="urlSorter" ref="urlSorter"/>
 	</bean>
 	<bean id="typesMap" class="it.renren.spilder.type.DedecmsTypesMap">
 	</bean>
 	<bean id="autoDetectTypes" class="it.renren.spilder.type.AutoDetectTypes"></bean>
 	<bean id="randomType" class="it.renren.spilder.type.RandomType"></bean>
+	<bean id="urlListProvider" class="it.renren.spilder.filter.DefaultUrlListProvider"></bean>
+	<bean id="urlSorter" class="it.renren.spilder.filter.url.DoNothingUrlSorter"></bean>
 		
 	<!-- 简体对象定义（开始） -->
 	<bean id="arctinyDAO" class="it.renren.spilder.dao.ibatis.IbatisArctinyDAO">

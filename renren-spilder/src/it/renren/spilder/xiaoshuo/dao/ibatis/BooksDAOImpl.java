@@ -1,7 +1,10 @@
 package it.renren.spilder.xiaoshuo.dao.ibatis;
 
+import it.renren.spilder.util.StringUtil;
 import it.renren.spilder.xiaoshuo.dao.BooksDAO;
 import it.renren.spilder.xiaoshuo.dataobject.Books;
+
+import java.util.List;
 
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
@@ -34,10 +37,18 @@ public class BooksDAOImpl extends SqlMapClientDaoSupport implements BooksDAO {
     }
 
     public Books selectBySpilderUrl(String url) {
+        if (StringUtil.isEmpty(url)) {
+            return null;
+        }
         Books key = new Books();
         key.setSpilderurl(url);
         Books record = (Books) getSqlMapClientTemplate().queryForObject("books.selectBySpilderUrl", key);
         return record;
+    }
+
+    @Override
+    public List<String> selectSpilderUrls() {
+        return getSqlMapClientTemplate().queryForList("books.selectSpilderUrls");
     }
 
     public int updateByPrimaryKeySelective(Books record) {
@@ -49,4 +60,5 @@ public class BooksDAOImpl extends SqlMapClientDaoSupport implements BooksDAO {
         int rows = getSqlMapClientTemplate().update("books.updateByPrimaryKey", record);
         return rows;
     }
+
 }

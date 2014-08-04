@@ -9,7 +9,7 @@ import it.renren.spilder.util.log.Log4j;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 import org.apache.commons.httpclient.HttpException;
 
@@ -36,7 +36,7 @@ public class MakeBLOGJAVA {
         content = StringUtil.subString(content, "<table align=\"center\" width=\"90%\">", "</table></form>");
         try {
             String modelContent = FileUtil.getFileContent(modXmlFile);
-            Set<AHrefElement> childLinks = AHrefParser.ahrefParser(content, "", "rss.aspx", "gbk", false);
+            List<AHrefElement> childLinks = AHrefParser.ahrefParser(content, "", "rss.aspx", "gbk", false);
             String pages = "1";
             for (AHrefElement link : childLinks) {
                 try {

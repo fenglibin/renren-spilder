@@ -2,6 +2,8 @@ package it.renren.spilder.xiaoshuo.dao;
 
 import it.renren.spilder.xiaoshuo.dataobject.Books;
 
+import java.util.List;
+
 public interface BooksDAO {
 
     int deleteByPrimaryKey(Integer id);
@@ -13,6 +15,8 @@ public interface BooksDAO {
     Books selectByPrimaryKey(Integer id);
 
     Books selectBySpilderUrl(String url);
+
+    List<String> selectSpilderUrls();
 
     int updateByPrimaryKeySelective(Books record);
 

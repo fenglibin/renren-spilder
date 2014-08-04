@@ -4,7 +4,9 @@ import it.renren.spilder.filter.BodyFilter;
 import it.renren.spilder.filter.Filter;
 import it.renren.spilder.filter.MainBodyFilter;
 import it.renren.spilder.filter.TitleFilter;
+import it.renren.spilder.filter.UrlListProvider;
 import it.renren.spilder.filter.seperatepage.ISeparatePage;
+import it.renren.spilder.filter.url.UrlSorter;
 import it.renren.spilder.main.Constants;
 import it.renren.spilder.main.Environment;
 import it.renren.spilder.main.detail.ChildPageDetail;
@@ -22,23 +24,23 @@ import it.renren.spilder.util.log.Log4j;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.htmlparser.util.ParserException;
 import org.jdom.Document;
 
 public class TaskExecuter extends Thread {
 
-    private static Log4j log4j  = new Log4j(TaskExecuter.class.getName());
+    private static Log4j    log4j  = new Log4j(TaskExecuter.class.getName());
     // 文件还是目录
-    boolean              isFile = false;
+    boolean                 isFile = false;
     // 要执行的配置文件或目录的名称
-    String               configName;
-    long                 oneFileSleepTime;
+    String                  configName;
+    long                    oneFileSleepTime;
     // 需要执行的任务列表，目前有简体中文操作及将简体转换为繁体，实现类需要继承接口it.renren.spilder.task.Task
-    private List<Task>   taskList;
+    private List<Task>      taskList;
+    private UrlListProvider urlListProvider;
+    private UrlSorter       urlSorter;
 
     public TaskExecuter(){
         this.oneFileSleepTime = Constants.One_File_Default_Sleep_Time;
@@ -92,6 +94,7 @@ public class TaskExecuter extends Thread {
         ParentPage parentPageConfig = Config.initParentPage(ruleXml);
         ChildPage childPageConfig = Config.initChildPage(ruleXml);
         try {
+            addUrlsFromUrlProvider(parentPageConfig);
             save(ruleXml, parentPageConfig, parentPageConfig.getUrlListPages().getListPages(), childPageConfig, configFile);
         } catch (Exception e) {
             log4j.logError("根据配置文件:" + configFile + " 进行处理内容异常发生：", e);
@@ -101,6 +104,20 @@ public class TaskExecuter extends Thread {
             ruleXml = null;
         }
 
+    }
+
+    /**
+     * 从URL Provider获取url
+     * 
+     * @param parentPageConfig
+     */
+    private void addUrlsFromUrlProvider(ParentPage parentPageConfig) {
+        if (urlListProvider != null) {
+            List<String> urlList = urlListProvider.getUrls();
+            if (urlList != null && !urlList.isEmpty()) {
+                parentPageConfig.getUrlListPages().getListPages().addAll(urlList);
+            }
+        }
     }
 
     /**
@@ -141,15 +158,18 @@ public class TaskExecuter extends Thread {
                 }
                 throw new RuntimeException(e);
             }
-            Set<AHrefElement> childLinksList = AHrefParser.ahrefParser(mainContent, parentPageConfig.getUrlFilter().getMustInclude(), parentPageConfig.getUrlFilter().getMustNotInclude(),
-                                                                       parentPageConfig.getCharset(), parentPageConfig.getUrlFilter().isCompByRegex());
+            List<AHrefElement> childLinksList = AHrefParser.ahrefParser(mainContent, parentPageConfig.getUrlFilter().getMustInclude(), parentPageConfig.getUrlFilter().getMustNotInclude(),
+                                                                        parentPageConfig.getCharset(), parentPageConfig.getUrlFilter().isCompByRegex());
             if (childLinksList.size() == 0) {
                 log4j.logWarn("从页面中没有分析出需要的子URL，请检查匹配的表达式。");
             } else {
                 UrlUtil.makeStadardUrl(listPageUrl, childLinksList);
             }
+            if (urlSorter != null) {
+                urlSorter.sortUrl(childLinksList);
+            }
             int failedLinks = 0;
-            Set<AHrefElement> childLinksLists = new HashSet<AHrefElement>();
+            List<AHrefElement> childLinksLists = new ArrayList<AHrefElement>();
             for (AHrefElement link : childLinksList) {
                 // 检查当前URL是否已经处理过了，这里要检查所有任务是否都处理过，如果都处理过了就不用进行后面的处理了，否则还要继续 end
                 if (isBreak) {
@@ -159,6 +179,7 @@ public class TaskExecuter extends Thread {
                     isBreak = Boolean.TRUE;
                 }
                 ChildPageDetail detail = new ChildPageDetail();
+                detail.setParentPageUrl(listPageUrl);
                 String childUrl = link.getHref();
                 log4j.logDebug("当前处理的URL：" + childUrl);
                 // 检查当前URL是否已经处理过了，这里要检查所有任务是否都处理过，如果都处理过了就不用进行后面的处理了，否则还要继续 begin
@@ -170,10 +191,11 @@ public class TaskExecuter extends Thread {
                     }
                 }
                 detail.setUrl(childUrl);
+                detail.setTitle(link.getHrefText());
                 if (childPageConfig.isKeepFileName()) {
                     detail.setFileName(FileUtil.getFileName(childUrl));
                 }
-                Set<AHrefElement> childLinks = dealPage(parentPageConfig, childPageConfig, configFile, detail);
+                List<AHrefElement> childLinks = dealPage(parentPageConfig, childPageConfig, configFile, detail);
                 UrlUtil.makeStadardUrl(detail.getUrl(), childLinks);
                 if (childPageConfig.isExpandUrl()) {
                     childLinksLists.addAll(childLinks);
@@ -185,13 +207,16 @@ public class TaskExecuter extends Thread {
                     }
                 }
                 detail = null;
-                if (!Environment.checkConfigFile) {
+                if (!Environment.checkConfigFile && parentPageConfig.getOneUrlSleepTime() >= 0) {
                     if (parentPageConfig.getOneUrlSleepTime() == 0) {
                         Thread.sleep(Constants.One_Url_Default_Sleep_Time);/* 默认休息10秒钟一篇文章 */
                     } else {
                         Thread.sleep(parentPageConfig.getOneUrlSleepTime() + (long) (Math.random() * Constants.One_Url_Default_Sleep_Time));
                     }
                 }
+            }
+            if (urlSorter != null) {
+                urlSorter.sortUrl(childLinksLists);
             }
             // 处理子页面分析出的URL
             for (AHrefElement link : childLinksLists) {
@@ -278,18 +303,18 @@ public class TaskExecuter extends Thread {
      * @param configFile
      * @param detail
      */
-    private Set<AHrefElement> dealPage(ParentPage parentPageConfig, ChildPage childPageConfig, String configFile, ChildPageDetail detail) {
+    private List<AHrefElement> dealPage(ParentPage parentPageConfig, ChildPage childPageConfig, String configFile, ChildPageDetail detail) {
         boolean isPageAnalysisOk = Boolean.TRUE;
         // 用于存储从子页面中获取的符合要求的URL
-        Set<AHrefElement> childLinksLists = new HashSet<AHrefElement>();
+        List<AHrefElement> childLinksLists = new ArrayList<AHrefElement>();
         for (int currentSeparatePage = 1; currentSeparatePage <= childPageConfig.getContent().getSeparatePageMaxPages(); currentSeparatePage++) {
             try {
                 String childUrl = "";
                 childUrl = getSeparatePageUrl(detail.getUrl(), currentSeparatePage, childPageConfig);
                 String htmlContent = HttpClientUtil.getGetResponseWithHttpClient(childUrl, childPageConfig.getCharset());
 
-                Set<AHrefElement> childLinksList = AHrefParser.ahrefParser(htmlContent, parentPageConfig.getUrlFilter().getMustInclude(), parentPageConfig.getUrlFilter().getMustNotInclude(),
-                                                                           parentPageConfig.getCharset(), parentPageConfig.getUrlFilter().isCompByRegex());
+                List<AHrefElement> childLinksList = AHrefParser.ahrefParser(htmlContent, parentPageConfig.getUrlFilter().getMustInclude(), parentPageConfig.getUrlFilter().getMustNotInclude(),
+                                                                            parentPageConfig.getCharset(), parentPageConfig.getUrlFilter().isCompByRegex());
                 childLinksLists.addAll(childLinksList);
 
                 htmlContent = UrlUtil.replaceRelativeUrl2AbsoluteUrl(childUrl, htmlContent, childPageConfig.getCharset());
@@ -302,13 +327,19 @@ public class TaskExecuter extends Thread {
                 }
                 if (currentSeparatePage == 1) {// 只有第一页才获取标题、关键字、描述，后面的分页就不需要获取了，直接使用第一页获取的就可
                     String htmlTitle = getTitle(parentPageConfig, childPageConfig, htmlContent);
-                    if (htmlTitle.indexOf("404") > 0) {// 当请求时，返回了404页面则退出了
-                        break;
+                    if (!StringUtil.isEmpty(htmlTitle)) {
+                        if (htmlTitle.indexOf("404") > 0) {// 当请求时，返回了404页面则退出了
+                            break;
+                        }
+                        detail.setTitle(htmlTitle);
                     }
-                    detail.setTitle(htmlTitle);
                     String keywords = MetaParser.getMetaContent(htmlContent, childPageConfig.getCharset(), Constants.META_KEYWORDS);
                     if (Constants.EMPTY_STRING.equals(keywords)) {/* 如果没有关键字，就取文章的标题为关键字 */
-                        keywords = htmlTitle;
+                        if (!StringUtil.isEmpty(htmlTitle)) {
+                            keywords = htmlTitle;
+                        } else {
+                            keywords = detail.getTitle();
+                        }
                     }
                     detail.setKeywords(keywords);
 
@@ -509,6 +540,14 @@ public class TaskExecuter extends Thread {
 
     public void setOneFileSleepTime(long oneFileSleepTime) {
         this.oneFileSleepTime = oneFileSleepTime;
+    }
+
+    public void setUrlListProvider(UrlListProvider urlListProvider) {
+        this.urlListProvider = urlListProvider;
+    }
+
+    public void setUrlSorter(UrlSorter urlSorter) {
+        this.urlSorter = urlSorter;
     }
 
 }
