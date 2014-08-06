@@ -1,1 +1,1 @@
-java -jar -Xmn16m -Xms64m -Xmx128m renren.it_spilder.jar -d=config/xiaoshuo_config/books -spring=xiaoshuoBeans_Books.xml 
+java -jar -Xmn16m -Xms64m -Xmx128m renren.it_spilder.jar -f=config/xiaoshuo_config/xs321.net_books.xml -spring=xiaoshuoBeans_Books.xml 

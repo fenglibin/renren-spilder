@@ -16,7 +16,7 @@
   </delete>
   <insert id="insert" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Downurl" >
     insert into downurl (url, inTime)
-    values (#url:VARCHAR#, #intime:DATE#)
+    values (#url:VARCHAR#, now())
   </insert>
   <insert id="insertSelective" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Downurl" >
     insert into downurl

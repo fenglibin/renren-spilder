@@ -29,10 +29,11 @@ public class WriteChapter2DB extends Task {
 
     public void doTask(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail) throws Exception {
         try {
+            boolean saveUrl = false;
             if (isDealed(detail.getUrl())) {
                 return;
             } else {
-                saveDownUrl(detail.getUrl());
+                saveUrl = true;
             }
             ChildPageDetail detailClone = detail.clone();
             dealedArticleNum++;
@@ -48,13 +49,15 @@ public class WriteChapter2DB extends Task {
             }
 
             chapter.setBookId(bookId);
-            chapter.setTitle(detailClone.getTitle());
+            chapter.setTitle(detailClone.getTitle().replace("/Ä«Ì³ÎÄÑ§", ""));
             chapter.setContext(detailClone.getContent());
             chapter.setIntime(new Date());
             chapter.setIsgenhtml(Boolean.FALSE);
 
             chaptersDAO.insert(chapter);
-
+            if (saveUrl) {
+                saveDownUrl(detail.getUrl());
+            }
             log4j.logDebug("Save OK.");
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e);

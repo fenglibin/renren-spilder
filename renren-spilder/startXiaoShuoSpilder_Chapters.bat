@@ -1,1 +1,1 @@
-java -jar -Xmn16m -Xms64m -Xmx128m renren.it_spilder.jar -d=config/xiaoshuo_config -spring=xiaoshuoBeans_Chapters.xml 
+java -jar -Xmn16m -Xms64m -Xmx128m renren.it_spilder.jar -f=config/xiaoshuo_config/xs321.net_chapters.xml -spring=xiaoshuoBeans_Chapters.xml 

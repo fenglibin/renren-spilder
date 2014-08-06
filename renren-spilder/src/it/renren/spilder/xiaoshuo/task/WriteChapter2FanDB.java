@@ -30,10 +30,11 @@ public class WriteChapter2FanDB extends Task {
 
     public void doTask(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail) throws Exception {
         try {
+            boolean saveUrl = false;
             if (isDealed(detail.getUrl())) {
                 return;
             } else {
-                saveDownUrl(detail.getUrl());
+                saveUrl = true;
             }
             ChildPageDetail detailClone = detail.clone();
             dealedArticleNum++;
@@ -49,13 +50,15 @@ public class WriteChapter2FanDB extends Task {
             }
 
             chapter.setBookId(bookId);
-            chapter.setTitle(FontUtil.jian2fan(new StringBuffer(detailClone.getTitle())));
+            chapter.setTitle(FontUtil.jian2fan(new StringBuffer(detailClone.getTitle().replace("/Ä«Ì³ÎÄÑ§", ""))));
             chapter.setContext(FontUtil.jian2fan(new StringBuffer(detailClone.getContent())));
             chapter.setIntime(new Date());
             chapter.setIsgenhtml(Boolean.FALSE);
 
             chaptersDAOFanti.insert(chapter);
-
+            if (saveUrl) {
+                saveDownUrl(detail.getUrl());
+            }
             log4j.logDebug("Save OK.");
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e);

@@ -22,7 +22,7 @@
   </delete>
   <insert id="insert" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Chapters" >
     insert into chapters (id, book_id, title, inTime, isGenHtml, context)
-    values (#id:INTEGER#, #bookId:INTEGER#, #title:VARCHAR#, #intime:DATE#, #isgenhtml:BIT#,
+    values (#id:INTEGER#, #bookId:INTEGER#, #title:VARCHAR#, now(), #isgenhtml:BIT#,
       #context:LONGVARCHAR#)
   </insert>
   <insert id="insertSelective" parameterClass="it.renren.spilder.xiaoshuo.dataobject.Chapters" >

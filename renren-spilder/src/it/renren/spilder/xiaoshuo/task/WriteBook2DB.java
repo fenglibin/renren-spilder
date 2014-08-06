@@ -27,12 +27,13 @@ public class WriteBook2DB extends Task {
 
     public void doTask(ParentPage parentPageConfig, ChildPage childPageConfig, ChildPageDetail detail) throws Exception {
         try {
+            boolean saveUrl = false;
             if (isDealed(detail.getUrl())) {
                 if (childPageConfig.isNeedToCheckUrlIsAlreadyOperate()) {
                     return;
                 }
             } else {
-                saveDownUrl(detail.getUrl());
+                saveUrl = true;
             }
             ChildPageDetail detailClone = detail.clone();
             translate(parentPageConfig, detailClone);
@@ -58,7 +59,9 @@ public class WriteBook2DB extends Task {
             if (booksDAO.selectBySpilderUrl(book.getSpilderurl()) == null) {
                 booksDAO.insert(book);
             }
-
+            if (saveUrl) {
+                saveDownUrl(detail.getUrl());
+            }
             log4j.logDebug("Save OK.");
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e);

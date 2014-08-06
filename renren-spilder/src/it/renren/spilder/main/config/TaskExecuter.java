@@ -136,6 +136,7 @@ public class TaskExecuter extends Thread {
         boolean isBreak = false;
 
         for (String listPageUrl : listPages) {
+            log4j.logDebug("当前处理的parent URL：" + listPageUrl);
             if (isBreak) {
                 break;
             }
@@ -181,7 +182,7 @@ public class TaskExecuter extends Thread {
                 ChildPageDetail detail = new ChildPageDetail();
                 detail.setParentPageUrl(listPageUrl);
                 String childUrl = link.getHref();
-                log4j.logDebug("当前处理的URL：" + childUrl);
+                log4j.logDebug("当前处理的child URL：" + childUrl);
                 // 检查当前URL是否已经处理过了，这里要检查所有任务是否都处理过，如果都处理过了就不用进行后面的处理了，否则还要继续 begin
                 if (!Environment.checkConfigFile) {
                     if (childPageConfig.isNeedToCheckUrlIsAlreadyOperate()) {
@@ -233,11 +234,9 @@ public class TaskExecuter extends Thread {
                 // 检查当前URL是否已经处理过了，这里要检查所有任务是否都处理过，如果都处理过了就不用进行后面的处理了，否则还要继续 begin
                 boolean isContinue = Boolean.FALSE;
                 if (!Environment.checkConfigFile) {
-                    for (Task task : taskList) {
-                        if (!task.isDealed(childUrl)) {
-                            isContinue = Boolean.TRUE;
-                            break;
-                        }
+                    if (!isDealed(childUrl)) {
+                        isContinue = Boolean.TRUE;
+                        break;
                     }
                 } else {
                     isContinue = true;
@@ -250,7 +249,7 @@ public class TaskExecuter extends Thread {
                     detail.setFileName(FileUtil.getFileName(childUrl));
                 }
                 if (!Environment.checkConfigFile && !parentPageConfig.isOnlyImage()) {
-                    if (isDealed(childUrl)) {
+                    if (!isContinue) {
                         log4j.logDebug("当前URL " + childUrl + " 已经有处理，不需要再次处理。");
                         continue;
                     }

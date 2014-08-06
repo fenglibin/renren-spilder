@@ -1,1 +1,1 @@
-nohup java -jar -Xmn16m -Xms64m -Xmx128m renren.it_spilder.jar -d=config/xiaoshuo_config -spring=xiaoshuoBeans_Chapters.xml &
+nohup sudo -u nobody /home/fenglibin/soft/jdk1.7.0_05/bin/java -jar -Xmn16m -Xms64m -Xmx128m renren.it_spilder.jar -f=config/xiaoshuo_config/xs321.net_chapters.xml -spring=xiaoshuoBeans_Chapters.xml&
